@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Pharma</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="pill">Thuốc</string>
+    <string name="sick">Bệnh</string>
+    <string name="dr">Bác sĩ</string>
+    <string name="pharma">Nhà thuốc</string>
+    <string name="meo">Mẹo vặt</string>
+    <string name="search_pill">Tìm kiếm thuốc</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>
