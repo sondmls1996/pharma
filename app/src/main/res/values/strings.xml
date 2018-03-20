@@ -7,12 +7,23 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="key_map">AIzaSyCSNZfWfM-dq9FLWv_-MKX-TxaLPo_upgA</string>
+
     <string name="pill">Thuốc</string>
     <string name="sick">Bệnh</string>
     <string name="dr">Bác sĩ</string>
     <string name="pharma">Nhà thuốc</string>
     <string name="meo">Mẹo vặt</string>
     <string name="search_pill">Tìm kiếm thuốc</string>
+    <string name="list_pharma">Danh sách nhà thuốc</string>
+    <string name="map_pharma">Bản đồ nhà thuốc</string>
+    <string name="focus_news">Tin nổi bật</string>
+    <string name="hearth_news">Tin sức khỏe</string>
+    <string name="meo_news">Mẹo vặt</string>
+    <string name="adr">Địa chỉ</string>
+    <string name="sms">Nhắn tin</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="dr2">Dược sĩ</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

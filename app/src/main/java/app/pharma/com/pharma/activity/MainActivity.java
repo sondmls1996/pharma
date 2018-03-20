@@ -1,22 +1,36 @@
-package app.pharma.com.pharma;
+package app.pharma.com.pharma.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import app.pharma.com.pharma.Fragment.Dr_Fragment;
+import app.pharma.com.pharma.Fragment.Meo_Fragment;
+import app.pharma.com.pharma.Fragment.Pharma_Fragment;
 import app.pharma.com.pharma.Fragment.Pill_Fragment;
 import app.pharma.com.pharma.Fragment.Sick_Fragment;
+import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Class fragment;
@@ -37,14 +51,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ln_dr;
     LinearLayout ln_pharma;
     LinearLayout ln_meo;
+    GetScrollBroadcast scroll_broadcast;
+    FrameLayout fragContrent;
+    CardView cv;
     Resources r;
-
+    AppBarLayout appbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initView();
+
 
         imgnav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +74,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       ln_pill.performClick();
     }
 
-    private void initView() {
-        r = getResources();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(scroll_broadcast==null){
+            IntentFilter fliter = new IntentFilter();
+            fliter.addAction(Constant.SCROLL_LV);
+            scroll_broadcast = new GetScrollBroadcast();
+            registerReceiver(scroll_broadcast,fliter);
 
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d("STT","pause");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregister();
+        Log.d("STT","des");
+    }
+
+    private void unregister() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(scroll_broadcast);
+    }
+
+
+
+    private void initView() {
+
+        appbar = findViewById(R.id.app_bar);
+        r = getResources();
+        cv = (CardView)findViewById(R.id.cv_bot);
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         imgnav = (ImageView)findViewById(R.id.img_nav);
         img_pill = (ImageView)findViewById(R.id.pill_image);
@@ -110,6 +163,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commit();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregister();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(scroll_broadcast==null){
+            IntentFilter fliter = new IntentFilter();
+            fliter.addAction(Constant.SCROLL_LV);
+            scroll_broadcast = new GetScrollBroadcast();
+            registerReceiver(scroll_broadcast,fliter);
+
+        }
+    }
+
     private void changeColor() {
         img_meo.setImageDrawable(r.getDrawable(R.drawable.news_gray));
         img_pill.setImageDrawable(r.getDrawable(R.drawable.pill));
@@ -148,17 +219,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changeColor();
                 tv_dr.setTextColor(r.getColor(R.color.blue));
                 img_dr.setImageDrawable(r.getDrawable(R.drawable.dr_nghe_blue));
+                fragment = Dr_Fragment.class;
+                ReplaceFrag(fragment);
                 break;
             case R.id.ln_pharma:
                 changeColor();
                 tv_pharma.setTextColor(r.getColor(R.color.blue));
                 img_pharma.setImageDrawable(r.getDrawable(R.drawable.pharmablue));
+                fragment = Pharma_Fragment.class;
+                ReplaceFrag(fragment);
                 break;
             case R.id.ln_meo:
                 changeColor();
                 tv_meo.setTextColor(r.getColor(R.color.blue));
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
+                fragment = Meo_Fragment.class;
+                ReplaceFrag(fragment);
                 break;
+        }
+    }
+
+    class GetScrollBroadcast extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getExtras()!=null){
+                int action = intent.getIntExtra("action",1);
+                if(action==Constant.ACTION_DOWN){
+                    Log.d("hahaha","down");
+//                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
+//                    final Animation myAnim2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein2);
+                  //  appbar.setAnimation(myAnim2);
+                 //   appbar.setVisibility(View.GONE);
+                  //  cv.setAnimation(myAnim);
+                    cv.setVisibility(View.GONE);
+                }else{
+                    Log.d("hahaha","up");
+//                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
+//                    final Animation myAnim2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout2);
+//                    appbar.setAnimation(myAnim2);
+                  //  appbar.setVisibility(View.VISIBLE);
+               //     cv.setAnimation(myAnim);
+                    cv.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 }

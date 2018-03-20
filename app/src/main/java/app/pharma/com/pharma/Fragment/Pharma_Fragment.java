@@ -13,22 +13,23 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
+import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Sick_Construct;
+import app.pharma.com.pharma.Model.Pharma_Constructor;
 import app.pharma.com.pharma.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Sick_Fragment extends Fragment {
+public class Pharma_Fragment extends Fragment {
+
     ListView lv;
-    List_Sick_Adapter adapter;
-    ArrayList<Sick_Construct> arr;
+    List_Pharma_Adapter adapter;
+    ArrayList<Pharma_Constructor> arr;
     Context ct;
     int lastVisibleItem = 0;
     private int lastY = 0;
-    public Sick_Fragment() {
+    public Pharma_Fragment() {
         // Required empty public constructor
     }
 
@@ -37,17 +38,17 @@ public class Sick_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_sick_, container, false);
-        ct = getContext();
-        lv = (ListView)v.findViewById(R.id.lv_sick);
+        View v = inflater.inflate(R.layout.fragment_pharma, container, false);
+        lv = (ListView)v.findViewById(R.id.lv_pharma);
         arr = new ArrayList<>();
-        adapter = new List_Sick_Adapter(getContext(),0,arr);
+        adapter = new List_Pharma_Adapter(getContext(),0,arr);
+        ct = getContext();
         lv.setAdapter(adapter);
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
+        arr.add(new Pharma_Constructor());
+        arr.add(new Pharma_Constructor());
+        arr.add(new Pharma_Constructor());
+        arr.add(new Pharma_Constructor());
+        arr.add(new Pharma_Constructor());
         adapter.notifyDataSetChanged();
 
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -89,6 +90,7 @@ public class Sick_Fragment extends Fragment {
             }
         });
         return v;
+
     }
 
 }

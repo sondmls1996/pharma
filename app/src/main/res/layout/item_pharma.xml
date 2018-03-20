@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:gravity="center"
     android:orientation="horizontal"
     android:background="@color/white">
 
@@ -40,51 +39,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+
             android:textColor="@color/gray"
             android:text="sdsdsdsd"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/gray"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/red"
             android:text="sdsdsdsd"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/gray"
-            android:text="sdsdsdsd"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/gray"
-            android:text="sdsdsdsd"
-            android:textStyle="bold"/>
+            />
+
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:gravity="right"
-
         android:layout_marginLeft="10dp"
         android:orientation="vertical"
         android:layout_toRightOf="@+id/ln_info">
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/hafp_star"
             ></ImageView>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:gravity="bottom"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="10dp"
@@ -93,7 +78,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
                 android:textColor="@color/red"
                 android:textSize="10sp"
                 android:text="sdsdsdsd"/>
@@ -105,11 +91,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="3dp"
+                android:gravity="bottom"
                 android:layout_height="match_parent"
                 android:textColor="@color/blue"
                 android:textSize="10sp"
                 android:text="sdsdsdsd"/>
         </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
