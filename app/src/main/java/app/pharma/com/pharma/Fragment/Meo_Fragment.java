@@ -59,7 +59,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         tv_hearth.setOnClickListener(this);
         tv_meo.setOnClickListener(this);
 
-        lv = (ListView)v.findViewById(R.id.lv_meo);
+        lv = (ListView)v.findViewById(R.id.lv_like);
         arr = new ArrayList<>();
         adapter = new List_Meo_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
@@ -133,9 +133,9 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
     }
 
     private void changeColor(TextView tv) {
-        tv_focus.setTextColor(Constant.resources.getColor(R.color.black));
-        tv_hearth.setTextColor(Constant.resources.getColor(R.color.black));
-        tv_meo.setTextColor(Constant.resources.getColor(R.color.black));
+        tv_focus.setTextColor(Constant.resources.getColor(R.color.gray));
+        tv_hearth.setTextColor(Constant.resources.getColor(R.color.gray));
+        tv_meo.setTextColor(Constant.resources.getColor(R.color.gray));
 
         tv_focus.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
         tv_hearth.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));

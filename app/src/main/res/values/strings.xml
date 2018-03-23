@@ -47,6 +47,8 @@
     <string name="update_inf">Câp nhật thông tin</string>
     <string name="update_pass">Câp nhật mật khẩu</string>
 
+    <string name="inf_pill">Thông tin thuốc</string>
+    <string name="rate">Đánh giá</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -41,7 +41,7 @@ public class Utils {
 
 
 
-    private static final float BLUR_RADIUS = 15f;
+    private static final float BLUR_RADIUS = 25f;
 
 
     public static Bitmap blur(Context context, Bitmap image) {
@@ -65,9 +65,6 @@ public class Utils {
 
     public static Bitmap getCircularBitmapWithWhiteBorder(Bitmap bitmap,
                                                           int borderWidth) {
-        if (bitmap == null || bitmap.isRecycled()) {
-            return null;
-        }
 
         final int width = bitmap.getWidth() + borderWidth;
         final int height = bitmap.getHeight() + borderWidth;

@@ -34,6 +34,7 @@ import app.pharma.com.pharma.Fragment.Meo_Fragment;
 import app.pharma.com.pharma.Fragment.Pharma_Fragment;
 import app.pharma.com.pharma.Fragment.Pill_Fragment;
 import app.pharma.com.pharma.Fragment.Sick_Fragment;
+import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.TransImage;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Resources r;
     AppBarLayout appbar;
     NavigationView nav;
-    ImageView avatar;
+    ImageView avatar,avatar2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,10 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         View headerview = nav.getHeaderView(0);
         avatar = headerview.findViewById(R.id.img_avt);
-     //   header_background = headerview.findViewById(R.id.header_bg);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
+        avatar2 = headerview.findViewById(R.id.img_avtbg);
 
-        //Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(header_background);
+        header_background = headerview.findViewById(R.id.header_bg);
+        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
+        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
+        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_background);
 
         imgnav = (ImageView)findViewById(R.id.img_nav);
         img_pill = (ImageView)findViewById(R.id.pill_image);

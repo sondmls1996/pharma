@@ -144,9 +144,9 @@ public class Pharma_Fragment extends Fragment implements OnMapReadyCallback, Vie
     }
 
     private void changeColor(TextView tv) {
-        tv_map.setTextColor(Constant.resources.getColor(R.color.black));
+        tv_map.setTextColor(Constant.resources.getColor(R.color.gray));
         tv_map.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
-        tv_list.setTextColor(Constant.resources.getColor(R.color.black));
+        tv_list.setTextColor(Constant.resources.getColor(R.color.gray));
         tv_list.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
         if (tv==tv_map){
             tv_map.setTextColor(Constant.resources.getColor(R.color.blue));

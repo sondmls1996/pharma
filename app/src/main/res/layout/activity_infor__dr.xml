@@ -5,15 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.pharma.com.pharma.activity.Detail.Infor_Dr">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/rl_top"
-        android:layout_height="wrap_content">
-        <include
-            layout="@layout/toolbar_back"
-            ></include>
 
-    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,26 +84,9 @@
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_dr"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center"
-
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/img_dr"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="Nguyen Thi Nga"/>
-            </LinearLayout>
+         <include
+             layout="@layout/header_layout"
+             ></include>
 
         </RelativeLayout>
             <LinearLayout
@@ -121,4 +96,13 @@
                 android:id="@+id/ln_dr_inf"></LinearLayout>
     </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/toolbar_transparent"
+            ></include>
+
+    </RelativeLayout>
 </RelativeLayout>

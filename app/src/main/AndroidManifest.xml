@@ -3,8 +3,9 @@
     package="app.pharma.com.pharma">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.LOCATION_HARDWARE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,7 +37,8 @@
         <activity android:name=".activity.Get_code" />
         <activity android:name=".activity.Detail.Infor_User" />
         <activity android:name=".activity.Detail.Change_infor" />
-        <activity android:name=".activity.ChangePass"></activity>
+        <activity android:name=".activity.ChangePass" />
+        <activity android:name=".activity.Like.Care_Activity"></activity>
     </application>
 
 </manifest>

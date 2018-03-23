@@ -15,14 +15,29 @@
 
         android:layout_height="match_parent"
         android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="110dp"
 
-            <ImageView
-                android:layout_width="100dp"
+        android:layout_height="110dp"
+        android:src="@color/white"
+        android:id="@+id/img_avtbg"
+        android:scaleType="centerCrop"
+        />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/img_avt"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_avt"/>
 
-                android:layout_height="100dp"
-                android:id="@+id/img_avt"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_avt"/>
+</RelativeLayout>
+
 
 
 

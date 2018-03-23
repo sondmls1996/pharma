@@ -17,7 +17,7 @@ import app.pharma.com.pharma.activity.ChangePass;
 
 public class Infor_User extends AppCompatActivity implements View.OnClickListener {
     LinearLayout ln_changeinf;
-    ImageView avt;
+    ImageView avt,avt2;
     ImageView header_bg;
     LinearLayout ln_changepass;
 
@@ -28,10 +28,10 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         Common.context = this;
 
         avt = findViewById(R.id.img_avt);
-
-      //  Utils.setCiclerImage(rl_avt);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avt);
+        avt2 = findViewById(R.id.img_avtbg);
         header_bg = findViewById(R.id.header_bg);
+        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avt);
+        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
         Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_bg);
         header_bg.setOnClickListener(this);
         ln_changeinf = findViewById(R.id.ln_changeinf);

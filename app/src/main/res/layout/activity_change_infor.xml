@@ -6,23 +6,10 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     tools:context="app.pharma.com.pharma.activity.Detail.Infor_Dr">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/rl_top"
-        android:layout_height="wrap_content">
-        <include
-            layout="@layout/toolbar_back"
-            ></include>
 
-    </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/gray"
-        android:layout_above="@+id/ln_contact"/>
     <ScrollView
-        android:layout_below="@+id/rl_top"
+
         android:layout_width="match_parent"
 
         android:layout_height="match_parent">
@@ -155,4 +142,13 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/toolbar_transparent"
+            ></include>
+
+    </RelativeLayout>
 </RelativeLayout>

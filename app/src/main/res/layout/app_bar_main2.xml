@@ -28,13 +28,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:textAlignment="center"
-
+                android:visibility="gone"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:layout_toRightOf="@+id/img_nav"
                 android:gravity="center"
 
                 android:layout_height="match_parent" />
+
           <EditText
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -42,7 +43,7 @@
              android:paddingLeft="5dp"
               android:gravity="center"
               android:visibility="gone"
-              android:text="sdsdsdsdsd"
+              android:text="Tìm kiếm"
              />
 
         </android.support.v7.widget.Toolbar>
