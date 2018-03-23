@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
 
 /**
@@ -53,13 +54,14 @@ public class Pharma_Rate extends Fragment {
     }
 
     private void showDialogRate() {
-        Dialog dialog = new Dialog(getContext());
+        Dialog dialog = new Dialog(Common.context);
         Window view=((Dialog)dialog).getWindow();
         view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 // to get rounded corners and border for dialog window
         view.setBackgroundDrawableResource(R.drawable.border_white);
-        dialog.setContentView(R.layout.dialog_rate);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_rate);
+
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }

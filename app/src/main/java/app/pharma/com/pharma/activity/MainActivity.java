@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import app.pharma.com.pharma.Fragment.Dr_Fragment;
 import app.pharma.com.pharma.Fragment.Meo_Fragment;
 import app.pharma.com.pharma.Fragment.Pharma_Fragment;
@@ -34,6 +36,7 @@ import app.pharma.com.pharma.Fragment.Pill_Fragment;
 import app.pharma.com.pharma.Fragment.Sick_Fragment;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Infor_User;
 
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_sick;
     ImageView img_dr;
     ImageView img_pharma;
+    ImageView header_background;
     ImageView img_meo;
     TextView tv_pill;
     TextView tv_sick;
@@ -82,20 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       ln_pill.performClick();
     }
 
-
-
-
-
-
     private void unregister() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(scroll_broadcast);
         scroll_broadcast = null;
     }
-
-
-
-
-
 
     private void initView() {
 
@@ -106,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         View headerview = nav.getHeaderView(0);
         avatar = headerview.findViewById(R.id.img_avt);
+     //   header_background = headerview.findViewById(R.id.header_bg);
+        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
+
+        //Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(header_background);
 
         imgnav = (ImageView)findViewById(R.id.img_nav);
         img_pill = (ImageView)findViewById(R.id.pill_image);

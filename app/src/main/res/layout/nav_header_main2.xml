@@ -9,38 +9,9 @@
     android:id="@+id/header_bg"
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_avt"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-
-
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_avt"
-            android:id="@+id/img_avt"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/img_avt"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:text="sdsdsdsd"/>
-
-    </LinearLayout>
+   <include
+       layout="@layout/header_layout"
+       ></include>
 
 
 </RelativeLayout>

@@ -14,7 +14,7 @@ public class Lost_password extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Common.context = this;
         setContentView(R.layout.activity_lost_password);
         Common.context = this;
         btn_getcode = findViewById(R.id.btn_getcode);
