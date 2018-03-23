@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.pharma.com.pharma.activity.Detail.Infor_Dr">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rl_top"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/toolbar_back"
+            ></include>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:id="@+id/ln_contact"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="vertical"
+            android:id="@+id/ln_changeinf"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/blue">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="20dp"
+                android:src="@drawable/pencil"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+
+                android:text="@string/change_infor"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="vertical"
+            android:id="@+id/ln_changepass"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/green">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/pincide"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+
+                android:textColor="@color/white"
+                android:text="@string/change_pass"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        android:layout_above="@+id/ln_contact"/>
+    <ScrollView
+        android:layout_below="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_above="@id/ln_contact"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <include
+        layout="@layout/header_layout"
+        ></include>
+</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ln_dr_inf"></LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

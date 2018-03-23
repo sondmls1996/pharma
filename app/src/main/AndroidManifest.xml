@@ -3,7 +3,8 @@
     package="app.pharma.com.pharma">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.LOCATION_HARDWARE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,19 +13,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
-            <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version" />
-            <meta-data
-                android:name="com.google.android.maps.v2.API_KEY"
-                android:value="@string/key_map" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Detail.Detail"></activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".activity.Detail.Detail" />
+        <activity android:name=".activity.Detail.Infor_Dr" />
+        <activity android:name=".activity.Login" />
+        <activity android:name=".activity.Register" />
+        <activity android:name=".activity.Detail.Infor_Meo" />
+        <activity android:name=".activity.Lost_password" />
+        <activity android:name=".activity.Get_code" />
+        <activity android:name=".activity.Detail.Infor_User" />
+        <activity android:name=".activity.Detail.Change_infor" />
+        <activity android:name=".activity.ChangePass"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,41 @@
+<RelativeLayout android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="250dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_avt"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/rl_avt"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="100dp"
+                android:background="@color/white"
+                android:layout_height="100dp"
+                android:id="@+id/img_avt"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_avt"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Nguyen Thi Nga"/>
+    </LinearLayout>
+
+</RelativeLayout>

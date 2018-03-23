@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context="app.pharma.com.pharma.Fragment.Pharma_Detail_Fragment">
 
@@ -16,20 +17,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-
+                    android:gravity="center"
                 android:id="@+id/ln_contact"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:orientation="vertical"
-
 
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:background="@color/white">
+                    android:background="@color/green">
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_marginTop="5dp"
@@ -37,15 +37,16 @@
                         android:src="@drawable/phone"/>
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
+
                         android:text="@string/phone"/>
 
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:orientation="vertical"
 
                 android:layout_weight="1"
@@ -60,7 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+
+                    android:textColor="@color/green"
                     android:text="@string/sms"/>
 
             </LinearLayout>
@@ -79,12 +81,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <android.support.v4.view.ViewPager
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                >
+                android:layout_height="wrap_content">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/slide_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    >
 
-            </android.support.v4.view.ViewPager>
+
+                </android.support.v4.view.ViewPager>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:padding="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:padding="10dp"
@@ -112,19 +132,19 @@
 
                         android:orientation="horizontal">
                         <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/red_heart"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_marginLeft="3dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/red"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:text="10"/>
                         <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="5dp"
                             android:src="@drawable/chat_blue_bubble"/>
                         <TextView
@@ -132,7 +152,7 @@
                             android:layout_marginLeft="3dp"
                             android:layout_height="match_parent"
                             android:textColor="@color/blue"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:text="10"/>
                     </LinearLayout>
 
@@ -157,13 +177,13 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="15dp"
                             android:src="@drawable/red_heart"/>
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:src="@drawable/share"/>
 
                     </LinearLayout>
@@ -174,7 +194,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/gray"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:paddingLeft="10dp"
@@ -188,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/adr"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+
                     android:textStyle="bold"
                     />
                 <TextView
@@ -196,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/adr"
                     android:textColor="@color/blue"
-
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     />
 
@@ -205,7 +225,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/gray"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -219,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/phone"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+
                     android:textStyle="bold"
                     />
                 <TextView
@@ -227,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/adr"
                     android:textColor="@color/blue"
-
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     />
 
@@ -235,7 +255,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/gray"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -249,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/dr2"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+
                     android:textStyle="bold"
                     />
                 <TextView
@@ -257,7 +277,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/adr"
                     android:textColor="@color/blue"
-
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     />
 

@@ -1,0 +1,185 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.pharma.com.pharma.Fragment.Pharma_Rate">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue"
+        android:id="@+id/ln_rate_now"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/rate_now"/>
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ln_rate_now"
+            android:orientation="vertical">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:id="@+id/top_card"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:padding="0.5dp"
+            android:id="@+id/rl_img"
+            android:background="@color/gray"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+
+                android:src="@drawable/map"
+                android:scaleType="centerCrop"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ln_info"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/rl_img"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:textColor="@color/blue"
+                android:text="Thuốc trị nám da, vàng da"
+                android:textStyle="bold"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="120dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:text="Cách 1km"
+              />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+
+                android:gravity="right|bottom"
+
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/red_heart"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:textColor="@color/red"
+                    android:textSize="10sp"
+                    android:text="sdsdsdsd"/>
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/chat_blue_bubble"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:textColor="@color/blue"
+                    android:textSize="10sp"
+                    android:text="sdsdsdsd"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:id="@+id/view_gray"
+
+            android:background="@color/gray"/>
+            <ScrollView
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                >
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:text="Nhận xét về nhà thuốc"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_marginBottom="5dp"
+                android:textSize="12sp"
+                android:text="Nhận xét về nhà thuốc"/>
+
+        </LinearLayout>
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="0.5dp"
+                   android:id="@+id/view_gray2"
+
+                   android:background="@color/gray"/>
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:id="@+id/ln_list_rate"></LinearLayout>
+           </LinearLayout>
+            </ScrollView>
+
+
+       </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

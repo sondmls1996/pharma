@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import app.pharma.com.pharma.Adapter.List_Dr_Adapter;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Dr_Constructor;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Infor_Dr;
 
 
 public class Dr_Fragment extends Fragment {
@@ -83,6 +85,13 @@ public class Dr_Fragment extends Fragment {
                 lastVisibleItem = firstVisibleItem;
                 lastY = top;
 
+            }
+        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent it = new Intent(getContext(), Infor_Dr.class);
+                getContext().startActivity(it);
             }
         });
         return v;

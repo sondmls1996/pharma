@@ -22,9 +22,10 @@
         android:layout_height="match_parent"
         android:textAlignment="center"
         android:layout_weight="1"
+        android:id="@+id/pharma_list"
         android:gravity="center"
         android:text="@string/list_pharma"
-        android:layout_margin="5dp"
+
         android:textColor="@color/gray"
         />
     <TextView
@@ -32,8 +33,9 @@
         android:layout_height="match_parent"
         android:text="@string/map_pharma"
         android:gravity="center"
+        android:id="@+id/pharma_map"
         android:textAlignment="center"
-        android:layout_margin="5dp"
+
         android:layout_weight="1"
         android:textColor="@color/gray"></TextView>
 
@@ -41,10 +43,12 @@
  <ListView
      android:layout_width="match_parent"
      android:layout_height="match_parent"
+
         android:background="@color/white"
      android:id="@+id/lv_pharma"></ListView>
         <RelativeLayout
             android:layout_width="match_parent"
+            android:id="@+id/map_layout"
             android:layout_height="match_parent">
             <include
                 layout="@layout/map"/>

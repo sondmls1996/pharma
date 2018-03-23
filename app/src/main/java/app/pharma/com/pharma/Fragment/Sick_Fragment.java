@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Detail;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +30,7 @@ public class Sick_Fragment extends Fragment {
     Context ct;
     int lastVisibleItem = 0;
     private int lastY = 0;
+    View v;
     public Sick_Fragment() {
         // Required empty public constructor
     }
@@ -37,7 +40,14 @@ public class Sick_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_sick_, container, false);
+         v = inflater.inflate(R.layout.fragment_sick_, container, false);
+        initView();
+
+        return v;
+    }
+
+    private void initView() {
+
         ct = getContext();
         lv = (ListView)v.findViewById(R.id.lv_sick);
         arr = new ArrayList<>();
@@ -49,7 +59,13 @@ public class Sick_Fragment extends Fragment {
         arr.add(new Sick_Construct());
         arr.add(new Sick_Construct());
         adapter.notifyDataSetChanged();
-
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent it = new Intent(getActivity(), Detail.class);
+                startActivity(it);
+            }
+        });
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -88,7 +104,6 @@ public class Sick_Fragment extends Fragment {
 
             }
         });
-        return v;
     }
 
 }
