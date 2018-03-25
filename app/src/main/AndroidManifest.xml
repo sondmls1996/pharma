@@ -38,7 +38,8 @@
         <activity android:name=".activity.Detail.Infor_User" />
         <activity android:name=".activity.Detail.Change_infor" />
         <activity android:name=".activity.ChangePass" />
-        <activity android:name=".activity.Like.Care_Activity"></activity>
+        <activity android:name=".activity.Like.Care_Activity" />
+        <activity android:name=".activity.Share"></activity>
     </application>
 
 </manifest>

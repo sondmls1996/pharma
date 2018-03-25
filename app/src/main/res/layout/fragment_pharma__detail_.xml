@@ -84,12 +84,25 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/slide_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    >
 
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="bottom"
+                    android:padding="10dip"
+                    app:centered="true"
+                    app:fillColor="@color/red"
+                    app:pageColor="@color/white"
+                    app:snap="false" />
 
                 </android.support.v4.view.ViewPager>
                 <LinearLayout
@@ -123,8 +136,9 @@
                         android:textColor="@color/blue"
                         android:text="sdsdsdsd"/>
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/star_full"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -159,7 +173,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_weight="1">
                     <TextView
@@ -172,8 +186,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
+                        android:layout_height="match_parent"
+                        android:gravity="end|bottom"
+
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
                         <ImageView
@@ -286,6 +301,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/light_gray"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="200dp">
+                <include
+                    layout="@layout/map"
+                    ></include>
+            </RelativeLayout>
 
         </LinearLayout>
             </ScrollView>

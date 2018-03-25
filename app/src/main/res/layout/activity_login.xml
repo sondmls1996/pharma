@@ -21,7 +21,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation"
             android:textSize="12sp"
 
             android:maxWidth="300dp"
@@ -38,7 +38,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="5dp"
             android:maxWidth="300dp"
             android:hint="@string/pass"
             android:textSize="12sp"

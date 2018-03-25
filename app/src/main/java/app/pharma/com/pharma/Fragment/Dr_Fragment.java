@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.pharma.com.pharma.Adapter.List_Dr_Adapter;
+import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Dr_Constructor;
 import app.pharma.com.pharma.R;
@@ -26,6 +30,7 @@ public class Dr_Fragment extends Fragment {
     ArrayList<Dr_Constructor> arr;
     Context ct;
     int lastVisibleItem = 0;
+    Spinner spiner;
     private int lastY = 0;
     public Dr_Fragment() {
         // Required empty public constructor
@@ -48,6 +53,23 @@ public class Dr_Fragment extends Fragment {
         arr.add(new Dr_Constructor());
         arr.add(new Dr_Constructor());
         adapter.notifyDataSetChanged();
+
+        spiner = (Spinner) v.findViewById(R.id.spin_dr);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Bác sỹ tâm thần");
+        categories.add("Bác sỹ răng miệng");
+        categories.add("Bác sỹ tâm lý");
+
+
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
+
+        // attaching data adapter to spinner
+        spiner.setAdapter(dataAdapter);
 
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

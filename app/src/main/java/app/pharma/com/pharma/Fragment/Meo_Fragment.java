@@ -59,7 +59,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         tv_hearth.setOnClickListener(this);
         tv_meo.setOnClickListener(this);
 
-        lv = (ListView)v.findViewById(R.id.lv_like);
+        lv = (ListView)v.findViewById(R.id.lv_meo);
         arr = new ArrayList<>();
         adapter = new List_Meo_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
@@ -115,6 +115,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                 startActivity(it);
             }
         });
+        tv_focus.performClick();
     }
 
     @Override

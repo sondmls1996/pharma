@@ -1,19 +1,20 @@
 <RelativeLayout
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:layout_height="250dp"
+
+    android:layout_height="200dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:id="@+id/header_bg"
         android:scaleType="centerCrop"
         android:src="@drawable/img_avt"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:gravity="center"
-
-        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 <RelativeLayout
     android:layout_width="wrap_content"

@@ -35,7 +35,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation"
             android:textSize="12sp"
 
             android:maxWidth="300dp"
@@ -52,7 +52,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation"
             android:maxWidth="300dp"
             android:hint="@string/email"
             android:textSize="12sp"
@@ -67,7 +67,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation"
             android:maxWidth="300dp"
             android:hint="@string/pass"
             android:textSize="12sp"
@@ -82,7 +82,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation"
             android:maxWidth="300dp"
             android:hint="@string/re_pas"
             android:textSize="12sp"
@@ -97,7 +97,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation"
             android:maxWidth="300dp"
             android:hint="@string/birth"
             android:textSize="12sp"

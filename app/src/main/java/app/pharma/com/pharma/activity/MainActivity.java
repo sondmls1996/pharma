@@ -22,9 +22,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -54,19 +56,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tv_sick;
     TextView tv_dr;
     TextView tv_pharma;
+    TextView title;
     TextView tv_meo;
+    EditText edSearch;
     DrawerLayout drawer;
     LinearLayout ln_pill;
     LinearLayout ln_sick;
     LinearLayout ln_dr;
+    RelativeLayout rl_search;
     LinearLayout ln_pharma;
     LinearLayout ln_meo;
     GetScrollBroadcast scroll_broadcast;
     FrameLayout fragContrent;
     CardView cv;
+    Menu menu;
     Resources r;
     AppBarLayout appbar;
     NavigationView nav;
+    ImageView img_close;
     ImageView avatar,avatar2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         MultiDex.install(this);
         Common.context = this;
+        Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+
         initView();
 
 
@@ -93,8 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-
+        title = (TextView)findViewById(R.id.title_main) ;
+        edSearch = (EditText)findViewById(R.id.ed_search);
+        rl_search = (RelativeLayout)findViewById(R.id.rl_search);
         appbar = findViewById(R.id.app_bar);
+        img_close = (ImageView)findViewById(R.id.img_close);
         r = getResources();
         nav = findViewById(R.id.nav_view);
         cv = (CardView)findViewById(R.id.cv_bot);
@@ -130,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ln_pill.setOnClickListener(this);
         ln_sick.setOnClickListener(this);
         ln_dr.setOnClickListener(this);
+        img_close.setOnClickListener(this);
         ln_pharma.setOnClickListener(this);
         ln_meo.setOnClickListener(this);
         avatar.setOnClickListener(this);
@@ -137,17 +151,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         nav.setNavigationItemSelectedListener(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool);
-        setSupportActionBar(toolbar);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main2, menu);
+        menu.getItem(1).setVisible(false);
+        this.menu = menu;
+
         return super.onCreateOptionsMenu(menu);
 
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.search:
+                menu.getItem(0).setVisible(false);
+                menu.getItem(1).setVisible(true);
+                    title.setVisibility(View.GONE);
+                    rl_search.setVisibility(View.VISIBLE);
+                    edSearch.setText(null);
+
+                break;
+
+            case R.id.close:
+                menu.getItem(0).setVisible(true);
+                menu.getItem(1).setVisible(false);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
+                edSearch.setText(null);
+                break;
+        }
         return true;
     }
     public void ReplaceFrag(Class fragmentClass){
@@ -188,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.ln_pill:
                 changeColor();
+                title.setText(getResources().getString(R.string.search_pill));
                 tv_pill.setTextColor(r.getColor(R.color.blue));
                 img_pill.setImageDrawable(r.getDrawable(R.drawable.pill_blue));
                 fragment = Pill_Fragment.class;
@@ -195,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ln_sick:
                 changeColor();
+                title.setText(getResources().getString(R.string.search_sick));
                 tv_sick.setTextColor(r.getColor(R.color.blue));
                 img_sick.setImageDrawable(r.getDrawable(R.drawable.sick));
                 fragment = Sick_Fragment.class;
@@ -202,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ln_dr:
                 changeColor();
+                title.setText(getResources().getString(R.string.search_dr));
                 tv_dr.setTextColor(r.getColor(R.color.blue));
                 img_dr.setImageDrawable(r.getDrawable(R.drawable.dr_nghe_blue));
                 fragment = Dr_Fragment.class;
@@ -209,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ln_pharma:
                 changeColor();
+                title.setText(getResources().getString(R.string.search_pharma));
                 tv_pharma.setTextColor(r.getColor(R.color.blue));
                 img_pharma.setImageDrawable(r.getDrawable(R.drawable.pharmablue));
                 fragment = Pharma_Fragment.class;
@@ -216,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ln_meo:
                 changeColor();
+                title.setText("");
                 tv_meo.setTextColor(r.getColor(R.color.blue));
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 fragment = Meo_Fragment.class;
@@ -224,6 +262,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.img_avt:
                 Intent it = new Intent(Common.context, Infor_User.class);
                 startActivity(it);
+                break;
+
+            case R.id.img_close:
+                if(rl_search.getVisibility()==View.VISIBLE&&title.getVisibility()==View.GONE){
+                    rl_search.setVisibility(View.GONE);
+                    title.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
@@ -252,6 +297,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rate:
                 break;
             case R.id.share:
+                Intent it3 = new Intent(getApplicationContext(),Share.class);
+                startActivity(it3);
                 break;
 
         }

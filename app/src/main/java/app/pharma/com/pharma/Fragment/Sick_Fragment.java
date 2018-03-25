@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
+import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.R;
@@ -31,6 +35,7 @@ public class Sick_Fragment extends Fragment {
     int lastVisibleItem = 0;
     private int lastY = 0;
     View v;
+    Spinner spiner;
     public Sick_Fragment() {
         // Required empty public constructor
     }
@@ -53,6 +58,27 @@ public class Sick_Fragment extends Fragment {
         arr = new ArrayList<>();
         adapter = new List_Sick_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
+
+        spiner = (Spinner) v.findViewById(R.id.spin_sick);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Bệnh ngoài da");
+        categories.add("Bệnh tim");
+        categories.add("Bệnh truyền nhiễm");
+        categories.add("Bệnh phổi");
+
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
+
+        // attaching data adapter to spinner
+        spiner.setAdapter(dataAdapter);
+
+
+
+
         arr.add(new Sick_Construct());
         arr.add(new Sick_Construct());
         arr.add(new Sick_Construct());

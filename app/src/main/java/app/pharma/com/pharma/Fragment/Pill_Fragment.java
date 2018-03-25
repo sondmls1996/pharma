@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.pharma.com.pharma.Adapter.List_Pill_Adapter;
+import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Pill_Constructor;
 import app.pharma.com.pharma.R;
@@ -27,6 +31,7 @@ import app.pharma.com.pharma.activity.Detail.Detail;
 public class Pill_Fragment extends Fragment {
     ListView lv;
     List_Pill_Adapter adapter;
+    Spinner spiner;
     ArrayList<Pill_Constructor> arr;
     Context ct;
     int lastVisibleItem = 0;
@@ -43,6 +48,23 @@ public class Pill_Fragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_pill, container, false);
         ct = getContext();
         lv = (ListView)v.findViewById(R.id.lv_pill);
+        spiner = (Spinner) v.findViewById(R.id.spin_pill);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Thuốc ho");
+        categories.add("Thuốc thần kinh");
+        categories.add("Thuốc tim mạch");
+        categories.add("Thực phẩm chức năng");
+
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
+
+        // attaching data adapter to spinner
+        spiner.setAdapter(dataAdapter);
+
         arr = new ArrayList<>();
         adapter = new List_Pill_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);

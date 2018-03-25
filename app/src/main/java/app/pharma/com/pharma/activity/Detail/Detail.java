@@ -71,8 +71,8 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void changeColor(){
-        tv_left.setTextColor(getResources().getColor(R.color.black));
-        tv_right.setTextColor(getResources().getColor(R.color.black));
+        tv_left.setTextColor(getResources().getColor(R.color.gray));
+        tv_right.setTextColor(getResources().getColor(R.color.gray));
         tv_left.setBackgroundColor(getResources().getColor(R.color.light_gray));
         tv_right.setBackgroundColor(getResources().getColor(R.color.light_gray));
     }

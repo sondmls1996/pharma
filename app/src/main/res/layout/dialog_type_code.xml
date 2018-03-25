@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/border_white"
+    android:background="@drawable/border_dialog"
     android:padding="20dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
 
         android:textAlignment="center"
-        android:text="Đánh giá chất lượng về nhà thuốc này"
+        android:text="Hãy nhập mã xác nhận chúng tôi đã gửi qua Email cho bạn"
         android:layout_marginBottom="10dp"
 
         android:textColor="@color/black"/>
@@ -19,23 +19,23 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:hint="@string/type_code"
         android:elevation="8dp"
         android:layout_marginTop="20dp"
         android:ellipsize="start"
-        android:gravity="center"
-        android:padding="3dp"
+        android:textSize="13sp"
+        android:padding="5dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/border_edt_white"/>
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/border_blue"
 
         android:textColor="@color/white"
-        android:text="Đánh giá"/>
+        android:text="@string/update_pass"/>
 
 
 </LinearLayout>

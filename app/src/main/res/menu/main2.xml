@@ -6,5 +6,9 @@
         android:icon="@drawable/search_ic"
         app:showAsAction="always"
         android:title="Search" />
-
+    <item
+        android:id="@+id/close"
+        android:icon="@drawable/close_white"
+        app:showAsAction="always"
+        android:title="Close" />
 </menu>

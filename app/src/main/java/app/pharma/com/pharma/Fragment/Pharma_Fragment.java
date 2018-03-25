@@ -158,6 +158,9 @@ public class Pharma_Fragment extends Fragment implements OnMapReadyCallback, Vie
         }else{
             tv_list.setTextColor(Constant.resources.getColor(R.color.blue));
             tv_list.setBackgroundColor(Constant.resources.getColor(R.color.white));
+            Intent it = new Intent(Constant.SCROLL_LV);
+            it.putExtra("action",Constant.ACTION_UP);
+            ct.sendBroadcast(it);
             lv.setVisibility(View.VISIBLE);
         }
     }

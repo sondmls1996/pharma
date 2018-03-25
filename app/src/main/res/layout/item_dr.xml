@@ -24,47 +24,56 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/ln_info"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/rl_img"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:text="Nguyễn văn Tư"
             android:textColor="@color/blue"
-            android:text="KALBE"
-            android:textStyle="bold"/>
+            android:maxLength="24"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:text="23 tuổi"
+            android:maxLength="20"
             android:textColor="@color/gray"
-            android:text="sdsdsdsd"
-            android:textStyle="bold"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:text="5 năm công tác"
+            android:maxLength="20"
             android:textColor="@color/gray"
-            android:text="sdsdsdsd"
-            android:textStyle="bold"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:text="Chuyên khoa thần kinh"
             android:textColor="@color/gray"
-            android:text="sdsdsdsd"
-            android:textStyle="bold"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:text="Bệnh viện Bạch Mai"
+            android:maxLength="20"
             android:textColor="@color/gray"
-            android:text="sdsdsdsd"
-            android:textStyle="bold"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
     <LinearLayout

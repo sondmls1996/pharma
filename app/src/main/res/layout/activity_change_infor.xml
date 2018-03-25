@@ -39,7 +39,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:elevation="8dp"
+                    android:elevation="@dimen/elevation"
                     android:textSize="12sp"
 
                     android:maxWidth="300dp"
@@ -57,7 +57,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:elevation="8dp"
+                    android:elevation="@dimen/elevation"
                     android:textSize="12sp"
 
                     android:maxWidth="300dp"
@@ -75,7 +75,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:elevation="8dp"
+                    android:elevation="@dimen/elevation"
                     android:textSize="12sp"
 
                     android:maxWidth="300dp"
@@ -93,7 +93,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:elevation="8dp"
+                    android:elevation="@dimen/elevation"
                     android:textSize="12sp"
 
                     android:maxWidth="300dp"
@@ -111,7 +111,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:elevation="8dp"
+                    android:elevation="@dimen/elevation"
                     android:textSize="12sp"
 
                     android:maxWidth="300dp"
@@ -122,16 +122,14 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/border_edt_white"
                     android:padding="5dp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"/>
+
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:textColor="@color/white"
                     android:text="@string/update_inf"
                     android:elevation="10dp"
-                    android:padding="5dp"
+
                     android:background="@drawable/border_edt_green"
                     android:layout_marginTop="20dp"
                     android:gravity="center"/>

@@ -1,9 +1,13 @@
 package app.pharma.com.pharma.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import app.pharma.com.pharma.Model.Common;
@@ -29,5 +33,18 @@ public class Lost_password extends AppCompatActivity implements View.OnClickList
                 startActivity(it);
                 break;
         }
+    }
+
+    private void showDialogRate() {
+        Dialog dialog = new Dialog(Common.context);
+        Window view=((Dialog)dialog).getWindow();
+        view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+// to get rounded corners and border for dialog window
+        view.setBackgroundDrawableResource(R.drawable.border_white);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_type_code);
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }

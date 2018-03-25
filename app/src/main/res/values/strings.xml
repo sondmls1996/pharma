@@ -14,7 +14,7 @@
     <string name="dr">Bác sĩ</string>
     <string name="pharma">Nhà thuốc</string>
     <string name="meo">Mẹo vặt</string>
-    <string name="search_pill">Tìm kiếm thuốc</string>
+
     <string name="list_pharma">Danh sách nhà thuốc</string>
     <string name="map_pharma">Bản đồ nhà thuốc</string>
     <string name="focus_news">Tin nổi bật</string>
@@ -49,6 +49,30 @@
 
     <string name="inf_pill">Thông tin thuốc</string>
     <string name="rate">Đánh giá</string>
+
+    <string name="search_pill">Tìm kiếm thuốc</string>
+    <string name="search_sick">Tìm kiếm bệnh</string>
+    <string name="search_pharma">Tìm nhà thuốc</string>
+    <string name="search_dr">Tìm kiếm bác sĩ</string>
+    <string name="meo_title">Mẹo vặt</string>
+    <string name="infor">Thông tin</string>
+    <string name="title_change_pass">Thay đổi mật khẩu</string>
+
+    <string name="full_name">Họ và tên</string>
+    <string name="work_adr">Nơi làm</string>
+    <string name="chuyen_khoa">Chuyên khoa</string>
+    <string name="mess">Message</string>
+    <string name="facebook">Facebook</string>
+    <string name="skype">Skype</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="sms2">Tin nhắn</string>
+    <string name="hang">Hangouts</string>
+    <string name="gmail">Gmail</string>
+    <string name="ggpl">Google+</string>
+    <string name="coppy">Sao chép</string>
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

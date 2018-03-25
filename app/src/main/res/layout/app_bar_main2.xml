@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
-
+            android:id="@+id/toolbar"
             android:background="@color/blue"
             >
             <ImageView
@@ -28,23 +28,41 @@
             <TextView
                 android:layout_width="match_parent"
                 android:textAlignment="center"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textSize="18sp"
+                android:id="@+id/title_main"
                 android:textColor="@color/white"
                 android:layout_toRightOf="@+id/img_nav"
                 android:gravity="center"
 
                 android:layout_height="match_parent" />
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:id="@+id/rl_search"
+                android:visibility="gone"
+                android:layout_toRightOf="@+id/img_nav"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:id="@+id/img_close"
+                    android:visibility="gone"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/close_icon"/>
           <EditText
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_toRightOf="@+id/img_nav"
-             android:paddingLeft="5dp"
-              android:gravity="center"
-              android:visibility="gone"
-              android:text="Tìm kiếm"
+            android:background="@android:color/transparent"
+             android:paddingLeft="10dp"
+
+              android:id="@+id/ed_search"
+
+              android:hint="Tìm kiếm"
              />
+            </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 

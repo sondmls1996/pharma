@@ -68,7 +68,7 @@
         android:background="@color/gray"
         android:layout_above="@+id/ln_contact"/>
     <ScrollView
-        android:layout_below="@+id/rl_top"
+
         android:layout_width="match_parent"
         android:layout_above="@id/ln_contact"
         android:layout_height="match_parent">
@@ -88,10 +88,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp"
+
                 android:id="@+id/ln_dr_inf">
                 <LinearLayout android:layout_width="match_parent"
                     android:paddingLeft="10dp"
+                    android:layout_marginLeft="10dp"
                     android:paddingRight="10dp"
                     android:layout_marginTop="10dp"
                     android:paddingTop="7dp"
@@ -103,7 +104,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="@string/full_name"
                         android:textColor="@color/black"
 
                         android:textStyle="bold"
@@ -111,7 +112,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="Nguyen Thi Nga"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -123,6 +124,64 @@
                     android:paddingRight="10dp"
                     android:paddingTop="7dp"
                     android:background="@color/white"
+                    android:paddingBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/birth"
+                        android:textColor="@color/black"
+
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="20/02/1990"
+                        android:textColor="@color/blue"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="7dp"
+                    android:background="@color/white"
+                    android:paddingBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textColor="@color/black"
+
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nga@gmail.com"
+                        android:textColor="@color/blue"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+
+                    android:paddingTop="7dp"
+                    android:background="@color/white"
+                    android:layout_marginLeft="10dp"
                     android:paddingBottom="5dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -138,7 +197,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="12 Giải Phóng"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -152,12 +211,13 @@
                     android:background="@color/white"
                     android:paddingBottom="5dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:orientation="vertical"
                     xmlns:android="http://schemas.android.com/apk/res/android">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="@string/phone"
                         android:textColor="@color/black"
 
                         android:textStyle="bold"
@@ -165,61 +225,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
-                        android:textColor="@color/blue"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        />
-
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="7dp"
-                    android:background="@color/white"
-                    android:paddingBottom="5dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/adr"
-                        android:textColor="@color/black"
-
-                        android:textStyle="bold"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/adr"
-                        android:textColor="@color/blue"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        />
-
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="7dp"
-                    android:background="@color/white"
-                    android:paddingBottom="5dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/adr"
-                        android:textColor="@color/black"
-
-                        android:textStyle="bold"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="0969969969"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -231,6 +237,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="7dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@color/white"
                     android:paddingBottom="5dp"
                     android:layout_height="wrap_content"
@@ -239,7 +246,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="@string/user_name"
                         android:textColor="@color/black"
 
                         android:textStyle="bold"
@@ -247,7 +254,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="Ngamee"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
