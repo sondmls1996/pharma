@@ -15,6 +15,7 @@ import java.util.TimerTask;
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
+import me.relex.circleindicator.CircleIndicator;
 
 
 public class Pharma_Detail_Fragment extends Fragment {
@@ -48,11 +49,13 @@ public class Pharma_Detail_Fragment extends Fragment {
         private void init() {
             for(int i=0;i<IMAGES.length;i++)
                 ImagesArray.add(IMAGES[i]);
+            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
             mPager = (ViewPager) v.findViewById(R.id.slide_image);
-
-
-            mPager.setAdapter(new Slide_Image_Adapter(Common.context,ImagesArray));
+            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+            mPager.setAdapter(adapter);
+            indicator.setViewPager(mPager);
+            adapter.registerDataSetObserver(indicator.getDataSetObserver());
 //
 //
 //            CirclePageIndicator indicator = (CirclePageIndicator)
