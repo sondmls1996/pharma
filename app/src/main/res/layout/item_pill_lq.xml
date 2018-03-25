@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:padding="0.5dp"
+        android:id="@+id/rl_img"
+        android:background="@color/gray"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+
+            android:src="@drawable/img_pill"
+            android:scaleType="centerCrop"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ln_info"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/rl_img"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dầu Thái Dương"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            android:maxLength="20"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:text="Công ty SUN"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/hafp_star"
+            ></ImageView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="150.000 VND"
+           />
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

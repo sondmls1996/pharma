@@ -122,6 +122,8 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getActivity(), Detail.class);
+                it.putExtra("key","pill");
+
                 startActivity(it);
             }
         });

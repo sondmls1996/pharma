@@ -118,6 +118,8 @@ public class Pharma_Fragment extends Fragment implements OnMapReadyCallback, Vie
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getActivity(), Detail.class);
+                it.putExtra("key","pharma");
+
                 startActivity(it);
             }
         });

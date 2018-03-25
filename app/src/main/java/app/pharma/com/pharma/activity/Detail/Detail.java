@@ -1,26 +1,35 @@
 package app.pharma.com.pharma.activity.Detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Fragment.Pharma_Detail_Fragment;
 import app.pharma.com.pharma.Fragment.Pharma_Rate;
+import app.pharma.com.pharma.Fragment.Pill_Fragment_Detail;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
 
 public class Detail extends AppCompatActivity implements View.OnClickListener {
     Class fragment;
     FrameLayout fragDetail;
+    String key;
     TextView tv_left, tv_right;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        Intent it = getIntent();
+        key = it.getExtras().getString("key");
+        Log.d("KK",key);
+
         Common.context = this;
         fragDetail = findViewById(R.id.frag_detail);
         tv_left = findViewById(R.id.tv_left);
@@ -49,7 +58,12 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
                 changeColor();
                 tv_left.setBackgroundColor(getResources().getColor(R.color.white));
                 tv_left.setTextColor(getResources().getColor(R.color.blue));
-                fragment = Pharma_Detail_Fragment.class;
+                if(key.equals("pill")){
+                    fragment = Pill_Fragment_Detail.class;
+                }else{
+                    fragment = Pharma_Detail_Fragment.class;
+                }
+
 
                 ReplaceFrag(fragment);
                 break;
