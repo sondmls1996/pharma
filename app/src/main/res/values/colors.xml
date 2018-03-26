@@ -6,6 +6,7 @@
     <color name="white">#FFF</color>
     <color name="black">#111</color>
     <color name="blur">#66111111</color>
+    <color name="shadow">#BDBDBD</color>
     <color name="red">#D91864</color>
     <color name="blue">#27A9E1</color>
     <color name="gray">#808284</color>

@@ -41,22 +41,30 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:elevation="8dp"
-            android:maxWidth="300dp"
-            android:hint="@string/type_code"
-            android:textSize="12sp"
-            android:textColorHint="@color/blue"
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/border_edt_white"
-            android:padding="5dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            app:cardElevation="@dimen/elevation"
+            app:cardCornerRadius="@dimen/radius_edt"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
 
+                android:textSize="12sp"
+                android:background="@android:color/transparent"
+                android:maxWidth="300dp"
+                android:minWidth="300dp"
+
+                android:hint="@string/type_code"
+
+                android:textColorHint="@color/blue"
+
+
+                android:padding="5dp"/>
+        </android.support.v7.widget.CardView>
 
 
         <Button
@@ -64,6 +72,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:text="@string/get_pass"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/btn_confirmcode"
             android:elevation="10dp"
             android:padding="5dp"
