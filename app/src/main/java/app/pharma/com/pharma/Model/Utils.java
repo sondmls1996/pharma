@@ -94,15 +94,18 @@ public class Utils {
 
     public static void loadImagePicasso(String link, ImageView v){
         Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).into(v);
-
     }
+
     public static void loadImagePicasso(int res, ImageView v){
         Picasso.with(Common.context).load(res).placeholder(R.drawable.noimage).into(v);
-
     }
+
     public static void loadTransimagePicasso(String link, ImageView v){
-       // Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
-        Picasso.with(Common.context).load(link).transform(new TransImage()).into(v);
+        Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
+    }
+
+    public static void loadTransimagePicasso(int res, ImageView v){
+        Picasso.with(Common.context).load(res).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
     }
 
     public static void dialogNotif(String mess){
@@ -124,9 +127,7 @@ public class Utils {
                 dialog.dismiss();
             }
         });
-
             dialog.show();
-
     }
 
 

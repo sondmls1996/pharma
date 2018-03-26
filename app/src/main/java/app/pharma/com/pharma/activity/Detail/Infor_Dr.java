@@ -37,7 +37,8 @@ public class Infor_Dr extends AppCompatActivity {
         avt2 = findViewById(R.id.img_avtbg);
         header_bg = findViewById(R.id.header_bg);
         Utils.loadTransimagePicasso("http://dreamstop.com/wp-content/uploads/2013/06/doctor-dream-meaning.jpg",avt);
-        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
+        Utils.loadTransimagePicasso(R.drawable.white,avt2);
+
         Picasso.with(getApplicationContext()).load("http://dreamstop.com/wp-content/uploads/2013/06/doctor-dream-meaning.jpg").transform(new BlurImagePicasso()).into(header_bg);
         ln_list = findViewById(R.id.ln_dr_inf);
 //        LayoutInflater inflater2 = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
