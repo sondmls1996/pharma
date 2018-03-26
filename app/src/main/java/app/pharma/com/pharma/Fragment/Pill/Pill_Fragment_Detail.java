@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ import me.relex.circleindicator.CircleIndicator;
 public class Pill_Fragment_Detail extends Fragment {
     LinearLayout ln;
     private  ViewPager mPager;
+    ImageView hearth;
+    boolean like = false;
+    View v;
     Slide_Image_Adapter adapter;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
@@ -37,9 +41,23 @@ public class Pill_Fragment_Detail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_pill__fragment__detail, container, false);
-        ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
+         v = inflater.inflate(R.layout.fragment_pill__fragment__detail, container, false);
 
+        init();
+
+        return v;
+    }
+
+    private void init() {
+        ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
+        hearth = (ImageView)v.findViewById(R.id.img_hearth);
+
+        hearth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkHearth();
+            }
+        });
         for(int i=0;i<IMAGES.length;i++)
             ImagesArray.add(IMAGES[i]);
         adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
@@ -57,7 +75,15 @@ public class Pill_Fragment_Detail extends Fragment {
             ln.addView(rowView);
 
         }
-        return v;
     }
 
+    public void checkHearth(){
+        if(like){
+            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
+            like = false;
+        }else{
+            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.red_heart));
+            like = true;
+        }
+    }
 }

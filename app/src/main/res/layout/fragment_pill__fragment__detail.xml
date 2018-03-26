@@ -57,23 +57,15 @@
 
 
                     </android.support.v4.view.ViewPager>
-
                     <me.relex.circleindicator.CircleIndicator
                         android:id="@+id/indicator"
+                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
 
                         android:layout_height="48dp"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:padding="10dp"
-                        android:layout_alignParentBottom="true"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        >
 
 
-                    </LinearLayout>
+
                 </RelativeLayout>
 
                 <LinearLayout
@@ -155,6 +147,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
+                                android:id="@+id/img_hearth"
                                 android:layout_marginRight="15dp"
                                 android:src="@drawable/red_heart"/>
                             <ImageView

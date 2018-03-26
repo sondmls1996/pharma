@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MultiDex.install(this);
-
         Common.context = this;
 
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
@@ -193,15 +192,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
     public void ReplaceFrag(Class fragmentClass){
-        Fragment fragment = null;
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new AsyncTask<Void,Void,Fragment>(){
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commit();
+            @Override
+            protected Fragment doInBackground(Void... voids) {
+                Fragment fragment = null;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return fragment;
+            }
+
+            @Override
+            protected void onPostExecute(Fragment fragment) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commitAllowingStateLoss();
+                super.onPostExecute(fragment);
+
+            }
+        }.execute();
+
+
     }
 
 
@@ -209,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void changeColor() {
+
         img_meo.setImageDrawable(r.getDrawable(R.drawable.news_gray));
         img_pill.setImageDrawable(r.getDrawable(R.drawable.pill));
         img_sick.setImageDrawable(r.getDrawable(R.drawable.sick2));
@@ -229,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ln_pill:
+
                 changeColor();
                 title.setText(getResources().getString(R.string.search_pill));
                 tv_pill.setTextColor(r.getColor(R.color.blue));
@@ -284,16 +300,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawer.closeDrawers();
         switch (item.getItemId()){
             case R.id.catalo_pills:
+                ln_pill.performClick();
                 break;
             case R.id.catalo_sick:
+                ln_sick.performClick();
                 break;
             case R.id.find_pharma:
+                ln_pharma.performClick();
                 break;
             case R.id.catalo_dr:
+                ln_dr.performClick();
                 break;
             case R.id.news:
+                ln_meo.performClick();
                 break;
             case R.id.sub_pill:
                 Intent it2 = new Intent(getApplicationContext(),Care_Activity.class);

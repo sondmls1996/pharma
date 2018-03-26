@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +32,9 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     private  ViewPager mPager;
     Slide_Image_Adapter adapter;
     ArrayList<String> arr;
+    ImageView hearth;
     View v;
+    boolean like = false;
     GoogleMap gg;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
@@ -56,6 +59,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
 
 
         private void init() {
+
             ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
             for(int i=0;i<IMAGES.length;i++)
                 ImagesArray.add(IMAGES[i]);
@@ -66,21 +70,8 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             mPager.setAdapter(adapter);
             indicator.setViewPager(mPager);
             adapter.registerDataSetObserver(indicator.getDataSetObserver());
-//
-//
-//            CirclePageIndicator indicator = (CirclePageIndicator)
-//                    findViewById(R.id.indicator);
-//
-//            indicator.setViewPager(mPager);
-
-            final float density = getResources().getDisplayMetrics().density;
-
-//Set circle indicator radius
-     //       indicator.setRadius(5 * density);
 
             NUM_PAGES =IMAGES.length;
-
-            // Auto start of viewpager
             final Handler handler = new Handler();
             final Runnable Update = new Runnable() {
                 public void run() {
@@ -97,8 +88,14 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                     handler.post(Update);
                 }
             }, 3000, 3000);
+            hearth = (ImageView)v.findViewById(R.id.hearth_img);
 
-            // Pager listener over indicator
+            hearth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  checkHearth();
+                }
+            });
 
     }
 
@@ -108,6 +105,16 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
         double lat = 21.028005;
         double lng = 105.834675;
         gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-        gg.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat,lng)));
+        gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),15f));
+    }
+
+    public void checkHearth(){
+        if(like){
+            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
+            like = false;
+        }else{
+            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.red_heart));
+            like = true;
+        }
     }
 }

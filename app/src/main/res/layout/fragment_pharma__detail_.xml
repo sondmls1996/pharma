@@ -91,23 +91,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
 
-                    <me.relex.circleindicator.CircleIndicator
-                        android:id="@+id/indicator"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"/>
+
 
                 </android.support.v4.view.ViewPager>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:padding="10dp"
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator"
                     android:layout_alignParentBottom="true"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    >
+                    android:layout_width="match_parent"
 
-
-                </LinearLayout>
+                    android:layout_height="48dp"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -189,6 +181,7 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginRight="15dp"
+                            android:id="@+id/hearth_img"
                             android:src="@drawable/red_heart"/>
                         <ImageView
                             android:layout_width="25dp"
