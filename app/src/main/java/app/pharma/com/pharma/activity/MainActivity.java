@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.activity;
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -44,8 +45,8 @@ import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Like.Care_Activity;
-import app.pharma.com.pharma.activity.User.Infor_User;
 import app.pharma.com.pharma.activity.Login.Login;
+import app.pharma.com.pharma.activity.User.Infor_User;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     Class fragment;
