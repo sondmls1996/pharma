@@ -70,7 +70,7 @@ public class Pharma_Detail_Rate extends Fragment {
                 }
                 super.onPostExecute(views);
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
         return v;

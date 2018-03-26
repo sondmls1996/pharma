@@ -3,6 +3,7 @@ package app.pharma.com.pharma.activity.Detail;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -28,14 +29,11 @@ public class Infor_Meo extends AppCompatActivity {
             }
         });
         mWebView = (WebView)findViewById(R.id.webview);
-        mWebView.loadUrl("http://m.willowtreeapps.com/");
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
+
+        mWebView.loadUrl("http://google.com");
+
 
     }
 
