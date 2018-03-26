@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -30,14 +32,14 @@
 
         <activity android:name=".activity.Detail.Detail" />
         <activity android:name=".activity.Detail.Infor_Dr" />
-        <activity android:name=".activity.Login" />
-        <activity android:name=".activity.Register" />
+        <activity android:name=".activity.Login.Login" />
+        <activity android:name=".activity.Login.Register" />
         <activity android:name=".activity.Detail.Infor_Meo" />
-        <activity android:name=".activity.Lost_password" />
-        <activity android:name=".activity.Get_code" />
-        <activity android:name=".activity.Detail.Infor_User" />
-        <activity android:name=".activity.Detail.Change_infor" />
-        <activity android:name=".activity.ChangePass" />
+        <activity android:name=".activity.Login.Lost_password" />
+        <activity android:name=".activity.Login.Get_code" />
+        <activity android:name=".activity.User.Infor_User" />
+        <activity android:name=".activity.User.Change_infor" />
+        <activity android:name=".activity.User.ChangePass" />
         <activity android:name=".activity.Like.Care_Activity" />
         <activity android:name=".activity.Share"></activity>
     </application>

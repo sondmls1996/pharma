@@ -36,7 +36,7 @@
             android:text="Cách trị hóc xương cá"
             android:maxLength="25"
             android:textColor="@color/blue"
-            android:textSize="16sp"
+
             android:textStyle="bold" />
 
         <TextView
@@ -62,6 +62,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="end"
+            android:textSize="12sp"
             android:text="22/03/2018"
             android:textColor="@color/gray" />
         <LinearLayout

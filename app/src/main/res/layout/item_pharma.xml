@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/ln_info"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/rl_img"
         android:orientation="vertical">
@@ -34,22 +34,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nhà thuốc Duy Tuấn"
+            android:ellipsize="end"
             android:textColor="@color/blue"
-            android:textSize="16sp"
+            android:maxLength="20"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLength="20"
+            android:maxLength="25"
             android:text="123 Đê La Thành - Hà Nội"
             android:textColor="@color/gray"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:gravity="bottom"
+            android:textSize="12sp"
             android:text="Cách 1km"
             android:textColor="@color/red" />
 

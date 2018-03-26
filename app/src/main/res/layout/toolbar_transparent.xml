@@ -15,6 +15,7 @@
             android:layout_height="20dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
+            android:id="@+id/img_back"
             android:layout_marginLeft="10dp"
             android:src="@drawable/backwar_arrow"/>
     </RelativeLayout>

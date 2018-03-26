@@ -108,7 +108,7 @@
                 android:layout_height="match_parent"
 
                 android:textColor="@color/red"
-
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:text="150.000 VND"
                 android:gravity="end|bottom" />

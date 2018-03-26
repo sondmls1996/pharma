@@ -67,7 +67,7 @@
         android:background="@color/gray"
         android:layout_above="@+id/ln_contact"/>
     <ScrollView
-        android:layout_below="@+id/rl_top"
+
         android:layout_width="match_parent"
         android:layout_above="@id/ln_contact"
         android:layout_height="match_parent">
@@ -93,6 +93,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:showDividers="middle"
+                android:divider="@color/gray"
+
                 android:id="@+id/ln_dr_inf">
 
                 <LinearLayout android:layout_width="match_parent"
@@ -115,7 +118,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="abc"
+                        android:text="Trần Văn Tư"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -143,7 +146,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@abc"
+                        android:text="123 Chùa Láng - Hà Nội"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -171,7 +174,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="0123456789"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -199,7 +202,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="Tai - mũi - họng"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -227,7 +230,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/adr"
+                        android:text="Bệnh viện Bạch Mai"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"

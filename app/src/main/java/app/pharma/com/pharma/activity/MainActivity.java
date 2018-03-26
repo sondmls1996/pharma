@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -31,17 +32,20 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import app.pharma.com.pharma.Fragment.Dr_Fragment;
+import app.pharma.com.pharma.Fragment.Dr.Dr_Fragment;
 import app.pharma.com.pharma.Fragment.Meo_Fragment;
-import app.pharma.com.pharma.Fragment.Pharma_Fragment;
-import app.pharma.com.pharma.Fragment.Pill_Fragment;
-import app.pharma.com.pharma.Fragment.Sick_Fragment;
+import app.pharma.com.pharma.Fragment.Pharma.Pharma_Fragment;
+import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment;
+import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.TransImage;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
-import app.pharma.com.pharma.activity.Detail.Infor_User;
+import app.pharma.com.pharma.activity.Like.Care_Activity;
+import app.pharma.com.pharma.activity.User.Infor_User;
+import app.pharma.com.pharma.activity.Login.Login;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     Class fragment;
@@ -80,12 +84,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MultiDex.install(this);
+
         Common.context = this;
+
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
 
         initView();
-
 
         imgnav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawer.openDrawer(Gravity.START);
             }
         });
+
+        if(!Utils.checkNetwork(Common.context)){
+            Utils.dialogNotif(getResources().getString(R.string.no_internet));
+        }
 
       ln_pill.performClick();
     }
@@ -115,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View headerview = nav.getHeaderView(0);
         avatar = headerview.findViewById(R.id.img_avt);
         avatar2 = headerview.findViewById(R.id.img_avtbg);
-
         header_background = headerview.findViewById(R.id.header_bg);
+
         Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
         Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
         Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_background);
@@ -287,18 +296,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.news:
                 break;
             case R.id.sub_pill:
+                Intent it2 = new Intent(getApplicationContext(),Care_Activity.class);
+                startActivity(it2);
                 break;
             case R.id.sub_sick:
+                Intent it3 = new Intent(getApplicationContext(),Care_Activity.class);
+                startActivity(it3);
                 break;
             case R.id.log_out:
-                Intent it = new Intent(getApplicationContext(),Login.class);
-                startActivity(it);
+                Intent it4 = new Intent(getApplicationContext(),Login.class);
+                startActivity(it4);
                 break;
             case R.id.rate:
                 break;
             case R.id.share:
-                Intent it3 = new Intent(getApplicationContext(),Share.class);
-                startActivity(it3);
+                Intent it5 = new Intent(getApplicationContext(),Share.class);
+                startActivity(it5);
                 break;
 
         }

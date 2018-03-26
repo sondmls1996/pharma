@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.pharma.com.pharma.Fragment.Pharma_Rate">
+    tools:context="app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                     android:gravity="bottom"
                     android:textColor="@color/red"
                     android:textSize="10sp"
-                    android:text="sdsdsdsd"/>
+                    android:text="10"/>
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
@@ -115,7 +115,7 @@
                     android:gravity="bottom"
                     android:textColor="@color/blue"
                     android:textSize="10sp"
-                    android:text="sdsdsdsd"/>
+                    android:text="10"/>
             </LinearLayout>
         </LinearLayout>
 

@@ -5,32 +5,47 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import app.pharma.com.pharma.Fragment.Pharma_Detail_Fragment;
-import app.pharma.com.pharma.Fragment.Pharma_Rate;
-import app.pharma.com.pharma.Fragment.Pill_Fragment_Detail;
+import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Fragment;
+import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate;
+import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment_Detail;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
 
 public class Detail extends AppCompatActivity implements View.OnClickListener {
     Class fragment;
     FrameLayout fragDetail;
-    String key;
+    String key = "";
     TextView tv_left, tv_right;
+    TextView tvTitle;
+    ImageView imgBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent it = getIntent();
-        key = it.getExtras().getString("key");
-        Log.d("KK",key);
+        if(it.getExtras()!=null){
+            key = it.getExtras().getString("key");
+        }
+
+    //    Log.d("KK",key);
 
         Common.context = this;
+        tvTitle = (TextView)findViewById(R.id.title);
+        imgBack = (ImageView)findViewById(R.id.img_back);
+        tvTitle.setText(getResources().getString(R.string.detail_infor));
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         fragDetail = findViewById(R.id.frag_detail);
         tv_left = findViewById(R.id.tv_left);
         tv_right = findViewById(R.id.tv_right);
@@ -58,7 +73,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
                 changeColor();
                 tv_left.setBackgroundColor(getResources().getColor(R.color.white));
                 tv_left.setTextColor(getResources().getColor(R.color.blue));
-                if(key.equals("pill")){
+                if(key.equals("pill")||key.equals("sick")){
                     fragment = Pill_Fragment_Detail.class;
                 }else{
                     fragment = Pharma_Detail_Fragment.class;
@@ -71,7 +86,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
                 changeColor();
                 tv_right.setBackgroundColor(getResources().getColor(R.color.white));
                 tv_right.setTextColor(getResources().getColor(R.color.blue));
-                fragment = Pharma_Rate.class;
+                fragment = Pharma_Detail_Rate.class;
 
                 ReplaceFrag(fragment);
                 break;

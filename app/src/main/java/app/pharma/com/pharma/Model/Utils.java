@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.Model;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,15 +9,27 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import app.pharma.com.pharma.R;
 
 /**
  * Created by Vi on 3/22/2018.
@@ -62,29 +75,60 @@ public class Utils {
 
         return outputBitmap;
     }
+    public static boolean checkNetwork(Context context) {
+        try {
+            NetworkInfo info = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
+                    .getActiveNetworkInfo();
 
-    public static Bitmap getCircularBitmapWithWhiteBorder(Bitmap bitmap,
-                                                          int borderWidth) {
+            if (info == null || !info.isConnected()) {
+                return false;
+            }
+            if (info.isRoaming()) {
+                return false;
+            }
+        } catch (Exception ex) {
 
-        final int width = bitmap.getWidth() + borderWidth;
-        final int height = bitmap.getHeight() + borderWidth;
-
-        Bitmap canvasBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setShader(shader);
-
-        Canvas canvas = new Canvas(canvasBitmap);
-        float radius = width > height ? ((float) height) / 2f : ((float) width) / 2f;
-        canvas.drawCircle(width / 2, height / 2, radius, paint);
-        paint.setShader(null);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.BLUE);
-        paint.setStrokeWidth(borderWidth);
-        canvas.drawCircle(width / 2, height / 2, radius - borderWidth / 2, paint);
-        return canvasBitmap;
+        }
+        return true;
     }
+
+    public static void loadImagePicasso(String link, ImageView v){
+        Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).into(v);
+
+    }
+    public static void loadImagePicasso(int res, ImageView v){
+        Picasso.with(Common.context).load(res).placeholder(R.drawable.noimage).into(v);
+
+    }
+    public static void loadTransimagePicasso(String link, ImageView v){
+       // Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
+        Picasso.with(Common.context).load(link).transform(new TransImage()).into(v);
+    }
+
+    public static void dialogNotif(String mess){
+
+            Dialog dialog = new Dialog(Common.context);
+            Window view=dialog.getWindow();
+            view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+// to get rounded corners and border for dialog window
+            view.setBackgroundDrawableResource(R.drawable.border_white);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_notif);
+            dialog.setCanceledOnTouchOutside(true);
+        TextView tvMess = (TextView)dialog.findViewById(R.id.tv_notif);
+        TextView close = (TextView)dialog.findViewById(R.id.tv_close);
+        tvMess.setText(mess);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+            dialog.show();
+
+    }
+
 
 
 
