@@ -104,7 +104,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-277">
               <caret line="364" column="21" lean-forward="true" selection-start-line="364" selection-start-column="21" selection-end-line="364" selection-end-column="21" />
-              <folding />
+              <folding>
+                <element signature="e#3397#3443#0" expanded="true" />
+                <element signature="e#8829#8875#0" expanded="true" />
+                <element signature="e#9224#9270#0" expanded="true" />
+                <element signature="e#9612#9656#0" expanded="true" />
+                <element signature="e#10004#10052#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2247,7 +2253,7 @@
     <property name="SearchEverywhereHistoryKey" value="Dr&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/activity/Detail/Infor_Dr.java&#10;Main&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/activity/MainActivity.java&#10;Ut&#9;FILE&#9;file://D:/app/pharma/app/src/main/java/app/pharma/com/pharma/Model/Utils.java" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/values" />
     <property name="show.do.not.copy.http.proxy.settings.to.gradle" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1522118048115" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1522118260619" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.packageName">
@@ -3191,7 +3197,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-277">
           <caret line="364" column="21" lean-forward="true" selection-start-line="364" selection-start-column="21" selection-end-line="364" selection-end-column="21" />
-          <folding />
+          <folding>
+            <element signature="e#3397#3443#0" expanded="true" />
+            <element signature="e#8829#8875#0" expanded="true" />
+            <element signature="e#9224#9270#0" expanded="true" />
+            <element signature="e#9612#9656#0" expanded="true" />
+            <element signature="e#10004#10052#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
