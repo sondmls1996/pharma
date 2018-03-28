@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,10 +26,27 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infor__user);
+        init();
+
+
+        //ln_changeinf = findViewById(R.id.ln_changeinf);
+    }
+
+    @Override
+    protected void onResume() {
+        Common.context = this;
+        super.onResume();
+
+    }
+
+    private void init() {
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_user_inf));
+
+
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +64,6 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         ln_changepass = findViewById(R.id.ln_changepass);
         ln_changeinf.setOnClickListener(this);
         ln_changepass.setOnClickListener(this);
-        //ln_changeinf = findViewById(R.id.ln_changeinf);
     }
 
     @Override

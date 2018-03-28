@@ -43,8 +43,10 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
                         android:textSize="12sp"
+                        android:id="@+id/ed_oldpass"
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
                         android:minWidth="300dp"
@@ -71,8 +73,10 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
                         android:textSize="12sp"
+                        android:id="@+id/ed_newpass"
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
                         android:minWidth="300dp"
@@ -98,7 +102,9 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/ed_renewpass"
                         android:textSize="12sp"
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
