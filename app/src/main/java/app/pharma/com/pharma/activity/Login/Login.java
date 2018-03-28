@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     TextView tv_reg;
     TextView tv_lostpass;
+    EditText eduser;
+    EditText edpass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +23,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Common.context = this;
         tv_reg = findViewById(R.id.tv_register);
         tv_lostpass = findViewById(R.id.tv_lost_pass);
+        eduser = findViewById(R.id.ed_user);
+        edpass = findViewById(R.id.ed_pass);
+        eduser.setCompoundDrawables(Utils.setProfileDrawable(),null,null,null);
+        edpass.setCompoundDrawables(Utils.setPassDrawable(),null,null,null);
         tv_lostpass.setOnClickListener(this);
         tv_reg.setOnClickListener(this);
     }

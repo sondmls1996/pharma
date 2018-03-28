@@ -164,9 +164,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main2, menu);
-        menu.getItem(1).setVisible(false);
-        this.menu = menu;
 
+        this.menu = menu;
+        menu.getItem(1).setVisible(false);
         return super.onCreateOptionsMenu(menu);
 
     }
@@ -251,6 +251,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv_pill.setTextColor(r.getColor(R.color.blue));
                 img_pill.setImageDrawable(r.getDrawable(R.drawable.pill_blue));
                 fragment = Pill_Fragment.class;
+                if(menu!=null){
+                    menu.getItem(0).setVisible(true);
+                    menu.getItem(1).setVisible(false);
+                }
+
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_sick:
@@ -259,6 +266,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv_sick.setTextColor(r.getColor(R.color.blue));
                 img_sick.setImageDrawable(r.getDrawable(R.drawable.sick));
                 fragment = Sick_Fragment.class;
+                menu.getItem(0).setVisible(true);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_dr:
@@ -267,6 +277,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv_dr.setTextColor(r.getColor(R.color.blue));
                 img_dr.setImageDrawable(r.getDrawable(R.drawable.dr_nghe_blue));
                 fragment = Dr_Fragment.class;
+                menu.getItem(0).setVisible(true);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_pharma:
@@ -275,6 +288,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv_pharma.setTextColor(r.getColor(R.color.blue));
                 img_pharma.setImageDrawable(r.getDrawable(R.drawable.pharmablue));
                 fragment = Pharma_Fragment.class;
+                menu.getItem(0).setVisible(true);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_meo:
@@ -283,6 +299,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv_meo.setTextColor(r.getColor(R.color.blue));
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 fragment = Meo_Fragment.class;
+                menu.getItem(0).setVisible(false);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.img_avt:

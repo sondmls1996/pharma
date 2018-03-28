@@ -91,36 +91,15 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:src="@drawable/star_full"/>
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="match_parent">
+                            <include
+                                layout="@layout/like_comment_nomar"
+                                ></include>
 
-
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="@drawable/red_heart"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="3dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/red"
-                                android:textSize="12sp"
-                                android:text="100"/>
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_marginLeft="5dp"
-                                android:src="@drawable/chat_blue_bubble"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="3dp"
-                                android:layout_height="match_parent"
-                                android:textColor="@color/blue"
-                                android:textSize="12sp"
-                                android:text="10"/>
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </LinearLayout>
                     <LinearLayout
@@ -149,7 +128,7 @@
                                 android:layout_height="25dp"
                                 android:id="@+id/img_hearth"
                                 android:layout_marginRight="15dp"
-                                android:src="@drawable/red_heart"/>
+                                android:src="@drawable/gray_hearth"/>
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"

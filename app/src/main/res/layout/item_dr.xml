@@ -89,38 +89,15 @@
             android:layout_height="20dp"
             android:src="@drawable/hafp_star"
             ></ImageView>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:src="@drawable/red_heart"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:gravity="bottom"
-                android:layout_height="match_parent"
-                android:textColor="@color/red"
-                android:textSize="10sp"
-                android:text="sdsdsdsd"/>
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/chat_blue_bubble"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_height="match_parent"
-                android:gravity="bottom"
-                android:textColor="@color/blue"
-                android:textSize="10sp"
-                android:text="sdsdsdsd"/>
-        </LinearLayout>
+       <RelativeLayout
+           android:layout_width="wrap_content"
+           android:gravity="bottom|right"
+           android:layout_height="match_parent">
+           <include
+               layout="@layout/like_comment_mini"
+               ></include>
+
+       </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>

@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+
             android:layout_marginRight="10dp"
             app:cardElevation="@dimen/elevation"
             app:cardCornerRadius="@dimen/radius_edt"
@@ -29,7 +30,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-
+                android:id="@+id/ed_user"
+       android:drawablePadding="5dp"
                 android:textSize="12sp"
                 android:background="@android:color/transparent"
                 android:maxWidth="300dp"
@@ -58,12 +60,12 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-
+                android:id="@+id/ed_pass"
                 android:textSize="12sp"
                 android:background="@android:color/transparent"
                 android:maxWidth="300dp"
                 android:minWidth="300dp"
-
+                android:drawablePadding="5dp"
                 android:hint="@string/pass"
                 android:inputType="textPassword"
                 android:textColorHint="@color/blue"

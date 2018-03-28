@@ -4,13 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.renderscript.Allocation;
@@ -130,7 +127,25 @@ public class Utils {
             dialog.show();
     }
 
+    public static Drawable setProfileDrawable(){
+        Drawable drawable = Common.context.getResources().getDrawable(R.drawable.profile);
+        drawable.setBounds(10, 0, (int)(drawable.getIntrinsicWidth()*0.4),
+                (int)(drawable.getIntrinsicHeight()*0.4));
+        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);
 
+        return sd.getDrawable();
+    }
+
+    public static Drawable setPassDrawable(){
+        Drawable drawable = Common.context.getResources().getDrawable(R.drawable.padlock);
+
+        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*0.4),
+                (int)(drawable.getIntrinsicHeight()*0.4));
+        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);
+
+
+        return sd.getDrawable();
+    }
 
 
 }
