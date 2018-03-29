@@ -37,16 +37,16 @@
                     android:textColor="@color/gray"
                     android:gravity="right"
                     android:text="sdsdsd"
-                 />
+                    />
             </RelativeLayout>
 
 
         </LinearLayout>
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
 
-        android:src="@drawable/hafp_star"/>
+            android:src="@drawable/hafp_star"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

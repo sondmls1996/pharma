@@ -113,6 +113,7 @@ public class Dr_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getContext(), Infor_Dr.class);
+                it.putExtra("key","pharma");
                 getContext().startActivity(it);
             }
         });

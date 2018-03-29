@@ -4,47 +4,63 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/catalo_pills"
-            android:icon="@drawable/pills"
-            android:title="Danh mục thuốc" />
-        <item
-            android:id="@+id/catalo_sick"
-            android:icon="@drawable/sick2"
-            android:title="Danh mục bệnh" />
-        <item
-            android:id="@+id/find_pharma"
-            android:icon="@drawable/pharma2"
-            android:title="Tìm nhà thuốc" />
-        <item
-            android:id="@+id/catalo_dr"
-            android:icon="@drawable/dr_nghe"
-            android:title="Danh mục bác sĩ" />
-        <item
-            android:id="@+id/news"
-            android:icon="@drawable/news_gray"
-            android:title="Tin tức" />
-        <item
-            android:id="@+id/sub_pill"
-            android:icon="@drawable/pill2"
-            android:title="Thuốc đã quan tâm" />
-        <item
-            android:id="@+id/sub_sick"
-            android:icon="@drawable/heartbeat"
-            android:title="Bệnh đã quan tâm" />
-        <item
-            android:id="@+id/log_out"
-            android:icon="@drawable/logout"
-            android:title="Đăng xuất" />
-        <item
-            android:id="@+id/rate"
-            android:icon="@drawable/star"
-            android:title="Đánh giá ứng dụng" />
-        <item
-            android:id="@+id/share"
-            android:icon="@drawable/share"
-            android:title="Chia sẻ ứng dụng" />
+        <item android:title="Danh mục">
+            <menu>
+                <item
+                    android:id="@+id/catalo_pills"
+                    android:icon="@drawable/pills"
+                    android:title="Danh mục thuốc" />
+                <item
+                    android:id="@+id/catalo_sick"
+                    android:icon="@drawable/sick2"
+                    android:title="Danh mục bệnh" />
+                <item
+                    android:id="@+id/catalo_dr"
+                    android:icon="@drawable/dr_nghe"
+                    android:title="Danh mục bác sĩ" />
+                <item
+                    android:id="@+id/find_pharma"
+                    android:icon="@drawable/pharma2"
+                    android:title="Tìm nhà thuốc" />
 
+            </menu>
+        </item>
+        <item android:title="Thông tin">
+            <menu>
+                <item
+                    android:id="@+id/news"
+                    android:icon="@drawable/news_gray"
+                    android:title="Tin tức" />
+                <item
+                    android:id="@+id/sub_pill"
+                    android:icon="@drawable/pill2"
+                    android:title="Thuốc đã quan tâm" />
+                <item
+                    android:id="@+id/sub_sick"
+                    android:icon="@drawable/heartbeat"
+                    android:title="Bệnh đã quan tâm" />
+            </menu>
+        </item>
+        <item android:title="Ứng dụng">
+            <menu>
+                <item
+                    android:id="@+id/rate"
+                    android:icon="@drawable/star"
+                    android:title="Đánh giá ứng dụng" />
+                <item
+                    android:id="@+id/share"
+                    android:icon="@drawable/share"
+                    android:title="Chia sẻ ứng dụng" />
+            </menu>
+        </item>
+        <item android:title="Tài khoản">
+            <menu>
+                <item
+                    android:id="@+id/log_out"
+                    android:icon="@drawable/logout"
+                    android:title="Đăng xuất" />
+            </menu>
+        </item>
     </group>
 
 

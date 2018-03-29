@@ -13,6 +13,7 @@ import android.widget.TextView;
 import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Fragment;
 import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate;
 import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment_Detail;
+import app.pharma.com.pharma.Fragment.Sick.Sick_Detail_Fragment;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
 
@@ -73,10 +74,12 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
                 changeColor();
                 tv_left.setBackgroundColor(getResources().getColor(R.color.white));
                 tv_left.setTextColor(getResources().getColor(R.color.blue));
-                if(key.equals("pill")||key.equals("sick")){
+                if(key.equals("pill")){
                     fragment = Pill_Fragment_Detail.class;
-                }else{
+                }else if(key.equals("pharma")){
                     fragment = Pharma_Detail_Fragment.class;
+                }else if (key.equals("sick")){
+                    fragment = Sick_Detail_Fragment.class;
                 }
 
 

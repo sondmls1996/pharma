@@ -3,80 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
         android:id="@+id/app_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:gravity="center_vertical"
             android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:background="@color/blue"
-            >
+            android:gravity="center_vertical">
+
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/img_nav"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/nav"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/nav" />
+
             <TextView
-                android:layout_width="match_parent"
-                android:textAlignment="center"
-                android:visibility="visible"
-                android:textSize="18sp"
                 android:id="@+id/title_main"
-                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/img_nav"
                 android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
 
-                android:layout_height="match_parent" />
+                android:visibility="visible" />
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
                 android:id="@+id/rl_search"
-                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/img_nav"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
                 <ImageView
-                    android:layout_width="20dp"
                     android:id="@+id/img_close"
-                    android:visibility="gone"
+                    android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/close_icon"/>
-          <EditText
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-             android:paddingLeft="10dp"
+                    android:src="@mipmap/close_icon"
+                    android:visibility="gone" />
 
-              android:id="@+id/ed_search"
+                <EditText
+                    android:id="@+id/ed_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
 
-              android:hint="Tìm kiếm"
-             />
+                    android:hint="Tìm kiếm"
+
+                    android:paddingLeft="10dp" />
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar">
-        <include layout="@layout/content_main2"
-            />
+
+        <include layout="@layout/content_main2" />
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

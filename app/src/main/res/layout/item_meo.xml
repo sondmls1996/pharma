@@ -1,73 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:background="@color/white"
     android:orientation="horizontal"
-    android:background="@color/white">
+    android:padding="5dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:padding="0.5dp"
         android:id="@+id/rl_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/gray"
-        android:layout_height="wrap_content">
+        android:padding="0.5dp">
+
         <ImageView
             android:layout_width="100dp"
-            android:layout_height="80dp"
-
-            android:src="@drawable/xuong"
+            android:layout_height="70dp"
             android:scaleType="centerCrop"
-            />
+            android:src="@drawable/xuong" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
         android:id="@+id/ln_info"
-        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/rl_img"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cách trị hóc xương cá"
             android:maxLength="25"
+            android:textSize="16sp"
+            android:text="Cách trị hóc xương cá"
             android:textColor="@color/blue"
-
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLength="20"
-            android:text="Để trị hóc xương cá, hãy lấy..."
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:maxLength="60"
+            android:textSize="12sp"
+            android:text="Để trị hóc xương cá, hãy lấy ít nước uống ..."
             android:textColor="@color/gray"
             android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:text="18:20"
+            android:textColor="@color/gray"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/ln_info"
+        android:gravity="bottom"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:layout_marginTop="3dp"
+            android:text="22/03/2018"
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
 
 
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textSize="12sp"
-            android:text="20/10/2018"
-            />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:gravity="bottom|right"
-            android:layout_height="match_parent">
-            <include
-                layout="@layout/like_comment_mini"
-                ></include>
-        </RelativeLayout>
-
-    </RelativeLayout>
 
 </LinearLayout>
