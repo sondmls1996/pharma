@@ -8,21 +8,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Get_code extends AppCompatActivity implements View.OnClickListener {
     Button get_code;
+    EditText ed_email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_code);
+        init();
+
+    }
+
+    private void init() {
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        ed_email = findViewById(R.id.ed_email);
+        Utils.setCompondEdt(R.drawable.padlock,ed_email);
         tvTitle.setText(getResources().getString(R.string.lost_pass));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +51,13 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                 showDialogRate();
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        Common.context = this;
+        super.onResume();
+
     }
     private void showDialogRate() {
         Dialog dialog = new Dialog(Common.context);

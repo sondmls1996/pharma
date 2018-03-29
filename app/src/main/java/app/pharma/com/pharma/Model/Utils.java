@@ -16,6 +16,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -129,6 +130,17 @@ public class Utils {
 
     public static Drawable setProfileDrawable(){
         Drawable drawable = Common.context.getResources().getDrawable(R.drawable.profile);
+        drawable.setBounds(10, 0, (int)(drawable.getIntrinsicWidth()*0.4),
+                (int)(drawable.getIntrinsicHeight()*0.4));
+        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);
+
+        return sd.getDrawable();
+    }
+    public static void setCompondEdt(int drawable, EditText ed){
+        ed.setCompoundDrawables(setDrawableEdt(Common.context.getResources().getDrawable(drawable)),null,null,null);
+    }
+    public static Drawable setDrawableEdt(Drawable draw){
+        Drawable drawable = draw;
         drawable.setBounds(10, 0, (int)(drawable.getIntrinsicWidth()*0.4),
                 (int)(drawable.getIntrinsicHeight()*0.4));
         ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);

@@ -22,6 +22,12 @@ public class Care_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_);
+
+        init();
+
+    }
+
+    private void init() {
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
@@ -42,5 +48,12 @@ public class Care_Activity extends AppCompatActivity {
         arr.add(new Like_Constructor());
         arr.add(new Like_Constructor());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        Common.context = this;
+        super.onResume();
+
     }
 }

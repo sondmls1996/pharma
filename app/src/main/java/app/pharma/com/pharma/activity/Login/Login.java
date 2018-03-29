@@ -20,6 +20,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        init();
+
+    }
+
+    private void init() {
         Common.context = this;
         tv_reg = findViewById(R.id.tv_register);
         tv_lostpass = findViewById(R.id.tv_lost_pass);

@@ -15,6 +15,7 @@ import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -203,18 +204,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commitAllowingStateLoss();
                 return fragment;
             }
 
             @Override
             protected void onPostExecute(Fragment fragment) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commitAllowingStateLoss();
+
+                if(drawer.isDrawerOpen(GravityCompat.START)){
+                    drawer.closeDrawers();
+                }
                 super.onPostExecute(fragment);
 
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
     }
@@ -295,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ln_meo:
                 changeColor();
-                title.setText("");
+                title.setText(getResources().getString(R.string.meo));
                 tv_meo.setTextColor(r.getColor(R.color.blue));
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 fragment = Meo_Fragment.class;
@@ -316,11 +320,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawer.closeDrawers();
+
         switch (item.getItemId()){
             case R.id.catalo_pills:
                 ln_pill.performClick();
