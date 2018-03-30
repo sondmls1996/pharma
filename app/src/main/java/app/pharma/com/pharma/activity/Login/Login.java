@@ -31,8 +31,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         tv_lostpass = findViewById(R.id.tv_lost_pass);
         eduser = findViewById(R.id.ed_user);
         edpass = findViewById(R.id.ed_pass);
-        eduser.setCompoundDrawables(Utils.setProfileDrawable(),null,null,null);
-        edpass.setCompoundDrawables(Utils.setPassDrawable(),null,null,null);
+        Utils.setCompondEdt(R.drawable.profile,eduser);
+        Utils.setCompondEdt(R.drawable.padlock,edpass);
         tv_lostpass.setOnClickListener(this);
         tv_reg.setOnClickListener(this);
     }

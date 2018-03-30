@@ -56,7 +56,11 @@
     <string name="txt_comment_pharma">Đánh giá nhà thuốc</string>
     <string name="txt_comment_pill">Đánh giá thuốc</string>
     <string name="txt_comment_sick">Đánh giá bài viết</string>
-
+    <string name="fillter">Bộ lọc</string>
+    <string name="pill_tp">Thành phần thuốc</string>
+    <string name="price">Giá</string>
+    <string name="apply">Áp dụng</string>
+    <string name="short_title">Đánh giá ngắn</string>
     <string name="search_pill">Tìm kiếm thuốc</string>
     <string name="search_sick">Tìm kiếm bệnh</string>
     <string name="search_pharma">Tìm nhà thuốc</string>

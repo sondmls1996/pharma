@@ -1,15 +1,20 @@
 package app.pharma.com.pharma.activity;
 
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
@@ -18,6 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,14 +31,22 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import app.pharma.com.pharma.Fragment.Dr.Dr_Fragment;
 import app.pharma.com.pharma.Fragment.Meo_Fragment;
@@ -42,6 +56,7 @@ import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Pill_Constructor;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -54,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView imgnav;
     ImageView img_pill;
     ImageView img_sick;
+    Spinner spiner;
+    ArrayList<String> arr,arr_tp;
     ImageView img_dr;
     ImageView img_pharma;
     ImageView header_background;
@@ -81,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NavigationView nav;
     ImageView img_close;
     ImageView avatar,avatar2;
+    FloatingActionButton fillter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,18 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
 
-        imgnav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
 
-        if(!Utils.checkNetwork(Common.context)){
-            Utils.dialogNotif(getResources().getString(R.string.no_internet));
-        }
-
-      ln_pill.performClick();
     }
 
     private void unregister() {
@@ -114,11 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         title = (TextView)findViewById(R.id.title_main) ;
+        arr = new ArrayList<>();
+        arr_tp = new ArrayList<>();
         edSearch = (EditText)findViewById(R.id.ed_search);
         rl_search = (RelativeLayout)findViewById(R.id.rl_search);
         appbar = findViewById(R.id.app_bar);
         img_close = (ImageView)findViewById(R.id.img_close);
-        r = getResources();
+        fillter = findViewById(R.id.fb_fill);
+        fillter.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
+        fillter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogFillter();
+            }
+        });
+                r = getResources();
         nav = findViewById(R.id.nav_view);
         cv = (CardView)findViewById(R.id.cv_bot);
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -160,6 +177,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //  Picasso.with(getApplicationContext()).load(R.drawable.img_avt).into(Utils.setCiclerImage(avatar));
 
         nav.setNavigationItemSelectedListener(this);
+
+        imgnav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.START);
+            }
+        });
+
+        if(!Utils.checkNetwork(Common.context)){
+            Utils.dialogNotif(getResources().getString(R.string.no_internet));
+        }
+
+        ln_pill.performClick();
 
     }
 
@@ -259,9 +289,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     menu.getItem(0).setVisible(true);
                     menu.getItem(1).setVisible(false);
                 }
-
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
+                fillter.setVisibility(View.VISIBLE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_sick:
@@ -273,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
+                fillter.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_dr:
@@ -284,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
+                fillter.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_pharma:
@@ -295,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
+                fillter.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_meo:
@@ -306,6 +339,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
+                fillter.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 break;
             case R.id.img_avt:
@@ -410,6 +444,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+    private void showDialogFillter() {
+        arr.clear();
+        arr_tp.clear();
+        Dialog dialog = new Dialog(Common.context);
+        Window view=((Dialog)dialog).getWindow();
+        view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+// to get rounded corners and border for dialog window
+        view.setBackgroundDrawableResource(R.drawable.border_white);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_fillter);
+        dialog.setCanceledOnTouchOutside(true);
+        Spinner sp_sick = dialog.findViewById(R.id.spin_sick);
+        Spinner sp_tp = dialog.findViewById(R.id.spin_tp);
+        TextView tv_price = dialog.findViewById(R.id.tv_price);
+        AppCompatSeekBar seek = dialog.findViewById(R.id.seek_bar);
+
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tv_price.setText("Giá: "+progress+" - 200.000đ");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        arr.add("Thuốc tim");
+        arr.add("Thuốc thần kinh");
+        arr.add("Thuốc tiêu hóa");
+        arr.add("Thực phẩm chức năng");
+
+        arr_tp.add("Paracetamol");
+        arr_tp.add("Paracetamol");
+        arr_tp.add("Paracetamol");
+        arr_tp.add("Paracetamol");
+
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arr);
+        dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
+        sp_sick.setAdapter(dataAdapter);
+
+        ArrayAdapter<String> dataAdapter2 =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arr_tp);
+        dataAdapter2.setDropDownViewResource(R.layout.custom_text_spiner);
+        sp_tp.setAdapter(dataAdapter2);
+
+
+
+        dialog.show();
+    }
+
     class GetScrollBroadcast extends BroadcastReceiver{
 
         @Override
@@ -417,13 +513,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(intent.getExtras()!=null){
                 int action = intent.getIntExtra("action",1);
                 if(action==Constant.ACTION_DOWN){
-//                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
-//                    cv.setAnimation(myAnim);
-                        cv.setVisibility(View.GONE);
+                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
+                    cv.setAnimation(myAnim);
+                   //     cv.setVisibility(View.GONE);
+                        fillter.hide();
                 }else{
-//                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
-//                    cv.setAnimation(myAnim);
-                    cv.setVisibility(View.VISIBLE);
+                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
+                    cv.setAnimation(myAnim);
+                //    cv.setVisibility(View.VISIBLE);
+                    if(fragment==Pill_Fragment.class){
+                        fillter.show();
+                    }else{
+                        fillter.hide();
+                    }
+
                 }
             }
         }

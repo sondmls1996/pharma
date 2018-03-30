@@ -31,6 +31,15 @@
         />
     <EditText
         android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="@string/short_title"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:padding="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray"/>
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="Nhận xét của bạn"
         android:ellipsize="start"

@@ -70,7 +70,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:textColor="@color/white"
             android:text="@string/get_pass"
             android:layout_marginLeft="10dp"
