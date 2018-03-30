@@ -18,7 +18,7 @@
             android:layout_height="40dp"
             android:background="@color/blue"
             android:gravity="center"
-            android:id="@+id/ln_contact"
+            android:id="@+id/ln_buynow"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
@@ -39,7 +39,7 @@
             android:layout_above="@+id/ln_contact"/>
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_above="@id/ln_contact"
+            android:layout_above="@id/ln_buynow"
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"

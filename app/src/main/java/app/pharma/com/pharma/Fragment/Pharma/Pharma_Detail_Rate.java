@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Detail;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +31,10 @@ public class Pharma_Detail_Rate extends Fragment {
     LinearLayout ln_list;
     ArrayList<View> arrView;
     LinearLayout ln_rate_now;
-    RelativeLayout rl_item;
+    View v;
+    TextView tv_comment,tv_de_comment;
+    LayoutInflater inflater2;
+    RelativeLayout rl_top;
     public Pharma_Detail_Rate() {
         // Required empty public constructor
     }
@@ -39,18 +44,32 @@ public class Pharma_Detail_Rate extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_pharma__rate, container, false);
+         v = inflater.inflate(R.layout.fragment_pharma__rate, container, false);
+        
+        init();
+      
+
+
+        return v;
+    }
+
+    private void init() {
+
         ln_list = v.findViewById(R.id.ln_list_rate);
         ln_rate_now = v.findViewById(R.id.ln_rate_now);
+        rl_top = v.findViewById(R.id.rl_rate_top);
         arrView = new ArrayList<>();
+
+        tv_de_comment = v.findViewById(R.id.txt_de_comment);
         ln_rate_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialogRate();
             }
         });
+        inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        setRelativeTop(Detail.key);
 
-        LayoutInflater inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         new AsyncTask<Void, Void, ArrayList<View>>() {
             @Override
             protected ArrayList<View> doInBackground(Void... voids) {
@@ -71,9 +90,25 @@ public class Pharma_Detail_Rate extends Fragment {
                 super.onPostExecute(views);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void setRelativeTop(String key) {
+
+        if(key.equals("pharma")){
+            View rowView = inflater2.inflate(R.layout.rate_pharma_include, null);
+            rl_top.addView(rowView);
+
+        }else if(key.equals("pill")){
+            View rowView = inflater2.inflate(R.layout.rate_pill_include, null);
+            rl_top.addView(rowView);
+
+        }else if(key.equals("sick")){
+            View rowView = inflater2.inflate(R.layout.rate_sick_include, null);
+            rl_top.addView(rowView);
+
+        }
 
 
-        return v;
     }
 
     private void showDialogRate() {

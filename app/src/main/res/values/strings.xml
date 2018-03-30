@@ -45,11 +45,17 @@
     <string name="change_infor">Thay đổi thông tin</string>
     <string name="change_pass">Thay đổi mật khẩu</string>
     <string name="update_inf">Cập nhật thông tin</string>
+    <string name="order">Đặt hàng</string>
     <string name="update_pass">Cập nhật mật khẩu</string>
 
     <string name="inf_pill">Thông tin thuốc</string>
+    <string name="inf_pharma">Thông tin nhà thuốc</string>
+    <string name="inf_sick">Thông tin bệnh</string>
     <string name="detail_infor">Thông tin chi tiết</string>
     <string name="rate">Đánh giá</string>
+    <string name="txt_comment_pharma">Đánh giá nhà thuốc</string>
+    <string name="txt_comment_pill">Đánh giá thuốc</string>
+    <string name="txt_comment_sick">Đánh giá bài viết</string>
 
     <string name="search_pill">Tìm kiếm thuốc</string>
     <string name="search_sick">Tìm kiếm bệnh</string>

@@ -29,13 +29,14 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallback {
 
-    private  ViewPager mPager;
-    Slide_Image_Adapter adapter;
+
     ArrayList<String> arr;
     ImageView hearth;
     View v;
     boolean like = false;
     GoogleMap gg;
+    private  ViewPager mPager;
+    Slide_Image_Adapter adapter;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static final Integer[] IMAGES= {R.drawable.pharma_img,R.drawable.img_dr,R.drawable.img_sick};

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Detail.Order">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_top">
+    <include
+        layout="@layout/toolbar_back"
+        ></include>
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:gravity="center"
+        android:id="@+id/ln_contact"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="@string/order"/>
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        android:layout_above="@+id/ln_contact"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_above="@id/ln_contact"
+        android:layout_below="@+id/rl_top"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/slide_image"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+
+                </android.support.v4.view.ViewPager>
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="48dp"/>
+
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+
+                        android:textColor="@color/black"
+                        android:text="Thuốc cảm cúm"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:text="Số lượng: 1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:text="Giá tiền: 150.000 VND"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_marginRight="10dp"
+                    app:cardElevation="@dimen/elevation"
+                    app:cardCornerRadius="@dimen/radius_edt"
+                    >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/ed_adr"
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:maxWidth="300dp"
+                        android:minWidth="300dp"
+
+                        android:hint="@string/adr"
+
+                        android:textColorHint="@color/blue"
+
+
+                        android:padding="5dp"/>
+                </android.support.v7.widget.CardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_marginRight="10dp"
+                    app:cardElevation="@dimen/elevation"
+                    app:cardCornerRadius="@dimen/radius_edt"
+                    >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/ed_fullname"
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:maxWidth="300dp"
+                        android:minWidth="300dp"
+
+                        android:hint="@string/full_name"
+
+                        android:textColorHint="@color/blue"
+
+
+                        android:padding="5dp"/>
+                </android.support.v7.widget.CardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_marginRight="10dp"
+                    app:cardElevation="@dimen/elevation"
+                    app:cardCornerRadius="@dimen/radius_edt"
+                    >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/ed_email"
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:maxWidth="300dp"
+                        android:minWidth="300dp"
+
+                        android:hint="@string/email"
+
+                        android:textColorHint="@color/blue"
+
+
+                        android:padding="5dp"/>
+                </android.support.v7.widget.CardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_marginRight="10dp"
+                    app:cardElevation="@dimen/elevation"
+                    app:cardCornerRadius="@dimen/radius_edt"
+                    >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/ed_phone"
+                        android:drawablePadding="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="12sp"
+                        android:background="@android:color/transparent"
+                        android:maxWidth="300dp"
+                        android:minWidth="300dp"
+
+                        android:hint="@string/phone"
+
+                        android:textColorHint="@color/blue"
+
+
+                        android:padding="5dp"/>
+                </android.support.v7.widget.CardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

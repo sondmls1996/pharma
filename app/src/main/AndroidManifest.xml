@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -41,7 +41,8 @@
         <activity android:name=".activity.User.Change_infor" />
         <activity android:name=".activity.User.ChangePass" />
         <activity android:name=".activity.Like.Care_Activity" />
-        <activity android:name=".activity.Share"></activity>
+        <activity android:name=".activity.Share" />
+        <activity android:name=".activity.Detail.Order"></activity>
     </application>
 
 </manifest>

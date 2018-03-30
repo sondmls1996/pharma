@@ -20,7 +20,8 @@ import app.pharma.com.pharma.R;
 public class Detail extends AppCompatActivity implements View.OnClickListener {
     Class fragment;
     FrameLayout fragDetail;
-    String key = "";
+    public static String key = "";
+
     TextView tv_left, tv_right;
     TextView tvTitle;
     ImageView imgBack;
@@ -34,7 +35,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
             key = it.getExtras().getString("key");
         }
 
-    //    Log.d("KK",key);
+
 
         Common.context = this;
         tvTitle = (TextView)findViewById(R.id.title);
@@ -52,7 +53,18 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
         tv_right = findViewById(R.id.tv_right);
         tv_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        changeTextLeft();
         tv_left.performClick();
+    }
+
+    private void changeTextLeft() {
+        if(key.equals("pharma")){
+            tv_left.setText(getResources().getString(R.string.inf_pharma));
+        }else if(key.equals("pill")){
+            tv_left.setText(getResources().getString(R.string.inf_pill));
+        }else{
+            tv_left.setText(getResources().getString(R.string.inf_sick));
+        }
     }
 
     public void ReplaceFrag(Class fragmentClass){
