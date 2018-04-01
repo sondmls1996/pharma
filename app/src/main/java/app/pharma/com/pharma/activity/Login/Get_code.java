@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Get_code extends AppCompatActivity implements View.OnClickListener {
@@ -32,7 +31,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
         ed_email = findViewById(R.id.ed_email);
-        Utils.setCompondEdt(R.drawable.padlock,ed_email);
+     //   Utils.setCompondEdt(R.drawable.padlock,ed_email);
         tvTitle.setText(getResources().getString(R.string.lost_pass));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

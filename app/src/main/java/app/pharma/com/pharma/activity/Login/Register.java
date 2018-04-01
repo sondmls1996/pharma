@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Register extends AppCompatActivity {
@@ -40,11 +39,17 @@ public class Register extends AppCompatActivity {
         edEmail = findViewById(R.id.ed_email);
         edBirth = findViewById(R.id.ed_birth);
 
-        eduser.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.profile)),null,null,null);
-        edpass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
-        edRepass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
-        edEmail.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.email)),null,null,null);
-        edBirth.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.calendar)),null,null,null);
+//        Utils.setCompondEdt(R.drawable.profile,eduser);
+//        Utils.setCompondEdt(R.drawable.padlock,edpass);
+//        Utils.setCompondEdt(R.drawable.padlock,edRepass);
+//        Utils.setCompondEdt(R.drawable.email,edEmail);
+//        Utils.setCompondEdt(R.drawable.calendar,edBirth);
+
+//        eduser.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.profile)),null,null,null);
+//        edpass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
+//        edRepass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
+//        edEmail.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.email)),null,null,null);
+//        edBirth.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.calendar)),null,null,null);
 
     }
 

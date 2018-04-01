@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
+    android:layout_gravity="right"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:src="@drawable/gray_hearth"/>
     <TextView
         android:layout_width="wrap_content"
@@ -15,12 +15,12 @@
         android:gravity="bottom"
         android:layout_height="match_parent"
         android:textColor="@color/gray"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:text="23"/>
     <ImageView
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/chat_gray_buble"/>
     <TextView
@@ -30,6 +30,6 @@
         android:gravity="bottom"
         android:textStyle="bold"
         android:textColor="@color/gray"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="20"/>
 </LinearLayout>

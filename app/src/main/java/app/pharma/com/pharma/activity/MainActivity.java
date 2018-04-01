@@ -56,7 +56,6 @@ import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Pill_Constructor;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_pharma;
     ImageView header_background;
     ImageView img_meo;
+    boolean isAnimated = false;
     TextView tv_pill;
     TextView tv_sick;
     TextView tv_dr;
@@ -291,7 +291,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.setVisibility(View.VISIBLE);
+
+                fillter.show();
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_sick:
@@ -303,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.setVisibility(View.GONE);
+               fillter.hide();
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_dr:
@@ -315,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.setVisibility(View.GONE);
+                fillter.hide();
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_pharma:
@@ -327,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.setVisibility(View.GONE);
+                fillter.hide();
                 ReplaceFrag(fragment);
                 break;
             case R.id.ln_meo:
@@ -339,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.setVisibility(View.GONE);
+                fillter.hide();
                 ReplaceFrag(fragment);
                 break;
             case R.id.img_avt:
@@ -517,17 +518,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     cv.setAnimation(myAnim);
                    //     cv.setVisibility(View.GONE);
                         fillter.hide();
+
                 }else{
-                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
-                    cv.setAnimation(myAnim);
-                //    cv.setVisibility(View.VISIBLE);
-                    if(fragment==Pill_Fragment.class){
-                        fillter.show();
-                    }else{
-                        fillter.hide();
+
+                        final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
+                        cv.setAnimation(myAnim);
+                        //    cv.setVisibility(View.VISIBLE);
+                        if(fragment==Pill_Fragment.class){
+                            fillter.show();
+                        }else{
+                            fillter.hide();
+                        }
+                        isAnimated = true;
                     }
 
-                }
+
+
             }
         }
     }

@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -31,8 +30,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         tv_lostpass = findViewById(R.id.tv_lost_pass);
         eduser = findViewById(R.id.ed_user);
         edpass = findViewById(R.id.ed_pass);
-        Utils.setCompondEdt(R.drawable.profile,eduser);
-        Utils.setCompondEdt(R.drawable.padlock,edpass);
+//        Utils.setCompondEdt(R.drawable.profile,eduser);
+//        Utils.setCompondEdt(R.drawable.padlock,edpass);
         tv_lostpass.setOnClickListener(this);
         tv_reg.setOnClickListener(this);
     }
@@ -45,7 +44,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivity(it);
                 break;
             case R.id.tv_lost_pass:
-                Intent it2 = new Intent(getApplicationContext(),Lost_password.class);
+                Intent it2 = new Intent(getApplicationContext(),Get_code.class);
                 startActivity(it2);
                 break;
         }

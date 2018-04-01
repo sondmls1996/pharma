@@ -40,6 +40,17 @@
                     app:cardElevation="@dimen/elevation"
                     app:cardCornerRadius="@dimen/radius_edt"
                     >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/padlock"/>
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -57,6 +68,7 @@
 
 
                         android:padding="5dp"/>
+                    </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <View
@@ -70,6 +82,16 @@
                     app:cardElevation="@dimen/elevation"
                     app:cardCornerRadius="@dimen/radius_edt"
                     >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/padlock"/>
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -87,6 +109,7 @@
 
 
                         android:padding="5dp"/>
+                    </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <View
                     android:layout_width="match_parent"
@@ -99,6 +122,16 @@
                     app:cardElevation="@dimen/elevation"
                     app:cardCornerRadius="@dimen/radius_edt"
                     >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/padlock"/>
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -116,6 +149,7 @@
 
 
                         android:padding="5dp"/>
+                    </LinearLayout>
                 </android.support.v7.widget.CardView>
 
 

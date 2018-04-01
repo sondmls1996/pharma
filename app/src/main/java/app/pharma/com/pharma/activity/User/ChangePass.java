@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.TransImage;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class ChangePass extends AppCompatActivity implements View.OnClickListener {
@@ -43,9 +42,9 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
         ed_oldpass = findViewById(R.id.ed_oldpass);
         ed_newpass = findViewById(R.id.ed_newpass);
         ed_renewpass = findViewById(R.id.ed_renewpass);
-        Utils.setCompondEdt(R.drawable.padlock,ed_oldpass);
-        Utils.setCompondEdt(R.drawable.padlock,ed_renewpass);
-        Utils.setCompondEdt(R.drawable.padlock,ed_newpass);
+//        Utils.setCompondEdt(R.drawable.padlock,ed_oldpass);
+//        Utils.setCompondEdt(R.drawable.padlock,ed_renewpass);
+//        Utils.setCompondEdt(R.drawable.padlock,ed_newpass);
 
         avt = findViewById(R.id.img_avt);
         avt2 = findViewById(R.id.img_avtbg);

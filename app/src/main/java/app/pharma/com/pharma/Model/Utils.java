@@ -137,7 +137,8 @@ public class Utils {
         return sd.getDrawable();
     }
     public static void setCompondEdt(int drawable, EditText ed){
-        ed.setCompoundDrawables(setDrawableEdt(Common.context.getResources().getDrawable(drawable)),null,null,null);
+
+        ed.setCompoundDrawablesWithIntrinsicBounds(setDrawableEdt(Common.context.getResources().getDrawable(drawable)),null,null,null);
     }
     public static Drawable setDrawableEdt(Drawable draw){
         Drawable drawable = draw;

@@ -133,5 +133,12 @@ public class Sick_Fragment extends Fragment {
             }
         });
     }
+    @Override
+    public void onResume() {
+        Intent it = new Intent(Constant.SCROLL_LV);
+        it.putExtra("action",Constant.ACTION_UP);
+        ct.sendBroadcast(it);
+        super.onResume();
 
+    }
 }

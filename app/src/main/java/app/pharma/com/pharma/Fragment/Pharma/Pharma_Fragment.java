@@ -9,15 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 
@@ -25,7 +21,6 @@ import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Pharma_Constructor;
 import app.pharma.com.pharma.R;
-import app.pharma.com.pharma.activity.Detail.Detail;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,6 +119,13 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
          //   lv.setVisibility(View.VISIBLE);
         }
     }
+    @Override
+    public void onResume() {
+        Intent it = new Intent(Constant.SCROLL_LV);
+        it.putExtra("action",Constant.ACTION_UP);
+        ct.sendBroadcast(it);
+        super.onResume();
 
+    }
 
 }

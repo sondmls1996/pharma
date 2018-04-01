@@ -12,7 +12,6 @@ import com.squareup.picasso.Picasso;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.TransImage;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Change_infor extends AppCompatActivity {
@@ -40,12 +39,12 @@ public class Change_infor extends AppCompatActivity {
         edadr = findViewById(R.id.ed_adr);
         edfullname=findViewById(R.id.ed_fullname);
 
-        edfullname.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.profile)),null,null,null);
-        edpass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
-        edRepass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
-        edEmail.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.email)),null,null,null);
-        edBirth.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.calendar)),null,null,null);
-        edadr.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.blue_place)),null,null,null);
+//        Utils.setCompondEdt(R.drawable.profile,edfullname);
+//        Utils.setCompondEdt(R.drawable.padlock,edpass);
+//        Utils.setCompondEdt(R.drawable.padlock,edRepass);
+//        Utils.setCompondEdt(R.drawable.email,edEmail);
+//        Utils.setCompondEdt(R.drawable.calendar,edBirth);
+//        Utils.setCompondEdt(R.drawable.blue_place,edadr);
 
 
         header_bg = findViewById(R.id.header_bg);

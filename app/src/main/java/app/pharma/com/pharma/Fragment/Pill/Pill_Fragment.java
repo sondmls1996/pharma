@@ -35,6 +35,7 @@ public class Pill_Fragment extends Fragment {
     Spinner spiner;
     ArrayList<Pill_Constructor> arr;
     Context ct;
+
     int lastVisibleItem = 0;
     private int lastY = 0;
     public Pill_Fragment() {
@@ -147,4 +148,14 @@ public class Pill_Fragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        Intent it = new Intent(Constant.SCROLL_LV);
+        it.putExtra("action",Constant.ACTION_UP);
+        ct.sendBroadcast(it);
+
+
+        super.onResume();
+
+    }
 }
