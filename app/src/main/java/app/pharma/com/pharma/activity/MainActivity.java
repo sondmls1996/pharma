@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Window view=((Dialog)dialog).getWindow();
         view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 // to get rounded corners and border for dialog window
-        view.setBackgroundDrawableResource(R.drawable.border_white);
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_fillter);
         dialog.setCanceledOnTouchOutside(true);
