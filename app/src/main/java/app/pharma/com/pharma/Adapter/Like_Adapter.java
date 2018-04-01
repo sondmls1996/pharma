@@ -21,11 +21,12 @@ import app.pharma.com.pharma.R;
 public class Like_Adapter  extends ArrayAdapter<Like_Constructor> {
     Context ct;
     ArrayAdapter<Dr_Constructor> array;
-
-    public Like_Adapter(Context context, int resource, ArrayList<Like_Constructor> items) {
+    String key;
+    public Like_Adapter(Context context, int resource, ArrayList<Like_Constructor> items, String key) {
 
         super(context, resource, items);
         this.ct = context;
+        this.key = key;
 
     }
 
@@ -36,7 +37,12 @@ public class Like_Adapter  extends ArrayAdapter<Like_Constructor> {
         Like_Constructor pill = getItem(position);
         if(v==null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            v =  inflater.inflate(R.layout.item_sick, null);
+            if(key.equals("pill")){
+                v =  inflater.inflate(R.layout.item_pill, null);
+            }else{
+                v =  inflater.inflate(R.layout.item_sick, null);
+            }
+
         }
         init();
 

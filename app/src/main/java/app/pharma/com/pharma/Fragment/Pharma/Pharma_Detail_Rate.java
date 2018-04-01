@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import app.pharma.com.pharma.Model.Common;
@@ -119,8 +118,15 @@ public class Pharma_Detail_Rate extends Fragment {
         view.setBackgroundDrawableResource(R.drawable.border_white);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_rate);
-
         dialog.setCanceledOnTouchOutside(true);
+        TextView title = dialog.findViewById(R.id.txt_title_rate);
+        if(Detail.key.equals("pill")){
+            title.setText(getResources().getString(R.string.title_rate_pill));
+        }else if(Detail.key.equals("pharma")){
+            title.setText(getResources().getString(R.string.title_rate_pharma));
+        }else if(Detail.key.equals("sick")){
+            title.setText(getResources().getString(R.string.title_rate_sick));
+        }
         dialog.show();
     }
 

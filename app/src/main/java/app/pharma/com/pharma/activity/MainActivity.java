@@ -380,10 +380,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.sub_pill:
                 Intent it2 = new Intent(getApplicationContext(),Care_Activity.class);
+                it2.putExtra("key","pill");
                 startActivity(it2);
                 break;
             case R.id.sub_sick:
                 Intent it3 = new Intent(getApplicationContext(),Care_Activity.class);
+                it3.putExtra("key","sick");
                 startActivity(it3);
                 break;
             case R.id.log_out:
