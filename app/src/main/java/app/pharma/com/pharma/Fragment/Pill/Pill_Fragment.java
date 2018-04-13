@@ -19,11 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.pharma.com.pharma.Adapter.List_Pill_Adapter;
+import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Database.Catalo;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Pill_Constructor;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Detail;
+import io.realm.RealmList;
 
 
 /**
@@ -35,7 +39,7 @@ public class Pill_Fragment extends Fragment {
     Spinner spiner;
     ArrayList<Pill_Constructor> arr;
     Context ct;
-
+    DatabaseHandle db;
     int lastVisibleItem = 0;
     private int lastY = 0;
     public Pill_Fragment() {
@@ -48,14 +52,20 @@ public class Pill_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_pill, container, false);
+        db = new DatabaseHandle();
         ct = getContext();
         lv = (ListView)v.findViewById(R.id.lv_pill);
         spiner = (Spinner) v.findViewById(R.id.spin_pill);
         List<String> categories = new ArrayList<String>();
-        categories.add("Thuốc ho");
-        categories.add("Thuốc thần kinh");
-        categories.add("Thuốc tim mạch");
-        categories.add("Thực phẩm chức năng");
+        if(!db.isCataloPillEmpty()){
+            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                categories.add(list.get(i).getName());
+            }
+
+        }
+
 
         ArrayAdapter<String> dataAdapter =
                 new ArrayAdapter<String>

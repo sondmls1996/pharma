@@ -41,7 +41,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -53,16 +52,18 @@ import app.pharma.com.pharma.Fragment.Pharma.Pharma_Fragment;
 import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment;
 import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
+import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
-import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Like.Care_Activity;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
+import io.realm.RealmList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     Class fragment;
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 fragment = Sick_Fragment.class;
                 menu.getItem(0).setVisible(true);
-                menu.getItem(0).setVisible(false);
+                menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
                fillter.hide();
@@ -321,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 fragment = Dr_Fragment.class;
                 menu.getItem(0).setVisible(true);
-                menu.getItem(0).setVisible(false);
+                menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
                 fillter.hide();
@@ -336,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 fragment = Pharma_Fragment.class;
                 menu.getItem(0).setVisible(true);
-                menu.getItem(0).setVisible(false);
+                menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
                 fillter.hide();
@@ -457,10 +458,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Common.context = this;
-        if(!db.isEmpty()){
-            User user = db.getAllUserInfor();
-            Toast.makeText(getApplicationContext(),user.getAdr(),Toast.LENGTH_SHORT).show();
-        }
+
         if (scroll_broadcast == null) {
             IntentFilter fliter = new IntentFilter();
             fliter.addAction(Constant.SCROLL_LV);
@@ -503,16 +501,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        if(!db.isCataloPillEmpty()){
+            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                arr.add(list.get(i).getName());
+            }
 
-        arr.add("Thuốc tim");
-        arr.add("Thuốc thần kinh");
-        arr.add("Thuốc tiêu hóa");
-        arr.add("Thực phẩm chức năng");
+        }
+        if(!db.isCataloPillEmpty()){
+            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL_INTRO);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                arr_tp.add(list.get(i).getName());
+            }
 
-        arr_tp.add("Paracetamol");
-        arr_tp.add("Paracetamol");
-        arr_tp.add("Paracetamol");
-        arr_tp.add("Paracetamol");
+        }
+
+
 
         ArrayAdapter<String> dataAdapter =
                 new ArrayAdapter<String>

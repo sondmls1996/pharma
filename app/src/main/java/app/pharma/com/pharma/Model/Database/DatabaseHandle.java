@@ -2,7 +2,6 @@ package app.pharma.com.pharma.Model.Database;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
@@ -102,7 +101,51 @@ public class DatabaseHandle {
         realm.delete(Catalo.class);
         realm.commitTransaction();
     }
+    public boolean isCataloSickEmpty(){
 
+        Catalo user = realm.where(Catalo.class).findFirst();
+        if(user==null){
+            return true;
+        }else{
+            RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type","disease").findAll();
+            if(results.size()>0){
+                return false;
+            }else{
+                return true;
+            }
+
+        }
+
+    }
+    public boolean isCataloPillIntroEmpty(){
+        Catalo user = realm.where(Catalo.class).findFirst();
+        if(user==null){
+            return true;
+        }else{
+            RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type","ingredient").findAll();
+            if(results.size()>0){
+                return false;
+            }else{
+                return true;
+            }
+
+        }
+    }
+
+    public boolean isCataloPillEmpty(){
+        Catalo user = realm.where(Catalo.class).findFirst();
+        if(user==null){
+            return true;
+        }else{
+            RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type","product").findAll();
+            if(results.size()>0){
+                return false;
+            }else{
+                return true;
+            }
+
+        }
+    }
     public boolean isCataloEmpty(){
         Catalo user = realm.where(Catalo.class).findFirst();
         if(user==null){

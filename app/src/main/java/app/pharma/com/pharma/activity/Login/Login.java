@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
-import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -42,15 +40,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = new User();
-                user.setId("1");
-                user.setAdr(eduser.getText().toString());
-                user.setEmail("sdsd");
 
-                databaseHandle.updateOrInstall(user);
-
-                User user1 = databaseHandle.getAllUserInfor();
-                Toast.makeText(getApplicationContext(),user1.getAdr(),Toast.LENGTH_SHORT).show();
 
             }
         });

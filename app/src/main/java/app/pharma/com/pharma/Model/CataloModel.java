@@ -1,10 +1,9 @@
 package app.pharma.com.pharma.Model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class CataloModel extends RealmObject{
-    @PrimaryKey
+
     String id;
     String name;
 

@@ -1,11 +1,9 @@
 package app.pharma.com.pharma;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -13,11 +11,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
@@ -33,6 +26,7 @@ import io.realm.RealmList;
 public class Wellcome extends AppCompatActivity {
     DatabaseHandle databaseHandle;
     RealmList<CataloModel> list;
+    StringBuffer type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,24 +55,35 @@ public class Wellcome extends AppCompatActivity {
     }
 
     public void checkData(){
-        if(Utils.checkNetwork(this)){
-            databaseHandle.clearCataloData();
-            getCatalo();
+        if(!databaseHandle.isCataloEmpty()){
+          if(databaseHandle.isCataloSickEmpty()){
+              getCataloPill(ServerPath.CATALO_SICK);
+          }else if(databaseHandle.isCataloPillEmpty()){
+              getCataloPill(ServerPath.CATALO_PILL);
+          }else if(databaseHandle.isCataloPillIntroEmpty()){
+              getCataloPill(ServerPath.CATALO_PILL_INTRO);
+          }else{
+              new Handler().postDelayed(new Runnable() {
+                  @Override
+                  public void run() {
+                      Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                      startActivity(it);
+                      finish();
+                  }
+              },3000);
+          }
         }else{
-            if(!databaseHandle.isCataloEmpty()){
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent it = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
-                },4000);
+            if(Utils.checkNetwork(this)){
+                getCataloPill(ServerPath.CATALO_SICK);
             }else{
-                Utils.dialogNotif("Hãy bật kết nối mạng để tiếp tục");
+            Utils.dialogNotif("Hãy bật kết nối mạng để tiếp tục");
             }
         }
+
+
     }
+
+
 
     @Override
     protected void onResume() {
@@ -86,35 +91,37 @@ public class Wellcome extends AppCompatActivity {
         super.onResume();
     }
 
-    private void getCatalo() {
+    private void getCataloPill(String link) {
         Response.Listener<String> listener = response ->{
             try{
+                databaseHandle = new DatabaseHandle();
+                list = new RealmList<>();
                 JSONArray ja = new JSONArray(response);
                 for(int i = 0; i < ja.length();i++){
+                    type = new StringBuffer();
                     JSONObject index = ja.getJSONObject(i);
                     JSONObject catalo = index.getJSONObject(JsonConstant.CATEGORY);
-                    String type = catalo.getString(JsonConstant.TYPE);
+                     type.append(catalo.getString(JsonConstant.TYPE));
                     CataloModel model = new CataloModel();
                     model.setId(catalo.getString(JsonConstant.ID));
-                    model.setId(catalo.getString(JsonConstant.NAME));
-                    list = new RealmList<>();
+                    model.setName(catalo.getString(JsonConstant.NAME));
+
                     list.add(model);
-                    Catalo cataloMain = new Catalo();
-                    cataloMain.setType(type);
-                    cataloMain.setListCatalo(list);
-                    databaseHandle.updateOrInstall(cataloMain);
+
                 }
-                Catalo cata = databaseHandle.getListCataloById("product");
-                RealmList<CataloModel> list2 = cata.getListCatalo();
+                Catalo cataloMain = new Catalo();
+                cataloMain.setType(type.toString());
+                cataloMain.setListCatalo(list);
+                databaseHandle.updateOrInstall(cataloMain);
+
                 checkData();
-                Log.d("PRODUCT_LIST",list2.get(0).getName().toString());
-             //   Toast.makeText(getApplicationContext(),,Toast.LENGTH_SHORT).show();
+
             }catch (Exception e){
                 e.printStackTrace();
             }
         };
 
-        GetCL get = new GetCL(ServerPath.CATALO_PILL,listener);
+        GetCL get = new GetCL(link,listener);
         RequestQueue que = Volley.newRequestQueue(getApplicationContext());
         que.add(get);
     }

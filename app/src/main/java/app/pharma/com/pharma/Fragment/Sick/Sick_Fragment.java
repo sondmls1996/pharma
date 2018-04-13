@@ -18,11 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
+import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Database.Catalo;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Detail;
+import io.realm.RealmList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +36,7 @@ public class Sick_Fragment extends Fragment {
     List_Sick_Adapter adapter;
     ArrayList<Sick_Construct> arr;
     Context ct;
+    DatabaseHandle db;
     int lastVisibleItem = 0;
     private int lastY = 0;
     View v;
@@ -52,7 +57,7 @@ public class Sick_Fragment extends Fragment {
     }
 
     private void initView() {
-
+        db = new DatabaseHandle();
         ct = getContext();
         lv = (ListView)v.findViewById(R.id.lv_sick);
         arr = new ArrayList<>();
@@ -61,11 +66,14 @@ public class Sick_Fragment extends Fragment {
 
         spiner = (Spinner) v.findViewById(R.id.spin_sick);
         List<String> categories = new ArrayList<String>();
-        categories.add("Bệnh ngoài da");
-        categories.add("Bệnh tim");
-        categories.add("Bệnh truyền nhiễm");
-        categories.add("Bệnh phổi");
+        if(!db.isCataloSickEmpty()){
+            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_SICK);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                categories.add(list.get(i).getName());
+            }
 
+        }
         ArrayAdapter<String> dataAdapter =
                 new ArrayAdapter<String>
                         (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, categories);
