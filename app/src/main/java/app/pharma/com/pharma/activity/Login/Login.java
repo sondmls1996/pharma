@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 databaseHandle.updateOrInstall(user);
 
-                User user1 = databaseHandle.getAllUserInforArr();
+                User user1 = databaseHandle.getAllUserInfor();
                 Toast.makeText(getApplicationContext(),user1.getAdr(),Toast.LENGTH_SHORT).show();
 
             }

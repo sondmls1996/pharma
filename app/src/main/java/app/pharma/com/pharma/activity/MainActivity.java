@@ -41,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -55,6 +56,7 @@ import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -281,10 +283,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.ln_pill:
 
-                changeColor();
+
                 title.setText(getResources().getString(R.string.search_pill));
-                tv_pill.setTextColor(r.getColor(R.color.blue));
-                img_pill.setImageDrawable(r.getDrawable(R.drawable.pill_blue));
+
                 fragment = Pill_Fragment.class;
                 if(menu!=null){
                     menu.getItem(0).setVisible(true);
@@ -295,54 +296,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 fillter.show();
                 ReplaceFrag(fragment);
+                changeColor();
+                tv_pill.setTextColor(r.getColor(R.color.blue));
+                img_pill.setImageDrawable(r.getDrawable(R.drawable.pill_blue));
                 break;
             case R.id.ln_sick:
-                changeColor();
+
                 title.setText(getResources().getString(R.string.search_sick));
-                tv_sick.setTextColor(r.getColor(R.color.blue));
-                img_sick.setImageDrawable(r.getDrawable(R.drawable.sick));
+
                 fragment = Sick_Fragment.class;
                 menu.getItem(0).setVisible(true);
+                menu.getItem(0).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
                fillter.hide();
                 ReplaceFrag(fragment);
+                changeColor();
+                tv_sick.setTextColor(r.getColor(R.color.blue));
+                img_sick.setImageDrawable(r.getDrawable(R.drawable.sick));
                 break;
             case R.id.ln_dr:
-                changeColor();
+
                 title.setText(getResources().getString(R.string.search_dr));
-                tv_dr.setTextColor(r.getColor(R.color.blue));
-                img_dr.setImageDrawable(r.getDrawable(R.drawable.dr_nghe_blue));
+
                 fragment = Dr_Fragment.class;
                 menu.getItem(0).setVisible(true);
-                title.setVisibility(View.VISIBLE);
-                rl_search.setVisibility(View.GONE);
-                fillter.hide();
-                ReplaceFrag(fragment);
-                break;
-            case R.id.ln_pharma:
-                changeColor();
-                title.setText(getResources().getString(R.string.search_pharma));
-                tv_pharma.setTextColor(r.getColor(R.color.blue));
-                img_pharma.setImageDrawable(r.getDrawable(R.drawable.pharmablue));
-                fragment = Pharma_Fragment.class;
-                menu.getItem(0).setVisible(true);
-                title.setVisibility(View.VISIBLE);
-                rl_search.setVisibility(View.GONE);
-                fillter.hide();
-                ReplaceFrag(fragment);
-                break;
-            case R.id.ln_meo:
-                changeColor();
-                title.setText(getResources().getString(R.string.meo));
-                tv_meo.setTextColor(r.getColor(R.color.blue));
-                img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
-                fragment = Meo_Fragment.class;
                 menu.getItem(0).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
                 fillter.hide();
                 ReplaceFrag(fragment);
+                changeColor();
+                tv_dr.setTextColor(r.getColor(R.color.blue));
+                img_dr.setImageDrawable(r.getDrawable(R.drawable.dr_nghe_blue));
+                break;
+            case R.id.ln_pharma:
+
+                title.setText(getResources().getString(R.string.search_pharma));
+
+                fragment = Pharma_Fragment.class;
+                menu.getItem(0).setVisible(true);
+                menu.getItem(0).setVisible(false);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
+                fillter.hide();
+                ReplaceFrag(fragment);
+                changeColor();
+                tv_pharma.setTextColor(r.getColor(R.color.blue));
+                img_pharma.setImageDrawable(r.getDrawable(R.drawable.pharmablue));
+                break;
+            case R.id.ln_meo:
+
+                title.setText(getResources().getString(R.string.meo));
+
+                fragment = Meo_Fragment.class;
+                menu.getItem(1).setVisible(false);
+                menu.getItem(0).setVisible(false);
+                title.setVisibility(View.VISIBLE);
+                rl_search.setVisibility(View.GONE);
+                fillter.hide();
+                ReplaceFrag(fragment);
+                changeColor();
+                tv_meo.setTextColor(r.getColor(R.color.blue));
+                img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 break;
             case R.id.img_avt:
                 Intent it = new Intent(Common.context, Infor_User.class);
@@ -441,10 +457,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Common.context = this;
-//        if(!db.isEmpty()){
-//            User user = db.getAllUserInforArr();
-//            Toast.makeText(getApplicationContext(),user.getAdr(),Toast.LENGTH_SHORT).show();
-//        }
+        if(!db.isEmpty()){
+            User user = db.getAllUserInfor();
+            Toast.makeText(getApplicationContext(),user.getAdr(),Toast.LENGTH_SHORT).show();
+        }
         if (scroll_broadcast == null) {
             IntentFilter fliter = new IntentFilter();
             fliter.addAction(Constant.SCROLL_LV);

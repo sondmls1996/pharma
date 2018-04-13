@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/border_dialog"
     android:layout_width="match_parent"
+
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,12 +13,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:gravity="center"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:id="@+id/tv_notif"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
-            android:text=""/>
+            android:text="Không có kết nối, vui lòng thử lại"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -26,8 +29,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
             android:id="@+id/tv_close"
             android:padding="10dp"
             android:text="Đóng"

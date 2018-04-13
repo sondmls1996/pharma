@@ -12,17 +12,12 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/laucher_white_1"
-
         android:label="@string/app_name"
         android:roundIcon="@drawable/laucher_white_2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -44,7 +39,16 @@
         <activity android:name=".activity.User.ChangePass" />
         <activity android:name=".activity.Like.Care_Activity" />
         <activity android:name=".activity.Share" />
-        <activity android:name=".activity.Detail.Order"></activity>
+        <activity android:name=".activity.Detail.Order" />
+        <activity android:name=".Wellcome">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
