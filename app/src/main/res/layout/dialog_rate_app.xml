@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/border_dialog"
+    android:padding="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_title_rate"
+        android:textAlignment="center"
+        android:text="@string/title_rate_app"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/orange"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bấm chọn sao đánh giá"
+        android:textAlignment="center"
+        android:textColor="@color/gray"/>
+    <android.support.v7.widget.AppCompatRatingBar
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:numStars="5"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="Nhận xét của bạn"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:padding="3dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:text="Đánh giá"/>
+
+
+</LinearLayout>

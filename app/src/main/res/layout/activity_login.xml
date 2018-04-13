@@ -149,6 +149,7 @@
             android:layout_height="35dp"
             android:textColor="@color/white"
             android:text="@string/login"
+            android:id="@+id/btnlogin"
             android:elevation="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

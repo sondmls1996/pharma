@@ -108,7 +108,7 @@
     <string name="title_rate_pharma">Đánh giá về nhà thuốc này</string>
     <string name="title_rate_sick">Đánh giá về bài viết này </string>
     <string name="title_rate_pill">Đánh giá về thuốc</string>
-
+    <string name="title_rate_app">Đánh giá của bạn về ứng dụng</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

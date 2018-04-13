@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -15,6 +19,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     TextView tv_lostpass;
     EditText eduser;
     EditText edpass;
+    DatabaseHandle databaseHandle;
+    Button btnlogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +32,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void init() {
         Common.context = this;
+        databaseHandle = new DatabaseHandle();
+
         tv_reg = findViewById(R.id.tv_register);
         tv_lostpass = findViewById(R.id.tv_lost_pass);
         eduser = findViewById(R.id.ed_user);
         edpass = findViewById(R.id.ed_pass);
+        btnlogin = findViewById(R.id.btnlogin);
+        btnlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = new User();
+                user.setId("1");
+                user.setAdr(eduser.getText().toString());
+                user.setEmail("sdsd");
+
+                databaseHandle.updateOrInstall(user);
+
+                User user1 = databaseHandle.getAllUserInforArr();
+                Toast.makeText(getApplicationContext(),user1.getAdr(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
 //        Utils.setCompondEdt(R.drawable.profile,eduser);
 //        Utils.setCompondEdt(R.drawable.padlock,edpass);
         tv_lostpass.setOnClickListener(this);

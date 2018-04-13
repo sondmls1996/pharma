@@ -32,8 +32,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -56,6 +54,7 @@ import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -88,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ln_dr;
     RelativeLayout rl_search;
     LinearLayout ln_pharma;
+    DatabaseHandle db;
     LinearLayout ln_meo;
     GetScrollBroadcast scroll_broadcast;
     FrameLayout fragContrent;
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         MultiDex.install(this);
         Common.context = this;
+        db = new DatabaseHandle();
 
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
@@ -393,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(it4);
                 break;
             case R.id.rate:
+                showDialogRateApp();
                 break;
             case R.id.share:
                 Intent it5 = new Intent(getApplicationContext(),Share.class);
@@ -439,6 +441,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Common.context = this;
+//        if(!db.isEmpty()){
+//            User user = db.getAllUserInforArr();
+//            Toast.makeText(getApplicationContext(),user.getAdr(),Toast.LENGTH_SHORT).show();
+//        }
         if (scroll_broadcast == null) {
             IntentFilter fliter = new IntentFilter();
             fliter.addAction(Constant.SCROLL_LV);
@@ -509,30 +515,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
+    private void showDialogRateApp() {
+        Dialog dialog = new Dialog(Common.context);
+        Window view=((Dialog)dialog).getWindow();
+        view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+// to get rounded corners and border for dialog window
+        view.setBackgroundDrawableResource(R.drawable.border_white);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_rate_app);
+        dialog.setCanceledOnTouchOutside(true);
+//        TextView title = dialog.findViewById(R.id.txt_title_rate);
+//        if(Detail.key.equals("pill")){
+//            title.setText(getResources().getString(R.string.title_rate_pill));
+//        }else if(Detail.key.equals("pharma")){
+//            title.setText(getResources().getString(R.string.title_rate_pharma));
+//        }else if(Detail.key.equals("sick")){
+//            title.setText(getResources().getString(R.string.title_rate_sick));
+//        }
+        dialog.show();
+    }
+
+
     class GetScrollBroadcast extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getExtras()!=null){
                 int action = intent.getIntExtra("action",1);
-                if(action==Constant.ACTION_DOWN){
-                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
-                    cv.setAnimation(myAnim);
-                   //     cv.setVisibility(View.GONE);
-                        fillter.hide();
-
-                }else{
-
-                        final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
-                        cv.setAnimation(myAnim);
-                        //    cv.setVisibility(View.VISIBLE);
-                        if(fragment==Pill_Fragment.class){
-                            fillter.show();
-                        }else{
-                            fillter.hide();
-                        }
-                        isAnimated = true;
-                    }
+//                if(action==Constant.ACTION_DOWN){
+//                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
+//                    cv.setAnimation(myAnim);
+//                   //     cv.setVisibility(View.GONE);
+//                        fillter.hide();
+//
+//                }else{
+//
+//                        final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
+//                        cv.setAnimation(myAnim);
+//                        //    cv.setVisibility(View.VISIBLE);
+//                        if(fragment==Pill_Fragment.class){
+//                            fillter.show();
+//                        }else{
+//                            fillter.hide();
+//                        }
+//                        isAnimated = true;
+//                    }
 
 
 

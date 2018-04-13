@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'realm-android'
 android {
     compileSdkVersion 26
     compileOptions {
@@ -14,6 +14,9 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    realm {
+        syncEnabled = true;
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -42,6 +45,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.0.0'
     compile 'com.google.android.gms:play-services-wearable:10.0.0'
     compile 'com.google.android.gms:play-services:10.0.0'
+
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+repositories {
+    mavenCentral()
 }
