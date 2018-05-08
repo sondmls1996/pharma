@@ -12,23 +12,13 @@ public class Pill_Constructor {
     String htuse;
     int like;
     int cmt;
-    float star;
-    float price;
+    double star;
+    int price;
 
     public Pill_Constructor() {
     }
 
-    public Pill_Constructor(String id, String name, String link, String othername, String htuse, int like, int cmt, float star, float price) {
-        this.id = id;
-        this.name = name;
-        this.link = link;
-        this.othername = othername;
-        this.htuse = htuse;
-        this.like = like;
-        this.cmt = cmt;
-        this.star = star;
-        this.price = price;
-    }
+
 
     public String getId() {
         return id;
@@ -86,19 +76,19 @@ public class Pill_Constructor {
         this.cmt = cmt;
     }
 
-    public float getStar() {
+    public double getStar() {
         return star;
     }
 
-    public void setStar(float star) {
+    public void setStar(double star) {
         this.star = star;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }

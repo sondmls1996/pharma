@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Lost_password extends AppCompatActivity implements View.OnClickListener {
@@ -33,7 +32,7 @@ public class Lost_password extends AppCompatActivity implements View.OnClickList
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         edmail = findViewById(R.id.ed_email);
-        Utils.setCompondEdt(R.drawable.email,edmail);
+
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_lost_pass));
         imgBack.setOnClickListener(new View.OnClickListener() {

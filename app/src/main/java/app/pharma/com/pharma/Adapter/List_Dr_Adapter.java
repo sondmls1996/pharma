@@ -37,7 +37,7 @@ public class List_Dr_Adapter extends ArrayAdapter<Dr_Constructor> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v =  inflater.inflate(R.layout.item_dr, null);
         }
-        init();
+
 
         return v;
     }

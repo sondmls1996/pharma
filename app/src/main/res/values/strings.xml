@@ -103,14 +103,29 @@
     <string name="old_pass">Mật khẩu cũ</string>
     <string name="new_pass">Mật khẩu mới</string>
     <string name="re_new_pass">Nhập lại mật khẩu mới</string>
-    <!--<string name="title_user_inf">Thông tin tài khoản</string>-->
+    <string name="register_success">Đăng ký thành công</string>
+    <string name="has_acc">Tài khoản đã tồn tại</string>
+    <string name="not_check">Bạn chưa đồng ý với điều khoản sử dụng</string>
+    <string name="validate_email">Email không đứng định dạng</string>
+    <string name="login_fail">Đăng nhập thất bại</string>
+
     <!--<string name="title_user_inf">Thông tin tài khoản</string>-->
     <string name="title_rate_pharma">Đánh giá về nhà thuốc này</string>
     <string name="title_rate_sick">Đánh giá về bài viết này </string>
     <string name="title_rate_pill">Đánh giá về thuốc</string>
     <string name="title_rate_app">Đánh giá của bạn về ứng dụng</string>
+    <string name="loading">Đang xử lý...</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //error
+    <string name="pass_notequal">Mật khẩu không trùng nhau</string>
+    <string name="empty">Hãy điền đủ các trường</string>
+    <string name="found_email">Email đã tồn tại</string>
+    <string name="cant_register">Đăng ký không thành công, vui lòng thử lại</string>
+    <string name="network_err">Lỗi kết nối, vui lòng thử lại</string>
+    //validate
+    <string name="notnull">Không được để trống</string>
 
 
 </resources>

@@ -2,30 +2,40 @@ package app.pharma.com.pharma.Model;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Map;
 
 import app.pharma.com.pharma.R;
 
@@ -34,7 +44,7 @@ import app.pharma.com.pharma.R;
  */
 
 public class Utils {
-
+    Dialog dialogloading;
     public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -50,11 +60,21 @@ public class Utils {
         }
     }
 
+    public static void toast(String mess){
+        Toast.makeText(Common.context,mess,Toast.LENGTH_SHORT).show();
+    }
 
+    public Utils() {
+    }
 
     private static final float BLUR_RADIUS = 25f;
 
-
+    public static void PostServer(Context ct, String link, Map<String, String> map,
+                                  Response.Listener<String> listener){
+        PostCL post = new PostCL(link,map,listener);
+        RequestQueue que = Volley.newRequestQueue(ct);
+        que.add(post);
+    }
     public static Bitmap blur(Context context, Bitmap image) {
         int width = Math.round(image.getWidth());
         int height = Math.round(image.getHeight());
@@ -128,37 +148,75 @@ public class Utils {
             dialog.show();
     }
 
-    public static Drawable setProfileDrawable(){
-        Drawable drawable = Common.context.getResources().getDrawable(R.drawable.profile);
-        drawable.setBounds(10, 0, (int)(drawable.getIntrinsicWidth()*0.4),
-                (int)(drawable.getIntrinsicHeight()*0.4));
-        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);
+    public void showLoading(Context context,int time,boolean show){
+        if(dialogloading==null){
+            dialogloading = new Dialog(context);
+            dialogloading.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogloading.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogloading.setContentView(R.layout.loading);
+            dialogloading.setCanceledOnTouchOutside(false);
+            ProgressBar mProgressBar = dialogloading.findViewById(R.id.pr_loading);
+            mProgressBar.getIndeterminateDrawable().setColorFilter(context.getResources()
+                    .getColor(R.color.gray), PorterDuff.Mode.SRC_IN);
+            final Handler handler  = new Handler();
+            final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (dialogloading.isShowing()) {
+                        dialogloading.dismiss();
+                        Utils.toast(Common.context.getResources().getString(R.string.network_err));
+                    }
+                }
+            };
+            handler.postDelayed(runnable, time);
+            dialogloading.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    handler.removeCallbacks(runnable);
+                    dialogloading=null;
 
-        return sd.getDrawable();
+                }
+            });
+        }
+
+        if(show){
+            dialogloading.show();
+        }else{
+            if(dialogloading.isShowing()){
+                dialogloading.dismiss();
+            }
+
+        }
+
     }
-    public static void setCompondEdt(int drawable, EditText ed){
-
-        ed.setCompoundDrawablesWithIntrinsicBounds(setDrawableEdt(Common.context.getResources().getDrawable(drawable)),null,null,null);
-    }
-    public static Drawable setDrawableEdt(Drawable draw){
-        Drawable drawable = draw;
-        drawable.setBounds(10, 0, (int)(drawable.getIntrinsicWidth()*0.4),
-                (int)(drawable.getIntrinsicHeight()*0.4));
-        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);
-
-        return sd.getDrawable();
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    public static Drawable setPassDrawable(){
-        Drawable drawable = Common.context.getResources().getDrawable(R.drawable.padlock);
+    public static boolean isLogin(){
 
-        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*0.4),
-                (int)(drawable.getIntrinsicHeight()*0.4));
-        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 10, 10);
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.USER_SHARE, Context.MODE_PRIVATE);
 
-
-        return sd.getDrawable();
+        return preferences.getBoolean("isLogin",false);
     }
+
+    public static void setLogin(boolean isLogin){
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.USER_SHARE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putBoolean("isLogin",isLogin);
+        editor.commit();
+    }
+
+    public static double roundTwoDecimals(double d)
+    {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
+    }
+
+
+
 
 
 }

@@ -74,9 +74,20 @@ public class DatabaseHandle {
     }
 
     public void updateOrInstall(RealmObject obj){
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(obj);
-        realm.commitTransaction();
+        try{
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealmOrUpdate(obj);
+                }
+            });
+        }finally {
+            if(realm!=null){
+                realm.close();
+            }
+        }
+
+
 
     }
 
@@ -108,6 +119,23 @@ public class DatabaseHandle {
             return true;
         }else{
             RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type","disease").findAll();
+            if(results.size()>0){
+                return false;
+            }else{
+                return true;
+            }
+
+        }
+
+    }
+
+    public boolean isCataloDrEmpty(){
+
+        Catalo user = realm.where(Catalo.class).findFirst();
+        if(user==null){
+            return true;
+        }else{
+            RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type","specialist").findAll();
             if(results.size()>0){
                 return false;
             }else{

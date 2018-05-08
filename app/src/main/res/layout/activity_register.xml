@@ -97,6 +97,7 @@
                 android:drawablePadding="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_height="40dp"
+
                 android:background="@android:color/transparent"
                 android:hint="@string/email"
                 android:maxWidth="300dp"
@@ -137,6 +138,7 @@
                 android:drawablePadding="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_height="40dp"
+                android:inputType="textPassword"
                 android:background="@android:color/transparent"
                 android:hint="@string/pass"
                 android:maxWidth="300dp"
@@ -177,6 +179,7 @@
                 android:drawablePadding="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_height="40dp"
+                android:inputType="textPassword"
                 android:background="@android:color/transparent"
                 android:hint="@string/re_pas"
                 android:maxWidth="300dp"
@@ -218,6 +221,7 @@
                 android:drawablePadding="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_height="40dp"
+                android:focusable="false"
                 android:background="@android:color/transparent"
                 android:hint="@string/birth"
                 android:maxWidth="300dp"
@@ -232,26 +236,27 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:maxWidth="300dp"
+            android:maxWidth="100dp"
             android:paddingLeft="10dp"
             android:layout_marginTop="10dp"
+
             android:paddingRight="10dp"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
 
                 android:orientation="horizontal"
                 android:layout_weight="1">
                 <CheckBox
                     android:layout_width="wrap_content"
+                    android:id="@+id/cb_acceep"
                     android:background="@drawable/select_checkbox"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/blue"
                     android:gravity="center_vertical"
@@ -262,12 +267,14 @@
 
         </LinearLayout>
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="35dp"
             android:textColor="@color/white"
             android:text="@string/register2"
+            android:id="@+id/btn_register"
             android:elevation="10dp"
             android:padding="5dp"
+            android:maxWidth="300dp"
             android:background="@drawable/border_edt_pink"
             android:layout_marginTop="20dp"
             android:gravity="center"/>

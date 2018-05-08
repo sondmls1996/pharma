@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -424,13 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        if(scroll_broadcast==null){
-            IntentFilter fliter = new IntentFilter();
-            fliter.addAction("scroll_lv");
-            scroll_broadcast = new GetScrollBroadcast();
-            registerReceiver(scroll_broadcast,fliter);
-            Common.context = this;
-        }
+
 
     }
 
@@ -459,13 +452,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Common.context = this;
 
-        if (scroll_broadcast == null) {
-            IntentFilter fliter = new IntentFilter();
-            fliter.addAction(Constant.SCROLL_LV);
-            scroll_broadcast = new GetScrollBroadcast();
-            registerReceiver(scroll_broadcast, fliter);
-
-        }
     }
 
     private void showDialogFillter() {
@@ -557,6 +543,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        System.exit(0);
+        super.onBackPressed();
+    }
 
     class GetScrollBroadcast extends BroadcastReceiver{
 

@@ -46,6 +46,7 @@ public class ServerPath {
     //Doctor
 
     public static String LIST_DR = "listDoctor";
+    public static String CATALO_DR = "listCatSpecialist";
 
     public static String DETAIL_DR = "getDoctor";
 

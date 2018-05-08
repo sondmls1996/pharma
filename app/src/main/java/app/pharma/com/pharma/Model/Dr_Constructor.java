@@ -12,7 +12,7 @@ public class Dr_Constructor {
     String work_year;
     String special;
     String hospital;
-    String rate;
+    double rate;
     String like;
     String comment;
 
@@ -75,11 +75,11 @@ public class Dr_Constructor {
         this.hospital = hospital;
     }
 
-    public String getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
@@ -99,16 +99,5 @@ public class Dr_Constructor {
         this.comment = comment;
     }
 
-    public Dr_Constructor(String id, String link, String name, String age, String work_year, String special, String hospital, String rate, String like, String comment) {
-        this.id = id;
-        this.link = link;
-        this.name = name;
-        this.age = age;
-        this.work_year = work_year;
-        this.special = special;
-        this.hospital = hospital;
-        this.rate = rate;
-        this.like = like;
-        this.comment = comment;
-    }
+
 }

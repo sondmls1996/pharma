@@ -11,13 +11,22 @@ public class User extends RealmObject{
     @PrimaryKey
     String id;
     String token;
-
+    String avt;
     String name;
     String email;
     String adr;
     String date;
+    String phone;
 
     public User() {
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getToken() {
@@ -66,5 +75,13 @@ public class User extends RealmObject{
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getAvt() {
+        return avt;
+    }
+
+    public void setAvt(String avt) {
+        this.avt = avt;
     }
 }

@@ -5,17 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.android.volley.Response;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
 import app.pharma.com.pharma.Model.CataloModel;
@@ -23,7 +27,9 @@ import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Sick_Construct;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Detail;
 import io.realm.RealmList;
@@ -35,8 +41,10 @@ public class Sick_Fragment extends Fragment {
     ListView lv;
     List_Sick_Adapter adapter;
     ArrayList<Sick_Construct> arr;
+    ArrayList<CataloModel> arrcata;
     Context ct;
     DatabaseHandle db;
+    String idSick;
     int lastVisibleItem = 0;
     private int lastY = 0;
     View v;
@@ -51,6 +59,7 @@ public class Sick_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          v = inflater.inflate(R.layout.fragment_sick_, container, false);
+        arrcata = new ArrayList<>();
         initView();
 
         return v;
@@ -68,8 +77,13 @@ public class Sick_Fragment extends Fragment {
         List<String> categories = new ArrayList<String>();
         if(!db.isCataloSickEmpty()){
             Catalo cata = db.getListCataloById(Constant.LIST_CATALO_SICK);
+            
             RealmList<CataloModel> list = cata.getListCatalo();
             for (int i =0; i <list.size();i++){
+                CataloModel model = new CataloModel();
+                model.setName(list.get(i).getName());
+                model.setId(list.get(i).getId());
+                arrcata.add(model);
                 categories.add(list.get(i).getName());
             }
 
@@ -83,7 +97,27 @@ public class Sick_Fragment extends Fragment {
 
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
+        spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String text = categories.get(i);
+                
+                
+                for (int j =0;j<arrcata.size();j++){
+                    if(arrcata.get(j).getName().equals(text)){
 
+                        idSick = arrcata.get(j).getId();
+                        loadPage(1);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
 
@@ -102,44 +136,46 @@ public class Sick_Fragment extends Fragment {
                 startActivity(it);
             }
         });
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+    }
+
+    private void loadPage(int page) {
+        if(page==1){
+            arr.clear();
+        }
+        adapter.notifyDataSetChanged();
+        Map<String, String> map = new HashMap<>();
+        map.put("page",page+"");
+        map.put("type",idSick);
+        Response.Listener<String> response = new Response.Listener<String>() {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
+            public void onResponse(String response) {
+                Log.d("RESPONSE_SICK",response);
+
+//                    JSONArray ja = new JSONArray(response);
+//
+//                    for (int i = 0; i<ja.length();i++){
+//                        JSONObject jo = ja.getJSONObject(i);
+//                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+//                        Sick_Construct pill = new Sick_Construct();
+//                        pill.setName(product.getString(JsonConstant.NAME));
+//                        pill.setHtuse(product.getString(JsonConstant.INTERAC));
+//                        pill.setId(product.getString(JsonConstant.ID));
+//                        JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+//                        pill.setPrice(price.getInt(JsonConstant.MONEY));
+//                        pill.setCmt(product.getInt(JsonConstant.COMMENT));
+//                        pill.setLike(product.getInt(JsonConstant.LIKE));
+//                        pill.setStar(product.getDouble(JsonConstant.STAR));
+//                        pill.setOthername(product.getString(JsonConstant.PRODUCER));
+//                        arr.add(pill);
+//
+//                    }
+//                    adapter.notifyDataSetChanged();
 
             }
+        };
+        Utils.PostServer(getActivity(), ServerPath.LIST_SICK,map,response);
 
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
-                int top = 0;
-                if(lv.getChildAt(0) != null){
-                    top = lv.getChildAt(0).getTop();
-                }
-
-                if(firstVisibleItem > lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_DOWN);
-                    ct.sendBroadcast(it);
-                }else if(firstVisibleItem < lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_UP);
-                    ct.sendBroadcast(it);
-                }else{
-                    if(top < lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_DOWN);
-                        ct.sendBroadcast(it);
-                    }else if(top > lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_UP);
-                        ct.sendBroadcast(it);
-                    }
-                }
-
-                lastVisibleItem = firstVisibleItem;
-                lastY = top;
-
-            }
-        });
     }
     @Override
     public void onResume() {
