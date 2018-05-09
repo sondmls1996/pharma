@@ -33,7 +33,7 @@ import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.JsonConstant;
-import app.pharma.com.pharma.Model.Pill_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -172,7 +172,8 @@ public class Pill_Fragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getActivity(), Detail.class);
                 it.putExtra("key","pill");
-
+                it.putExtra("id", arr.get(i).getId());
+                it.putExtra("images",arr.get(i).getImage());
                 startActivity(it);
             }
         });
@@ -205,14 +206,16 @@ public class Pill_Fragment extends Fragment {
                         JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
                         Pill_Constructor pill = new Pill_Constructor();
                         pill.setName(product.getString(JsonConstant.NAME));
-                        pill.setHtuse(product.getString(JsonConstant.INTERAC));
+                        pill.setHtuse(product.getString(JsonConstant.DESCRI));
                         pill.setId(product.getString(JsonConstant.ID));
                           JSONObject price = product.getJSONObject(JsonConstant.PRICE);
                         pill.setPrice(price.getInt(JsonConstant.MONEY));
                         pill.setCmt(product.getInt(JsonConstant.COMMENT));
                         pill.setLike(product.getInt(JsonConstant.LIKE));
                         pill.setStar(product.getDouble(JsonConstant.STAR));
-                        pill.setOthername(product.getString(JsonConstant.PRODUCER));
+                        JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                        pill.setImage(Image.toString());
+                        pill.setOthername(product.getString(JsonConstant.COMPANY));
                         arr.add(pill);
 
                     }

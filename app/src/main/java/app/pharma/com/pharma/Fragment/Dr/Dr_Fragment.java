@@ -31,7 +31,7 @@ import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
-import app.pharma.com.pharma.Model.Dr_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Dr_Constructor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -96,6 +96,7 @@ public class Dr_Fragment extends Fragment {
 
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
+        spiner.setSelection(0);
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -104,7 +105,7 @@ public class Dr_Fragment extends Fragment {
                     if(arrCata.get(j).getName().equals(text)){
 
                         idDr = arrCata.get(j).getId();
-                      loadPage(1);
+                         loadPage(1);
                         break;
                     }
                 }

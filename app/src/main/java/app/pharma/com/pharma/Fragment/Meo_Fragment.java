@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import app.pharma.com.pharma.Adapter.List_Meo_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Meo_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Meo_Constructor;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Infor_Meo;
 

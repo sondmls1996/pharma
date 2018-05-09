@@ -6,17 +6,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.volley.Response;
+import com.squareup.picasso.Downloader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.JsonConstant;
+import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Detail.Order;
 import me.relex.circleindicator.CircleIndicator;
 
@@ -84,7 +97,30 @@ public class Pill_Fragment_Detail extends Fragment {
             ln.addView(rowView);
 
         }
+
+        loadData();
+
     }
+
+    private void loadData() {
+        Map<String,String> map = new HashMap<>();
+        map.put("id", Detail.id);
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jo = new JSONObject(response);
+                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Utils.PostServer(getActivity(), ServerPath.DETAIL_PILL,map,response);
+    }
+
 
     public void checkHearth(){
         if(like){

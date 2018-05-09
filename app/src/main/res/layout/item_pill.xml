@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-
+                android:id="@+id/img_pill"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_pill" />
 
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/rl_img"
+             android:layout_toRightOf="@+id/rl_img"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -62,9 +62,9 @@
                 android:layout_weight="1"
                 android:maxLength="35"
                 android:id="@+id/decrip_pill"
-                android:text="Điều trị cảm cúm, ho khan"
+                android:text="Điều trị cảm cúm,sdsdsd sadasd asda sdasdasdas daasda sdasdasd ho khan"
                 android:textColor="@color/gray"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
           <RelativeLayout
               android:layout_width="wrap_content"

@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-import app.pharma.com.pharma.Model.Pharma_Constructor;
-import app.pharma.com.pharma.Model.Pill_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.R;
 
 /**

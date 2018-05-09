@@ -15,6 +15,18 @@
     <string name="pharma">Nhà thuốc</string>
     <string name="meo">Mẹo vặt</string>
     //init
+    <string name="how_to_use_pill"><Data>
+<![CDATA[
+			<b>Hướng dẫn sử dụng:</b> <br>%1$s <br> <br>
+       		<b>Định nghĩa chỉ tiêu:&#160;</b> <br>%2$s <br><br>
+         	<b>Cách đánh giá:&#160;</b> <br>%3$s <br><br>
+         	<b>Quy mô biểu đồ:&#160;</b> <br>%4$s <br><br>
+         	<b>Định kỳ cập nhật số liệu:&#160;</b> <br>%5$s <br><br>
+         	<b>Bình luận:&#160;</b> <br>%6$s <br><br>
+        ]]>
+</Data></string>
+
+    <string name="people_cmt">%1$s người đã nhận xét về %2$s này</string>
     <string name="list_pharma">Danh sách nhà thuốc</string>
     <string name="map_pharma">Bản đồ nhà thuốc</string>
     <string name="focus_news">Tin nổi bật</string>

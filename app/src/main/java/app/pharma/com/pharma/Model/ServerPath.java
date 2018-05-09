@@ -28,6 +28,16 @@ public class ServerPath {
 
     public static String CATALO_PILL_INTRO = "listIngredient";
 
+    public static String BUY_NOW = "buyNow";
+
+     public static String LIKE_PILL = "addFavorite";
+
+     public static String LIST_LIKE_PILL = "listFavorite";
+
+     public static String COMMENT_PILL = "addRating";
+
+     public static String FILLTER_PILL = "filterAPI";
+
     //hospital
 
     public static String LIST_HOSPITAL = "listHospital";

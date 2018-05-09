@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import app.pharma.com.pharma.Adapter.Like_Adapter;
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Like_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Like_Constructor;
 import app.pharma.com.pharma.R;
 
 public class Care_Activity extends AppCompatActivity {

@@ -16,6 +16,10 @@ import android.widget.Spinner;
 
 import com.android.volley.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,7 @@ import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.Model.Utils;
@@ -120,19 +125,13 @@ public class Sick_Fragment extends Fragment {
         });
 
 
-
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
-        arr.add(new Sick_Construct());
         adapter.notifyDataSetChanged();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getActivity(), Detail.class);
                 it.putExtra("key","sick");
-
+                it.putExtra("id", arr.get(i).getId());
                 startActivity(it);
             }
         });
@@ -152,25 +151,31 @@ public class Sick_Fragment extends Fragment {
             public void onResponse(String response) {
                 Log.d("RESPONSE_SICK",response);
 
-//                    JSONArray ja = new JSONArray(response);
-//
-//                    for (int i = 0; i<ja.length();i++){
-//                        JSONObject jo = ja.getJSONObject(i);
-//                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-//                        Sick_Construct pill = new Sick_Construct();
-//                        pill.setName(product.getString(JsonConstant.NAME));
-//                        pill.setHtuse(product.getString(JsonConstant.INTERAC));
-//                        pill.setId(product.getString(JsonConstant.ID));
-//                        JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-//                        pill.setPrice(price.getInt(JsonConstant.MONEY));
-//                        pill.setCmt(product.getInt(JsonConstant.COMMENT));
-//                        pill.setLike(product.getInt(JsonConstant.LIKE));
-//                        pill.setStar(product.getDouble(JsonConstant.STAR));
-//                        pill.setOthername(product.getString(JsonConstant.PRODUCER));
-//                        arr.add(pill);
-//
-//                    }
-//                    adapter.notifyDataSetChanged();
+                JSONArray ja = null;
+                try {
+                    ja = new JSONArray(response);
+                    for (int i = 0; i<ja.length();i++){
+                        JSONObject jo = ja.getJSONObject(i);
+                        JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
+                        Sick_Construct sick = new Sick_Construct();
+                        sick.setName(product.getString(JsonConstant.NAME));
+                        sick.setDescri(product.getString(JsonConstant.DESCRI));
+                        sick.setId(product.getString(JsonConstant.ID));
+                        sick.setImage(product.getString(JsonConstant.IMAGE));
+                        JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
+                        sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
+                     //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
+                        sick.setLike(product.getInt(JsonConstant.LIKE));
+                        sick.setDate(product.getLong(JsonConstant.TIME));
+                        arr.add(sick);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                    adapter.notifyDataSetChanged();
 
             }
         };
@@ -179,9 +184,9 @@ public class Sick_Fragment extends Fragment {
     }
     @Override
     public void onResume() {
-        Intent it = new Intent(Constant.SCROLL_LV);
-        it.putExtra("action",Constant.ACTION_UP);
-        ct.sendBroadcast(it);
+//        Intent it = new Intent(Constant.SCROLL_LV);
+//        it.putExtra("action",Constant.ACTION_UP);
+//        ct.sendBroadcast(it);
         super.onResume();
 
     }

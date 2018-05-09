@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Pharma_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
 import app.pharma.com.pharma.R;
 
 /**

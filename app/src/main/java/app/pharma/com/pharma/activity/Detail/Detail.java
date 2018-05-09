@@ -21,7 +21,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     Class fragment;
     FrameLayout fragDetail;
     public static String key = "";
-
+    public static String id = "";
     TextView tv_left, tv_right;
     TextView tvTitle;
     ImageView imgBack;
@@ -33,6 +33,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
         Intent it = getIntent();
         if(it.getExtras()!=null){
             key = it.getExtras().getString("key");
+            id = it.getExtras().getString("id");
         }
 
 

@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-
+                android:id="@+id/img_sick"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_sick" />
 
@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="Viêm mũi dị ứng"
                 android:textColor="@color/blue"
+                android:id="@+id/name_sick"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -48,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:id="@+id/decrip_sick"
                 android:text="Đây là căn bệnh phổ biến nhất hiện nay ..."
                 android:textColor="@color/gray"
                 android:textSize="12sp"
@@ -57,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tai - mũi - họng"
-
+                android:id="@+id/cata_sick_text"
                 android:textColor="@color/gray"
                 android:textSize="10sp"
                 android:textStyle="bold" />
@@ -76,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="end"
-
+                android:id="@+id/date_sick"
                 android:text="12/05/2018"
                 android:textColor="@color/gray"
                 android:textSize="10sp" />

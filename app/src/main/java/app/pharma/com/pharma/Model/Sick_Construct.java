@@ -7,23 +7,29 @@ package app.pharma.com.pharma.Model;
 public class Sick_Construct {
     String id;
     String name;
-    String link;
+    String image;
     String catalo;
-    String date;
+    long date;
     int like;
     int cmt;
-
+    String descri;
     public Sick_Construct() {
     }
 
-    public Sick_Construct(String id, String name, String link, String catalo, String date, int like, int cmt) {
-        this.id = id;
-        this.name = name;
-        this.link = link;
-        this.catalo = catalo;
-        this.date = date;
-        this.like = like;
-        this.cmt = cmt;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescri() {
+        return descri;
+    }
+
+    public void setDescri(String descri) {
+        this.descri = descri;
     }
 
     public String getId() {
@@ -42,13 +48,7 @@ public class Sick_Construct {
         this.name = name;
     }
 
-    public String getLink() {
-        return link;
-    }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
 
     public String getCatalo() {
         return catalo;
@@ -58,11 +58,11 @@ public class Sick_Construct {
         this.catalo = catalo;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

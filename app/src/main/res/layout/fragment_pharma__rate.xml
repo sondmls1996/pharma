@@ -70,7 +70,7 @@
 
                 android:id="@+id/txt_de_comment"
                 android:textSize="12sp"
-                android:text="20 người đã nhận xét về nhà thuốc này"/>
+                android:text=""/>
 
         </LinearLayout>
                <View

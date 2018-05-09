@@ -17,6 +17,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -35,6 +36,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 
 import app.pharma.com.pharma.R;
@@ -66,7 +69,12 @@ public class Utils {
 
     public Utils() {
     }
-
+    public static String convertTimestampToDate(long timestamp){
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        cal.setTimeInMillis(timestamp * 1000L);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
+    }
     private static final float BLUR_RADIUS = 25f;
 
     public static void PostServer(Context ct, String link, Map<String, String> map,

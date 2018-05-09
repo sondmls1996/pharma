@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-import app.pharma.com.pharma.Model.Meo_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Meo_Constructor;
 import app.pharma.com.pharma.R;
 
 /**

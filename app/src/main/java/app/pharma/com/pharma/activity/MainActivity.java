@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CardView cv;
     Menu menu;
     Resources r;
+    View headerview;
     AppBarLayout appbar;
     NavigationView nav;
     ImageView img_close;
@@ -142,14 +143,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nav = findViewById(R.id.nav_view);
         cv = (CardView)findViewById(R.id.cv_bot);
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        View headerview = nav.getHeaderView(0);
+         headerview = nav.getHeaderView(0);
         avatar = headerview.findViewById(R.id.img_avt);
         avatar2 = headerview.findViewById(R.id.img_avtbg);
         header_background = headerview.findViewById(R.id.header_bg);
 
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
-        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_background);
+
 
         imgnav = (ImageView)findViewById(R.id.img_nav);
         img_pill = (ImageView)findViewById(R.id.pill_image);
@@ -406,6 +405,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(it3);
                 break;
             case R.id.log_out:
+                if(Utils.isLogin()){
+                    db.clearUserData();
+                }
                 Intent it4 = new Intent(getApplicationContext(),Login.class);
                 startActivity(it4);
                 break;
@@ -451,7 +453,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Common.context = this;
-
+        if(Utils.isLogin()){
+            Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
+            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
+            Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_background);
+        }else{
+            Picasso.with(getApplicationContext()).load(R.drawable.laucher_white_1).transform(new TransImage()).into(avatar);
+            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
+            Picasso.with(getApplicationContext()).load(R.color.white).transform(new BlurImagePicasso()).into(header_background);
+        }
     }
 
     private void showDialogFillter() {
