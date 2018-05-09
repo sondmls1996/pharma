@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.R;
 
 /**
@@ -22,12 +23,12 @@ import app.pharma.com.pharma.R;
 public class Slide_Image_Adapter extends PagerAdapter {
 
 
-    private ArrayList<Integer> IMAGES;
+    private ArrayList<String> IMAGES;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public Slide_Image_Adapter(Context context,ArrayList<Integer> IMAGES) {
+    public Slide_Image_Adapter(Context context,ArrayList<String> IMAGES) {
         this.context = context;
         this.IMAGES=IMAGES;
         inflater = LayoutInflater.from(context);
@@ -53,7 +54,7 @@ public class Slide_Image_Adapter extends PagerAdapter {
 
 
         Picasso.with(Common.context)
-                .load(IMAGES.get(position))
+                .load(ServerPath.ROOT_URL+IMAGES.get(position))
                 .into(imageView);
 
         view.addView(imageLayout, 0);

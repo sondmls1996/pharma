@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.squareup.picasso.Downloader;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,11 +44,17 @@ public class Pill_Fragment_Detail extends Fragment {
     ImageView hearth;
     boolean like = false;
     View v;
+    String product_id;
+    double star_count = 0;
     Slide_Image_Adapter adapter;
+    TextView tv_title;
+    LinearLayout ln_star;
+    TextView tv_like,tv_comment;
+    TextView tv_content;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES= {R.drawable.pharma_img,R.drawable.img_dr,R.drawable.img_sick};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
+    private static Integer[] IMAGES;
+    private ArrayList<String> ImagesArray = new ArrayList<>();
     public Pill_Fragment_Detail() {
         // Required empty public constructor
     }
@@ -64,9 +72,15 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void init() {
+
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         hearth = (ImageView)v.findViewById(R.id.img_hearth);
         ln_buy = v.findViewById(R.id.ln_buynow);
+        tv_title = v.findViewById(R.id.title_detail_pill);
+        tv_comment = v.findViewById(R.id.txt_comment);
+        tv_like = v.findViewById(R.id.txt_like);
+        tv_content = v.findViewById(R.id.tv_content);
+
         ln_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +94,7 @@ public class Pill_Fragment_Detail extends Fragment {
                 checkHearth();
             }
         });
-        for(int i=0;i<IMAGES.length;i++)
-            ImagesArray.add(IMAGES[i]);
+
         adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
         mPager = (ViewPager) v.findViewById(R.id.slide_image);
@@ -111,7 +124,24 @@ public class Pill_Fragment_Detail extends Fragment {
                 try {
                     JSONObject jo = new JSONObject(response);
                     JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                    tv_title.setText(product.getString(JsonConstant.NAME));
+                    product_id = product.getString(JsonConstant.ID);
+                    JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
+                    tv_content.setText(getActivity().getResources().getString(R.string.how_to_use_pill,
+                            product.getString(JsonConstant.USAGE),
+                            product.getString(JsonConstant.RECOMENT),
+                            product.getString(JsonConstant.INGREINFO),
+                            product.getString(JsonConstant.STORAGE)
+                    ));
+                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                    for (int j = 0; j<images.length();j++){
+                        ImagesArray.add(images.getString(j));
+                    }
+                    tv_like.setText(product.getString(JsonConstant.LIKE));
+                    tv_comment.setText(product.getString(JsonConstant.COMMENT));
+                    star_count = product.getDouble(JsonConstant.STAR);
 
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
