@@ -30,6 +30,7 @@ public class JsonConstant {
      public static String PHARMACIS = "Pharmacist";
      public static String EXPRIE = "experience";
      public  static String HOSPITAL = "hospital";
+     public static String OTHER_PRD = "otherProduct";
 
     public static String DISEASE = "Disease";
     public static String TIME = "time";

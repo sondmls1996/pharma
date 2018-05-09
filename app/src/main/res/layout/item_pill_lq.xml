@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="80dp"
-
+            android:id="@+id/img_pill_lq"
             android:src="@drawable/img_pill"
             android:scaleType="centerCrop"
             />
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Dầu Thái Dương"
             android:textColor="@color/blue"
+            android:id="@+id/name_pill_lq"
             android:textSize="14sp"
             android:maxLength="20"
             android:textStyle="bold" />
@@ -45,17 +46,20 @@
             android:layout_height="wrap_content"
             android:maxLength="20"
             android:text="Công ty SUN"
+            android:id="@+id/company_lq"
             android:textColor="@color/gray"
             android:textStyle="bold" />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/hafp_star"
-            ></ImageView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/ln_star_pill_lq">
+
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:id="@+id/price_pill_lq"
             android:textColor="@color/red"
             android:textSize="14sp"
             android:textStyle="bold"

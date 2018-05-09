@@ -40,7 +40,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static final Integer[] IMAGES= {R.drawable.pharma_img,R.drawable.img_dr,R.drawable.img_sick};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
+    private ArrayList<String> ImagesArray = new ArrayList<String>();
     public Pharma_Detail_Fragment() {
 
         // Required empty public constructor
@@ -62,8 +62,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
         private void init() {
 
             ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
-            for(int i=0;i<IMAGES.length;i++)
-                ImagesArray.add(IMAGES[i]);
+
             adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
             mPager = (ViewPager) v.findViewById(R.id.slide_image);

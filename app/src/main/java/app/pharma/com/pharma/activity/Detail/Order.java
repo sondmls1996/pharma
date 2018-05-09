@@ -27,7 +27,7 @@ public class Order extends AppCompatActivity {
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static final Integer[] IMAGES= {R.drawable.pharma_img,R.drawable.img_dr,R.drawable.img_sick};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
+    private ArrayList<String> ImagesArray = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,7 @@ public class Order extends AppCompatActivity {
     private void init() {
 
 
-        for(int i=0;i<IMAGES.length;i++)
-            ImagesArray.add(IMAGES[i]);
+
         adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
         mPager = (ViewPager) findViewById(R.id.slide_image);
