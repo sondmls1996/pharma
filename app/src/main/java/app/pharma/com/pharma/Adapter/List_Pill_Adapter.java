@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.R;
@@ -50,7 +51,7 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v =  inflater.inflate(R.layout.item_pill, null);
         }
-        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
+
         TextView tv_title = v.findViewById(R.id.title_pill);
         TextView decr_pill = v.findViewById(R.id.decrip_pill);
         TextView compa_pill = v.findViewById(R.id.comppill);
@@ -60,7 +61,7 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
         TextView tv_comment = v.findViewById(R.id.txt_comment);
         tv_title.setText(pill.getName());
         decr_pill.setText(pill.getHtuse()+"...");
-        price.setText(format.format((pill.getPrice())));
+        price.setText(Constant.format.format((pill.getPrice())));
         tv_like.setText(pill.getLike()+"");
         tv_comment.setText(pill.getCmt()+"");
         Double D = pill.getStar();

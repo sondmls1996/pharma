@@ -29,6 +29,7 @@ import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
@@ -122,6 +123,7 @@ public class Pill_Fragment_Detail extends Fragment {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d("RESPONSE_DETAIL",response);
                     JSONObject jo = new JSONObject(response);
                     JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
                     tv_title.setText(product.getString(JsonConstant.NAME));
@@ -195,9 +197,23 @@ public class Pill_Fragment_Detail extends Fragment {
                 TextView tv_name_lq  = rowView.findViewById(R.id.name_pill_lq);
                 TextView tv_company_lq = rowView.findViewById(R.id.company_lq);
                 TextView price_lq = rowView.findViewById(R.id.price_pill_lq);
+                Double d = product.getStar();
+                int s = Integer.valueOf(d.intValue());
                 Picasso.with(getActivity()).load(ServerPath.ROOT_URL+product.getImage()).into(img_pill_lq);
+                price_lq.setText(Constant.format.format(product.getPrice()));
                 tv_name_lq.setText(product.getName());
                 tv_company_lq.setText(product.getCompany());
+
+                LinearLayout ln_star_lq = rowView.findViewById(R.id.ln_star_pill_lq);
+                ln_star_lq.removeAllViews();
+                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+// insert into main view
+                for(int j = 0; j<s;j++){
+                    View star = vi.inflate(R.layout.star, null);
+
+                    ln_star_lq.addView(star, 0, new ViewGroup.LayoutParams(15, 15));
+                }
 
 
                 ln.addView(rowView);

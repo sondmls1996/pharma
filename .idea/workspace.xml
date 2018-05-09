@@ -12,7 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b84c60f-80bf-4cf7-8241-c4ca67b4247d" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constructor/Other_Product_Constuctor.java" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
@@ -22,11 +21,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Detail/Order.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Detail/Order.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constant.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constant.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_pill_lq.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_pill_lq.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,7 +61,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-206">
-              <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+              <caret line="19" column="14" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -73,13 +70,13 @@
       <file leaf-file-name="Pill_Fragment_Detail.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="201" column="0" lean-forward="true" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+            <state relative-caret-position="203">
+              <caret line="179" column="28" lean-forward="false" selection-start-line="179" selection-start-column="28" selection-end-line="179" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3139#3140#0" expanded="true" />
                 <element signature="e#3184#3185#0" expanded="true" />
-                <element signature="e#4316#4657#0" expanded="true" />
+                <element signature="e#3229#3230#0" expanded="true" />
+                <element signature="e#4416#4757#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,8 +85,21 @@
       <file leaf-file-name="item_pill_lq.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_pill_lq.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+            <state relative-caret-position="203">
+              <caret line="62" column="42" lean-forward="true" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_pill__fragment__detail.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_pill__fragment__detail.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -111,8 +121,8 @@
       <file leaf-file-name="Other_Product_Constuctor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constructor/Other_Product_Constuctor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="39" lean-forward="false" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+            <state relative-caret-position="101">
+              <caret line="37" column="18" lean-forward="false" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
               <folding>
                 <element signature="e#268#269#0" expanded="true" />
                 <element signature="e#295#296#0" expanded="true" />
@@ -146,8 +156,8 @@
       <file leaf-file-name="Dr_Fragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="184" column="60" lean-forward="true" selection-start-line="184" selection-start-column="60" selection-end-line="184" selection-end-column="60" />
+            <state relative-caret-position="-206">
+              <caret line="184" column="60" lean-forward="false" selection-start-line="184" selection-start-column="60" selection-end-line="184" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -156,9 +166,21 @@
       <file leaf-file-name="List_Pill_Adapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+            <state relative-caret-position="101">
+              <caret line="79" column="114" lean-forward="false" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="114" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constant.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constant.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="143">
+              <caret line="13" column="18" lean-forward="false" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -171,30 +193,6 @@
               <folding>
                 <element signature="e#27292#27293#0" expanded="true" />
                 <element signature="e#27325#27326#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Pharma_Detail_Fragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-295">
-              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-              <folding>
-                <element signature="e#1439#1447#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Order.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Detail/Order.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding>
-                <element signature="e#1026#1034#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -221,8 +219,8 @@
       <find>usage</find>
       <find>recom</find>
       <find>người đã nhận xét về nhà thuốc này</find>
-      <find>otherProduct</find>
       <find>otherPrd</find>
+      <find>otherProduct</find>
       <find>ln</find>
     </findStrings>
   </component>
@@ -2199,12 +2197,13 @@
         <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Detail/Order.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constructor/Other_Product_Constuctor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_pill_lq.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constant.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_pill_lq.xml" />
       </list>
     </option>
   </component>
@@ -2321,7 +2320,7 @@
     <property name="settings.editor.splitter.proportion" value="0.23212537" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../GIT_CHAT" />
     <property name="device.picker.selection" value="127.0.0.1:62001" />
-    <property name="SearchEverywhereHistoryKey" value="Consta&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java&#10;str&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/res/values/strings.xml&#10;Pill_Ada&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java&#10;PillD&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Data&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Model/Database/DatabaseHandle.java&#10;Pill_Frag&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java&#10;Pill_Deta&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;rate&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate&#10;Detai&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/activity/Detail/Detail.java&#10;Pill&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java&#10;Fragmen&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java&#10;Detail&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Detail.Detail&#10;Dr&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Dr.Dr_Fragment&#10;star&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/res/layout/star.xml&#10;Sick_&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Sick.Sick_Fragment&#10;LIST_PI&#9;PSI&#9;JAVA://app.pharma.com.pharma.Adapter.List_Pill_Adapter&#10;W&#9;PSI&#9;JAVA://app.pharma.com.pharma.Wellcome&#10;Ser&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.ServerPath" />
+    <property name="SearchEverywhereHistoryKey" value="fragmen&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/res/layout/fragment_pill__fragment__detail.xml&#10;Consta&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.Constant&#10;Lis&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java&#10;str&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/res/values/strings.xml&#10;Pill_Ada&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java&#10;PillD&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Data&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Model/Database/DatabaseHandle.java&#10;Pill_Frag&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java&#10;Pill_Deta&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;rate&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate&#10;Detai&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/activity/Detail/Detail.java&#10;Pill&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java&#10;Fragmen&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java&#10;Detail&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Detail.Detail&#10;Dr&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Dr.Dr_Fragment&#10;star&#9;FILE&#9;file://D:/AndroidProject/clone/pharma/app/src/main/res/layout/star.xml&#10;Sick_&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Sick.Sick_Fragment&#10;LIST_PI&#9;PSI&#9;JAVA://app.pharma.com.pharma.Adapter.List_Pill_Adapter&#10;W&#9;PSI&#9;JAVA://app.pharma.com.pharma.Wellcome&#10;Ser&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.ServerPath" />
     <property name="ToolWindowDocumentation.ShowToolbar" value="false" />
     <property name="DEBUGGABLE_DEVICE" value="samsung-nexus-127.0.0.1:62001" />
     <property name="DEBUGGABLE_PROCESS" value="app.pharma.com.pharma" />
@@ -2514,7 +2513,7 @@
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1426146" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08658744" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -2560,7 +2559,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java</url>
-          <line>122</line>
+          <line>123</line>
           <properties method="onResponse">
             <option name="EMULATED" value="true" />
           </properties>
@@ -2744,17 +2743,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_pill__fragment__detail.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="51" column="20" lean-forward="false" selection-start-line="51" selection-start-column="20" selection-end-line="51" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/Slide_Image_Adapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -2778,7 +2766,7 @@
         <state relative-caret-position="117">
           <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding>
-            <element signature="e#1026#1034#0" expanded="true" />
+            <element signature="e#1026#1034#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2804,34 +2792,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="184" column="60" lean-forward="true" selection-start-line="184" selection-start-column="60" selection-end-line="184" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-206">
-          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+          <caret line="19" column="14" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="13" column="18" lean-forward="false" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="32" column="53" lean-forward="false" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Constructor/Other_Product_Constuctor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="39" lean-forward="false" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+        <state relative-caret-position="101">
+          <caret line="37" column="18" lean-forward="false" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
           <folding>
             <element signature="e#268#269#0" expanded="true" />
             <element signature="e#295#296#0" expanded="true" />
@@ -2861,18 +2851,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Adapter/List_Pill_Adapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="32" column="53" lean-forward="false" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
+        <state relative-caret-position="101">
+          <caret line="79" column="114" lean-forward="false" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-206">
+          <caret line="184" column="60" lean-forward="false" selection-start-line="184" selection-start-column="60" selection-end-line="184" selection-end-column="60" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_pill_lq.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        <state relative-caret-position="203">
+          <caret line="62" column="42" lean-forward="true" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_pill__fragment__detail.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -2882,13 +2891,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="201" column="0" lean-forward="true" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+        <state relative-caret-position="203">
+          <caret line="179" column="28" lean-forward="false" selection-start-line="179" selection-start-column="28" selection-end-line="179" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3139#3140#0" expanded="true" />
             <element signature="e#3184#3185#0" expanded="true" />
-            <element signature="e#4316#4657#0" expanded="true" />
+            <element signature="e#3229#3230#0" expanded="true" />
+            <element signature="e#4416#4757#0" expanded="true" />
           </folding>
         </state>
       </provider>
