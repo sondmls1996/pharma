@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-
+                android:id="@+id/img_pharma"
                 android:scaleType="centerCrop"
                 android:src="@drawable/pharma_img" />
 
@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLength="20"
+                android:id="@+id/name_pharma"
                 android:textSize="16sp"
                 android:text="Nhà thuốc Duy Tuấn"
                 android:textColor="@color/blue"
@@ -53,6 +54,7 @@
                 android:maxLength="25"
                 android:text="123 Đê La Thành - Hà Nội"
                 android:layout_weight="1"
+                android:id="@+id/adr_pharma"
                 android:textColor="@color/gray"
                 android:textSize="13sp"
                 android:textStyle="bold" />
@@ -61,9 +63,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="bottom"
-                android:text="Cách 1km"
+
                 android:textColor="@color/red"
                 android:textStyle="bold"
+                android:id="@+id/distance_pharma"
                 android:textSize="10sp" />
 
 
@@ -76,11 +79,13 @@
             android:gravity="right"
             android:orientation="vertical">
 
-            <ImageView
+            <LinearLayout
                 android:layout_marginTop="5dp"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/hafp_star"></ImageView>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:id="@+id/ln_star_pharma"></LinearLayout>
 
        <RelativeLayout
            android:layout_width="wrap_content"

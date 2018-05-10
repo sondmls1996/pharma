@@ -6,20 +6,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
+import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
+import app.pharma.com.pharma.Model.JsonConstant;
+import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 /**
@@ -33,7 +44,7 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
     Context ct;
     MapView mMapView;
     Class fragment;
-
+    int page = 1;
     TextView tv_list;
     TextView tv_map;
     int lastVisibleItem = 0;
@@ -65,8 +76,11 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
         tv_map = v.findViewById(R.id.pharma_map);
         tv_map.setOnClickListener(this);
         tv_list.setOnClickListener(this);
+
 //
     }
+
+
 
 
     public void ReplaceFrag(Class fragmentClass){

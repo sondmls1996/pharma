@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 
@@ -48,6 +49,7 @@ public class Dr_Fragment extends Fragment {
     Context ct;
     int lastVisibleItem = 0;
     Spinner spiner;
+    TextView tv_null;
     String idDr;
     DatabaseHandle db;
     private int lastY = 0;
@@ -68,7 +70,7 @@ public class Dr_Fragment extends Fragment {
         db = new DatabaseHandle();
         ct = getContext();
         arrCata = new ArrayList<>();
-
+        tv_null = v.findViewById(R.id.txt_null);
         adapter.notifyDataSetChanged();
 
         spiner = (Spinner) v.findViewById(R.id.spin_dr);
@@ -165,7 +167,16 @@ public class Dr_Fragment extends Fragment {
         return v;
     }
 
+    public void isEmpty(boolean empty){
+        if(empty){
+            tv_null.setVisibility(View.VISIBLE);
+        }else{
+            tv_null.setVisibility(View.GONE);
+        }
+    }
+
     private void loadPage(int page) {
+        isEmpty(false);
         if(page==1){
             arr.clear();
         }
@@ -186,18 +197,31 @@ public class Dr_Fragment extends Fragment {
                         JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
                         Dr_Constructor dr = new Dr_Constructor();
                         dr.setName(pharma.getString(JsonConstant.NAME));
-                        dr.setLink(pharma.getString(JsonConstant.AVATAR));
+                        dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
                         dr.setRate(pharma.getDouble(JsonConstant.STAR));
                         dr.setId(pharma.getString(JsonConstant.ID));
                         dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
+                        dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
+                        dr.setAge(pharma.getString(JsonConstant.AGE));
                          arr.add(dr);
 
                     }
+                    if(arr.size()>0){
+                        isEmpty(false);
+                    }else{
+                        isEmpty(true);
+                    }
                     adapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
-
+                if(arr.size()>0){
+                    isEmpty(false);
+                }else{
+                    isEmpty(true);
+                }
             }
         };
         Utils.PostServer(getActivity(), ServerPath.LIST_DR,map,response);

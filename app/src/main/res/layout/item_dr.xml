@@ -22,6 +22,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="80dp"
+                android:id="@+id/img_dr"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_dr" />
 
@@ -41,12 +42,12 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_name"
+                    android:id="@+id/text_name_dr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:maxLength="24"
-                    android:text="Nguyễn văn Tư"
+
                     android:textColor="@color/blue"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -65,8 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="20"
-                android:text="23 tuổi"
-                android:id="@+id/tv_age"
+
+                android:id="@+id/tv_age_dr"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -75,14 +76,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="20"
-                android:text="5 năm công tác"
-                android:id="@+id/tv_work_age"
+
+                android:id="@+id/tv_work_dr_age"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_ck"
+                android:id="@+id/tv_dr_ck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chuyên khoa thần kinh"
@@ -93,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_hospital"
+                android:id="@+id/tv_dr_hospital"
                 android:maxLength="20"
                 android:text="Bệnh viện Bạch Mai"
                 android:textColor="@color/gray"

@@ -6,7 +6,7 @@ package app.pharma.com.pharma.Model.Constructor;
 
 public class Dr_Constructor {
     String id;
-    String link;
+    String avatar;
     String name;
     String age;
     String work_year;
@@ -27,12 +27,12 @@ public class Dr_Constructor {
         this.id = id;
     }
 
-    public String getLink() {
-        return link;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getName() {

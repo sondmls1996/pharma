@@ -4,6 +4,7 @@ package app.pharma.com.pharma.Fragment.Pharma;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,22 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Response;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
+import app.pharma.com.pharma.Model.JsonConstant;
+import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Detail;
 
@@ -28,6 +39,7 @@ public class Insite_List extends Fragment {
     List_Pharma_Adapter adapter;
     int lastVisibleItem = 0;
     private int lastY = 0;
+    int page = 1;
     ArrayList<Pharma_Constructor> arr;
     View v;
     public Insite_List() {
@@ -50,58 +62,72 @@ public class Insite_List extends Fragment {
         adapter = new List_Pharma_Adapter(getContext(),0,arr);
 
           lv.setAdapter(adapter);
-        arr.add(new Pharma_Constructor());
-        arr.add(new Pharma_Constructor());
-        arr.add(new Pharma_Constructor());
-        arr.add(new Pharma_Constructor());
-        arr.add(new Pharma_Constructor());
-        adapter.notifyDataSetChanged();
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
-                int top = 0;
-                if(lv.getChildAt(0) != null){
-                    top = lv.getChildAt(0).getTop();
-                }
-
-                if(firstVisibleItem > lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_DOWN);
-                    Common.context.sendBroadcast(it);
-                }else if(firstVisibleItem < lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_UP);
-                    Common.context.sendBroadcast(it);
-                }else{
-                    if(top < lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_DOWN);
-                        Common.context.sendBroadcast(it);
-                    }else if(top > lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_UP);
-                        Common.context.sendBroadcast(it);
-                    }
-                }
-                lastVisibleItem = firstVisibleItem;
-                lastY = top;
-
-            }
-        });
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getActivity(), Detail.class);
                 it.putExtra("key","pharma");
-
+                it.putExtra("id",arr.get(i).getId());
                 startActivity(it);
             }
         });
+        getData(page);
+    }
+
+    private void getData(int page) {
+        Log.d("COMMON_LAT",Common.lat+"");
+        if(Common.lat!=0&&Common.lng!=0){
+            Map<String, String> map = new HashMap<>();
+            map.put("latGPS", Common.lat+"");
+            map.put("longGPS",Common.lng+"");
+            map.put("page",page+"");
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    initJson(response);
+                }
+            };
+            Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+        }else{
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    initJson(response);
+                }
+            };
+            Utils.GetServer(getActivity(),ServerPath.LIST_PHARMA,response);
+        }
+
+
+
+    }
+
+    private void initJson(String response) {
+        try {
+            JSONArray array = new JSONArray(response);
+            for (int i =0; i<array.length();i++){
+                JSONObject obj = array.getJSONObject(i);
+                JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                Pharma_Constructor pharma = new Pharma_Constructor();
+                pharma.setName(store.getString(JsonConstant.NAME));
+                pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                pharma.setComment(store.getString(JsonConstant.COMMENT));
+                pharma.setAvatar(store.getString(JsonConstant.IMAGE));
+                pharma.setId(store.getString(JsonConstant.ID));
+                pharma.setLike(store.getString(JsonConstant.LIKE));
+                pharma.setRate(store.getDouble(JsonConstant.STAR));
+                JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                pharma.setX(location.getDouble(JsonConstant.LAT));
+                pharma.setY(location.getDouble(JsonConstant.LONG));
+                arr.add(pharma);
+            }
+            adapter.notifyDataSetChanged();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

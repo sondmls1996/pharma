@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -41,6 +42,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import app.pharma.com.pharma.R;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by Vi on 3/22/2018.
@@ -77,6 +80,12 @@ public class Utils {
     }
     private static final float BLUR_RADIUS = 25f;
 
+    public static void GetServer(Context ct,String link,Response.Listener<String> listener){
+        GetCL get = new GetCL(link,listener);
+        RequestQueue que = Volley.newRequestQueue(ct);
+        que.add(get);
+    }
+
     public static void PostServer(Context ct, String link, Map<String, String> map,
                                   Response.Listener<String> listener){
         PostCL post = new PostCL(link,map,listener);
@@ -101,7 +110,7 @@ public class Utils {
 
         return outputBitmap;
     }
-    public static boolean checkNetwork(Context context) {
+    public static boolean isNetworkEnable(Context context) {
         try {
             NetworkInfo info = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
                     .getActiveNetworkInfo();
@@ -116,6 +125,20 @@ public class Utils {
 
         }
         return true;
+    }
+
+    public static boolean isGpsEnable(Context context){
+        LocationManager locationManager = (LocationManager) context
+                .getSystemService(LOCATION_SERVICE);
+
+        // get GPS status
+        boolean checkGPS = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(checkGPS){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public static void loadImagePicasso(String link, ImageView v){

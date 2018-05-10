@@ -59,6 +59,7 @@ import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Service.GetLocationService;
 import app.pharma.com.pharma.activity.Like.Care_Activity;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        if(!Utils.checkNetwork(Common.context)){
+        if(!Utils.isNetworkEnable(Common.context)){
             Utils.dialogNotif(getResources().getString(R.string.no_internet));
         }
 
@@ -440,6 +441,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         unregister();
+        stopService(new Intent(this, GetLocationService.class));
         Log.d("STT","des");
     }
 

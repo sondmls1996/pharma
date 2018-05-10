@@ -30,6 +30,7 @@ public class JsonConstant {
      public static String PHARMACIS = "Pharmacist";
      public static String EXPRIE = "experience";
      public  static String HOSPITAL = "hospital";
+     public static String WORK_YEAR = "workYears";
      public static String OTHER_PRD = "otherProduct";
 
     public static String DISEASE = "Disease";
@@ -37,5 +38,10 @@ public class JsonConstant {
     public static String RECOMENT = "recommendIn";
     public static String INGREINFO = "ingredientIntro";
     public static String STORAGE = "storage";
+    public static String AGE = "age";
+    public static String STORE = "Store";
+    public static String MAP_LOCATION = "mapLocation";
+    public static String LAT = "lat";
+    public static String LONG = "long";
 
 }

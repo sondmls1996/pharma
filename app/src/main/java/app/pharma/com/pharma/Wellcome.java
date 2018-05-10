@@ -1,9 +1,15 @@
 package app.pharma.com.pharma;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,6 +26,7 @@ import app.pharma.com.pharma.Model.GetCL;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
+import app.pharma.com.pharma.Service.GetLocationService;
 import app.pharma.com.pharma.activity.MainActivity;
 import io.realm.RealmList;
 
@@ -27,58 +34,48 @@ public class Wellcome extends AppCompatActivity {
     DatabaseHandle databaseHandle;
     RealmList<CataloModel> list;
     StringBuffer type;
+    LocationManager locationManager;
+    Location loc;
+    boolean canGetLocation = false;
+    double lat;
+    double lng;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wellcome);
         Common.context = this;
         databaseHandle = new DatabaseHandle();
-
-//        if(Utils.checkNetwork(this)){
-//            databaseHandle.clearCataloData();
-//            getCatalo();
-//        }else{
-//            if(!databaseHandle.isCataloEmpty()){
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Intent it = new Intent(getApplicationContext(), MainActivity.class);
-//                        startActivity(it);
-//                        finish();
-//                    }
-//                },4000);
-//            }else{
-//                Utils.dialogNotif("Hãy bật kết nối mạng để tiếp tục");
-//            }
-//        }
+        startService(new Intent(this, GetLocationService.class));
 
     }
 
-    public void checkData(){
-        if(!databaseHandle.isCataloEmpty()){
-          if(databaseHandle.isCataloSickEmpty()){
-              getCataloPill(ServerPath.CATALO_SICK);
-          }else if(databaseHandle.isCataloPillEmpty()){
-              getCataloPill(ServerPath.CATALO_PILL);
-          }else if(databaseHandle.isCataloPillIntroEmpty()){
-              getCataloPill(ServerPath.CATALO_PILL_INTRO);
-          }else if(databaseHandle.isCataloDrEmpty()){
-              getCataloPill(ServerPath.CATALO_DR);
-          }else{
-              new Handler().postDelayed(new Runnable() {
-                  @Override
-                  public void run() {
-                      Intent it = new Intent(getApplicationContext(), MainActivity.class);
-                      startActivity(it);
-                      finish();
-                  }
-              },3000);
-          }
-        }else{
-            if(Utils.checkNetwork(this)){
+    public void checkData() {
+        if (!databaseHandle.isCataloEmpty()) {
+            if (databaseHandle.isCataloSickEmpty()) {
                 getCataloPill(ServerPath.CATALO_SICK);
-            }else{
-            Utils.dialogNotif("Hãy bật kết nối mạng để tiếp tục");
+            } else if (databaseHandle.isCataloPillEmpty()) {
+                getCataloPill(ServerPath.CATALO_PILL);
+            } else if (databaseHandle.isCataloPillIntroEmpty()) {
+                getCataloPill(ServerPath.CATALO_PILL_INTRO);
+            } else if (databaseHandle.isCataloDrEmpty()) {
+                getCataloPill(ServerPath.CATALO_DR);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                }, 3000);
+            }
+        } else {
+            if (Utils.isNetworkEnable(this)) {
+                getCataloPill(ServerPath.CATALO_SICK);
+            } else {
+                Utils.dialogNotif("Hãy bật kết nối mạng để tiếp tục");
             }
         }
 
@@ -86,12 +83,13 @@ public class Wellcome extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
+
         checkData();
         super.onResume();
     }
+
 
     private void getCataloPill(String link) {
         Response.Listener<String> listener = response ->{

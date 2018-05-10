@@ -4,17 +4,25 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.volley.Response;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Detail;
 import me.relex.circleindicator.CircleIndicator;
 
 
@@ -59,15 +67,28 @@ public class Sick_Detail_Fragment extends Fragment {
         mPager.setAdapter(adapter);
         indicator.setViewPager(mPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
-
+        getData();
         LayoutInflater inflater2 = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        for (int i = 0; i < 5; i++){
-            final View rowView = inflater2.inflate(R.layout.item_sick_lq, null);
-            ln.addView(rowView);
-
-        }
+//        for (int i = 0; i < 5; i++){
+//            final View rowView = inflater2.inflate(R.layout.item_sick_lq, null);
+//            ln.addView(rowView);
+//
+//        }
     }
+
+    private void getData() {
+        Map<String,String> map = new HashMap<>();
+        map.put("id", Detail.id);
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("RESPONSE_DETAIL_SICK",response);
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.DETAIL_SICK,map,response);
+    }
+
     public void checkHearth(){
         if(like){
             hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));

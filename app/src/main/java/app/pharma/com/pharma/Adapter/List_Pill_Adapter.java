@@ -25,6 +25,7 @@ import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 /**
@@ -70,7 +71,8 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
         try {
             JSONArray arrImage = new JSONArray(pill.getImage());
             String firstImage = ServerPath.ROOT_URL+arrImage.get(0).toString();
-            Picasso.with(Common.context).load(firstImage).into(imgPill);
+            Utils.loadImagePicasso(firstImage,imgPill);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -84,7 +86,7 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
             for(int i = 0; i<s;i++){
                 View star = vi.inflate(R.layout.star, null);
 
-                insertPoint.addView(star, 0, new ViewGroup.LayoutParams(25, 25));
+                insertPoint.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
             }
 
         }

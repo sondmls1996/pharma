@@ -154,7 +154,7 @@ public class Pill_Fragment_Detail extends Fragment {
                         for(int i = 0; i<s;i++){
                             View star = vi.inflate(R.layout.star, null);
 
-                            insertPoint.addView(star, 0, new ViewGroup.LayoutParams(25, 25));
+                            insertPoint.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
                         }
                         getOtherPrd(jo);
 
@@ -212,7 +212,7 @@ public class Pill_Fragment_Detail extends Fragment {
                 for(int j = 0; j<s;j++){
                     View star = vi.inflate(R.layout.star, null);
 
-                    ln_star_lq.addView(star, 0, new ViewGroup.LayoutParams(15, 15));
+                    ln_star_lq.addView(star, 0, new ViewGroup.LayoutParams(25, 25));
                 }
 
 

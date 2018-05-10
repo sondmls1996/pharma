@@ -6,26 +6,24 @@ package app.pharma.com.pharma.Model.Constructor;
 
 public class Pharma_Constructor {
     String id;
-    String link;
+    String avatar;
     String name;
     String adr;
-    String distance;
+    double x;
+    double y;
     String like;
     String comment;
-    String rate;
+    double rate;
 
     public Pharma_Constructor() {
     }
 
-    public Pharma_Constructor(String id, String link, String name, String adr, String distance, String like, String comment, String rate) {
-        this.id = id;
-        this.link = link;
-        this.name = name;
-        this.adr = adr;
-        this.distance = distance;
-        this.like = like;
-        this.comment = comment;
-        this.rate = rate;
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getId() {
@@ -36,13 +34,7 @@ public class Pharma_Constructor {
         this.id = id;
     }
 
-    public String getLink() {
-        return link;
-    }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
 
     public String getName() {
         return name;
@@ -60,12 +52,20 @@ public class Pharma_Constructor {
         this.adr = adr;
     }
 
-    public String getDistance() {
-        return distance;
+    public double getX() {
+        return x;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 
     public String getLike() {
@@ -84,11 +84,11 @@ public class Pharma_Constructor {
         this.comment = comment;
     }
 
-    public String getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 }
