@@ -149,15 +149,5 @@
         android:layout_height="1dp"
         android:layout_above="@+id/cv_bot"
         ></View>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fb_fill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="60dp"
-        android:layout_marginRight="20dp"
-        app:fabSize="normal"
-        android:src="@drawable/filter"
-        android:background="@color/blue"/>
+
 </RelativeLayout>

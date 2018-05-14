@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="80dp"
-
+            android:id="@+id/img_sick_lq"
             android:src="@drawable/img_sick"
             android:scaleType="centerCrop"
             />
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Viêm khớp"
             android:textColor="@color/blue"
+            android:id="@+id/tv_sick_lq"
             android:textSize="14sp"
             android:maxLength="20"
             android:textStyle="bold" />
@@ -43,6 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/tv_content_lq"
             android:maxLength="25"
             android:text="Đây là căn bệnh nguy hiểm..."
             android:textColor="@color/gray"
@@ -52,6 +54,7 @@
             android:gravity="bottom"
             android:layout_height="match_parent"
             android:maxLength="20"
+            android:id="@+id/tv_cata_sick_lq"
             android:text="Bệnh về khớp"
             android:textColor="@color/gray"
             android:textStyle="bold" />

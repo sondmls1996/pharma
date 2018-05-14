@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
@@ -22,7 +20,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,19 +28,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import app.pharma.com.pharma.Fragment.Dr.Dr_Fragment;
 import app.pharma.com.pharma.Fragment.Meo_Fragment;
@@ -51,10 +44,7 @@ import app.pharma.com.pharma.Fragment.Pharma.Pharma_Fragment;
 import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment;
 import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
-import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
@@ -63,7 +53,6 @@ import app.pharma.com.pharma.Service.GetLocationService;
 import app.pharma.com.pharma.activity.Like.Care_Activity;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
-import io.realm.RealmList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     Class fragment;
@@ -71,11 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_pill;
     ImageView img_sick;
     Spinner spiner;
-    ArrayList<String> arr,arr_tp;
+
     ImageView img_dr;
     ImageView img_pharma;
     ImageView header_background;
     ImageView img_meo;
+
     boolean isAnimated = false;
     TextView tv_pill;
     TextView tv_sick;
@@ -90,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ln_dr;
     RelativeLayout rl_search;
     LinearLayout ln_pharma;
+    int minPrice = 0,maxPrice = 0;
     DatabaseHandle db;
     LinearLayout ln_meo;
     GetScrollBroadcast scroll_broadcast;
@@ -102,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NavigationView nav;
     ImageView img_close;
     ImageView avatar,avatar2;
-    FloatingActionButton fillter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,20 +117,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         title = (TextView)findViewById(R.id.title_main) ;
-        arr = new ArrayList<>();
-        arr_tp = new ArrayList<>();
+
         edSearch = (EditText)findViewById(R.id.ed_search);
         rl_search = (RelativeLayout)findViewById(R.id.rl_search);
         appbar = findViewById(R.id.app_bar);
         img_close = (ImageView)findViewById(R.id.img_close);
-        fillter = findViewById(R.id.fb_fill);
-        fillter.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
-        fillter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogFillter();
-            }
-        });
+
                 r = getResources();
         nav = findViewById(R.id.nav_view);
         cv = (CardView)findViewById(R.id.cv_bot);
@@ -294,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
 
-                fillter.show();
+
                 ReplaceFrag(fragment);
                 changeColor();
                 tv_pill.setTextColor(r.getColor(R.color.blue));
@@ -309,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-               fillter.hide();
+
                 ReplaceFrag(fragment);
                 changeColor();
                 tv_sick.setTextColor(r.getColor(R.color.blue));
@@ -324,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.hide();
+
                 ReplaceFrag(fragment);
                 changeColor();
                 tv_dr.setTextColor(r.getColor(R.color.blue));
@@ -339,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.hide();
+
                 ReplaceFrag(fragment);
                 changeColor();
                 tv_pharma.setTextColor(r.getColor(R.color.blue));
@@ -354,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-                fillter.hide();
+
                 ReplaceFrag(fragment);
                 changeColor();
                 tv_meo.setTextColor(r.getColor(R.color.blue));
@@ -466,74 +449,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void showDialogFillter() {
-        arr.clear();
-        arr_tp.clear();
-        Dialog dialog = new Dialog(Common.context);
-        Window view=((Dialog)dialog).getWindow();
-        view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-// to get rounded corners and border for dialog window
 
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_fillter);
-        dialog.setCanceledOnTouchOutside(true);
-        Spinner sp_sick = dialog.findViewById(R.id.spin_sick);
-        Spinner sp_tp = dialog.findViewById(R.id.spin_tp);
-        TextView tv_price = dialog.findViewById(R.id.tv_price);
-        AppCompatSeekBar seek = dialog.findViewById(R.id.seek_bar);
-
-        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tv_price.setText("Giá: "+progress+" - 200.000đ");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        if(!db.isCataloPillEmpty()){
-            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
-            RealmList<CataloModel> list = cata.getListCatalo();
-            for (int i =0; i <list.size();i++){
-                arr.add(list.get(i).getName());
-            }
-
-        }
-        if(!db.isCataloPillEmpty()){
-            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL_INTRO);
-            RealmList<CataloModel> list = cata.getListCatalo();
-            for (int i =0; i <list.size();i++){
-                arr_tp.add(list.get(i).getName());
-            }
-
-        }
-
-
-
-        ArrayAdapter<String> dataAdapter =
-                new ArrayAdapter<String>
-                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arr);
-        dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
-        sp_sick.setAdapter(dataAdapter);
-
-        ArrayAdapter<String> dataAdapter2 =
-                new ArrayAdapter<String>
-                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arr_tp);
-        dataAdapter2.setDropDownViewResource(R.layout.custom_text_spiner);
-        sp_tp.setAdapter(dataAdapter2);
-
-
-
-        dialog.show();
-    }
 
     private void showDialogRateApp() {
         Dialog dialog = new Dialog(Common.context);

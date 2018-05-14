@@ -1,15 +1,12 @@
 package app.pharma.com.pharma;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -92,11 +89,19 @@ public class Wellcome extends AppCompatActivity {
 
 
     private void getCataloPill(String link) {
+        final String[] array = {null};
+
         Response.Listener<String> listener = response ->{
             try{
                 databaseHandle = new DatabaseHandle();
                 list = new RealmList<>();
-                JSONArray ja = new JSONArray(response);
+                Log.d("RESPONSE_CATALO",response);
+                JSONObject job = new JSONObject(response);
+                JSONArray ja = null;
+
+                     ja = job.getJSONArray(JsonConstant.LIST_CAT_DISE);
+
+
                 for(int i = 0; i < ja.length();i++){
                     type = new StringBuffer();
                     JSONObject index = ja.getJSONObject(i);

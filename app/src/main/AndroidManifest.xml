@@ -5,9 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".MyApplication"
@@ -17,9 +18,7 @@
         android:roundIcon="@drawable/laucher_white_2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+        <activity android:name=".activity.MainActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -41,17 +40,19 @@
         <activity android:name=".activity.Like.Care_Activity" />
         <activity android:name=".activity.Share" />
         <activity android:name=".activity.Detail.Order" />
-        <service android:name=".Service.GetLocationService"
-                android:enabled="true"/>
-        <activity android:name=".Wellcome">
 
+        <service
+            android:name=".Service.GetLocationService"
+            android:enabled="true" />
+
+        <activity android:name=".Wellcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".activity.Show_map"></activity>
     </application>
 
 </manifest>

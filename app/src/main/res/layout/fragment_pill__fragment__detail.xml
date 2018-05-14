@@ -132,6 +132,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
+                                android:id="@+id/img_share"
                                 android:src="@drawable/share"/>
 
                         </LinearLayout>

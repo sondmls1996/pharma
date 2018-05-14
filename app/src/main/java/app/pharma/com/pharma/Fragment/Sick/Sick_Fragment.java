@@ -150,26 +150,43 @@ public class Sick_Fragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d("RESPONSE_SICK",response);
+//
 
-                JSONArray ja = null;
+
+
+//                JSONArray ja = null;
                 try {
-                    ja = new JSONArray(response);
-                    for (int i = 0; i<ja.length();i++){
-                        JSONObject jo = ja.getJSONObject(i);
-                        JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
-                        Sick_Construct sick = new Sick_Construct();
-                        sick.setName(product.getString(JsonConstant.NAME));
-                        sick.setDescri(product.getString(JsonConstant.DESCRI));
-                        sick.setId(product.getString(JsonConstant.ID));
-                        sick.setImage(product.getString(JsonConstant.IMAGE));
-                        JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
-                        sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
-                     //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
-                        sick.setLike(product.getInt(JsonConstant.LIKE));
-                        sick.setDate(product.getLong(JsonConstant.TIME));
-                        arr.add(sick);
+                    JSONObject jobj = new JSONObject(response);
+                    if(jobj.has(JsonConstant.CODE)){
+                        String code = jobj.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                JSONArray listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
+                                for (int i =0;i<listDis.length();i++){
 
+                                    JSONObject jo = listDis.getJSONObject(i);
+                                    JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
+                                    Sick_Construct sick = new Sick_Construct();
+                                    sick.setName(product.getString(JsonConstant.NAME));
+                                    sick.setDescri(product.getString(JsonConstant.DESCRI));
+                                    sick.setId(product.getString(JsonConstant.ID));
+                                    sick.setImage(product.getString(JsonConstant.IMAGE));
+                                    JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
+                                    sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
+                                    //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
+                                    sick.setLike(product.getInt(JsonConstant.LIKE));
+                                    sick.setDate(product.getLong(JsonConstant.TIME));
+                                    arr.add(sick);
+                                }
+
+                                break;
+                            case "1":
+                                break;
+                        }
                     }
+
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

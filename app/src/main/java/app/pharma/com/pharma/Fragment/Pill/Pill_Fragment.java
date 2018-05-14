@@ -1,19 +1,29 @@
 package app.pharma.com.pharma.Fragment.Pill;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 
@@ -30,10 +40,10 @@ import app.pharma.com.pharma.Adapter.List_Pill_Adapter;
 import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.JsonConstant;
-import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -48,10 +58,18 @@ public class Pill_Fragment extends Fragment {
     ListView lv;
     List_Pill_Adapter adapter;
     Spinner spiner;
+    ArrayList<String> arrString,arr_tp;
+    ArrayList<CataloModel> arrTp;
+    String ingredient = "";
     ArrayList<Pill_Constructor> arr;
     ArrayList<CataloModel> arrCata;
+    Context context;
     Context ct;
+    int minPrice = 0;
+    int maxPrice = 0;
+    String idingredient = "";
     String idPill = "";
+    FloatingActionButton fillter;
     int page = 1;
     DatabaseHandle db;
     int lastVisibleItem = 0;
@@ -67,10 +85,21 @@ public class Pill_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_pill, container, false);
         db = new DatabaseHandle();
+        arrString = new ArrayList<>();
+        arr_tp = new ArrayList<>();
         ct = getContext();
+        context = getActivity();
         arrCata = new ArrayList<>();
         lv = (ListView)v.findViewById(R.id.lv_pill);
         spiner = (Spinner) v.findViewById(R.id.spin_pill);
+        fillter = v.findViewById(R.id.fb_fill);
+        fillter.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
+        fillter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogFillter();
+            }
+        });
         List<String> categories = new ArrayList<String>();
         if(!db.isCataloPillEmpty()){
             Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
@@ -97,7 +126,7 @@ public class Pill_Fragment extends Fragment {
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
 
-        spiner.setSelection(1);
+        spiner.setSelection(0);
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -133,33 +162,20 @@ public class Pill_Fragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
-                int top = 0;
-                if(lv.getChildAt(0) != null){
-                    top = lv.getChildAt(0).getTop();
-                }
 
-                if(firstVisibleItem > lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_DOWN);
-                    ct.sendBroadcast(it);
-                }else if(firstVisibleItem < lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_UP);
-                    ct.sendBroadcast(it);
-                }else{
-                    if(top < lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_DOWN);
-                        ct.sendBroadcast(it);
-                    }else if(top > lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_UP);
-                        ct.sendBroadcast(it);
+                    //Check if the last view is visible
+                    if (++firstVisibleItem + i1 > i2) {
+                        if(arr.size()>=15){
+
+                            page++;
+                            Log.d("PAGE_PILL",page+"");
+                            loadPage(page);
+                        }
+
+                        //load more content
                     }
-                }
 
-                lastVisibleItem = firstVisibleItem;
-                lastY = top;
+
 
             }
         });
@@ -180,56 +196,235 @@ public class Pill_Fragment extends Fragment {
         return v;
     }
 
+    public void fillter(Context ct,int minPrice,int maxPrice,String ingredient){
+        page = 1;
+        this.context = ct;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.idingredient = ingredient;
+        loadPage(page);
+
+    }
+
     private void selectItem() {
         page = 1;
         loadPage(page);
     }
 
     private void loadPage(int page) {
+        if(arr==null){
+            arr = new ArrayList<>();
+        }
         if(page==1){
             arr.clear();
+
         }
-        adapter.notifyDataSetChanged();
+
         Map<String, String> map = new HashMap<>();
         map.put("page",page+"");
         map.put("type",idPill);
+        if(minPrice>-1){
+            map.put("minPrice",minPrice+"");
+        }
+        if(maxPrice>-1){
+            map.put("maxPrice",maxPrice+"");
+        }
+        if(!idingredient.equals("")){
+            map.put("ingredient",idingredient);
+
+        }
+
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("RESPONSE_PILL",response);
                 try {
+                    JSONObject root = new JSONObject(response);
+                    if(root.has(JsonConstant.CODE)){
+                        String code = root.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                JSONArray ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
 
-                    JSONArray ja = new JSONArray(response);
+                                for (int i = 0; i<ja.length();i++){
+                                    JSONObject jo = ja.getJSONObject(i);
+                                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                    Pill_Constructor pill = new Pill_Constructor();
+                                    pill.setName(product.getString(JsonConstant.NAME));
+                                    pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                    pill.setId(product.getString(JsonConstant.ID));
+                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                    pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                    pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                    pill.setLike(product.getInt(JsonConstant.LIKE));
+                                    pill.setStar(product.getDouble(JsonConstant.STAR));
+                                    JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                    pill.setImage(Image.toString());
+                                    pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                    arr.add(pill);
 
-                    for (int i = 0; i<ja.length();i++){
-                        JSONObject jo = ja.getJSONObject(i);
-                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                        Pill_Constructor pill = new Pill_Constructor();
-                        pill.setName(product.getString(JsonConstant.NAME));
-                        pill.setHtuse(product.getString(JsonConstant.DESCRI));
-                        pill.setId(product.getString(JsonConstant.ID));
-                          JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                        pill.setPrice(price.getInt(JsonConstant.MONEY));
-                        pill.setCmt(product.getInt(JsonConstant.COMMENT));
-                        pill.setLike(product.getInt(JsonConstant.LIKE));
-                        pill.setStar(product.getDouble(JsonConstant.STAR));
-                        JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
-                        pill.setImage(Image.toString());
-                        pill.setOthername(product.getString(JsonConstant.COMPANY));
-                        arr.add(pill);
+                                }
 
+                                adapter.notifyDataSetChanged();
+                                break;
+                            case "1":
+                                break;
+                                default:
+                                    break;
+                        }
                     }
-                    adapter.notifyDataSetChanged();
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
         };
-        Utils.PostServer(getActivity(), ServerPath.LIST_PILL,map,response);
+        Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
 
     }
+    private void showDialogFillter() {
+        arr.clear();
+        arr_tp.clear();
+        arrTp = new ArrayList<>();
+        Dialog dialog = new Dialog(Common.context);
+        Window view=((Dialog)dialog).getWindow();
+        view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+// to get rounded corners and border for dialog window
 
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_fillter);
+        dialog.setCanceledOnTouchOutside(true);
+        Spinner sp_sick = dialog.findViewById(R.id.spin_sick);
+        Spinner sp_tp = dialog.findViewById(R.id.spin_tp);
+        TextView tv_price = dialog.findViewById(R.id.tv_price);
+
+        AppCompatSeekBar seek = dialog.findViewById(R.id.seek_bar_min);
+        AppCompatSeekBar seekMax = dialog.findViewById(R.id.seek_bar_max);
+        if(minPrice>-1){
+            seek.setProgress(minPrice);
+        }
+        if(maxPrice>-1){
+            seekMax.setProgress(maxPrice);
+        }
+        Button apply = dialog.findViewById(R.id.btn_apply);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(maxPrice>0){
+                    dialog.dismiss();
+                    loadPage(1);
+
+                }
+
+            }
+        });
+        tv_price.setText(getActivity().getResources().
+                getString(R.string.price,minPrice+"",maxPrice+""));
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                minPrice = progress;
+                tv_price.setText(getActivity().getResources().
+                        getString(R.string.price,minPrice+"",maxPrice+""));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                maxPrice = progress;
+                tv_price.setText(getActivity().getResources().
+                        getString(R.string.price,minPrice+"",maxPrice+""));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        if(!db.isCataloPillEmpty()){
+            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                arrString.add(list.get(i).getName());
+            }
+
+        }
+        if(!db.isCataloPillEmpty()){
+            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL_INTRO);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                arr_tp.add(list.get(i).getName());
+                arrTp.add(list.get(i));
+            }
+
+        }
+
+
+
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arrString);
+        dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
+        sp_sick.setAdapter(dataAdapter);
+
+        sp_sick.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        ArrayAdapter<String> dataAdapter2 =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arr_tp);
+        dataAdapter2.setDropDownViewResource(R.layout.custom_text_spiner);
+        sp_tp.setAdapter(dataAdapter2);
+        sp_tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String text = arr_tp.get(i).toString();
+                for (int j =0; j<arrTp.size();j++){
+                    if(text.equals(arrTp.get(j).getName())){
+                        idingredient = text;
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
+        dialog.show();
+    }
     @Override
     public void onResume() {
         Intent it = new Intent(Constant.SCROLL_LV);

@@ -3,6 +3,7 @@ package app.pharma.com.pharma.Model;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -151,6 +152,17 @@ public class Utils {
 
     public static void loadTransimagePicasso(String link, ImageView v){
         Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
+    }
+
+    public static void shareLink(String link){
+        if(!link.equals("")){
+            Intent shareit = new Intent(Intent.ACTION_SEND);
+            shareit.setType("text/plain");
+            String shareBody = link;
+
+            shareit.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            Common.context.startActivity(Intent.createChooser(shareit, "Chia sẻ qua"));
+        }
     }
 
     public static void loadTransimagePicasso(int res, ImageView v){

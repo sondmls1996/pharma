@@ -1,10 +1,9 @@
 package app.pharma.com.pharma.Adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +44,7 @@ public class List_Pharma_Adapter extends ArrayAdapter<Pharma_Constructor> {
         if(v==null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v =  inflater.inflate(R.layout.item_pharma, null);
+
         }
         ImageView img_pharma = v.findViewById(R.id.img_pharma);
         TextView tv_name = v.findViewById(R.id.name_pharma);
@@ -61,24 +61,40 @@ public class List_Pharma_Adapter extends ArrayAdapter<Pharma_Constructor> {
         like.setText(pharma.getLike());
         comment.setText(pharma.getComment());
         if(Common.lat!=0&&Common.lng!=0){
-            double x1 = Common.lat;
-            double y1 = Common.lng;
-            double x2 = pharma.getX();
-            double y2 = pharma.getY();
-            Double x = Math.sqrt(Math.pow(x2 - x1, 2) - Math.pow(y2 - y1, 2));
-            int a = Integer.valueOf(x.intValue());
-            if(a>0){
-                tv_distance.setText("Cách "+Integer.valueOf(x.intValue())+"km");
-            }else{
-                if(x>0){
-                    String distance = x+"";
-                    if(distance.length()>4){
-                        distance = distance.substring(0,3);
-                    }
-                    tv_distance.setText("Cách "+distance+"km");
-                }
+            Location location = new Location("");
+            location.setLatitude(Common.lat);
+            location.setLongitude(Common.lng);
+            Location finishLocation = new Location("");
+            finishLocation.setLatitude(pharma.getX());
+            finishLocation.setLongitude( pharma.getY());
 
+            float distance = location.distanceTo(finishLocation);
+            if(distance>=1000){
+                distance = distance/1000;
+                if(distance>0){
+                    int d = (int) Math.ceil(distance);
+
+                    String around = d+"";
+
+                    tv_distance.setText("Cách "+around+" km");
+
+
+                }else{
+
+                }
+            }else{
+                if(distance>0){
+                    int d = (int) Math.ceil(distance);
+                    String around = d+"";
+
+                    tv_distance.setText("Cách "+around+" m");
+
+
+                }
             }
+
+
+
 
 
         }

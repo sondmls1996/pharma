@@ -56,22 +56,31 @@
                 android:layout_marginBottom="5dp"
                 android:id="@+id/tv_price"
                 android:textColor="@color/black"
-                android:text="@string/price"/>
+             />
 
             <android.support.v7.widget.AppCompatSeekBar
-                android:id="@+id/seek_bar"
+                android:id="@+id/seek_bar_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
 
-
                />
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seek_bar_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="left"
+
+                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:text="@string/apply"
                 android:paddingLeft="30dp"
+                android:clickable="true"
+                android:id="@+id/btn_apply"
                 android:layout_marginTop="20dp"
                 android:paddingRight="30dp"
                 android:textColor="@color/white"

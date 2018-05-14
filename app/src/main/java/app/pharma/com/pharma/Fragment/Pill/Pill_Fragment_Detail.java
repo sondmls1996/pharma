@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.squareup.picasso.Downloader;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -46,12 +45,14 @@ public class Pill_Fragment_Detail extends Fragment {
     LinearLayout ln,ln_buy;
     private  ViewPager mPager;
     ImageView hearth;
+    int page = 1;
     boolean like = false;
     View v;
     String product_id;
+    String link_share = "";
     Double star_count;
     Slide_Image_Adapter adapter;
-
+    ImageView img_share;
     TextView tv_title;
     LinearLayout ln_star;
     TextView tv_like,tv_comment;
@@ -87,7 +88,15 @@ public class Pill_Fragment_Detail extends Fragment {
         tv_comment = v.findViewById(R.id.txt_comment);
         tv_like = v.findViewById(R.id.txt_like);
         tv_content = v.findViewById(R.id.tv_content);
-
+        img_share = v.findViewById(R.id.img_share);
+        img_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!link_share.equals("")){
+                    Utils.shareLink(link_share);
+                }
+            }
+        });
         ln_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +138,7 @@ public class Pill_Fragment_Detail extends Fragment {
                     tv_title.setText(product.getString(JsonConstant.NAME));
                     product_id = product.getString(JsonConstant.ID);
                     JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
+                    link_share = product.getString(JsonConstant.LINK_SHARE);
                     tv_content.setText(Html.fromHtml(getActivity().getResources().getString(R.string.how_to_use_pill,
                             product.getString(JsonConstant.USAGE),
                             product.getString(JsonConstant.RECOMENT),
@@ -203,21 +213,7 @@ public class Pill_Fragment_Detail extends Fragment {
                 price_lq.setText(Constant.format.format(product.getPrice()));
                 tv_name_lq.setText(product.getName());
                 tv_company_lq.setText(product.getCompany());
-
-                LinearLayout ln_star_lq = rowView.findViewById(R.id.ln_star_pill_lq);
-                ln_star_lq.removeAllViews();
-                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-// insert into main view
-                for(int j = 0; j<s;j++){
-                    View star = vi.inflate(R.layout.star, null);
-
-                    ln_star_lq.addView(star, 0, new ViewGroup.LayoutParams(25, 25));
-                }
-
-
                 ln.addView(rowView);
-
             }
 
         } catch (JSONException e) {

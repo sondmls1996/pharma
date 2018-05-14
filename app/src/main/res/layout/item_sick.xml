@@ -53,6 +53,7 @@
                 android:text="Đây là căn bệnh phổ biến nhất hiện nay ..."
                 android:textColor="@color/gray"
                 android:textSize="12sp"
+                android:maxLength="40"
                 android:textStyle="bold" />
 
             <TextView

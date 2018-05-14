@@ -189,29 +189,39 @@ public class Dr_Fragment extends Fragment {
             public void onResponse(String response) {
                 Log.d("RESPONSE_DR",response);
                 try {
+                    JSONObject jobj = new JSONObject(response);
+                    if (jobj.has(JsonConstant.CODE)){
+                        String code = jobj.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                JSONArray ja = jobj.getJSONArray(JsonConstant.LIST_DR);
 
-                    JSONArray ja = new JSONArray(response);
+                                for (int i = 0; i<ja.length();i++){
+                                    JSONObject jo = ja.getJSONObject(i);
+                                    JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
+                                    Dr_Constructor dr = new Dr_Constructor();
+                                    dr.setName(pharma.getString(JsonConstant.NAME));
+                                    dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
+                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
+                                    dr.setId(pharma.getString(JsonConstant.ID));
+                                    dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
+                                    dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
+                                    dr.setAge(pharma.getString(JsonConstant.AGE));
+                                    arr.add(dr);
 
-                    for (int i = 0; i<ja.length();i++){
-                        JSONObject jo = ja.getJSONObject(i);
-                        JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
-                        Dr_Constructor dr = new Dr_Constructor();
-                        dr.setName(pharma.getString(JsonConstant.NAME));
-                        dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
-                        dr.setRate(pharma.getDouble(JsonConstant.STAR));
-                        dr.setId(pharma.getString(JsonConstant.ID));
-                        dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
-                        dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
-                        dr.setAge(pharma.getString(JsonConstant.AGE));
-                         arr.add(dr);
-
+                                }
+                                if(arr.size()>0){
+                                    isEmpty(false);
+                                }else{
+                                    isEmpty(true);
+                                }
+                                adapter.notifyDataSetChanged();
+                                break;
+                            case "1":
+                                break;
+                        }
                     }
-                    if(arr.size()>0){
-                        isEmpty(false);
-                    }else{
-                        isEmpty(true);
-                    }
-                    adapter.notifyDataSetChanged();
+
 
                 } catch (JSONException e) {
 

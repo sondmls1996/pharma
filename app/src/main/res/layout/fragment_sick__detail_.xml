@@ -65,14 +65,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:textStyle="bold"
+                            android:id="@+id/tv_title_sick"
                             android:textColor="@color/blue"
                             android:text="Viêm đại tràng"/>
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:src="@drawable/star_full"/>
+                     <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal"
+                         android:id="@+id/ln_star_sick"></LinearLayout>
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_marginTop="5dp"
@@ -114,6 +114,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
+                                android:id="@+id/img_share"
                                 android:src="@drawable/share"/>
 
                         </LinearLayout>
@@ -133,12 +134,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Có rất nhiều thuốc không ảnh hưởng bởi thực phẩm, muốn uống lúc nào cũng được nhưng không phải tất cả các loại thuốc đều như vậy.
-
-Trước hết, đồ ăn thức uống có thể làm thay đổi mức độ hấp thu của thuốc, làm cho thuốc có tác dụng nhanh hay chậm. Nếu uống thuốc vào lúc đói (trước khi ăn 1 giờ chẳng hạn), thời gian lưu thuốc tại dạ dày chỉ trong vòng vài chục phút thì tống xuống ruột ngay giúp thuốc được hấp thu khá nhanh. Trái lại, nếu thuốc uống ngay sau bữa ăn, thời gian lưu thuốc tại dạ dày sẽ lâu hơn, từ 1 đến 4 giờ làm ảnh hưởng đến sinh khả dụng của thuốc, tức thuốc được hấp thu chậm và kém, đưa đến tình trạng thuốc cho tác dụng chậm.
-
-Dựa vào bữa ăn, có thể chia thuốc uống ra làm 4 loại: Loại nên uống vào lúc bụng no (uống ngay sau khi ăn), loại uống vào lúc bụng đói (uống trước khi ăn 1 giờ hoặc sau khi ăn 1-2 giờ), loại uống cùng với bữa ăn và loại uống tùy thuộc vào tính chất của từng loại thuốc."
-                        />
+                        android:id="@+id/tv_content_sick"
+                          />
 
                 </LinearLayout>
                 <View

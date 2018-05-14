@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -23,7 +22,6 @@ import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
@@ -105,24 +103,36 @@ public class Insite_List extends Fragment {
 
     private void initJson(String response) {
         try {
-            JSONArray array = new JSONArray(response);
-            for (int i =0; i<array.length();i++){
-                JSONObject obj = array.getJSONObject(i);
-                JSONObject store = obj.getJSONObject(JsonConstant.STORE);
-                Pharma_Constructor pharma = new Pharma_Constructor();
-                pharma.setName(store.getString(JsonConstant.NAME));
-                pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                pharma.setComment(store.getString(JsonConstant.COMMENT));
-                pharma.setAvatar(store.getString(JsonConstant.IMAGE));
-                pharma.setId(store.getString(JsonConstant.ID));
-                pharma.setLike(store.getString(JsonConstant.LIKE));
-                pharma.setRate(store.getDouble(JsonConstant.STAR));
-                JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
-                pharma.setX(location.getDouble(JsonConstant.LAT));
-                pharma.setY(location.getDouble(JsonConstant.LONG));
-                arr.add(pharma);
+            JSONObject jo = new JSONObject(response);
+
+            if(jo.has(JsonConstant.CODE)){
+                String code = jo.getString(JsonConstant.CODE);
+                switch (code){
+                    case "0":
+                        JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
+                        for (int i =0; i<array.length();i++){
+                            JSONObject obj = array.getJSONObject(i);
+                            JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                            Pharma_Constructor pharma = new Pharma_Constructor();
+                            pharma.setName(store.getString(JsonConstant.NAME));
+                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                            pharma.setComment(store.getString(JsonConstant.COMMENT));
+                            pharma.setAvatar(store.getString(JsonConstant.IMAGE));
+                            pharma.setId(store.getString(JsonConstant.ID));
+                            pharma.setLike(store.getString(JsonConstant.LIKE));
+                            pharma.setRate(store.getDouble(JsonConstant.STAR));
+                            JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                            pharma.setX(location.getDouble(JsonConstant.LAT));
+                            pharma.setY(location.getDouble(JsonConstant.LONG));
+                            arr.add(pharma);
+                        }
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case "1":
+                        break;
+                }
             }
-            adapter.notifyDataSetChanged();
+
 
 
         }catch (Exception e){

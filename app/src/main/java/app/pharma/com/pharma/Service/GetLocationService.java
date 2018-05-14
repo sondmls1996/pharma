@@ -11,11 +11,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.widget.Toast;
 
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Utils;
-import app.pharma.com.pharma.Wellcome;
 
 public class GetLocationService extends Service implements LocationListener{
     LocationManager locationManager;
@@ -32,7 +30,7 @@ public class GetLocationService extends Service implements LocationListener{
             locationManager = (LocationManager) getApplicationContext()
                     .getSystemService(LOCATION_SERVICE);
         }
-        Toast.makeText(getApplicationContext(),"Start...",Toast.LENGTH_SHORT).show();
+
         getLocation();
         return START_STICKY;
     }
@@ -66,8 +64,8 @@ public class GetLocationService extends Service implements LocationListener{
                 }
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
-                        1000,
-                        0, this);
+                        30000,
+                        1000, this);
 
                 if (locationManager != null) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -111,8 +109,8 @@ public class GetLocationService extends Service implements LocationListener{
                 }
                 locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
-                        1000,
-                        0, this);
+                        30000,
+                        1000, this);
 
                 if (locationManager != null) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -141,7 +139,7 @@ public class GetLocationService extends Service implements LocationListener{
     public void onLocationChanged(Location location) {
         Common.lat = location.getLatitude();
         Common.lng = location.getLongitude();
-        Toast.makeText(getApplicationContext(),"Change..."+Common.lng+"",Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -161,7 +159,7 @@ public class GetLocationService extends Service implements LocationListener{
 
     @Override
     public void onDestroy() {
-        Toast.makeText(getApplicationContext(),"Stop...",Toast.LENGTH_SHORT).show();
+
         super.onDestroy();
     }
 }
