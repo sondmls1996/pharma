@@ -16,6 +16,10 @@ public class ServerPath {
 
     public static String LOG_OUT = "checkLogout";
 
+    public static String LOST_PASS = "sendCode";
+
+    public static String TYPE_CODE = "sendPass";
+
     public static String CHANGE_INFO = "updateInfoAccount";
 
     //Thuoc
