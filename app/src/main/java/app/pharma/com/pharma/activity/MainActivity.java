@@ -46,6 +46,7 @@ import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -90,8 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Resources r;
     View headerview;
     AppBarLayout appbar;
+    TextView nav_name;
     NavigationView nav;
     ImageView img_close;
+    MenuItem logoutItem;
     ImageView avatar,avatar2;
 
     @Override
@@ -131,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         avatar = headerview.findViewById(R.id.img_avt);
         avatar2 = headerview.findViewById(R.id.img_avtbg);
         header_background = headerview.findViewById(R.id.header_bg);
-
+        nav_name = headerview.findViewById(R.id.nav_name);
 
 
         imgnav = (ImageView)findViewById(R.id.img_nav);
@@ -163,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //  Picasso.with(getApplicationContext()).load(R.drawable.img_avt).into(Utils.setCiclerImage(avatar));
 
         nav.setNavigationItemSelectedListener(this);
-
+        Menu menuNav = nav.getMenu();
+        logoutItem = menuNav.getItem(menuNav.size()-1);
         imgnav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -344,8 +348,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 break;
             case R.id.img_avt:
-                Intent it = new Intent(Common.context, Infor_User.class);
-                startActivity(it);
+                if(Utils.isLogin()){
+                    Intent it = new Intent(Common.context, Infor_User.class);
+                    startActivity(it);
+                }else{
+                    Intent it = new Intent(Common.context, Login.class);
+                    startActivity(it);
+                }
+
                 break;
 
             case R.id.img_close:
@@ -391,6 +401,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.log_out:
                 if(Utils.isLogin()){
                     db.clearUserData();
+                    Utils.setLogin(false);
                 }
                 Intent it4 = new Intent(getApplicationContext(),Login.class);
                 startActivity(it4);
@@ -439,10 +450,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Common.context = this;
         if(Utils.isLogin()){
+
+            User user = db.getAllUserInfor();
+
+            nav_name.setText(user.getName());
+
+            logoutItem.setVisible(true);
             Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
             Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
-            Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_background);
+            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new BlurImagePicasso()).into(header_background);
         }else{
+            nav_name.setText("Đăng nhập");
+            logoutItem.setVisible(false);
             Picasso.with(getApplicationContext()).load(R.drawable.laucher_white_1).transform(new TransImage()).into(avatar);
             Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
             Picasso.with(getApplicationContext()).load(R.color.white).transform(new BlurImagePicasso()).into(header_background);

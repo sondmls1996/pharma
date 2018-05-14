@@ -28,7 +28,6 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
-import okhttp3.internal.Util;
 
 public class Get_code extends AppCompatActivity implements View.OnClickListener {
     Button get_code;
@@ -67,6 +66,11 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
             case R.id.btn_confirmcode:
               utils.showLoading(this,10000,true);
                 mail = ed_email.getText().toString();
+                if(!Utils.isValidEmail(mail)){
+                utils.showLoading(this,10000,false);
+                    Toast.makeText(getApplicationContext(),
+                            "Email không đúng định dạng",Toast.LENGTH_SHORT).show();
+            }
                if(!TextUtils.isEmpty(mail)&& Utils.isValidEmail(mail)){
                    Map<String,String> map = new HashMap<>();
                    map.put("email",mail);
@@ -83,7 +87,8 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                        break;
                                    case "1":
                                        utils.showLoading(Get_code.this,10000,false);
-                                       Toast.makeText(getApplicationContext(),"Email này chưa được đăng ký",Toast.LENGTH_SHORT).show();
+                                       Toast.makeText(getApplicationContext(),
+                                               "Email này chưa được đăng ký",Toast.LENGTH_SHORT).show();
                                        break;
                                }
                            } catch (JSONException e) {
@@ -138,7 +143,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                 String code = jo.getString(JsonConstant.CODE);
                                 switch (code){
                                     case "0":
-                                        utils.showLoading(Get_code.this,10000,false);
+                                        utils.showLoading(Get_code.this,20000,false);
                                         Intent it = new Intent(getApplicationContext(),Login.class);
                                         startActivity(it);
                                         finish();
@@ -146,7 +151,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                                 "Mật khẩu mới đã được gửi vào email",Toast.LENGTH_SHORT).show();
                                         break;
                                     case "1":
-                                        utils.showLoading(Get_code.this,10000,false);
+                                        utils.showLoading(Get_code.this,20000,false);
                                         Toast.makeText(getApplicationContext(),
                                                 "Mã xác nhận không đúng",Toast.LENGTH_SHORT).show();
                                         break;
