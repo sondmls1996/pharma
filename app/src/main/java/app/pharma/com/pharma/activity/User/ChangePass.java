@@ -2,17 +2,31 @@ package app.pharma.com.pharma.activity.User;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.JsonConstant;
+import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class ChangePass extends AppCompatActivity implements View.OnClickListener {
@@ -20,6 +34,9 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
     EditText ed_oldpass,ed_newpass,ed_renewpass;
     ImageView header_bg;
     Button btn_ok;
+    DatabaseHandle data;
+    User user;
+    Utils utils = new Utils();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +49,8 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        data = new DatabaseHandle();
+
         tvTitle.setText(getResources().getString(R.string.title_change_pass));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +81,51 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_accep:
-          //      showDialogRate();
+               utils.showLoading(getApplicationContext(),20000,true);
+                    String oldPass = ed_oldpass.getText().toString();
+                    String newPass = ed_newpass.getText().toString();
+                    String reNewPass  =ed_renewpass.getText().toString();
+
+                    if(TextUtils.isEmpty(oldPass)||TextUtils.isEmpty(newPass)||TextUtils.isEmpty(reNewPass)){
+                        utils.showLoading(getApplicationContext(),20000,false);
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.notnull),Toast.LENGTH_SHORT).show();
+                    }else if(!newPass.equals(reNewPass)){
+                        utils.showLoading(getApplicationContext(),20000,false);
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.pass_notequal),Toast.LENGTH_SHORT).show();
+                    }else{
+                        Map<String,String> map = new HashMap<>();
+                        map.put("accessToken",user.getToken());
+                        map.put("oldPass",oldPass);
+                        map.put("newPass",newPass);
+                        Response.Listener<String> response = new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jo = new JSONObject(response);
+                                    String code = jo.getString(JsonConstant.CODE);
+                                    switch (code){
+                                        case "0":
+                                            utils.showLoading(getApplicationContext(),20000,false);
+                                            Utils.dialogNotif(getResources().getString(R.string.update_pass_succes));
+                                            break;
+                                        case "1":
+                                            utils.showLoading(getApplicationContext(),20000,false);
+                                            Utils.dialogNotif(getResources().getString(R.string.update_pass_failse));
+                                            break;
+                                        case "-1":
+                                            utils.showLoading(getApplicationContext(),20000,false);
+                                            Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                                            break;
+                                    }
+                                } catch (JSONException e) {
+                                    utils.showLoading(getApplicationContext(),20000,false);
+                                    Utils.dialogNotif(getResources().getString(R.string.error));
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        Utils.PostServer(ChangePass.this, ServerPath.CHANGE_PASS,map,response);
+                    }
                 break;
         }
     }
@@ -70,6 +133,11 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         Common.context = this;
+        if(Utils.isLogin()){
+            user = data.getAllUserInfor();
+        }else{
+            Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+        }
         super.onResume();
 
     }

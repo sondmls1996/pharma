@@ -119,7 +119,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Trần Văn Tư"
+                        android:id="@+id/dr_name"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -147,7 +147,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="123 Chùa Láng - Hà Nội"
+                      android:id="@+id/dr_adr"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -175,7 +175,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0123456789"
+                        android:id="@+id/dr_phone"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -203,7 +203,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tai - mũi - họng"
+                        android:id="@+id/dr_ck"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -231,7 +231,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Bệnh viện Bạch Mai"
+                        android:id="@+id/dr_workoff"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"

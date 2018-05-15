@@ -66,7 +66,7 @@ public class Wellcome extends AppCompatActivity {
                         startActivity(it);
                         finish();
                     }
-                }, 3000);
+                }, 2000);
             }
         } else {
             if (Utils.isNetworkEnable(this)) {
@@ -98,10 +98,7 @@ public class Wellcome extends AppCompatActivity {
                 Log.d("RESPONSE_CATALO",response);
                 JSONObject job = new JSONObject(response);
                 JSONArray ja = null;
-
-                     ja = job.getJSONArray(JsonConstant.LIST_CAT_DISE);
-
-
+                ja = job.getJSONArray(JsonConstant.LIST_CAT_DISE);
                 for(int i = 0; i < ja.length();i++){
                     type = new StringBuffer();
                     JSONObject index = ja.getJSONObject(i);

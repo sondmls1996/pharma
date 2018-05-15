@@ -3,6 +3,7 @@ package app.pharma.com.pharma.Fragment.Pill;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -181,44 +182,59 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void getOtherPrd(JSONObject jo) {
-        try {
-            arrOther.clear();
-            JSONArray  other = jo.getJSONArray(JsonConstant.OTHER_PRD);
-            for (int i = 0; i<other.length();i++){
-                JSONObject index = other.getJSONObject(i);
-                JSONObject product = index.getJSONObject(JsonConstant.PRODUCT);
-                Other_Product_Constuctor otherPrd = new Other_Product_Constuctor();
-                otherPrd.setName(product.getString(JsonConstant.NAME));
-                otherPrd.setCompany(product.getString(JsonConstant.COMPANY));
-                otherPrd.setId(product.getString(JsonConstant.ID));
-                otherPrd.setImage(product.getString(JsonConstant.AVATAR));
-                otherPrd.setStar(product.getDouble(JsonConstant.STAR));
-                JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                otherPrd.setPrice(price.getInt(JsonConstant.MONEY));
-                arrOther.add(otherPrd);
-            }
 
-            LayoutInflater inflater2 = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            new AsyncTask<Void,Void,Void>(){
 
-            for (int i = 0; i < arrOther.size(); i++){
-                Other_Product_Constuctor product = arrOther.get(i);
-                 View rowView = inflater2.inflate(R.layout.item_pill_lq, null);
-                ImageView img_pill_lq = rowView.findViewById(R.id.img_pill_lq);
-                TextView tv_name_lq  = rowView.findViewById(R.id.name_pill_lq);
-                TextView tv_company_lq = rowView.findViewById(R.id.company_lq);
-                TextView price_lq = rowView.findViewById(R.id.price_pill_lq);
-                Double d = product.getStar();
-                int s = Integer.valueOf(d.intValue());
-                Picasso.with(getActivity()).load(ServerPath.ROOT_URL+product.getImage()).into(img_pill_lq);
-                price_lq.setText(Constant.format.format(product.getPrice()));
-                tv_name_lq.setText(product.getName());
-                tv_company_lq.setText(product.getCompany());
-                ln.addView(rowView);
-            }
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    arrOther.clear();
+                    JSONArray  other = null;
+                    try {
+                        other = jo.getJSONArray(JsonConstant.OTHER_PRD);
+                        for (int i = 0; i<other.length();i++){
+                            JSONObject index = other.getJSONObject(i);
+                            JSONObject product = index.getJSONObject(JsonConstant.PRODUCT);
+                            Other_Product_Constuctor otherPrd = new Other_Product_Constuctor();
+                            otherPrd.setName(product.getString(JsonConstant.NAME));
+                            otherPrd.setCompany(product.getString(JsonConstant.COMPANY));
+                            otherPrd.setId(product.getString(JsonConstant.ID));
+                            otherPrd.setImage(product.getString(JsonConstant.AVATAR));
+                            otherPrd.setStar(product.getDouble(JsonConstant.STAR));
+                            JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                            otherPrd.setPrice(price.getInt(JsonConstant.MONEY));
+                            arrOther.add(otherPrd);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    LayoutInflater inflater2 = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    for (int i = 0; i < arrOther.size(); i++){
+                        Other_Product_Constuctor product = arrOther.get(i);
+                        View rowView = inflater2.inflate(R.layout.item_pill_lq, null);
+                        ImageView img_pill_lq = rowView.findViewById(R.id.img_pill_lq);
+                        TextView tv_name_lq  = rowView.findViewById(R.id.name_pill_lq);
+                        TextView tv_company_lq = rowView.findViewById(R.id.company_lq);
+                        TextView price_lq = rowView.findViewById(R.id.price_pill_lq);
+                        Double d = product.getStar();
+                        int s = Integer.valueOf(d.intValue());
+                        Picasso.with(getActivity()).load(ServerPath.ROOT_URL+product.getImage()).into(img_pill_lq);
+                        price_lq.setText(Constant.format.format(product.getPrice()));
+                        tv_name_lq.setText(product.getName());
+                        tv_company_lq.setText(product.getCompany());
+                        ln.addView(rowView);
+                    }
+                    super.onPostExecute(aVoid);
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 
     }
 

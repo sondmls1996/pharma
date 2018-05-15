@@ -13,15 +13,24 @@ import com.squareup.picasso.Picasso;
 
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.TransImage;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Infor_User extends AppCompatActivity implements View.OnClickListener {
     LinearLayout ln_changeinf;
     ImageView avt,avt2;
     ImageView header_bg;
+    TextView tv_name;
+    TextView tv_phone;
+    TextView tv_mail;
+    TextView tv_adr;
+    TextView tv_username;
+    TextView tv_birth;
     LinearLayout ln_changepass;
-
+    DatabaseHandle db = new DatabaseHandle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +53,12 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_user_inf));
-
+        tv_name = findViewById(R.id.tv_name);
+        tv_phone = findViewById(R.id.tv_phone);
+        tv_adr = findViewById(R.id.tv_adr);
+        tv_birth = findViewById(R.id.tv_date);
+        tv_username = findViewById(R.id.tv_username);
+        tv_mail = findViewById(R.id.tv_mail);
 
 
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +78,17 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         ln_changepass = findViewById(R.id.ln_changepass);
         ln_changeinf.setOnClickListener(this);
         ln_changepass.setOnClickListener(this);
+
+        if(Utils.isLogin()){
+            User user = db.getAllUserInfor();
+            tv_name.setText(user.getName());
+            tv_mail.setText(user.getEmail());
+            tv_phone.setText(user.getPhone());
+            tv_adr.setText(user.getAdr());
+
+        }else{
+            Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+        }
     }
 
     @Override

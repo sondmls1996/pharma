@@ -67,7 +67,8 @@
     <string name="update_inf">Cập nhật thông tin</string>
     <string name="order">Đặt hàng</string>
     <string name="update_pass">Cập nhật mật khẩu</string>
-
+    <string name="update_pass_succes">Cập nhật mật khẩu thành công</string>
+    <string name="update_pass_failse">Cập nhật mật khẩu thất bại</string>
     <string name="inf_pill">Thông tin thuốc</string>
     <string name="inf_pharma">Thông tin nhà thuốc</string>
     <string name="inf_sick">Thông tin bệnh</string>
@@ -129,7 +130,7 @@
     <string name="not_check">Bạn chưa đồng ý với điều khoản sử dụng</string>
     <string name="validate_email">Email không đứng định dạng</string>
     <string name="login_fail">Đăng nhập thất bại</string>
-
+    <string name="you_not_login">Bạn chưa đăng nhập</string>
     <!--<string name="title_user_inf">Thông tin tài khoản</string>-->
     <string name="title_rate_pharma">Đánh giá về nhà thuốc này</string>
     <string name="title_rate_sick">Đánh giá về bài viết này </string>

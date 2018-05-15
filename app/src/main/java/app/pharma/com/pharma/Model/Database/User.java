@@ -15,8 +15,9 @@ public class User extends RealmObject{
     String name;
     String email;
     String adr;
-    String date;
+    long date;
     String phone;
+    String userName;
 
     public User() {
     }
@@ -69,11 +70,19 @@ public class User extends RealmObject{
         this.adr = adr;
     }
 
-    public String getDate() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

@@ -15,12 +15,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.R;
 
 
 public class Insite_Map extends Fragment implements OnMapReadyCallback {
     View v;
     GoogleMap gg;
+    double lat, lng;
     public Insite_Map() {
         // Required empty public constructor
     }
@@ -44,10 +46,13 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gg = googleMap;
-        double lat = 21.028005;
-        double lng = 105.834675;
-        gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-        gg.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat,lng)));
+       if(Common.lat!=0&&Common.lng!=0){
+            lat = Common.lat;
+            lng = Common.lng;
+           gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
+           gg.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat,lng)));
+       }
+
 
     }
 }

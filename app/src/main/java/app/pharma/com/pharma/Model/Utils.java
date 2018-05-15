@@ -143,15 +143,15 @@ public class Utils {
     }
 
     public static void loadImagePicasso(String link, ImageView v){
-        Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).into(v);
+        Picasso.with(Common.context).load(link).placeholder(R.drawable.no_image_small).into(v);
     }
 
     public static void loadImagePicasso(int res, ImageView v){
-        Picasso.with(Common.context).load(res).placeholder(R.drawable.noimage).into(v);
+        Picasso.with(Common.context).load(res).placeholder(R.drawable.no_image_small).into(v);
     }
 
     public static void loadTransimagePicasso(String link, ImageView v){
-        Picasso.with(Common.context).load(link).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
+        Picasso.with(Common.context).load(link).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
     }
 
     public static void shareLink(String link){
@@ -166,7 +166,23 @@ public class Utils {
     }
 
     public static void loadTransimagePicasso(int res, ImageView v){
-        Picasso.with(Common.context).load(res).placeholder(R.drawable.noimage).transform(new TransImage()).into(v);
+        Picasso.with(Common.context).load(res).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
+    }
+
+    public class dialogNotif{
+        OnCloseDialogNotif onclose = null;
+
+        public OnCloseDialogNotif getOnclose() {
+            return onclose;
+        }
+
+        public void setOnclose(OnCloseDialogNotif onclose) {
+            this.onclose = onclose;
+        }
+    }
+
+    public interface OnCloseDialogNotif{
+            public void onClose(Dialog dialog);
     }
 
     public static void dialogNotif(String mess){
@@ -179,13 +195,14 @@ public class Utils {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_notif);
             dialog.setCanceledOnTouchOutside(true);
-        TextView tvMess = (TextView)dialog.findViewById(R.id.tv_notif);
-        TextView close = (TextView)dialog.findViewById(R.id.tv_close);
-        tvMess.setText(mess);
+           TextView tvMess = (TextView)dialog.findViewById(R.id.tv_notif);
+           TextView close = (TextView)dialog.findViewById(R.id.tv_close);
+         tvMess.setText(mess);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
             }
         });
             dialog.show();

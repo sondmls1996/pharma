@@ -17,11 +17,14 @@ public class JsonConstant {
     public static String ACCESS = "accessToken";
      public static String PRODUCT = "Product";
      public static String USAGE = "usage";
+     public static String SPECIALLIST = "specialist";
      public static String IMAGE = "image";
      public static String INTERAC="interaction";
      public static String DESCRI = "describe";
      public static String CODE = "code";
-     public static String ACCOUNT = "Accounts";
+    public static String ACCOUNT = "Account";
+     public static String ACCOUNTS = "Accounts";
+     public static String USERNAME = "userName";
      public static String PRICE = "price";
      public static String MONEY = "money";
      public static String LIKE = "like";

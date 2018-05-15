@@ -73,7 +73,6 @@ public class Register extends AppCompatActivity {
                         c.set(Calendar.MONTH,month);
                         c.set(Calendar.DAY_OF_MONTH,day);
 
-
                           edBirth.setText(df.format(c.getTime()));
                     }
                 }, y, m, d);
@@ -154,7 +153,7 @@ public class Register extends AppCompatActivity {
                 map.put("email",email);
                 map.put("password",pass);
                 map.put("passAgain",repass);
-                map.put("dob",date);
+                map.put("dob",c.getTime()+"");
 
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override

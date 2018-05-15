@@ -3,8 +3,10 @@ package app.pharma.com.pharma.Fragment.Sick;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 
@@ -47,6 +50,8 @@ public class Sick_Fragment extends Fragment {
     List_Sick_Adapter adapter;
     ArrayList<Sick_Construct> arr;
     ArrayList<CataloModel> arrcata;
+    SwipeRefreshLayout swip;
+    TextView tvNull;
     Context ct;
     DatabaseHandle db;
     String idSick;
@@ -75,9 +80,16 @@ public class Sick_Fragment extends Fragment {
         ct = getContext();
         lv = (ListView)v.findViewById(R.id.lv_sick);
         arr = new ArrayList<>();
+        swip = v.findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadPage(1);
+            }
+        });
         adapter = new List_Sick_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
-
+        tvNull = v.findViewById(R.id.txt_null);
         spiner = (Spinner) v.findViewById(R.id.spin_sick);
         List<String> categories = new ArrayList<String>();
         if(!db.isCataloSickEmpty()){
@@ -142,13 +154,14 @@ public class Sick_Fragment extends Fragment {
         if(page==1){
             arr.clear();
         }
-        adapter.notifyDataSetChanged();
+
         Map<String, String> map = new HashMap<>();
         map.put("page",page+"");
         map.put("type",idSick);
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                swip.setRefreshing(false);
                 Log.d("RESPONSE_SICK",response);
 //
 
@@ -161,23 +174,50 @@ public class Sick_Fragment extends Fragment {
                         String code = jobj.getString(JsonConstant.CODE);
                         switch (code){
                             case "0":
-                                JSONArray listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
-                                for (int i =0;i<listDis.length();i++){
+                                new AsyncTask<Void,Void,Void>(){
 
-                                    JSONObject jo = listDis.getJSONObject(i);
-                                    JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
-                                    Sick_Construct sick = new Sick_Construct();
-                                    sick.setName(product.getString(JsonConstant.NAME));
-                                    sick.setDescri(product.getString(JsonConstant.DESCRI));
-                                    sick.setId(product.getString(JsonConstant.ID));
-                                    sick.setImage(product.getString(JsonConstant.IMAGE));
-                                    JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
-                                    sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
-                                    //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
-                                    sick.setLike(product.getInt(JsonConstant.LIKE));
-                                    sick.setDate(product.getLong(JsonConstant.TIME));
-                                    arr.add(sick);
-                                }
+                                    @Override
+                                    protected Void doInBackground(Void... voids) {
+                                        JSONArray listDis = null;
+                                        try {
+                                            listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
+                                            for (int i =0;i<listDis.length();i++){
+
+                                                JSONObject jo = listDis.getJSONObject(i);
+                                                JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
+                                                Sick_Construct sick = new Sick_Construct();
+                                                sick.setName(product.getString(JsonConstant.NAME));
+                                                sick.setDescri(product.getString(JsonConstant.DESCRI));
+                                                sick.setId(product.getString(JsonConstant.ID));
+                                                JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                                                sick.setImage(images.getString(0));
+                                                JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
+                                                sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
+                                                //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                sick.setLike(product.getInt(JsonConstant.LIKE));
+                                                sick.setDate(product.getLong(JsonConstant.TIME));
+                                                arr.add(sick);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        if(arr.size()>0){
+                                            tvNull.setVisibility(View.GONE);
+                                        }else{
+                                            tvNull.setVisibility(View.VISIBLE);
+                                        }
+
+                                        adapter.notifyDataSetChanged();
+                                        super.onPostExecute(aVoid);
+                                    }
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 
                                 break;
                             case "1":
@@ -191,8 +231,6 @@ public class Sick_Fragment extends Fragment {
                     e.printStackTrace();
                 }
 
-
-                    adapter.notifyDataSetChanged();
 
             }
         };

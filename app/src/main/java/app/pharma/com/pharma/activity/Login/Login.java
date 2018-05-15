@@ -3,6 +3,7 @@ package app.pharma.com.pharma.activity.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,7 +68,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void doLogin() {
         String user = eduser.getText().toString();
         String pass = edpass.getText().toString();
-        util.showLoading(this,10000,true);
+        util.showLoading(this,20000,true);
         if(user.length()>0&&pass.length()>0){
             Map<String,String> map= new HashMap<>();
             map.put("userName",user);
@@ -76,6 +77,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 @Override
                 public void onResponse(String response) {
                     try {
+                        Log.d("RESPONSE_LOGIN",response);
                         JSONObject jo = new JSONObject(response);
                         String code = jo.getString(JsonConstant.CODE);
                         switch (code){
@@ -84,13 +86,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 Utils.dialogNotif(getResources().getString(R.string.login_fail));
                                 break;
                             case "0":
-                                JSONObject acc = jo.getJSONObject(JsonConstant.ACCOUNT);
+                                JSONObject ac = jo.getJSONObject(JsonConstant.ACCOUNT);
+                                JSONObject acc = ac.getJSONObject(JsonConstant.ACCOUNTS );
                                 User user = new User();
                                 user.setEmail(acc.getString(JsonConstant.EMAIL));
                                 user.setAdr(acc.getString(JsonConstant.USER_ADR));
                                 user.setId(acc.getString(JsonConstant.ID));
                                 user.setAvt(acc.getString(JsonConstant.AVATAR));
-                                user.setDate(acc.getString(JsonConstant.DOB));
+                                user.setDate(acc.getLong(JsonConstant.DOB));
+                                user.setUserName(acc.getString(JsonConstant.USERNAME));
                                 user.setToken(acc.getString(JsonConstant.ACCESS));
                                 user.setName(acc.getString(JsonConstant.FULLNAME));
                                 user.setPhone(acc.getString(JsonConstant.PHONE));
@@ -104,6 +108,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 break;
                         }
                     } catch (JSONException e) {
+                        util.showLoading(Login.this,0,false);
+                        Utils.dialogNotif(getResources().getString(R.string.error ));
                         e.printStackTrace();
                     }
                 }

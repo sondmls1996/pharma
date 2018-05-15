@@ -112,7 +112,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nguyen Thi Nga"
+                        android:id="@+id/tv_name"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -140,7 +140,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="20/02/1990"
+                        android:id="@+id/tv_date"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -168,7 +168,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nga@gmail.com"
+                        android:id="@+id/tv_mail"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -197,7 +197,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="12 Giải Phóng"
+                       android:id="@+id/tv_adr"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -225,7 +225,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0969969969"
+                       android:id="@+id/tv_phone"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -254,7 +254,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ngamee"
+                        android:id="@+id/tv_username"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
                         android:textStyle="bold"

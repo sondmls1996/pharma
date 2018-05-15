@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -128,7 +129,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
         btn_acc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                utils.showLoading(Get_code.this,10000,true);
+                utils.showLoading(Get_code.this,20000,true);
                 String code = type_code.getText().toString();
                 if(TextUtils.isEmpty(code)){
                     Map<String, String> map = new HashMap<>();
@@ -137,6 +138,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                     Response.Listener<String> response = new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Log.d("RESPONSE_GETCODE",response);
                             JSONObject jo = null;
                             try {
                                 jo = new JSONObject(response);

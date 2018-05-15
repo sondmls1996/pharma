@@ -69,7 +69,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     Slide_Image_Adapter adapter;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES= {R.drawable.pharma_img,R.drawable.img_dr,R.drawable.img_sick};
+
     private ArrayList<String> ImagesArray = new ArrayList<String>();
     public Pharma_Detail_Fragment() {
 
@@ -135,7 +135,17 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             indicator.setViewPager(mPager);
             adapter.registerDataSetObserver(indicator.getDataSetObserver());
             id = Detail.id;
-            NUM_PAGES =IMAGES.length;
+
+            hearth = (ImageView)v.findViewById(R.id.hearth_img);
+
+            hearth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  checkHearth();
+                }
+            });
+            getData();
+            NUM_PAGES = 3;
             final Handler handler = new Handler();
             final Runnable Update = new Runnable() {
                 public void run() {
@@ -152,15 +162,6 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                     handler.post(Update);
                 }
             }, 3000, 3000);
-            hearth = (ImageView)v.findViewById(R.id.hearth_img);
-
-            hearth.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  checkHearth();
-                }
-            });
-            getData();
     }
 
     private void getData() {

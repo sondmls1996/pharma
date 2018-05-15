@@ -24,7 +24,7 @@
                 android:layout_height="80dp"
                 android:id="@+id/img_pharma"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pharma_img" />
+                android:src="@drawable/no_image_small" />
 
         </RelativeLayout>
 

@@ -23,7 +23,7 @@
                 android:layout_height="80dp"
                 android:id="@+id/img_sick"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_sick" />
+                android:src="@drawable/no_image_small" />
 
         </RelativeLayout>
 

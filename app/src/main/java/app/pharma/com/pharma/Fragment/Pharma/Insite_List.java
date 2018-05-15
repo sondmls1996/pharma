@@ -2,14 +2,17 @@ package app.pharma.com.pharma.Fragment.Pharma;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 
@@ -36,7 +39,9 @@ public class Insite_List extends Fragment {
     ListView lv;
     List_Pharma_Adapter adapter;
     int lastVisibleItem = 0;
+    SwipeRefreshLayout swip;
     private int lastY = 0;
+    TextView tvnull;
     int page = 1;
     ArrayList<Pharma_Constructor> arr;
     View v;
@@ -57,6 +62,14 @@ public class Insite_List extends Fragment {
     private void init() {
         lv = (ListView)v.findViewById(R.id.lv_pharma);
         arr = new ArrayList<>();
+        tvnull = v.findViewById(R.id.txt_null);
+        swip = v.findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(1);
+            }
+        });
         adapter = new List_Pharma_Adapter(getContext(),0,arr);
 
           lv.setAdapter(adapter);
@@ -74,7 +87,10 @@ public class Insite_List extends Fragment {
     }
 
     private void getData(int page) {
-        Log.d("COMMON_LAT",Common.lat+"");
+        if(page==1){
+            arr.clear();
+        }
+
         if(Common.lat!=0&&Common.lng!=0){
             Map<String, String> map = new HashMap<>();
             map.put("latGPS", Common.lat+"");
@@ -83,6 +99,7 @@ public class Insite_List extends Fragment {
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    swip.setRefreshing(false);
                     initJson(response);
                 }
             };
@@ -91,6 +108,7 @@ public class Insite_List extends Fragment {
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    swip.setRefreshing(false);
                     initJson(response);
                 }
             };
@@ -102,6 +120,7 @@ public class Insite_List extends Fragment {
     }
 
     private void initJson(String response) {
+        Log.d("RESPONSE__PHARMA",response);
         try {
             JSONObject jo = new JSONObject(response);
 
@@ -109,28 +128,53 @@ public class Insite_List extends Fragment {
                 String code = jo.getString(JsonConstant.CODE);
                 switch (code){
                     case "0":
-                        JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
-                        for (int i =0; i<array.length();i++){
-                            JSONObject obj = array.getJSONObject(i);
-                            JSONObject store = obj.getJSONObject(JsonConstant.STORE);
-                            Pharma_Constructor pharma = new Pharma_Constructor();
-                            pharma.setName(store.getString(JsonConstant.NAME));
-                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                            pharma.setComment(store.getString(JsonConstant.COMMENT));
-                            pharma.setAvatar(store.getString(JsonConstant.IMAGE));
-                            pharma.setId(store.getString(JsonConstant.ID));
-                            pharma.setLike(store.getString(JsonConstant.LIKE));
-                            pharma.setRate(store.getDouble(JsonConstant.STAR));
-                            JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
-                            pharma.setX(location.getDouble(JsonConstant.LAT));
-                            pharma.setY(location.getDouble(JsonConstant.LONG));
-                            arr.add(pharma);
-                        }
-                        adapter.notifyDataSetChanged();
+                        new AsyncTask<Void,Void,Void>(){
+
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                try{
+                                    JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
+                                    for (int i =0; i<array.length();i++){
+                                        JSONObject obj = array.getJSONObject(i);
+                                        JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                                        Pharma_Constructor pharma = new Pharma_Constructor();
+                                        pharma.setName(store.getString(JsonConstant.NAME));
+                                        pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                                        pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                        pharma.setAvatar(store.getString(JsonConstant.IMAGE));
+                                        pharma.setId(store.getString(JsonConstant.ID));
+                                        pharma.setLike(store.getString(JsonConstant.LIKE));
+                                        pharma.setRate(store.getDouble(JsonConstant.STAR));
+                                        JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                                        pharma.setX(location.getDouble(JsonConstant.LAT));
+                                        pharma.setY(location.getDouble(JsonConstant.LONG));
+                                        arr.add(pharma);
+                                    }
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                if(arr.size()>0){
+                                    tvnull.setVisibility(View.GONE);
+                                }else{
+                                    tvnull.setVisibility(View.VISIBLE);
+                                }
+                                adapter.notifyDataSetChanged();
+                                super.onPostExecute(aVoid);
+                            }
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
                         break;
                     case "1":
                         break;
                 }
+
             }
 
 

@@ -23,7 +23,7 @@
                 android:layout_height="80dp"
                 android:id="@+id/img_pill"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_pill" />
+                android:src="@drawable/no_image_small" />
 
         </RelativeLayout>
 

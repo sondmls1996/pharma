@@ -26,7 +26,7 @@ public class Order extends AppCompatActivity {
     Slide_Image_Adapter adapter;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES= {R.drawable.pharma_img,R.drawable.img_dr,R.drawable.img_sick};
+
     private ArrayList<String> ImagesArray = new ArrayList<String>();
 
     @Override
@@ -49,7 +49,7 @@ public class Order extends AppCompatActivity {
         indicator.setViewPager(mPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-        NUM_PAGES =IMAGES.length;
+        NUM_PAGES =2;
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {

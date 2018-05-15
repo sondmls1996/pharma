@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,13 +62,16 @@ public class Pill_Fragment extends Fragment {
     Spinner spiner;
     ArrayList<String> arrString,arr_tp;
     ArrayList<CataloModel> arrTp;
+    TextView tvnull;
     String ingredient = "";
     ArrayList<Pill_Constructor> arr;
     ArrayList<CataloModel> arrCata;
     Context context;
+    SwipeRefreshLayout swip;
     Context ct;
     int minPrice = 0;
     int maxPrice = 0;
+    View v;
     String idingredient = "";
     String idPill = "";
     FloatingActionButton fillter;
@@ -83,13 +88,27 @@ public class Pill_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_pill, container, false);
+         v = inflater.inflate(R.layout.fragment_pill, container, false);
+        init();
+
+        return v;
+    }
+
+    private void init() {
         db = new DatabaseHandle();
         arrString = new ArrayList<>();
         arr_tp = new ArrayList<>();
+        swip = v.findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadPage(1);
+            }
+        });
         ct = getContext();
         context = getActivity();
         arrCata = new ArrayList<>();
+        tvnull = v.findViewById(R.id.txt_null);
         lv = (ListView)v.findViewById(R.id.lv_pill);
         spiner = (Spinner) v.findViewById(R.id.spin_pill);
         fillter = v.findViewById(R.id.fb_fill);
@@ -115,11 +134,10 @@ public class Pill_Fragment extends Fragment {
 
         }
 
-
         ArrayAdapter<String> dataAdapter =
                 new ArrayAdapter<String>
                         (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, categories);
-            
+
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
 
@@ -150,10 +168,6 @@ public class Pill_Fragment extends Fragment {
         adapter = new List_Pill_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
 
-
-
-
-
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -163,25 +177,20 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
 
-                    //Check if the last view is visible
-                    if (++firstVisibleItem + i1 > i2) {
-                        if(arr.size()>=15){
+                //Check if the last view is visible
+                if (++firstVisibleItem + i1 > i2) {
+                    if(arr.size()>=15){
 
-                            page++;
-                            Log.d("PAGE_PILL",page+"");
-                            loadPage(page);
-                        }
-
-                        //load more content
+                        page++;
+                        Log.d("PAGE_PILL",page+"");
+                        loadPage(page);
                     }
 
-
+                    //load more content
+                }
 
             }
         });
-
-
-
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -193,7 +202,6 @@ public class Pill_Fragment extends Fragment {
                 startActivity(it);
             }
         });
-        return v;
     }
 
     public void fillter(Context ct,int minPrice,int maxPrice,String ingredient){
@@ -238,40 +246,69 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d("RESPONSE_PILL",response);
+                swip.setRefreshing(false);
                 try {
                     JSONObject root = new JSONObject(response);
                     if(root.has(JsonConstant.CODE)){
                         String code = root.getString(JsonConstant.CODE);
                         switch (code){
                             case "0":
-                                JSONArray ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
+                                new AsyncTask<Void,Void,Void>(){
 
-                                for (int i = 0; i<ja.length();i++){
-                                    JSONObject jo = ja.getJSONObject(i);
-                                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                                    Pill_Constructor pill = new Pill_Constructor();
-                                    pill.setName(product.getString(JsonConstant.NAME));
-                                    pill.setHtuse(product.getString(JsonConstant.DESCRI));
-                                    pill.setId(product.getString(JsonConstant.ID));
-                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                    pill.setPrice(price.getInt(JsonConstant.MONEY));
-                                    pill.setCmt(product.getInt(JsonConstant.COMMENT));
-                                    pill.setLike(product.getInt(JsonConstant.LIKE));
-                                    pill.setStar(product.getDouble(JsonConstant.STAR));
-                                    JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
-                                    pill.setImage(Image.toString());
-                                    pill.setOthername(product.getString(JsonConstant.COMPANY));
-                                    arr.add(pill);
+                                    @Override
+                                    protected Void doInBackground(Void... voids) {
+                                        JSONArray ja = null;
+                                        try {
 
-                                }
+                                            ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
+                                            for (int i = 0; i<ja.length();i++){
+                                                JSONObject jo = ja.getJSONObject(i);
+                                                JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                                Pill_Constructor pill = new Pill_Constructor();
+                                                pill.setName(product.getString(JsonConstant.NAME));
+                                                pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                                pill.setId(product.getString(JsonConstant.ID));
+                                                JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                                pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                pill.setLike(product.getInt(JsonConstant.LIKE));
+                                                 pill.setStar(product.getDouble(JsonConstant.STAR));
+                                                JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                                pill.setImage(Image.toString());
+                                                pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                                arr.add(pill);
 
-                                adapter.notifyDataSetChanged();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        if(arr.size()>0){
+                                            tvnull.setVisibility(View.GONE);
+                                        }else{
+                                            tvnull.setVisibility(View.VISIBLE);
+                                        }
+                                        adapter.notifyDataSetChanged();
+                                        super.onPostExecute(aVoid);
+                                    }
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
                                 break;
                             case "1":
+                                Utils.dialogNotif(getResources().getString(R.string.error));
                                 break;
                                 default:
                                     break;
                         }
+
+
                     }
 
 

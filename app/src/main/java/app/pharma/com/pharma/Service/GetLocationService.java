@@ -64,7 +64,7 @@ public class GetLocationService extends Service implements LocationListener{
                 }
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
-                        30000,
+                        0,
                         1000, this);
 
                 if (locationManager != null) {
@@ -109,7 +109,7 @@ public class GetLocationService extends Service implements LocationListener{
                 }
                 locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
-                        30000,
+                        0,
                         1000, this);
 
                 if (locationManager != null) {

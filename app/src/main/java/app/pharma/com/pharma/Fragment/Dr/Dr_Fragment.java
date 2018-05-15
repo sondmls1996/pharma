@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class Dr_Fragment extends Fragment {
     int lastVisibleItem = 0;
     Spinner spiner;
     TextView tv_null;
+    SwipeRefreshLayout swip;
     String idDr;
     DatabaseHandle db;
     private int lastY = 0;
@@ -68,6 +70,13 @@ public class Dr_Fragment extends Fragment {
         adapter = new List_Dr_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
         db = new DatabaseHandle();
+        swip = v.findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadPage(1);
+            }
+        });
         ct = getContext();
         arrCata = new ArrayList<>();
         tv_null = v.findViewById(R.id.txt_null);
@@ -160,7 +169,7 @@ public class Dr_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getContext(), Infor_Dr.class);
-                it.putExtra("key","pharma");
+                it.putExtra("id",arr.get(i).getId());
                 getContext().startActivity(it);
             }
         });
@@ -180,13 +189,14 @@ public class Dr_Fragment extends Fragment {
         if(page==1){
             arr.clear();
         }
-        adapter.notifyDataSetChanged();
+
         Map<String, String> map = new HashMap<>();
         map.put("page",page+"");
         map.put("type",idDr);
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                swip.setRefreshing(false);
                 Log.d("RESPONSE_DR",response);
                 try {
                     JSONObject jobj = new JSONObject(response);
@@ -218,6 +228,7 @@ public class Dr_Fragment extends Fragment {
                                 adapter.notifyDataSetChanged();
                                 break;
                             case "1":
+                                Utils.dialogNotif(getActivity().getResources().getString(R.string.error));
                                 break;
                         }
                     }

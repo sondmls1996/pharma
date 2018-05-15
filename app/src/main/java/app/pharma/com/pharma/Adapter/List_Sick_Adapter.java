@@ -60,7 +60,7 @@ public class List_Sick_Adapter extends ArrayAdapter<Sick_Construct> {
         date.setText(Utils.convertTimestampToDate(sick.getDate()));
         catalo_txt.setText(sick.getCatalo());
 
-       ImageView img_sick = v.findViewById(R.id.img_sick);
+         ImageView img_sick = v.findViewById(R.id.img_sick);
         String firstImage = ServerPath.ROOT_URL+sick.getImage();
         Picasso.with(Common.context).load(firstImage).into(img_sick);
 //        try {

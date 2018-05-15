@@ -47,6 +47,7 @@ import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int minPrice = 0,maxPrice = 0;
     DatabaseHandle db;
     LinearLayout ln_meo;
-    GetScrollBroadcast scroll_broadcast;
+
     FrameLayout fragContrent;
     CardView cv;
     Menu menu;
@@ -113,10 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void unregister() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(scroll_broadcast);
-        scroll_broadcast = null;
-    }
+
 
     private void initView() {
         title = (TextView)findViewById(R.id.title_main) ;
@@ -434,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregister();
+
         stopService(new Intent(this, GetLocationService.class));
         Log.d("STT","des");
     }
@@ -442,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        unregister();
+
     }
 
     @Override
@@ -450,15 +448,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Common.context = this;
         if(Utils.isLogin()){
-
+            db = new DatabaseHandle();
             User user = db.getAllUserInfor();
-
+            Log.d("USER_NAME",user.getUserName());
             nav_name.setText(user.getName());
 
             logoutItem.setVisible(true);
-            Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avatar);
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avatar);
             Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
-            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new BlurImagePicasso()).into(header_background);
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_background);
         }else{
             nav_name.setText("Đăng nhập");
             logoutItem.setVisible(false);
@@ -496,34 +494,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
     }
 
-    class GetScrollBroadcast extends BroadcastReceiver{
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getExtras()!=null){
-                int action = intent.getIntExtra("action",1);
-//                if(action==Constant.ACTION_DOWN){
-//                    final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
-//                    cv.setAnimation(myAnim);
-//                   //     cv.setVisibility(View.GONE);
-//                        fillter.hide();
-//
-//                }else{
-//
-//                        final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
-//                        cv.setAnimation(myAnim);
-//                        //    cv.setVisibility(View.VISIBLE);
-//                        if(fragment==Pill_Fragment.class){
-//                            fillter.show();
-//                        }else{
-//                            fillter.hide();
-//                        }
-//                        isAnimated = true;
-//                    }
-
-
-
-            }
-        }
-    }
 }

@@ -17,7 +17,7 @@
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:id="@+id/img_pill_lq"
-            android:src="@drawable/img_pill"
+            android:src="@drawable/no_image_small"
             android:scaleType="centerCrop"
             />
 
