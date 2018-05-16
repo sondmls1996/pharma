@@ -1,10 +1,12 @@
 package app.pharma.com.pharma.Model;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,6 +20,8 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Patterns;
@@ -82,7 +86,24 @@ public class Utils {
         return date;
     }
     private static final float BLUR_RADIUS = 25f;
+    public static void askForPermission(Activity activity, String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(Common.context, permission) != PackageManager.PERMISSION_GRANTED) {
 
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
+            }
+        } else {
+            Toast.makeText(Common.context, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+        }
+    }
     public static void GetServer(Context ct,String link,Response.Listener<String> listener){
         GetCL get = new GetCL(link,listener);
         RequestQueue que = Volley.newRequestQueue(ct);

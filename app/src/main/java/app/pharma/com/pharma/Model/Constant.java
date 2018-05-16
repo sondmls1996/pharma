@@ -24,4 +24,7 @@ public class Constant {
     public static String USER_SHARE = "user_share";
     public static String USER_NAME = "user_name";
 
+    public static final int PERMISSION_LOCATION = 1;
+    public static final int PHONE = 2;
+
 }

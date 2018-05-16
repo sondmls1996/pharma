@@ -100,7 +100,7 @@ public class Pill_Fragment_Detail extends Fragment {
         img_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.setAlphalAnimation(v);
+                Utils.setAlphalAnimation(view);
                 if(!link_share.equals("")){
                     Utils.shareLink(link_share);
                 }
