@@ -2,10 +2,12 @@ package app.pharma.com.pharma.Fragment.Sick;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import java.util.Map;
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constructor.Sick_LQ_Construct;
+import app.pharma.com.pharma.Model.Constructor.Sick_Obj;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -43,6 +46,7 @@ public class Sick_Detail_Fragment extends Fragment {
     boolean like = false;
     TextView tv_title;
     TextView tv_like;
+    Sick_Obj sickObj;
     Double star;
     LinearLayout ln_star;
     TextView comment;
@@ -88,7 +92,7 @@ public class Sick_Detail_Fragment extends Fragment {
         hearth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkHearth();
+//                checkHearth();
             }
         });
 //        for(int i=0;i<IMAGES.length;i++)
@@ -113,43 +117,67 @@ public class Sick_Detail_Fragment extends Fragment {
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    JSONObject jo = new JSONObject(response);
-                    JSONObject Dise = jo.getJSONObject(JsonConstant.DISEASE);
-                    tv_title.setText(Dise.getString(JsonConstant.NAME));
-                    tv_like.setText(Dise.getString(JsonConstant.LIKE));
-                    star = Dise.getDouble(JsonConstant.STAR);
-//                    comment.setText(Dise.getString(JsonConstant.COMMENT));
-                    link_share = Dise.getString(JsonConstant.LINK_SHARE);
-                    likestt = Dise.getInt(JsonConstant.LIKE_STT);
-                    JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
-                    for (int j = 0; j<images.length();j++){
-                        ImagesArray.add(images.getString(j));
+                Log.d("RESPONSE_SICK_DETAIL",response);
+
+                new AsyncTask<Void,Void,JSONObject>(){
+
+                    @Override
+                    protected JSONObject doInBackground(Void... voids) {
+                        JSONObject jo = null;
+                        try {
+                             jo = new JSONObject(response);
+                            JSONObject Dise = jo.getJSONObject(JsonConstant.DISEASE);
+                            JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
+                            sickObj = new Sick_Obj();
+                            sickObj.setName(Dise.getString(JsonConstant.NAME));
+                            sickObj.setDescri(Dise.getString(JsonConstant.DESCRI));
+                            sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
+                            sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
+                            sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
+                            sickObj.setLink_share(Dise.getString(JsonConstant.LINK_SHARE));
+                            sickObj.setLike_stt(Dise.getInt(JsonConstant.LIKE_STT));
+                            sickObj.setId(Dise.getString(JsonConstant.ID));
+
+                            for (int j = 0; j<images.length();j++){
+                                ImagesArray.add(images.getString(j));
+                            }
+                            sickObj.setImages(ImagesArray);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        return jo;
                     }
-                    if(likestt==0){
-                        like = false;
-                        checkHearth();
 
-                    }else{
-                        like = true;
-                        checkHearth();
+                    @Override
+                    protected void onPostExecute(JSONObject jo) {
+                        Detail.headerObj = sickObj;
+                        tv_title.setText(sickObj.getName());
+                        tv_like.setText(sickObj.getLike()+"");
+                        comment.setText(sickObj.getCmt());
+                        link_share = sickObj.getLink_share();
+                        checkHearth(sickObj.getLike_stt());
+                        adapter.notifyDataSetChanged();
 
-                    }
-                    int s = Integer.valueOf(star.intValue());
-                    LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+                        int s = Integer.valueOf(sickObj.getStar().intValue());
+                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 // insert into main view
-                    for(int i = 0; i<s;i++){
-                        View star = vi.inflate(R.layout.star, null);
+                        for(int i = 0; i<s;i++){
+                            View star = vi.inflate(R.layout.star, null);
 
-                        ln_star.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                            ln_star.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                        }
+                        content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
+                                sickObj.getDescri(),
+                                "")));
+
+                        getSickOther(jo);
+
+                        super.onPostExecute(jo);
                     }
-                    content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,Dise.getString(JsonConstant.DESCRI),"")));
-                    adapter.notifyDataSetChanged();
-                    getSickOther(jo);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 
             }
         };
@@ -193,8 +221,8 @@ public class Sick_Detail_Fragment extends Fragment {
         }
     }
 
-    public void checkHearth(){
-        if(like){
+    public void checkHearth(int likeStt){
+        if(likeStt==0){
             hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.red_heart));
             like = false;
         }else{

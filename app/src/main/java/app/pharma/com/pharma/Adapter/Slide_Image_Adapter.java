@@ -41,6 +41,7 @@ public class Slide_Image_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+
         return IMAGES.size();
     }
 

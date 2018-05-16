@@ -26,6 +26,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     public static String headerJson = "";
     public static String key = "";
     public static String id = "";
+    public static Object headerObj;
     Pill_Constructor pillConstructor;
     Sick_Construct sickConstructor;
     Pharma_Constructor pharmaConstructor;

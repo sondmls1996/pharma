@@ -32,6 +32,8 @@ import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
 import app.pharma.com.pharma.Model.Constructor.Pill_obj;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -52,6 +54,8 @@ public class Pill_Fragment_Detail extends Fragment {
     View v;
     Pill_obj objPill;
     String product_id;
+    User user;
+    DatabaseHandle db = new DatabaseHandle();
     String link_share = "";
     Double star_count;
     Slide_Image_Adapter adapter;
@@ -64,7 +68,7 @@ public class Pill_Fragment_Detail extends Fragment {
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static Integer[] IMAGES;
-    private ArrayList<String> ImagesArray = new ArrayList<>();
+    private ArrayList<String> ImagesArray;
     public Pill_Fragment_Detail() {
         // Required empty public constructor
     }
@@ -82,9 +86,10 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void init() {
-
+        user = db.getAllUserInfor();
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         ln.removeAllViews();
+        ImagesArray  = new ArrayList<>();
         hearth = (ImageView)v.findViewById(R.id.img_hearth);
         ln_buy = v.findViewById(R.id.ln_buynow);
         tv_title = v.findViewById(R.id.title_detail_pill);
@@ -95,6 +100,7 @@ public class Pill_Fragment_Detail extends Fragment {
         img_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.setAlphalAnimation(v);
                 if(!link_share.equals("")){
                     Utils.shareLink(link_share);
                 }
@@ -110,23 +116,34 @@ public class Pill_Fragment_Detail extends Fragment {
         hearth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.setAlphalAnimation(v);
                 onClickHeart();
             }
         });
 
-        adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
-        mPager = (ViewPager) v.findViewById(R.id.slide_image);
-        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-        mPager.setAdapter(adapter);
-        indicator.setViewPager(mPager);
-        adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
         loadData();
 
     }
 
     private void onClickHeart() {
+        if(Utils.isLogin()){
+            Map<String, String> map = new HashMap<>();
+            map.put("type","product");
+            map.put("id",product_id);
+            map.put("accessToken",user.getToken());
+            map.put("likeStatus",objPill.getLikeStt()+"");
+            Response.Listener<String> response  = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("LIKE_STT_PILL",response);
+                }
+            };
+            Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+        }else{
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+        }
 
     }
 
@@ -184,6 +201,7 @@ public class Pill_Fragment_Detail extends Fragment {
 
                         @Override
                         protected void onPostExecute(JSONObject jo) {
+                            Detail.headerObj = objPill;
                             tv_title.setText(objPill.getName());
                             tv_like.setText(objPill.getLike()+"");
                             tv_comment.setText(objPill.getComment()+"");
@@ -195,8 +213,19 @@ public class Pill_Fragment_Detail extends Fragment {
                             ));
                             product_id = objPill.getId();
                             link_share = objPill.getLinkShare();
+
+
+                            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+                            mPager = (ViewPager) v.findViewById(R.id.slide_image);
+                            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+                            mPager.setAdapter(adapter);
+                            indicator.setViewPager(mPager);
+                            adapter.registerDataSetObserver(indicator.getDataSetObserver());
                             adapter.notifyDataSetChanged();
+
+
                             checkHearth(objPill.getLikeStt());
+
                             LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
                             insertPoint.removeAllViews();
                             int s = Integer.valueOf(objPill.getStar().intValue());

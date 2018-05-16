@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -30,6 +31,8 @@ import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Rate_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Constructor.Pill_obj;
 import app.pharma.com.pharma.Model.Constructor.Rating_Obj;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
@@ -96,19 +99,88 @@ public class Pharma_Detail_Rate extends Fragment {
     private void setRelativeTop(String key) {
 
         if(key.equals("pharma")){
-            View rowView = inflater2.inflate(R.layout.rate_pharma_include, null);
-            rl_top.addView(rowView);
+            setHeaderPharma();
             getListRate(page,"store","idStore");
         }else if(key.equals("pill")){
-            View rowView = inflater2.inflate(R.layout.rate_pill_include, null);
-            rl_top.addView(rowView);
+            setHeaderPill();
             getListRate(page,"product","idProduct");
         }else if(key.equals("sick")){
-            View rowView = inflater2.inflate(R.layout.rate_sick_include, null);
-            rl_top.addView(rowView);
+            setHeaderSick();
+
             getListRate(page,"disease","idDisease");
 
         }
+
+
+    }
+
+    private void setHeaderSick() {
+        View rowView = inflater2.inflate(R.layout.rate_sick_include, null);
+        TextView tvName = rowView.findViewById(R.id.include_sick_name);
+        TextView tvCk = rowView.findViewById(R.id.include_sick_catalo);
+        TextView tvDate = rowView.findViewById(R.id.include_sick_day);
+        TextView tvLike = rowView.findViewById(R.id.txt_like);
+        TextView tvCommment = rowView.findViewById(R.id.txt_comment);
+        ImageView img = rowView.findViewById(R.id.include_sick_img);
+        LinearLayout ln = rowView.findViewById(R.id.include_sick_star);
+
+        rl_top.addView(rowView);
+    }
+
+    private void setHeaderPill() {
+        View rowView = inflater2.inflate(R.layout.rate_pill_include, null);
+        TextView tvName = rowView.findViewById(R.id.include_pill_name);
+        TextView tvPrice = rowView.findViewById(R.id.include_pill_price);
+        LinearLayout ln = rowView.findViewById(R.id.inclide_pill_star);
+        ln.removeAllViews();
+        ImageView img = rowView.findViewById(R.id.include_pill_image);
+        TextView like = rowView.findViewById(R.id.txt_like);
+        TextView cmt = rowView.findViewById(R.id.txt_comment);
+        Pill_obj obj = (Pill_obj) Detail.headerObj;
+        tvName.setText(obj.getName());
+        tvPrice.setText(Constant.format.format((obj.getPrice())));
+        Utils.loadImagePicasso(ServerPath.ROOT_URL+obj.getImages().get(0),img);
+        like.setText(obj.getLike()+"");
+        cmt.setText(obj.getComment()+"");
+        if(obj.getStar()!=null){
+
+            int s = Integer.valueOf(obj.getStar().intValue());
+            LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            for(int i = 0; i<s;i++){
+                View star = vi.inflate(R.layout.star, null);
+
+                ln.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
+            }
+
+        }
+        rl_top.addView(rowView);
+    }
+
+    private void setHeaderPharma() {
+        View rowView = inflater2.inflate(R.layout.rate_pharma_include, null);
+        TextView tvName = rowView.findViewById(R.id.include_pharma_name);
+        TextView tvAround = rowView.findViewById(R.id.include_pharma_around);
+        ImageView img = rowView.findViewById(R.id.include_pharma_image);
+        LinearLayout ln = rowView.findViewById(R.id.include_pharma_star);
+        ln.removeAllViews();
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    JSONObject oj = new JSONObject(Detail.headerJson);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                rl_top.addView(rowView);
+                super.onPostExecute(aVoid);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
     }

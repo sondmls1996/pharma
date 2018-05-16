@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-
+                android:id="@+id/include_pharma_image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/no_image_small" />
 
@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nhà thuốc Duy Tuấn"
+                android:id="@+id/include_pharma_name"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -47,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:id="@+id/include_pharma_star"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <!--<ImageView-->
@@ -75,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Cách 1 km"
+               android:id="@+id/include_pharma_around"
                 android:gravity="bottom"
                 android:textColor="@color/red"
                 android:textSize="12sp"
