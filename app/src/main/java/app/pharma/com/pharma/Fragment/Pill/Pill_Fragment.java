@@ -15,9 +15,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -195,11 +198,13 @@ public class Pill_Fragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+              Utils.setAlphalAnimation(view);
                 Intent it = new Intent(getActivity(), Detail.class);
                 it.putExtra("key","pill");
                 it.putExtra("id", arr.get(i).getId());
-                it.putExtra("images",arr.get(i).getImage());
+
                 startActivity(it);
+
             }
         });
     }

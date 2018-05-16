@@ -31,6 +31,7 @@ import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
+import app.pharma.com.pharma.Model.Constructor.Pill_obj;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -49,6 +50,7 @@ public class Pill_Fragment_Detail extends Fragment {
     int page = 1;
     boolean like = false;
     View v;
+    Pill_obj objPill;
     String product_id;
     String link_share = "";
     Double star_count;
@@ -108,7 +110,7 @@ public class Pill_Fragment_Detail extends Fragment {
         hearth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkHearth();
+                onClickHeart();
             }
         });
 
@@ -120,9 +122,11 @@ public class Pill_Fragment_Detail extends Fragment {
         indicator.setViewPager(mPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-
-
         loadData();
+
+    }
+
+    private void onClickHeart() {
 
     }
 
@@ -132,49 +136,81 @@ public class Pill_Fragment_Detail extends Fragment {
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    Log.d("RESPONSE_DETAIL",response);
-                    JSONObject jo = new JSONObject(response);
-                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                    tv_title.setText(product.getString(JsonConstant.NAME));
-                    product_id = product.getString(JsonConstant.ID);
-                    JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
-                    link_share = product.getString(JsonConstant.LINK_SHARE);
-                    tv_content.setText(Html.fromHtml(getActivity().getResources().getString(R.string.how_to_use_pill,
-                            product.getString(JsonConstant.USAGE),
-                            product.getString(JsonConstant.RECOMENT),
-                            product.getString(JsonConstant.INGREINFO),
-                            product.getString(JsonConstant.STORAGE))
-                    ));
-                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-                    for (int j = 0; j<images.length();j++){
-                        ImagesArray.add(images.getString(j));
-                    }
-                    tv_like.setText(product.getString(JsonConstant.LIKE));
-                    tv_comment.setText(product.getString(JsonConstant.COMMENT));
-                    star_count = product.getDouble(JsonConstant.STAR);
+                Log.d("RESPONSE_DETAIL",response);
+                    new AsyncTask<Void,Void,JSONObject>(){
 
-                    adapter.notifyDataSetChanged();
+                        @Override
+                        protected JSONObject doInBackground(Void... voids) {
 
-                    LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
-                    insertPoint.removeAllViews();
-                        int s = Integer.valueOf(star_count.intValue());
-                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        Log.d("STAR",s+"");
-// insert into main view
-                        for(int i = 0; i<s;i++){
-                            View star = vi.inflate(R.layout.star, null);
+                            Detail.headerJson = response;
+                            JSONObject jo = null;
+                            try {
+                                jo = new JSONObject(response);
+                                String code = jo.getString(JsonConstant.CODE);
+                                switch (code){
+                                    case "0":
+                                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                        JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
+                                        JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
 
-                            insertPoint.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
+                                        objPill = new Pill_obj();
+                                        objPill.setId(product.getString(JsonConstant.ID));
+                                        objPill.setName(product.getString(JsonConstant.NAME));
+                                        objPill.setLinkShare(product.getString(JsonConstant.LINK_SHARE));
+                                        objPill.setPrice(joPrice.getInt(JsonConstant.MONEY));
+                                        objPill.setUsage(product.getString(JsonConstant.USAGE));
+                                        objPill.setRecoment(product.getString(JsonConstant.RECOMENT));
+                                        objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));
+                                        objPill.setStorage( product.getString(JsonConstant.STORAGE));
+                                        for (int j = 0; j<images.length();j++){
+                                            ImagesArray.add(images.getString(j));
+                                        }
+                                        objPill.setImages(ImagesArray);
+                                        objPill.setLike(product.getInt(JsonConstant.LIKE));
+                                        objPill.setComment(product.getInt(JsonConstant.COMMENT));
+                                        objPill.setStar(product.getDouble(JsonConstant.STAR));
+                                        objPill.setLikeStt(product.getInt(JsonConstant.LIKE_STT));
+
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            return jo;
                         }
-                        getOtherPrd(jo);
 
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                        @Override
+                        protected void onPostExecute(JSONObject jo) {
+                            tv_title.setText(objPill.getName());
+                            tv_like.setText(objPill.getLike()+"");
+                            tv_comment.setText(objPill.getComment()+"");
+                            tv_content.setText(Html.fromHtml(Common.context.getResources().getString(R.string.how_to_use_pill,
+                                    objPill.getUsage(),
+                                    objPill.getRecoment(),
+                                    objPill.getInteractIn(),
+                                    objPill.getStorage())
+                            ));
+                            product_id = objPill.getId();
+                            link_share = objPill.getLinkShare();
+                            adapter.notifyDataSetChanged();
+                            checkHearth(objPill.getLikeStt());
+                            LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
+                            insertPoint.removeAllViews();
+                            int s = Integer.valueOf(objPill.getStar().intValue());
+                            LayoutInflater vi = (LayoutInflater) Common.context.getSystemService
+                                    (Context.LAYOUT_INFLATER_SERVICE);
+                            Log.d("STAR",s+"");
+                            for(int i = 0; i<s;i++){
+                                View star = vi.inflate(R.layout.star, null);
+                                insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                            }
+                            getOtherPrd(jo);
+                            super.onPostExecute(jo);
+                        }
+                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         };
 
@@ -239,8 +275,8 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
 
-    public void checkHearth(){
-        if(like){
+    public void checkHearth(int likeStt){
+        if(likeStt==0){
             hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
             like = false;
         }else{

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     TextView tv_reg;
     TextView tv_lostpass;
     EditText eduser;
+    CheckBox check;
+    TextView not_login;
     EditText edpass;
     Utils util;
     DatabaseHandle databaseHandle;
@@ -46,12 +49,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void init() {
         Common.context = this;
         databaseHandle = new DatabaseHandle();
-
+        check = findViewById(R.id.cb);
         tv_reg = findViewById(R.id.tv_register);
         tv_lostpass = findViewById(R.id.tv_lost_pass);
         eduser = findViewById(R.id.ed_user);
         edpass = findViewById(R.id.ed_pass);
         btnlogin = findViewById(R.id.btnlogin);
+        not_login = findViewById(R.id.not_login);
+        not_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(it);
+                finish();
+            }
+        });
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,13 +75,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 //        Utils.setCompondEdt(R.drawable.padlock,edpass);
         tv_lostpass.setOnClickListener(this);
         tv_reg.setOnClickListener(this);
+        if(!Utils.getUserName().equals("")){
+            eduser.setText(Utils.getUserName());
+        }
     }
 
     private void doLogin() {
+
         String user = eduser.getText().toString();
         String pass = edpass.getText().toString();
         util.showLoading(this,20000,true);
         if(user.length()>0&&pass.length()>0){
+            if(check.isChecked()){
+                Utils.setUserName(user);
+            }else{
+                Utils.setUserName("");
+            }
             Map<String,String> map= new HashMap<>();
             map.put("userName",user);
             map.put("password",pass);
@@ -86,8 +107,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 Utils.dialogNotif(getResources().getString(R.string.login_fail));
                                 break;
                             case "0":
-                                JSONObject ac = jo.getJSONObject(JsonConstant.ACCOUNT);
-                                JSONObject acc = ac.getJSONObject(JsonConstant.ACCOUNTS );
+
+                                JSONObject acc = jo.getJSONObject(JsonConstant.ACCOUNTS );
                                 User user = new User();
                                 user.setEmail(acc.getString(JsonConstant.EMAIL));
                                 user.setAdr(acc.getString(JsonConstant.USER_ADR));
@@ -97,7 +118,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 user.setUserName(acc.getString(JsonConstant.USERNAME));
                                 user.setToken(acc.getString(JsonConstant.ACCESS));
                                 user.setName(acc.getString(JsonConstant.FULLNAME));
-                                user.setPhone(acc.getString(JsonConstant.PHONE));
+                                if(acc.has(JsonConstant.PHONE)){
+                                    user.setPhone(acc.getString(JsonConstant.PHONE));
+                                }
+
                                 databaseHandle.updateOrInstall(user);
                                 Utils.setLogin(true);
                                 util.showLoading(Login.this,0,false);

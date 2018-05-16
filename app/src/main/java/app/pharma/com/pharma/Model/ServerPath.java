@@ -42,7 +42,7 @@ public class ServerPath {
 
      public static String FILLTER_PILL = "filterAPI";
 
-     public static String LIST_RATE_PILL = "listRatingAPI";
+     public static String LIST_RATING = "listRatingAPI";
 
     //hospital
 

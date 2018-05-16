@@ -81,12 +81,7 @@ public class Sick_Detail_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(!share.equals("")){
-                    Intent shareit = new Intent(Intent.ACTION_SEND);
-                    shareit.setType("text/plain");
-                    String shareBody = link_share;
-
-                    shareit.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                    startActivity(Intent.createChooser(shareit, "Chia sẻ qua"));
+                    Utils.shareLink(link_share);
                 }
             }
         });
@@ -147,7 +142,7 @@ public class Sick_Detail_Fragment extends Fragment {
                     for(int i = 0; i<s;i++){
                         View star = vi.inflate(R.layout.star, null);
 
-                        ln_star.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
+                        ln_star.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
                     }
                     content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,Dise.getString(JsonConstant.DESCRI),"")));
                     adapter.notifyDataSetChanged();

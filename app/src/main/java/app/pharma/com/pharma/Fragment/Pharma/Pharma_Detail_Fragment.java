@@ -58,6 +58,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     int likeStt = 0;
     String linkShare = "";
     String strphone;
+
     TextView adr;
     TextView around;
     Double star;
@@ -197,7 +198,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                 for(int i = 0; i<s;i++){
                                     View star = vi.inflate(R.layout.star, null);
 
-                                    ln.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
+                                    ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
                                 }
                                 if(gg!=null){
                                     setMap();

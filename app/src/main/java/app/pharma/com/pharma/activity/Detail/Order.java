@@ -33,7 +33,7 @@ public class Order extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-
+        Common.context = this;
         init();
     }
 
@@ -86,5 +86,11 @@ public class Order extends AppCompatActivity {
 //        Utils.setCompondEdt(R.drawable.profile,ed_fullname);
 //        Utils.setCompondEdt(R.drawable.email,ed_email);
 //        Utils.setCompondEdt(R.drawable.phone_blue,ed_phone);
+    }
+
+    @Override
+    protected void onResume() {
+        Common.context = this;
+        super.onResume();
     }
 }

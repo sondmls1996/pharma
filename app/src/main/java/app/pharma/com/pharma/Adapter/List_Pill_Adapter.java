@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -52,6 +53,7 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v =  inflater.inflate(R.layout.item_pill, null);
         }
+
 
         TextView tv_title = v.findViewById(R.id.title_pill);
         TextView decr_pill = v.findViewById(R.id.decrip_pill);

@@ -1,10 +1,12 @@
 package app.pharma.com.pharma.Model.Constructor;
 
+import java.io.Serializable;
+
 /**
  * Created by Vi on 3/18/2018.
  */
 
-public class Pill_Constructor {
+public class Pill_Constructor implements Serializable {
     String id;
     String name;
     String image;

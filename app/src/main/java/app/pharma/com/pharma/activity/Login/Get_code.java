@@ -33,6 +33,7 @@ import app.pharma.com.pharma.R;
 public class Get_code extends AppCompatActivity implements View.OnClickListener {
     Button get_code;
     Utils utils;
+    TextView bac_lg;
     EditText ed_email;
     String mail = "";
     @Override
@@ -49,6 +50,15 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
         ed_email = findViewById(R.id.ed_email);
+        bac_lg = findViewById(R.id.back_login);
+        bac_lg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(),Login.class);
+                startActivity(it);
+                finish();
+            }
+        });
      //   Utils.setCompondEdt(R.drawable.padlock,ed_email);
         tvTitle.setText(getResources().getString(R.string.lost_pass));
         imgBack.setOnClickListener(new View.OnClickListener() {

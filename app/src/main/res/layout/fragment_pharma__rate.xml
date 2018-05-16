@@ -44,11 +44,7 @@
             android:id="@+id/view_gray"
 
             android:background="@color/gray"/>
-            <ScrollView
-                android:layout_width="match_parent"
 
-                android:layout_height="match_parent"
-                >
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
@@ -79,13 +75,20 @@
                    android:id="@+id/view_gray2"
 
                    android:background="@color/gray"/>
-               <LinearLayout
+               <android.support.v4.widget.SwipeRefreshLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:id="@+id/swip">
+
+
+               <ListView
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="vertical"
-                   android:id="@+id/ln_list_rate"></LinearLayout>
+                   android:id="@+id/lv_list_rate"></ListView>
+               </android.support.v4.widget.SwipeRefreshLayout>
            </LinearLayout>
-            </ScrollView>
+
 
 
        </LinearLayout>

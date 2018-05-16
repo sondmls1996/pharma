@@ -77,6 +77,7 @@ public class Insite_List extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(getActivity(), Detail.class);
                 it.putExtra("key","pharma");
                 it.putExtra("id",arr.get(i).getId());
@@ -134,22 +135,27 @@ public class Insite_List extends Fragment {
                             protected Void doInBackground(Void... voids) {
                                 try{
                                     JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
-                                    for (int i =0; i<array.length();i++){
-                                        JSONObject obj = array.getJSONObject(i);
-                                        JSONObject store = obj.getJSONObject(JsonConstant.STORE);
-                                        Pharma_Constructor pharma = new Pharma_Constructor();
-                                        pharma.setName(store.getString(JsonConstant.NAME));
-                                        pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                                        pharma.setComment(store.getString(JsonConstant.COMMENT));
-                                        pharma.setAvatar(store.getString(JsonConstant.IMAGE));
-                                        pharma.setId(store.getString(JsonConstant.ID));
-                                        pharma.setLike(store.getString(JsonConstant.LIKE));
-                                        pharma.setRate(store.getDouble(JsonConstant.STAR));
-                                        JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
-                                        pharma.setX(location.getDouble(JsonConstant.LAT));
-                                        pharma.setY(location.getDouble(JsonConstant.LONG));
-                                        arr.add(pharma);
+                                    if(array.length()>0){
+                                        for (int i =0; i<array.length();i++){
+                                            JSONObject obj = array.getJSONObject(i);
+                                            JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                                            Pharma_Constructor pharma = new Pharma_Constructor();
+                                            pharma.setName(store.getString(JsonConstant.NAME));
+                                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                                            pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                            pharma.setAvatar(store.getString(JsonConstant.IMAGE));
+                                            pharma.setId(store.getString(JsonConstant.ID));
+                                            pharma.setLike(store.getString(JsonConstant.LIKE));
+                                            pharma.setRate(store.getDouble(JsonConstant.STAR));
+                                            JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                                            pharma.setX(location.getDouble(JsonConstant.LAT));
+                                            pharma.setY(location.getDouble(JsonConstant.LONG));
+                                            arr.add(pharma);
+                                        }
+                                    }else {
+                                        return null;
                                     }
+
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }

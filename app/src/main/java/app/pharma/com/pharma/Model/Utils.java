@@ -23,6 +23,8 @@ import android.text.format.DateFormat;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -268,7 +270,29 @@ public class Utils {
         editor.putBoolean("isLogin",isLogin);
         editor.commit();
     }
+    public static String getUserName(){
 
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.USER_NAME, Context.MODE_PRIVATE);
+
+        return preferences.getString("username","");
+    }
+
+    public static void setAlphalAnimation(View v){
+
+        Animation anim1 = new AlphaAnimation(0.3f,1f);
+        anim1.setDuration(500);
+        v.startAnimation(anim1);
+
+    }
+
+    public static void setUserName(String userName){
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.USER_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putString("username",userName);
+        editor.commit();
+    }
     public static double roundTwoDecimals(double d)
     {
         DecimalFormat twoDForm = new DecimalFormat("#.##");

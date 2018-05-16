@@ -168,6 +168,7 @@ public class Dr_Fragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(getContext(), Infor_Dr.class);
                 it.putExtra("id",arr.get(i).getId());
                 getContext().startActivity(it);

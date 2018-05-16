@@ -141,6 +141,7 @@ public class Sick_Fragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(getActivity(), Detail.class);
                 it.putExtra("key","sick");
                 it.putExtra("id", arr.get(i).getId());

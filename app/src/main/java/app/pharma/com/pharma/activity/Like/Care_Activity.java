@@ -25,6 +25,7 @@ public class Care_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_);
+        Common.context = this;
         Intent it = getIntent();
         if(it.getExtras()!=null){
             key = it.getExtras().getString("key");
@@ -34,7 +35,7 @@ public class Care_Activity extends AppCompatActivity {
     }
 
     private void init() {
-        Common.context = this;
+
         TextView tvTitle = (TextView)findViewById(R.id.title);
         ImageView imgBack = (ImageView)findViewById(R.id.img_back);
         if(key.equals("pill")){

@@ -8,17 +8,32 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.android.volley.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import app.pharma.com.pharma.Adapter.List_Rate_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constructor.Rating_Obj;
+import app.pharma.com.pharma.Model.JsonConstant;
+import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Detail;
 
@@ -27,9 +42,12 @@ import app.pharma.com.pharma.activity.Detail.Detail;
  */
 public class Pharma_Detail_Rate extends Fragment {
 
-    LinearLayout ln_list;
+    ListView lv_rate;
     ArrayList<View> arrView;
     LinearLayout ln_rate_now;
+    int page = 1;
+    List_Rate_Adapter rateAdapter;
+    ArrayList<Rating_Obj> arrRate;
     View v;
     TextView tv_comment,tv_de_comment;
     LayoutInflater inflater2;
@@ -46,15 +64,19 @@ public class Pharma_Detail_Rate extends Fragment {
          v = inflater.inflate(R.layout.fragment_pharma__rate, container, false);
         
         init();
-      
+
 
 
         return v;
     }
 
     private void init() {
+        arrRate = new ArrayList<>();
 
-        ln_list = v.findViewById(R.id.ln_list_rate);
+        lv_rate = v.findViewById(R.id.lv_list_rate);
+        rateAdapter = new List_Rate_Adapter(getActivity(),R.layout.item_rate,arrRate);
+        lv_rate.setAdapter(rateAdapter);
+
         ln_rate_now = v.findViewById(R.id.ln_rate_now);
         rl_top = v.findViewById(R.id.rl_rate_top);
         arrView = new ArrayList<>();
@@ -69,26 +91,6 @@ public class Pharma_Detail_Rate extends Fragment {
         inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setRelativeTop(Detail.key);
 
-        new AsyncTask<Void, Void, ArrayList<View>>() {
-            @Override
-            protected ArrayList<View> doInBackground(Void... voids) {
-
-                for (int i = 0; i < 10; i++){
-                    final View rowView = inflater2.inflate(R.layout.item_rate, null);
-                    arrView.add(rowView);
-                }
-                return arrView;
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<View> views) {
-
-                for ( int i =0;i<views.size();i++){
-                    ln_list.addView(views.get(i));
-                }
-                super.onPostExecute(views);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void setRelativeTop(String key) {
@@ -96,18 +98,93 @@ public class Pharma_Detail_Rate extends Fragment {
         if(key.equals("pharma")){
             View rowView = inflater2.inflate(R.layout.rate_pharma_include, null);
             rl_top.addView(rowView);
-
+            getListRate(page,"store","idStore");
         }else if(key.equals("pill")){
             View rowView = inflater2.inflate(R.layout.rate_pill_include, null);
             rl_top.addView(rowView);
-
+            getListRate(page,"product","idProduct");
         }else if(key.equals("sick")){
             View rowView = inflater2.inflate(R.layout.rate_sick_include, null);
             rl_top.addView(rowView);
+            getListRate(page,"disease","idDisease");
 
         }
 
 
+    }
+
+    private void getListRate(int page,String type,String keyId) {
+        Map<String,String> map = new HashMap<>();
+        map.put("page",page+"");
+        map.put("type",type);
+        map.put(keyId,Detail.id);
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            new AsyncTask<Void,Void,Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    JSONArray listRate = null;
+                                    try {
+                                        listRate = jo.getJSONArray(JsonConstant.LIST_RATING);
+                                        if(listRate.length()>0){
+                                            for (int i = 0; i<listRate.length();i++){
+                                                JSONObject idx = listRate.getJSONObject(i);
+                                                JSONObject Rating = idx.getJSONObject(JsonConstant.RATING);
+                                                Rating_Obj rate = new Rating_Obj();
+                                                rate.setShortComment(Rating.getString(JsonConstant.SHORT_CMT));
+                                                rate.setComment(Rating.getString(JsonConstant.COMMENT));
+                                                rate.setStar(Rating.getDouble(JsonConstant.STAR));
+                                                rate.setTime(Rating.getLong(JsonConstant.TIME));
+                                                arrRate.add(rate);
+
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    switch (type){
+                                        case "store":
+                                            tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                                    arrRate.size()+"","nhà thuốc"));
+                                            break;
+                                        case "product":
+                                            tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                                    arrRate.size()+"","sản phẩm"));
+                                            break;
+                                        case "disease":
+                                            tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                                    arrRate.size()+"","bài viết"));
+                                            break;
+                                    }
+
+                                    rateAdapter.notifyDataSetChanged();
+                                    super.onPostExecute(aVoid);
+                                }
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                            break;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("RESPONSE_RATE_PILL",response);
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.LIST_RATING,map,response);
     }
 
     private void showDialogRate() {

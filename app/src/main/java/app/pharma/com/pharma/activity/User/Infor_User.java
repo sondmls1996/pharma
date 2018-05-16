@@ -11,10 +11,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -25,8 +30,10 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
     ImageView header_bg;
     TextView tv_name;
     TextView tv_phone;
+    SimpleDateFormat format;
     TextView tv_mail;
     TextView tv_adr;
+    Calendar c;
     TextView tv_username;
     TextView tv_birth;
     LinearLayout ln_changepass;
@@ -35,6 +42,8 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infor__user);
+        c = GregorianCalendar.getInstance();
+        format = new SimpleDateFormat("dd-MM-yyyy");
         init();
 
 
@@ -44,6 +53,22 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         Common.context = this;
+        if(Utils.isLogin()){
+            User user = db.getAllUserInfor();
+            tv_name.setText(user.getName());
+            tv_mail.setText(user.getEmail());
+            tv_phone.setText(user.getPhone());
+            tv_adr.setText(user.getAdr());
+            c.setTimeInMillis(user.getDate());
+            tv_birth.setText(format.format(c.getTime()));
+
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
+            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+
+        }else{
+            Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+        }
         super.onResume();
 
     }
@@ -70,25 +95,14 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         avt = findViewById(R.id.img_avt);
         avt2 = findViewById(R.id.img_avtbg);
         header_bg = findViewById(R.id.header_bg);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avt);
-        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_bg);
+
         header_bg.setOnClickListener(this);
         ln_changeinf = findViewById(R.id.ln_changeinf);
         ln_changepass = findViewById(R.id.ln_changepass);
         ln_changeinf.setOnClickListener(this);
         ln_changepass.setOnClickListener(this);
 
-        if(Utils.isLogin()){
-            User user = db.getAllUserInfor();
-            tv_name.setText(user.getName());
-            tv_mail.setText(user.getEmail());
-            tv_phone.setText(user.getPhone());
-            tv_adr.setText(user.getAdr());
 
-        }else{
-            Utils.dialogNotif(getResources().getString(R.string.you_not_login));
-        }
     }
 
     @Override

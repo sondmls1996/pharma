@@ -22,5 +22,6 @@ public class Constant {
     public static String LIST_CATALO_DR = "specialist";
 
     public static String USER_SHARE = "user_share";
+    public static String USER_NAME = "user_name";
 
 }

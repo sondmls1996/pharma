@@ -12,7 +12,11 @@ public class JsonConstant {
     public static String USER_ADR = "detailAddress";
     public static String PHONE = "phone";
     public static String TYPE = "type";
+    public static String SHORT_CMT = "shortComment";
+
     public static String EMAIL = "email";
+    public static String LIST_RATING = "listRating";
+    public static String RATING = "Rating";
     public static String DOB = "dob";
     public static String ACCESS = "accessToken";
      public static String PRODUCT = "Product";

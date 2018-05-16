@@ -3,15 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.pharma.com.pharma.Fragment.Pharma.Insite_List">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/txt_null"
-        android:textColor="@color/black"
-        android:text="@string/empty_list"
-        android:textSize="16sp"
-        android:gravity="center"/>
+
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="wrap_content"
@@ -24,5 +16,13 @@
     android:background="@color/white"
     android:id="@+id/lv_pharma"></ListView>
     </android.support.v4.widget.SwipeRefreshLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/txt_null"
+        android:textColor="@color/black"
+        android:text="@string/empty_list"
+        android:textSize="16sp"
+        android:gravity="center"/>
 </FrameLayout>

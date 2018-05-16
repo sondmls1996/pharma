@@ -15,13 +15,20 @@ import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate;
 import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment_Detail;
 import app.pharma.com.pharma.Fragment.Sick.Sick_Detail_Fragment;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
+import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
+import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.R;
 
 public class Detail extends AppCompatActivity implements View.OnClickListener {
     Class fragment;
     FrameLayout fragDetail;
+    public static String headerJson = "";
     public static String key = "";
     public static String id = "";
+    Pill_Constructor pillConstructor;
+    Sick_Construct sickConstructor;
+    Pharma_Constructor pharmaConstructor;
     TextView tv_left, tv_right;
     TextView tvTitle;
     ImageView imgBack;
@@ -34,6 +41,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
         if(it.getExtras()!=null){
             key = it.getExtras().getString("key");
             id = it.getExtras().getString("id");
+
         }
 
 

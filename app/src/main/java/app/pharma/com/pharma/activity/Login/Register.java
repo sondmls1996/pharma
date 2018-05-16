@@ -153,7 +153,7 @@ public class Register extends AppCompatActivity {
                 map.put("email",email);
                 map.put("password",pass);
                 map.put("passAgain",repass);
-                map.put("dob",c.getTime()+"");
+                map.put("dob",c.getTimeInMillis()+"");
 
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override

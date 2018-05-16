@@ -26,7 +26,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="Bài viết này rất hay"
+                android:id="@+id/tv_shortCmt"
                 android:layout_weight="3"/>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:textColor="@color/gray"
                     android:gravity="right"
                     android:textSize="12sp"
-                    android:text="20/04/2018"
+                    android:id="@+id/tv_date"
                     />
             </RelativeLayout>
 
@@ -48,21 +48,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/ln_star_rate"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:src="@drawable/star_full"/>
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:src="@drawable/star_full"/>
+
 
         </LinearLayout>
 
@@ -72,13 +60,13 @@
             android:textColor="@color/black"
             android:layout_marginBottom="5dp"
             android:textStyle="bold"
-            android:text="Sơn vi"/>
+            android:id="@+id/tv_name_rate"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:textColor="@color/black"
-            android:text="Rất tốt, cảm ơn người viết bài "/>
+            android:id="@+id/tv_cmt_rate"/>
 
     </LinearLayout>
     <LinearLayout
