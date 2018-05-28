@@ -107,8 +107,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 Utils.dialogNotif(getResources().getString(R.string.login_fail));
                                 break;
                             case "0":
-
-                                JSONObject acc = jo.getJSONObject(JsonConstant.ACCOUNTS );
+                                JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+                                JSONObject acc = data.getJSONObject(JsonConstant.ACCOUNTS );
                                 User user = new User();
                                 user.setEmail(acc.getString(JsonConstant.EMAIL));
                                 user.setAdr(acc.getString(JsonConstant.USER_ADR));

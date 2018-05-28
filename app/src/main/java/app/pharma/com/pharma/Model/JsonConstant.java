@@ -13,6 +13,14 @@ public class JsonConstant {
     public static String PHONE = "phone";
     public static String TYPE = "type";
     public static String SHORT_CMT = "shortComment";
+    public static String DATA = "data";
+    public static String numberCmt = "numberComment";
+    public static String TIPNOTE = "listTipNotice";
+    public static String NOTICE = "Notice";
+    public static String INTRODUCT = "introductory";
+    public static String TITLE = "title";
+    public static String LINKVIEW = "linkView";
+
 
     public static String EMAIL = "email";
     public static String LIST_RATING = "listRating";
@@ -25,6 +33,7 @@ public class JsonConstant {
      public static String IMAGE = "image";
      public static String INTERAC="interaction";
      public static String DESCRI = "describe";
+     public static String DEFINE = "define";
      public static String CODE = "code";
     public static String ACCOUNT = "Account";
      public static String ACCOUNTS = "Accounts";

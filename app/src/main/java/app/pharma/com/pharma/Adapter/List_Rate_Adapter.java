@@ -3,23 +3,17 @@ package app.pharma.com.pharma.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Constructor.Rating_Obj;
-import app.pharma.com.pharma.Model.ServerPath;
-import app.pharma.com.pharma.Model.Sick_Construct;
+import app.pharma.com.pharma.Model.Constructor.Object.Rating_Obj;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 

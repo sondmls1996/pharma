@@ -3,6 +3,7 @@ package app.pharma.com.pharma.activity.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,12 +56,13 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         Common.context = this;
         if(Utils.isLogin()){
             User user = db.getAllUserInfor();
-            tv_name.setText(user.getName());
-            tv_mail.setText(user.getEmail());
-            tv_phone.setText(user.getPhone());
-            tv_adr.setText(user.getAdr());
+            tv_name.setText(checkNull(user.getName()));
+
+            tv_mail.setText(checkNull(user.getEmail()));
+            tv_phone.setText(checkNull(user.getPhone()));
+            tv_adr.setText(checkNull(user.getAdr()));
             c.setTimeInMillis(user.getDate());
-            tv_birth.setText(format.format(c.getTime()));
+            tv_birth.setText(checkNull(format.format(c.getTime())));
 
             Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
             Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
@@ -71,6 +73,13 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         }
         super.onResume();
 
+    }
+
+    private String checkNull(String string){
+        if(TextUtils.isEmpty(string)){
+            string = "Chưa cập nhật";
+        }
+        return string;
     }
 
     private void init() {

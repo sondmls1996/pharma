@@ -354,6 +354,7 @@ public class Pill_Fragment extends Fragment {
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.setAlphalAnimation(view);
                 if(maxPrice>0){
                     dialog.dismiss();
                     loadPage(1);

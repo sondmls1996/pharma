@@ -2,8 +2,10 @@ package app.pharma.com.pharma.Fragment;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Meo_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Meo_Constructor;
+import app.pharma.com.pharma.Model.JsonConstant;
+import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Infor_Meo;
 
@@ -30,6 +43,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
     ArrayList<Meo_Constructor> arr;
     int lastVisibleItem = 0;
     private int lastY = 0;
+    int page = 1;
     TextView tv_focus;
     TextView tv_hearth;
     TextView tv_meo;
@@ -63,50 +77,9 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         arr = new ArrayList<>();
         adapter = new List_Meo_Adapter(getContext(),0,arr);
         lv.setAdapter(adapter);
-        arr.add(new Meo_Constructor());
-        arr.add(new Meo_Constructor());
-        arr.add(new Meo_Constructor());
-        arr.add(new Meo_Constructor());
-        arr.add(new Meo_Constructor());
-        adapter.notifyDataSetChanged();
 
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
 
-            }
 
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
-                int top = 0;
-                if(lv.getChildAt(0) != null){
-                    top = lv.getChildAt(0).getTop();
-                }
-
-                if(firstVisibleItem > lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_DOWN);
-                    Common.context.sendBroadcast(it);
-                }else if(firstVisibleItem < lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_UP);
-                    Common.context.sendBroadcast(it);
-                }else{
-                    if(top < lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_DOWN);
-                        Common.context.sendBroadcast(it);
-                    }else if(top > lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_UP);
-                        Common.context.sendBroadcast(it);
-                    }
-                }
-                lastVisibleItem = firstVisibleItem;
-                lastY = top;
-
-            }
-        });
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,6 +89,73 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
             }
         });
         tv_focus.performClick();
+        getData(page);
+    }
+
+    private void getData(int page) {
+        if(page==1){
+            arr.clear();
+        }
+        Map<String,String> map = new HashMap<>();
+        map.put("page",page+"");
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            new AsyncTask<Void,Void,Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+
+                                    try {
+                                        JSONObject jo = new JSONObject(response);
+                                        JSONArray tipnote = jo.getJSONArray(JsonConstant.TIPNOTE);
+                                        for (int i =0; i<tipnote.length();i++){
+                                            JSONObject idx =tipnote.getJSONObject(i);
+                                            JSONObject notice = idx.getJSONObject(JsonConstant.NOTICE);
+
+                                            Meo_Constructor meo = new Meo_Constructor();
+                                            meo.setTitle(notice.getString(JsonConstant.TITLE));
+                                            meo.setImage(notice.getString(JsonConstant.IMAGE));
+                                            meo.setId(notice.getString(JsonConstant.ID));
+                                         //   meo.setComment(notice.getString(JsonConstant.COMMENT));
+                                            meo.setDate(notice.getLong(JsonConstant.TIME));
+                                            meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
+                                            meo.setLink(notice.getString(JsonConstant.LINKVIEW));
+                                            arr.add(meo);
+                                        }
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    adapter.notifyDataSetChanged();
+                                    super.onPostExecute(aVoid);
+                                }
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("RESPONSE_MEO",response);
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.LIST_MEO,map,response);
+
     }
 
     @Override

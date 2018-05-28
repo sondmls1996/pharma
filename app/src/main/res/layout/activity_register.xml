@@ -274,6 +274,7 @@
             android:id="@+id/btn_register"
             android:elevation="10dp"
             android:padding="5dp"
+            android:foreground="?attr/selectableItemBackground"
             android:maxWidth="300dp"
             android:background="@drawable/border_edt_pink"
             android:layout_marginTop="20dp"

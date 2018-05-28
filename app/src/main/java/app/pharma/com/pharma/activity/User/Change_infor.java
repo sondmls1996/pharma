@@ -1,16 +1,25 @@
 package app.pharma.com.pharma.activity.User;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.R;
 
@@ -18,17 +27,25 @@ public class Change_infor extends AppCompatActivity {
     ImageView avt,avt2;
     ImageView header_bg;
     EditText edfullname,edEmail,edpass,edRepass,edBirth,edadr;
-
+    DatabaseHandle db;
+    Calendar c;
+    SimpleDateFormat format;
+    int day,month,year1;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_infor);
+        c = GregorianCalendar.getInstance();
+        format = new SimpleDateFormat("dd-MM-yyyy");
         init();
 
 
     }
 
     private void init() {
+        db = new DatabaseHandle();
+        user = db.getAllUserInfor();
         Common.context = this;
         avt = findViewById(R.id.img_avt);
         avt2 = findViewById(R.id.img_avtbg);
@@ -38,14 +55,23 @@ public class Change_infor extends AppCompatActivity {
         edBirth = findViewById(R.id.ed_birth);
         edadr = findViewById(R.id.ed_adr);
         edfullname=findViewById(R.id.ed_fullname);
+        c.setTimeInMillis(user.getDate());
+        day = c.get(Calendar.DAY_OF_MONTH);
+        month = c.get(Calendar.MONTH);
+        year1 = c.get(Calendar.YEAR);
 
-//        Utils.setCompondEdt(R.drawable.profile,edfullname);
-//        Utils.setCompondEdt(R.drawable.padlock,edpass);
-//        Utils.setCompondEdt(R.drawable.padlock,edRepass);
-//        Utils.setCompondEdt(R.drawable.email,edEmail);
-//        Utils.setCompondEdt(R.drawable.calendar,edBirth);
-//        Utils.setCompondEdt(R.drawable.blue_place,edadr);
-
+        edfullname.setText(user.getName());
+        edadr.setText(user.getAdr());
+        edEmail.setText(user.getEmail());
+        edBirth.clearFocus();
+        edBirth.setFocusable(false);
+        edBirth.setText(format.format(c.getTime()));
+        edBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogDate(day,month,year1);
+            }
+        });
 
         header_bg = findViewById(R.id.header_bg);
         TextView tvTitle = (TextView)findViewById(R.id.title);
@@ -57,9 +83,9 @@ public class Change_infor extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avt);
+        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
         Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_bg);
+        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
     }
 
     @Override
@@ -67,5 +93,28 @@ public class Change_infor extends AppCompatActivity {
         Common.context = this;
         super.onResume();
 
+    }
+
+    public void openDialogDate(int d, int m, int y){
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        year1 = year;
+                        day = dayOfMonth;
+                        month = monthOfYear;
+                        c.set(Calendar.YEAR,year1);
+                        c.set(Calendar.MONTH,month);
+                        c.set(Calendar.DAY_OF_MONTH,day);
+
+                        edBirth.setText(format.format(c.getTime()));
+                    }
+                }, y, m, d);
+
+        datePickerDialog.show();
     }
 }

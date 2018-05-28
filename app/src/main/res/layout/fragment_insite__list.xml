@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="app.pharma.com.pharma.Fragment.Pharma.Insite_List">
 
     <!-- TODO: Update blank fragment layout -->
@@ -25,4 +26,32 @@
         android:text="@string/empty_list"
         android:textSize="16sp"
         android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/ln_null"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/txt_null_2"
+            android:textColor="@color/black"
+            android:text="@string/not_near_you"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/show_all"
+            android:textColor="@color/blue"
+            android:textStyle="italic"
+            android:text="@string/show_all"
+            android:textSize="16sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
 </FrameLayout>

@@ -16,6 +16,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="80dp"
+            android:id="@+id/img_meo"
             android:scaleType="centerCrop"
             android:src="@drawable/no_image_small" />
 
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:maxLength="25"
             android:textSize="16sp"
+            android:id="@+id/title_meo"
             android:text="Cách trị hóc xương cá"
             android:textColor="@color/blue"
             android:textStyle="bold" />
@@ -45,6 +47,7 @@
             android:layout_weight="1"
             android:maxLength="60"
             android:textSize="12sp"
+            android:id="@+id/descr_meo"
             android:text="Để trị hóc xương cá, hãy lấy ít nước uống ..."
             android:textColor="@color/gray"
             android:textStyle="bold" />
@@ -52,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="14dp"
             android:text="18:20"
+            android:id="@+id/time_meo"
             android:textColor="@color/gray"
             android:textSize="10sp" />
 
@@ -70,6 +74,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="end"
+            android:id="@+id/date_meo"
             android:layout_marginTop="3dp"
             android:text="22/03/2018"
             android:textColor="@color/gray"

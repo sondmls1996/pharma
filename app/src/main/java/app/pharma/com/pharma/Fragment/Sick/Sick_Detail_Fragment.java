@@ -1,7 +1,6 @@
 package app.pharma.com.pharma.Fragment.Sick;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,7 @@ import java.util.Map;
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constructor.Sick_LQ_Construct;
-import app.pharma.com.pharma.Model.Constructor.Sick_Obj;
+import app.pharma.com.pharma.Model.Constructor.Object.Sick_Obj;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -84,6 +83,7 @@ public class Sick_Detail_Fragment extends Fragment {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.setAlphalAnimation(view);
                 if(!share.equals("")){
                     Utils.shareLink(link_share);
                 }
@@ -92,18 +92,13 @@ public class Sick_Detail_Fragment extends Fragment {
         hearth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.setAlphalAnimation(v);
 //                checkHearth();
             }
         });
 //        for(int i=0;i<IMAGES.length;i++)
 //            ImagesArray.add(IMAGES[i]);
-        adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
-        mPager = (ViewPager) v.findViewById(R.id.slide_image);
-        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-        mPager.setAdapter(adapter);
-        indicator.setViewPager(mPager);
-        adapter.registerDataSetObserver(indicator.getDataSetObserver());
         getData();
 
 
@@ -119,64 +114,87 @@ public class Sick_Detail_Fragment extends Fragment {
             public void onResponse(String response) {
                 Log.d("RESPONSE_SICK_DETAIL",response);
 
-                new AsyncTask<Void,Void,JSONObject>(){
+                try {
 
-                    @Override
-                    protected JSONObject doInBackground(Void... voids) {
-                        JSONObject jo = null;
-                        try {
-                             jo = new JSONObject(response);
-                            JSONObject Dise = jo.getJSONObject(JsonConstant.DISEASE);
-                            JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
-                            sickObj = new Sick_Obj();
-                            sickObj.setName(Dise.getString(JsonConstant.NAME));
-                            sickObj.setDescri(Dise.getString(JsonConstant.DESCRI));
-                            sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
-                            sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
-                            sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
-                            sickObj.setLink_share(Dise.getString(JsonConstant.LINK_SHARE));
-                            sickObj.setLike_stt(Dise.getInt(JsonConstant.LIKE_STT));
-                            sickObj.setId(Dise.getString(JsonConstant.ID));
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            new AsyncTask<Void,Void,JSONObject>(){
 
-                            for (int j = 0; j<images.length();j++){
-                                ImagesArray.add(images.getString(j));
-                            }
-                            sickObj.setImages(ImagesArray);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                                @Override
+                                protected JSONObject doInBackground(Void... voids) {
+
+                                    try {
+                                        JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+
+                                        JSONObject Dise = data.getJSONObject(JsonConstant.DISEASE);
+                                        JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
+                                        sickObj = new Sick_Obj();
+                                        sickObj.setName(Dise.getString(JsonConstant.NAME));
+                                        sickObj.setDescri(Dise.getString(JsonConstant.DEFINE));
+                                        sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
+                                        sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
+                                        sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
+                                        sickObj.setLink_share(Dise.getString(JsonConstant.LINK_SHARE));
+                                        sickObj.setLike_stt(Dise.getInt(JsonConstant.LIKE_STT));
+                                        sickObj.setId(Dise.getString(JsonConstant.ID));
+
+                                        for (int j = 0; j<images.length();j++){
+                                            ImagesArray.add(images.getString(j));
+                                        }
+                                        sickObj.setImages(ImagesArray);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
 
 
-                        return jo;
-                    }
+                                    return jo;
+                                }
 
-                    @Override
-                    protected void onPostExecute(JSONObject jo) {
-                        Detail.headerObj = sickObj;
-                        tv_title.setText(sickObj.getName());
-                        tv_like.setText(sickObj.getLike()+"");
-                        comment.setText(sickObj.getCmt());
-                        link_share = sickObj.getLink_share();
-                        checkHearth(sickObj.getLike_stt());
-                        adapter.notifyDataSetChanged();
+                                @Override
+                                protected void onPostExecute(JSONObject jo) {
+                                    Detail.headerObj = sickObj;
+                                    tv_title.setText(sickObj.getName());
+                                    tv_like.setText(sickObj.getLike()+"");
+                                    comment.setText(sickObj.getCmt()+"");
+                                    link_share = sickObj.getLink_share();
+                                    checkHearth(sickObj.getLike_stt());
 
-                        int s = Integer.valueOf(sickObj.getStar().intValue());
-                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                    adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+
+                                    mPager = (ViewPager) v.findViewById(R.id.slide_image);
+                                    CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+                                    mPager.setAdapter(adapter);
+                                    indicator.setViewPager(mPager);
+                                    adapter.registerDataSetObserver(indicator.getDataSetObserver());
+                                    adapter.notifyDataSetChanged();
+
+                                    int s = Integer.valueOf(sickObj.getStar().intValue());
+                                    LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 // insert into main view
-                        for(int i = 0; i<s;i++){
-                            View star = vi.inflate(R.layout.star, null);
+                                    for(int i = 0; i<s;i++){
+                                        View star = vi.inflate(R.layout.star, null);
 
-                            ln_star.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-                        }
-                        content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
-                                sickObj.getDescri(),
-                                "")));
+                                        ln_star.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                                    }
+                                    content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
+                                            sickObj.getDescri(),
+                                            "")));
 
-                        getSickOther(jo);
+                                    getSickOther(jo);
 
-                        super.onPostExecute(jo);
+                                    super.onPostExecute(jo);
+                                }
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                            break;
+
                     }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
 
             }
@@ -191,11 +209,13 @@ public class Sick_Detail_Fragment extends Fragment {
             for (int i = 0; i<other.length();i++){
                 JSONObject index = other.getJSONObject(i);
                 JSONObject product = index.getJSONObject(JsonConstant.DISEASE);
+                JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
                 Sick_LQ_Construct otherPrd = new Sick_LQ_Construct();
                 otherPrd.setTitle(product.getString(JsonConstant.NAME));
                 otherPrd.setId(product.getString(JsonConstant.ID));
-                otherPrd.setImage(product.getString(JsonConstant.IMAGE));
-                otherPrd.setDecri(product.getString(JsonConstant.DESCRI));
+
+                otherPrd.setImage(images.getString(0));
+                otherPrd.setDecri(product.getString(JsonConstant.DEFINE));
                 JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
                 otherPrd.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
                 arrSickLq.add(otherPrd);
@@ -214,6 +234,7 @@ public class Sick_Detail_Fragment extends Fragment {
                 tv_name_lq.setText(arrSickLq.get(i).getTitle());
                 tv_descri.setText(arrSickLq.get(i).getDecri());
                 cata_lq.setText(arrSickLq.get(i).getCatalo());
+                ln.addView(rowView);
             }
 
         } catch (JSONException e) {
@@ -223,10 +244,10 @@ public class Sick_Detail_Fragment extends Fragment {
 
     public void checkHearth(int likeStt){
         if(likeStt==0){
-            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.red_heart));
+            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
             like = false;
         }else{
-            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
+            hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.red_heart));
             like = true;
         }
     }

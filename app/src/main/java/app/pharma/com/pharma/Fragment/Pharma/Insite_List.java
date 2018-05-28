@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ public class Insite_List extends Fragment {
     ListView lv;
     List_Pharma_Adapter adapter;
     int lastVisibleItem = 0;
+    LinearLayout ln_null;
+    TextView not_near, showall;
     SwipeRefreshLayout swip;
     private int lastY = 0;
     TextView tvnull;
@@ -63,11 +66,20 @@ public class Insite_List extends Fragment {
         lv = (ListView)v.findViewById(R.id.lv_pharma);
         arr = new ArrayList<>();
         tvnull = v.findViewById(R.id.txt_null);
+        ln_null = v.findViewById(R.id.ln_null);
+        showall = v.findViewById(R.id.show_all);
+        showall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ln_null.setVisibility(View.GONE);
+                getData(1,"show_all");
+            }
+        });
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData(1);
+                getData(1,"");
             }
         });
         adapter = new List_Pharma_Adapter(getContext(),0,arr);
@@ -84,15 +96,15 @@ public class Insite_List extends Fragment {
                 startActivity(it);
             }
         });
-        getData(page);
+        getData(page,"");
     }
 
-    private void getData(int page) {
+    private void getData(int page, String type) {
         if(page==1){
             arr.clear();
         }
 
-        if(Common.lat!=0&&Common.lng!=0){
+        if(type.equals("show_all")){
             Map<String, String> map = new HashMap<>();
             map.put("latGPS", Common.lat+"");
             map.put("longGPS",Common.lng+"");
@@ -101,28 +113,52 @@ public class Insite_List extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     swip.setRefreshing(false);
-                    initJson(response);
+                    tvnull.setVisibility(View.GONE);
+                    ln_null.setVisibility(View.GONE);
+                    initJson(response,type);
                 }
             };
             Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
         }else{
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    swip.setRefreshing(false);
-                    initJson(response);
-                }
-            };
-            Utils.GetServer(getActivity(),ServerPath.LIST_PHARMA,response);
+            if(Common.lat!=0&&Common.lng!=0){
+                Map<String, String> map = new HashMap<>();
+                map.put("latGPS", Common.lat+"");
+                map.put("longGPS",Common.lng+"");
+                map.put("page",page+"");
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        swip.setRefreshing(false);
+                        tvnull.setVisibility(View.GONE);
+                        ln_null.setVisibility(View.GONE);
+                        initJson(response,type);
+                    }
+                };
+                Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+            }else{
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        swip.setRefreshing(false);
+                        tvnull.setVisibility(View.GONE);
+                        ln_null.setVisibility(View.GONE);
+                        initJson(response,"show_all");
+                    }
+                };
+                Utils.GetServer(getActivity(),ServerPath.LIST_PHARMA,response);
+            }
         }
+
+
 
 
 
     }
 
-    private void initJson(String response) {
+    private void initJson(String response,String type) {
         Log.d("RESPONSE__PHARMA",response);
         try {
+
             JSONObject jo = new JSONObject(response);
 
             if(jo.has(JsonConstant.CODE)){
@@ -139,14 +175,15 @@ public class Insite_List extends Fragment {
                                         for (int i =0; i<array.length();i++){
                                             JSONObject obj = array.getJSONObject(i);
                                             JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                                            JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
                                             Pharma_Constructor pharma = new Pharma_Constructor();
                                             pharma.setName(store.getString(JsonConstant.NAME));
                                             pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                                            pharma.setComment(store.getString(JsonConstant.COMMENT));
-                                            pharma.setAvatar(store.getString(JsonConstant.IMAGE));
+                                        //    pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                            pharma.setAvatar(images.getString(0));
                                             pharma.setId(store.getString(JsonConstant.ID));
-                                            pharma.setLike(store.getString(JsonConstant.LIKE));
-                                            pharma.setRate(store.getDouble(JsonConstant.STAR));
+                                       //     pharma.setLike(store.getString(JsonConstant.LIKE));
+                                        //    pharma.setRate(store.getDouble(JsonConstant.STAR));
                                             JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
                                             pharma.setX(location.getDouble(JsonConstant.LAT));
                                             pharma.setY(location.getDouble(JsonConstant.LONG));
@@ -165,11 +202,20 @@ public class Insite_List extends Fragment {
 
                             @Override
                             protected void onPostExecute(Void aVoid) {
-                                if(arr.size()>0){
-                                    tvnull.setVisibility(View.GONE);
+                                if(type.equals("show_all")){
+                                    if(arr.size()>0){
+                                        tvnull.setVisibility(View.GONE);
+                                    }else{
+                                        tvnull.setVisibility(View.VISIBLE);
+                                    }
                                 }else{
-                                    tvnull.setVisibility(View.VISIBLE);
+                                    if(arr.size()>0){
+                                        ln_null.setVisibility(View.GONE);
+                                    }else{
+                                        ln_null.setVisibility(View.VISIBLE);
+                                    }
                                 }
+
                                 adapter.notifyDataSetChanged();
                                 super.onPostExecute(aVoid);
                             }

@@ -50,7 +50,7 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
             lat = Common.lat;
             lng = Common.lng;
            gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-           gg.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat,lng)));
+           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),15f));
        }
 
 

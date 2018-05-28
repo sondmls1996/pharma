@@ -151,13 +151,20 @@ public class Wellcome extends AppCompatActivity {
         final String[] array = {null};
 
         Response.Listener<String> listener = response ->{
+            Log.d("RESPONSE_CATALO",response);
             try{
                 databaseHandle = new DatabaseHandle();
                 list = new RealmList<>();
-                Log.d("RESPONSE_CATALO",response);
+
                 JSONObject job = new JSONObject(response);
                 JSONArray ja = null;
-                ja = job.getJSONArray(JsonConstant.LIST_CAT_DISE);
+                if(job.has(JsonConstant.LIST_CAT_DISE)){
+                    ja = job.getJSONArray(JsonConstant.LIST_CAT_DISE);
+                }
+                if(job.has(JsonConstant.LIST_DISE)){
+                    ja = job.getJSONArray(JsonConstant.LIST_DISE);
+                }
+
                 for(int i = 0; i < ja.length();i++){
                     type = new StringBuffer();
                     JSONObject index = ja.getJSONObject(i);

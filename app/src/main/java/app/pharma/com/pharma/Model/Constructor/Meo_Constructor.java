@@ -8,9 +8,35 @@ public class Meo_Constructor {
     String id;
     String title;
     String descrep;
-    String date;
+    long date;
     String like;
     String comment;
+    String image;
+    String link;
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public String getId() {
         return id;
@@ -36,13 +62,6 @@ public class Meo_Constructor {
         this.descrep = descrep;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     public String getLike() {
         return like;
@@ -63,12 +82,5 @@ public class Meo_Constructor {
     public Meo_Constructor() {
     }
 
-    public Meo_Constructor(String id, String title, String descrep, String date, String like, String comment) {
-        this.id = id;
-        this.title = title;
-        this.descrep = descrep;
-        this.date = date;
-        this.like = like;
-        this.comment = comment;
-    }
+
 }

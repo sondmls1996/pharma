@@ -74,6 +74,11 @@ public class ServerPath {
 
     public static String LIST_SICK = "listDisease";
 
+    //meo
+
+    public static String LIST_MEO = "getTipNotice";
+    public static String DETAIL_MEO = "getNotice";
+
 //
 //    public static String REGISTER = "checkRegister";
 //

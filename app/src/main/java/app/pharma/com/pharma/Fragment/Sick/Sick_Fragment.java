@@ -180,7 +180,9 @@ public class Sick_Fragment extends Fragment {
                                     @Override
                                     protected Void doInBackground(Void... voids) {
                                         JSONArray listDis = null;
+
                                         try {
+
                                             listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
                                             for (int i =0;i<listDis.length();i++){
 

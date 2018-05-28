@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,8 +34,10 @@ import java.util.Map;
 import app.pharma.com.pharma.Adapter.List_Rate_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Constructor.Pill_obj;
-import app.pharma.com.pharma.Model.Constructor.Rating_Obj;
+import app.pharma.com.pharma.Model.Constructor.Object.Pharma_Obj;
+import app.pharma.com.pharma.Model.Constructor.Object.Pill_obj;
+import app.pharma.com.pharma.Model.Constructor.Object.Rating_Obj;
+import app.pharma.com.pharma.Model.Constructor.Object.Sick_Obj;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -52,6 +56,7 @@ public class Pharma_Detail_Rate extends Fragment {
     List_Rate_Adapter rateAdapter;
     ArrayList<Rating_Obj> arrRate;
     View v;
+    String numComment = "0";
     TextView tv_comment,tv_de_comment;
     LayoutInflater inflater2;
     RelativeLayout rl_top;
@@ -123,7 +128,20 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView tvCommment = rowView.findViewById(R.id.txt_comment);
         ImageView img = rowView.findViewById(R.id.include_sick_img);
         LinearLayout ln = rowView.findViewById(R.id.include_sick_star);
+        Sick_Obj sick = (Sick_Obj)Detail.headerObj;
+        tvName.setText(sick.getName());
+        Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages(),img);
+        tvLike.setText(sick.getLike()+"");
+        tvCommment.setText(sick.getCmt()+"");
 
+        int s = Integer.valueOf(sick.getStar().intValue());
+        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+// insert into main view
+        for(int i = 0; i<s;i++){
+            View star = vi.inflate(R.layout.star, null);
+
+            ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+        }
         rl_top.addView(rowView);
     }
 
@@ -162,25 +180,41 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView tvAround = rowView.findViewById(R.id.include_pharma_around);
         ImageView img = rowView.findViewById(R.id.include_pharma_image);
         LinearLayout ln = rowView.findViewById(R.id.include_pharma_star);
+
         ln.removeAllViews();
-        new AsyncTask<Void,Void,Void>(){
+        Pharma_Obj pharma = (Pharma_Obj) Detail.headerObj;
+        tvName.setText(pharma.getName());
+        if(Common.lat!=0&&Common.lng!=0){
+            Location location = new Location("");
+            location.setLatitude(Common.lat);
+            location.setLongitude(Common.lng);
+            Location finishLocation = new Location("");
+            finishLocation.setLatitude(pharma.lat);
+            finishLocation.setLongitude( pharma.lng);
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    JSONObject oj = new JSONObject(Detail.headerJson);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            float distance = location.distanceTo(finishLocation);
+            if(distance>=1000){
+                distance = distance/1000;
+                if(distance>0){
+                    int d = (int) Math.ceil(distance);
+                    String straround = d+"";
+                    tvAround.setText("Cách "+straround+" km");
+                }else{
                 }
-                return null;
+            }else{
+                if(distance>0){
+                    int d = (int) Math.ceil(distance);
+                    String straround = d+"";
+
+                    tvAround.setText("Cách "+straround+" m");
+
+                }
             }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                rl_top.addView(rowView);
-                super.onPostExecute(aVoid);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        Picasso.with(getActivity()).load(ServerPath.ROOT_URL+pharma.getImage().get(0)).into(img);
+        rl_top.addView(rowView);
+
 
 
     }
@@ -205,6 +239,7 @@ public class Pharma_Detail_Rate extends Fragment {
                                     JSONArray listRate = null;
                                     try {
                                         listRate = jo.getJSONArray(JsonConstant.LIST_RATING);
+                                        numComment = jo.getString(JsonConstant.numberCmt);
                                         if(listRate.length()>0){
                                             for (int i = 0; i<listRate.length();i++){
                                                 JSONObject idx = listRate.getJSONObject(i);
@@ -230,15 +265,15 @@ public class Pharma_Detail_Rate extends Fragment {
                                     switch (type){
                                         case "store":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                                    arrRate.size()+"","nhà thuốc"));
+                                                    numComment,"nhà thuốc"));
                                             break;
                                         case "product":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                                    arrRate.size()+"","sản phẩm"));
+                                                    numComment,"sản phẩm"));
                                             break;
                                         case "disease":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                                    arrRate.size()+"","bài viết"));
+                                                    numComment,"bài viết"));
                                             break;
                                     }
 
@@ -248,7 +283,27 @@ public class Pharma_Detail_Rate extends Fragment {
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                             break;
+                        case "1":
+                            switch (type){
+                                case "store":
+                                    tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                            numComment,"nhà thuốc"));
+                                    break;
+                                case "product":
+                                    tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                            numComment,"sản phẩm"));
+                                    break;
+                                case "disease":
+                                    tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                            numComment,"bài viết"));
+                                    break;
+                            }
+
+                            break;
                     }
+
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

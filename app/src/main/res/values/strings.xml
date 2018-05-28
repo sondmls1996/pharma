@@ -89,6 +89,8 @@
     <string name="meo_title">Mẹo vặt</string>
     <string name="infor">Thông tin</string>
     <string name="title_change_pass">Thay đổi mật khẩu</string>
+    <string name="show_all">Hiển thị tất cả</string>
+    <string name="not_near_you">Không có nhà thuốc nào xung quanh</string>
 
     <string name="full_name">Họ và tên</string>
     <string name="work_adr">Nơi làm</string>

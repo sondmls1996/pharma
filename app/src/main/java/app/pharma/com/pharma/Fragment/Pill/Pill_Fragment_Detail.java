@@ -31,7 +31,7 @@ import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
-import app.pharma.com.pharma.Model.Constructor.Pill_obj;
+import app.pharma.com.pharma.Model.Constructor.Object.Pill_obj;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
@@ -129,15 +129,40 @@ public class Pill_Fragment_Detail extends Fragment {
 
     private void onClickHeart() {
         if(Utils.isLogin()){
+            int likestt = objPill.getLikeStt();
+
             Map<String, String> map = new HashMap<>();
             map.put("type","product");
             map.put("id",product_id);
             map.put("accessToken",user.getToken());
-            map.put("likeStatus",objPill.getLikeStt()+"");
+            if(likestt==0){
+                map.put("likeStatus","1");
+            }else{
+                map.put("likeStatus","0");
+            }
+
             Response.Listener<String> response  = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.d("LIKE_STT_PILL",response);
+                    try {
+                        JSONObject jo = new JSONObject(response);
+                        String code = jo.getString(JsonConstant.CODE);
+                        if(code.equals("0")){
+                            if(likestt==0){
+                                objPill.setLikeStt(1);
+
+                            }else{
+                                objPill.setLikeStt(0);
+                            }
+
+                            checkHearth(objPill.getLikeStt());
+                        }else{
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
             Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
@@ -166,7 +191,8 @@ public class Pill_Fragment_Detail extends Fragment {
                                 String code = jo.getString(JsonConstant.CODE);
                                 switch (code){
                                     case "0":
-                                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                        JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+                                        JSONObject product = data.getJSONObject(JsonConstant.PRODUCT);
                                         JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
                                         JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
 

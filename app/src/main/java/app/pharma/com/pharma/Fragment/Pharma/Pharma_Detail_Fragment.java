@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +43,7 @@ import java.util.TimerTask;
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Constructor.Object.Pharma_Obj;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -76,7 +80,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     Slide_Image_Adapter adapter;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-
+    private Pharma_Obj pharma;
     private ArrayList<String> ImagesArray = new ArrayList<String>();
     public Pharma_Detail_Fragment() {
 
@@ -142,7 +146,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     }
 
         private void init() {
-
+             pharma = new Pharma_Obj();
             ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
             pharmater = v.findViewById(R.id.tv_pharmater);
             adr = v.findViewById(R.id.tv_adr);
@@ -152,6 +156,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             ln_phone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Utils.setAlphalAnimation(view);
                     if(!strphone.equals("")){
                         if(Build.VERSION.SDK_INT>=23){
                         RequestPermission();
@@ -166,6 +171,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             ln_mess.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Utils.setAlphalAnimation(view);
                     if(!strphone.equals("")){
 
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
@@ -179,19 +185,16 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             tv_title = v.findViewById(R.id.tv_name_pharma);
             tv_like = v.findViewById(R.id.txt_like);
             comment = v.findViewById(R.id.txt_comment);
-            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+
             img_share = v.findViewById(R.id.img_share);
             img_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Utils.setAlphalAnimation(view);
                     Utils.shareLink(linkShare);
                 }
             });
-            mPager = (ViewPager) v.findViewById(R.id.slide_image);
-            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-            mPager.setAdapter(adapter);
-            indicator.setViewPager(mPager);
-            adapter.registerDataSetObserver(indicator.getDataSetObserver());
+
             id = Detail.id;
 
             hearth = (ImageView)v.findViewById(R.id.hearth_img);
@@ -199,27 +202,28 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             hearth.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  checkHearth();
+                    Utils.setAlphalAnimation(v);
+//                    checkHearth();
                 }
             });
             getData();
-            NUM_PAGES = 3;
-            final Handler handler = new Handler();
-            final Runnable Update = new Runnable() {
-                public void run() {
-                    if (currentPage == NUM_PAGES) {
-                        currentPage = 0;
-                    }
-                    mPager.setCurrentItem(currentPage++, true);
-                }
-            };
-            Timer swipeTimer = new Timer();
-            swipeTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    handler.post(Update);
-                }
-            }, 3000, 3000);
+//            NUM_PAGES = 3;
+//            final Handler handler = new Handler();
+//            final Runnable Update = new Runnable() {
+//                public void run() {
+//                    if (currentPage == NUM_PAGES) {
+//                        currentPage = 0;
+//                    }
+//                    mPager.setCurrentItem(currentPage++, true);
+//                }
+//            };
+//            Timer swipeTimer = new Timer();
+//            swipeTimer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    handler.post(Update);
+//                }
+//            }, 3000, 3000);
     }
 
     private void getData() {
@@ -229,37 +233,89 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d("RESPONSE_PHARMA",response);
                     JSONObject jo = new JSONObject(response);
                     if(jo.has(JsonConstant.CODE)){
                         String code = jo.getString(JsonConstant.CODE);
                         switch (code){
                             case "0":
-                                JSONObject store = jo.getJSONObject(JsonConstant.STORE);
-                                tv_title.setText(store.getString(JsonConstant.NAME));
-                                star = store.getDouble(JsonConstant.STAR);
-                                JSONObject maploc = store.getJSONObject(JsonConstant.MAP_LOCATION);
-                                lat = maploc.getDouble(JsonConstant.LAT);
-                                lng = maploc.getDouble(JsonConstant.LONG);
-                                adr.setText(store.getString(JsonConstant.USER_ADR));
-                                phone.setText(store.getString(JsonConstant.PHONE));
-                                strphone = store.getString(JsonConstant.PHONE);
-                                tv_like.setText(store.getString(JsonConstant.LIKE));
-                                comment.setText(store.getString(JsonConstant.COMMENT));
-                                likeStt = store.getInt(JsonConstant.LIKE_STT);
-                                linkShare = store.getString(JsonConstant.LINK_SHARE);
+                                new AsyncTask<Void,Void,Void>(){
 
-                                int s = Integer.valueOf(star.intValue());
-                                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                    @Override
+                                    protected Void doInBackground(Void... voids) {
+                                        ImagesArray.clear();
+                                        JSONObject data = null;
+                                        try {
+                                            data = jo.getJSONObject(JsonConstant.DATA);
+                                            JSONObject store = data.getJSONObject(JsonConstant.STORE);
+                                            JSONObject maploc = store.getJSONObject(JsonConstant.MAP_LOCATION);
 
+                                            pharma.setName(store.getString(JsonConstant.NAME));
+                                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                                            pharma.setId(store.getString(JsonConstant.ID));
+
+                                            JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
+
+                                            for (int i =0; i<images.length();i++){
+                                                ImagesArray.add(images.getString(i));
+                                            }
+                                            pharma.setImage(ImagesArray);
+                                            pharma.setPhone(store.getString(JsonConstant.PHONE));
+                                            pharma.setLat(maploc.getDouble(JsonConstant.LAT));
+                                            pharma.setLng(maploc.getDouble(JsonConstant.LONG));
+                                            pharma.setLinkShare(store.getString(JsonConstant.LINK_SHARE));
+                                            pharma.setLikeStt(store.getInt(JsonConstant.LIKE_STT));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        Detail.headerObj = pharma;
+                                        tv_title.setText(pharma.getName());
+                                        star = pharma.getStar();
+
+                                        lat = pharma.getLat();
+                                        lng = pharma.getLng();
+                                        adr.setText(pharma.getAdr());
+                                        phone.setText(pharma.getPhone());
+                                        strphone = pharma.getPhone();
+                                        tv_like.setText(pharma.getLike());
+                                        comment.setText(pharma.getComment());
+                                        likeStt = pharma.getLikeStt();
+                                        linkShare = pharma.getLinkShare();
+                                        adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+                                        mPager = (ViewPager) v.findViewById(R.id.slide_image);
+                                        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+                                        mPager.setAdapter(adapter);
+                                        indicator.setViewPager(mPager);
+                                        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+                                        adapter.notifyDataSetChanged();
+//                                        int s = Integer.valueOf(star.intValue());
+//                                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                                        if(s !=0){
+//                                            for(int i = 0; i<s;i++){
+//                                                View star = vi.inflate(R.layout.star, null);
+//
+//                                                ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+//                                            }
+//                                        }
 // insert into main view
-                                for(int i = 0; i<s;i++){
-                                    View star = vi.inflate(R.layout.star, null);
+                                        checkHearth(pharma.likeStt);
+                                        if(gg!=null){
+                                            setMap();
+                                        }
 
-                                    ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-                                }
-                                if(gg!=null){
-                                    setMap();
-                                }
+
+                                        super.onPostExecute(aVoid);
+                                    }
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+
 
                                 break;
                             case "1":
@@ -337,13 +393,13 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
         });
     }
 
-    public void checkHearth(){
-        if(like){
+    public void checkHearth(int likestt){
+        if(likestt==0){
             hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
-            like = false;
+
         }else{
             hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.red_heart));
-            like = true;
+
         }
     }
 }
