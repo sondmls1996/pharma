@@ -107,7 +107,7 @@ public class Pill_Fragment extends Fragment {
             public void onRefresh() {
                 minPrice=-1;
                 maxPrice=-1;
-                ingredient="";
+                idingredient="";
                 loadPage(1);
             }
         });

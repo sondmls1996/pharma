@@ -232,6 +232,7 @@ public class Pill_Fragment_Detail extends Fragment {
                         @Override
                         protected void onPostExecute(JSONObject jo) {
                             Detail.headerObj = objPill;
+                            Detail.imagesArray = ImagesArray;
                             tv_title.setText(objPill.getName());
                             tv_like.setText(objPill.getLike()+"");
                             tv_comment.setText(objPill.getComment()+"");

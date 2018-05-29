@@ -15,6 +15,9 @@ import java.util.TimerTask;
 
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import me.relex.circleindicator.CircleIndicator;
 
@@ -24,6 +27,8 @@ public class Order extends AppCompatActivity {
     TextView title;
     private ViewPager mPager;
     Slide_Image_Adapter adapter;
+    DatabaseHandle db;
+    User user;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
 
@@ -38,34 +43,18 @@ public class Order extends AppCompatActivity {
     }
 
     private void init() {
-
-
-
+        if(Utils.isLogin()){
+            db = new DatabaseHandle();
+            user = db.getAllUserInfor();
+        }
+        ImagesArray = Detail.imagesArray;
         adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
-
         mPager = (ViewPager) findViewById(R.id.slide_image);
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         mPager.setAdapter(adapter);
         indicator.setViewPager(mPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-        NUM_PAGES =2;
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
 
         title = findViewById(R.id.title);
         img_back = findViewById(R.id.img_back);
@@ -81,7 +70,12 @@ public class Order extends AppCompatActivity {
         ed_fullname = findViewById(R.id.ed_fullname);
         ed_email = findViewById(R.id.ed_email);
         ed_phone = findViewById(R.id.ed_phone);
-
+        if(Utils.isLogin()){
+            ed_adr.setText(user.getAdr());
+            ed_fullname.setText(user.getName());
+            ed_email.setText(user.getEmail());
+            ed_phone.setText(user.getPhone());
+        }
 //        Utils.setCompondEdt(R.drawable.blue_place,ed_adr);
 //        Utils.setCompondEdt(R.drawable.profile,ed_fullname);
 //        Utils.setCompondEdt(R.drawable.email,ed_email);

@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Fragment;
 import app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Rate;
 import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment_Detail;
@@ -27,6 +29,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     public static String key = "";
     public static String id = "";
     public static Object headerObj;
+    public static ArrayList<String> imagesArray;
     Pill_Constructor pillConstructor;
     Sick_Construct sickConstructor;
     Pharma_Constructor pharmaConstructor;
@@ -45,7 +48,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
 
         }
 
-
+        imagesArray = new ArrayList<>();
 
         Common.context = this;
         tvTitle = (TextView)findViewById(R.id.title);

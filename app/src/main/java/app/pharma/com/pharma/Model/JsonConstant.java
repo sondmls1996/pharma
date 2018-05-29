@@ -53,6 +53,8 @@ public class JsonConstant {
     public static String TIME = "time";
     public static String RECOMENT = "recommendIn";
     public static String INGREINFO = "ingredientIntro";
+    public static String LIST_FAVOR_PRODUCT = "listFavoriteProduct";
+    public static String LIST_FAVOR_SICK = "listFavoriteDisease";
     public static String STORAGE = "storage";
     public static String AGE = "age";
     public static String STORE = "Store";

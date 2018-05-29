@@ -38,6 +38,8 @@ public class ServerPath {
 
      public static String LIST_LIKE_PILL = "listFavorite";
 
+
+
      public static String COMMENT_PILL = "addRating";
 
      public static String FILLTER_PILL = "filterAPI";
