@@ -55,7 +55,7 @@ public class Pill_Fragment_Detail extends Fragment {
     Pill_obj objPill;
     String product_id;
     User user;
-    DatabaseHandle db = new DatabaseHandle();
+    DatabaseHandle db;
     String link_share = "";
     Double star_count;
     Slide_Image_Adapter adapter;
@@ -86,7 +86,11 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void init() {
-        user = db.getAllUserInfor();
+        if(Utils.isLogin()){
+            db = new DatabaseHandle();
+            user = db.getAllUserInfor();
+        }
+
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         ln.removeAllViews();
         ImagesArray  = new ArrayList<>();

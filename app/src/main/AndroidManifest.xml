@@ -18,7 +18,7 @@
         android:roundIcon="@drawable/laucher_white_2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -37,7 +37,7 @@
         <activity android:name=".activity.User.Infor_User" />
         <activity android:name=".activity.User.Change_infor" />
         <activity android:name=".activity.User.ChangePass" />
-        <activity android:name=".activity.Like.Care_Activity" />
+        <activity android:name=".activity.Like.Care_PILL_Activity" />
         <activity android:name=".activity.Share" />
         <activity android:name=".activity.Detail.Order" />
 
@@ -52,7 +52,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Show_map"></activity>
+        <activity android:name=".activity.Show_map" />
+        <activity android:name=".activity.Like.Care_Sick_Activity"></activity>
     </application>
 
 </manifest>

@@ -52,7 +52,7 @@ public class List_Meo_Adapter extends ArrayAdapter<Meo_Constructor> {
         Utils.loadImagePicasso(ServerPath.ROOT_URL+pill.getImage(),img);
         tv_title.setText(pill.getTitle());
         descr.setText(pill.getDescrep());
-        date.setText(format.format(pill.getDate()));
+        date.setText(Utils.convertTimestampToDate(pill.getDate()));
         time_meo.setText(formatHours.format(pill.getDate()));
 
 

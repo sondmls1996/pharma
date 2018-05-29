@@ -105,6 +105,9 @@ public class Pill_Fragment extends Fragment {
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                minPrice=-1;
+                maxPrice=-1;
+                ingredient="";
                 loadPage(1);
             }
         });
@@ -327,7 +330,8 @@ public class Pill_Fragment extends Fragment {
 
     }
     private void showDialogFillter() {
-        arr.clear();
+//        arr.clear();
+        arrString.clear();
         arr_tp.clear();
         arrTp = new ArrayList<>();
         Dialog dialog = new Dialog(Common.context);

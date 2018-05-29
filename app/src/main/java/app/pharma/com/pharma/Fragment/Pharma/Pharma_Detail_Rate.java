@@ -9,16 +9,21 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
@@ -38,6 +43,8 @@ import app.pharma.com.pharma.Model.Constructor.Object.Pharma_Obj;
 import app.pharma.com.pharma.Model.Constructor.Object.Pill_obj;
 import app.pharma.com.pharma.Model.Constructor.Object.Rating_Obj;
 import app.pharma.com.pharma.Model.Constructor.Object.Sick_Obj;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -55,7 +62,14 @@ public class Pharma_Detail_Rate extends Fragment {
     int page = 1;
     List_Rate_Adapter rateAdapter;
     ArrayList<Rating_Obj> arrRate;
+    Utils util;
+    SwipeRefreshLayout swip;
     View v;
+    DatabaseHandle db;
+    User user;
+    String idProduct="";
+    String type = "";
+    String keyId = "";
     String numComment = "0";
     TextView tv_comment,tv_de_comment;
     LayoutInflater inflater2;
@@ -79,12 +93,20 @@ public class Pharma_Detail_Rate extends Fragment {
     }
 
     private void init() {
+        db = new DatabaseHandle();
+        user = db.getAllUserInfor();
         arrRate = new ArrayList<>();
-
+        util = new Utils();
         lv_rate = v.findViewById(R.id.lv_list_rate);
         rateAdapter = new List_Rate_Adapter(getActivity(),R.layout.item_rate,arrRate);
         lv_rate.setAdapter(rateAdapter);
-
+        swip = v.findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListRate(1,type,keyId);
+            }
+        });
         ln_rate_now = v.findViewById(R.id.ln_rate_now);
         rl_top = v.findViewById(R.id.rl_rate_top);
         arrView = new ArrayList<>();
@@ -93,7 +115,12 @@ public class Pharma_Detail_Rate extends Fragment {
         ln_rate_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogRate();
+                if(Utils.isLogin()){
+                    showDialogRate();
+                }else{
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+                }
+
             }
         });
         inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -105,14 +132,16 @@ public class Pharma_Detail_Rate extends Fragment {
 
         if(key.equals("pharma")){
             setHeaderPharma();
-            getListRate(page,"store","idStore");
+            keyId = "idStore";
+            getListRate(page,type,keyId);
         }else if(key.equals("pill")){
             setHeaderPill();
-            getListRate(page,"product","idProduct");
+            keyId = "idProduct";
+            getListRate(page,type,keyId);
         }else if(key.equals("sick")){
             setHeaderSick();
-
-            getListRate(page,"disease","idDisease");
+            keyId = "idDisease";
+            getListRate(page,type,keyId);
 
         }
 
@@ -129,8 +158,10 @@ public class Pharma_Detail_Rate extends Fragment {
         ImageView img = rowView.findViewById(R.id.include_sick_img);
         LinearLayout ln = rowView.findViewById(R.id.include_sick_star);
         Sick_Obj sick = (Sick_Obj)Detail.headerObj;
+        idProduct = sick.getId();
+        type = "disease";
         tvName.setText(sick.getName());
-        Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages(),img);
+        Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages().get(0),img);
         tvLike.setText(sick.getLike()+"");
         tvCommment.setText(sick.getCmt()+"");
 
@@ -155,6 +186,8 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView like = rowView.findViewById(R.id.txt_like);
         TextView cmt = rowView.findViewById(R.id.txt_comment);
         Pill_obj obj = (Pill_obj) Detail.headerObj;
+        idProduct = obj.getId();
+        type = "product";
         tvName.setText(obj.getName());
         tvPrice.setText(Constant.format.format((obj.getPrice())));
         Utils.loadImagePicasso(ServerPath.ROOT_URL+obj.getImages().get(0),img);
@@ -183,6 +216,8 @@ public class Pharma_Detail_Rate extends Fragment {
 
         ln.removeAllViews();
         Pharma_Obj pharma = (Pharma_Obj) Detail.headerObj;
+        idProduct = pharma.getId();
+        type = "store";
         tvName.setText(pharma.getName());
         if(Common.lat!=0&&Common.lng!=0){
             Location location = new Location("");
@@ -220,6 +255,9 @@ public class Pharma_Detail_Rate extends Fragment {
     }
 
     private void getListRate(int page,String type,String keyId) {
+        if(page==1){
+            arrRate.clear();
+        }
         Map<String,String> map = new HashMap<>();
         map.put("page",page+"");
         map.put("type",type);
@@ -228,6 +266,7 @@ public class Pharma_Detail_Rate extends Fragment {
             @Override
             public void onResponse(String response) {
                 try {
+                    swip.setRefreshing(false);
                     JSONObject jo = new JSONObject(response);
                     String code = jo.getString(JsonConstant.CODE);
                     switch (code){
@@ -238,6 +277,7 @@ public class Pharma_Detail_Rate extends Fragment {
                                 protected Void doInBackground(Void... voids) {
                                     JSONArray listRate = null;
                                     try {
+
                                         listRate = jo.getJSONArray(JsonConstant.LIST_RATING);
                                         numComment = jo.getString(JsonConstant.numberCmt);
                                         if(listRate.length()>0){
@@ -323,14 +363,71 @@ public class Pharma_Detail_Rate extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_rate);
         dialog.setCanceledOnTouchOutside(true);
+        AppCompatRatingBar rating = dialog.findViewById(R.id.rating_bar);
+        EditText short_cmt = dialog.findViewById(R.id.ed_shortcmt);
+        EditText cmt = dialog.findViewById(R.id.ed_comment);
+        Button btnrate = dialog.findViewById(R.id.btn_rate);
         TextView title = dialog.findViewById(R.id.txt_title_rate);
         if(Detail.key.equals("pill")){
             title.setText(getResources().getString(R.string.title_rate_pill));
         }else if(Detail.key.equals("pharma")){
             title.setText(getResources().getString(R.string.title_rate_pharma));
         }else if(Detail.key.equals("sick")){
+
+
             title.setText(getResources().getString(R.string.title_rate_sick));
         }
+
+        btnrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                util.showLoading(getActivity(),10000,true);
+            if(rating.getRating()==0){
+                util.showLoading(getActivity(),10000,false);
+                Toast.makeText(getActivity(),"Hãy đánh giá sao",Toast.LENGTH_SHORT).show();
+            }else if(short_cmt.getText().toString().equals("")){
+                util.showLoading(getActivity(),10000,false);
+                Toast.makeText(getActivity(),"Hãy ghi bình luận ngắn",Toast.LENGTH_SHORT).show();
+            }else if(cmt.getText().toString().equals("")){
+                util.showLoading(getActivity(),10000,false);
+                Toast.makeText(getActivity(),"Hãy ghi bình luận",Toast.LENGTH_SHORT).show();
+            }else{
+                Map<String,String> map = new HashMap<>();
+                map.put("type",type);
+                map.put("accessToken",user.getToken());
+                map.put("shortComment",short_cmt.getText().toString());
+                map.put("comment",cmt.getText().toString());
+                map.put("star",rating.getRating()+"");
+                map.put("idProduct",idProduct);
+                Log.d("RATING",rating.getRating()+"");
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jo = new JSONObject(response);
+                            String code = jo.getString(JsonConstant.CODE);
+                            switch (code){
+                                case "0":
+                                    util.showLoading(getActivity(),10000,false);
+                                    dialog.dismiss();
+                                    Utils.dialogNotif("Đánh giá thành công");
+                                    break;
+                                case "-1":
+                                    util.showLoading(getActivity(),10000,false);
+                                    Utils.dialogNotif("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại");
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+
+                Utils.PostServer(getActivity(),ServerPath.COMMENT_PILL,map,response);
+            }
+            }
+        });
         dialog.show();
     }
 

@@ -2,8 +2,6 @@ package app.pharma.com.pharma.activity;
 
 
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -16,7 +14,6 @@ import android.support.design.widget.NavigationView;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +49,8 @@ import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.Service.GetLocationService;
-import app.pharma.com.pharma.activity.Like.Care_Activity;
+import app.pharma.com.pharma.activity.Like.Care_PILL_Activity;
+import app.pharma.com.pharma.activity.Like.Care_Sick_Activity;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
 
@@ -387,12 +385,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ln_meo.performClick();
                 break;
             case R.id.sub_pill:
-                Intent it2 = new Intent(getApplicationContext(),Care_Activity.class);
+                Intent it2 = new Intent(getApplicationContext(),Care_PILL_Activity.class);
                 it2.putExtra("key","pill");
                 startActivity(it2);
                 break;
             case R.id.sub_sick:
-                Intent it3 = new Intent(getApplicationContext(),Care_Activity.class);
+                Intent it3 = new Intent(getApplicationContext(),Care_Sick_Activity.class);
                 it3.putExtra("key","sick");
                 startActivity(it3);
                 break;

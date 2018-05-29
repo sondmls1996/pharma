@@ -44,6 +44,8 @@ import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Object.Pharma_Obj;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -68,7 +70,8 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     int likeStt = 0;
     String linkShare = "";
     String strphone;
-
+    User user;
+    DatabaseHandle db;
     TextView adr;
     TextView around;
     Double star;
@@ -146,6 +149,11 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     }
 
         private void init() {
+        if(Utils.isLogin()){
+            db = new DatabaseHandle();
+            user = db.getAllUserInfor();
+        }
+
              pharma = new Pharma_Obj();
             ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
             pharmater = v.findViewById(R.id.tv_pharmater);
@@ -203,27 +211,57 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                 @Override
                 public void onClick(View v) {
                     Utils.setAlphalAnimation(v);
+                    onClickHeart();
 //                    checkHearth();
                 }
             });
             getData();
-//            NUM_PAGES = 3;
-//            final Handler handler = new Handler();
-//            final Runnable Update = new Runnable() {
-//                public void run() {
-//                    if (currentPage == NUM_PAGES) {
-//                        currentPage = 0;
-//                    }
-//                    mPager.setCurrentItem(currentPage++, true);
-//                }
-//            };
-//            Timer swipeTimer = new Timer();
-//            swipeTimer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    handler.post(Update);
-//                }
-//            }, 3000, 3000);
+
+    }
+
+    private void onClickHeart() {
+        if(Utils.isLogin()){
+            int likestt = pharma.getLikeStt();
+
+            Map<String, String> map = new HashMap<>();
+            map.put("type","store");
+            map.put("id",pharma.getId());
+            map.put("accessToken",user.getToken());
+            if(likestt==0){
+                map.put("likeStatus","1");
+            }else{
+                map.put("likeStatus","0");
+            }
+
+            Response.Listener<String> response  = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("LIKE_STT_PILL",response);
+                    try {
+                        JSONObject jo = new JSONObject(response);
+                        String code = jo.getString(JsonConstant.CODE);
+                        if(code.equals("0")){
+                            if(likestt==0){
+                                pharma.setLikeStt(1);
+
+                            }else{
+                                pharma.setLikeStt(0);
+                            }
+
+                            checkHearth(pharma.getLikeStt());
+                        }else{
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+        }else{
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+        }
+
     }
 
     private void getData() {

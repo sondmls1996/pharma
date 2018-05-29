@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:id="@+id/rating_bar"
         android:scaleX="0.8"
         android:scaleY="0.8"
         android:numStars="5"
@@ -37,6 +38,7 @@
         android:gravity="center"
         android:padding="3dp"
         android:layout_marginBottom="10dp"
+        android:id="@+id/ed_shortcmt"
         android:background="@color/light_gray"/>
     <EditText
         android:layout_width="match_parent"
@@ -45,11 +47,13 @@
         android:ellipsize="start"
         android:gravity="center"
         android:padding="3dp"
+        android:id="@+id/ed_comment"
         android:layout_marginBottom="10dp"
         android:background="@color/light_gray"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:id="@+id/btn_rate"
         android:background="@color/blue"
         android:textColor="@color/white"
         android:text="Đánh giá"/>

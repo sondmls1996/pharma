@@ -85,6 +85,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(Common.context, Infor_Meo.class);
+                it.putExtra("link",arr.get(i).getLink());
                 startActivity(it);
             }
         });

@@ -56,9 +56,6 @@ public class Wellcome extends AppCompatActivity {
         } else {
             startService(new Intent(this, GetLocationService.class));
         }
-
-
-
     }
 
    public void RequestPermission(){

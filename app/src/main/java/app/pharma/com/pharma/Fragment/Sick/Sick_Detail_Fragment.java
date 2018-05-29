@@ -29,6 +29,8 @@ import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constructor.Sick_LQ_Construct;
 import app.pharma.com.pharma.Model.Constructor.Object.Sick_Obj;
+import app.pharma.com.pharma.Model.Database.DatabaseHandle;
+import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -47,6 +49,8 @@ public class Sick_Detail_Fragment extends Fragment {
     TextView tv_like;
     Sick_Obj sickObj;
     Double star;
+    DatabaseHandle db;
+    User user;
     LinearLayout ln_star;
     TextView comment;
     ArrayList<Sick_LQ_Construct> arrSickLq;
@@ -70,6 +74,10 @@ public class Sick_Detail_Fragment extends Fragment {
     }
 
     private void init() {
+        if(Utils.isLogin()){
+            db = new DatabaseHandle();
+            user = db.getAllUserInfor();
+        }
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         hearth = (ImageView)v.findViewById(R.id.img_hearth);
         tv_title = v.findViewById(R.id.tv_title_sick);
@@ -93,6 +101,7 @@ public class Sick_Detail_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
+                onClickHeart();
 //                checkHearth();
             }
         });
@@ -102,6 +111,51 @@ public class Sick_Detail_Fragment extends Fragment {
         getData();
 
 
+
+    }
+
+    private void onClickHeart() {
+        if(Utils.isLogin()){
+            int likestt = sickObj.getLike_stt();
+
+            Map<String, String> map = new HashMap<>();
+            map.put("type","disease");
+            map.put("id",sickObj.getId());
+            map.put("accessToken",user.getToken());
+            if(likestt==0){
+                map.put("likeStatus","1");
+            }else{
+                map.put("likeStatus","0");
+            }
+
+            Response.Listener<String> response  = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("LIKE_STT_PILL",response);
+                    try {
+                        JSONObject jo = new JSONObject(response);
+                        String code = jo.getString(JsonConstant.CODE);
+                        if(code.equals("0")){
+                            if(likestt==0){
+                                sickObj.setLike_stt(1);
+
+                            }else{
+                                sickObj.setLike_stt(0);
+                            }
+
+                            checkHearth(sickObj.getLike_stt());
+                        }else{
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+        }else{
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+        }
 
     }
 

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -158,6 +159,7 @@ public class Register extends AppCompatActivity {
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d("RESPONSE_REGISTER",response);
                     try {
                         JSONObject jo = new JSONObject(response);
                         String code = jo.getString(JsonConstant.CODE);
