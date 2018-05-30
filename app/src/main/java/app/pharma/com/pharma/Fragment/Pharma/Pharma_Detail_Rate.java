@@ -78,7 +78,6 @@ public class Pharma_Detail_Rate extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,8 +85,6 @@ public class Pharma_Detail_Rate extends Fragment {
          v = inflater.inflate(R.layout.fragment_pharma__rate, container, false);
         
         init();
-
-
 
         return v;
     }
@@ -120,7 +117,6 @@ public class Pharma_Detail_Rate extends Fragment {
                 }else{
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
                 }
-
             }
         });
         inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -289,6 +285,7 @@ public class Pharma_Detail_Rate extends Fragment {
                                                 rate.setComment(Rating.getString(JsonConstant.COMMENT));
                                                 rate.setStar(Rating.getDouble(JsonConstant.STAR));
                                                 rate.setTime(Rating.getLong(JsonConstant.TIME));
+                                                rate.setUserName(Rating.getString(JsonConstant.USERNAME));
                                                 arrRate.add(rate);
 
                                             }
@@ -348,7 +345,7 @@ public class Pharma_Detail_Rate extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("RESPONSE_RATE_PILL",response);
+                Log.d("RESPONSE_RATE_LIST",response);
             }
         };
         Utils.PostServer(getActivity(), ServerPath.LIST_RATING,map,response);

@@ -26,6 +26,7 @@ import app.pharma.com.pharma.R;
  */
 
 public class List_Pharma_Adapter extends ArrayAdapter<Pharma_Constructor> {
+
     Context ct;
     ArrayAdapter<Pill_Constructor> array;
 

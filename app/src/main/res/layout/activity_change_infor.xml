@@ -212,7 +212,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="15dp"
-                        android:src="@drawable/padlock"/>
+                        android:src="@drawable/phone_blue"/>
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -222,54 +222,17 @@
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
                         android:minWidth="300dp"
-                        android:id="@+id/ed_pass"
-                        android:hint="@string/pass"
-
+                        android:id="@+id/ed_phone"
+                        android:hint="@string/phone"
+                        android:inputType="number"
                         android:textColorHint="@color/blue"
 
 
                         android:padding="5dp"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"/>
-                <android.support.v7.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    app:cardElevation="@dimen/elevation"
-                    app:cardCornerRadius="@dimen/radius_edt"
-                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="15dp"
-                        android:src="@drawable/padlock"/>
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:drawablePadding="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="12sp"
-                        android:background="@android:color/transparent"
-                        android:maxWidth="300dp"
-                        android:minWidth="300dp"
-                        android:id="@+id/ed_repass"
-                        android:hint="@string/re_pas"
-
-                        android:textColorHint="@color/blue"
 
 
-                        android:padding="5dp"/>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
 
                 <Button
                     android:layout_width="match_parent"
@@ -277,7 +240,7 @@
                     android:textColor="@color/white"
                     android:text="@string/update_inf"
                     android:elevation="10dp"
-
+                    android:id="@+id/btn_update"
                     android:background="@drawable/border_edt_green"
                     android:layout_marginTop="20dp"
                     android:gravity="center"/>

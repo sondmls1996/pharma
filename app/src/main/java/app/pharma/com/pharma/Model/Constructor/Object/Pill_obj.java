@@ -1,8 +1,9 @@
 package app.pharma.com.pharma.Model.Constructor.Object;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pill_obj {
+public class Pill_obj implements Serializable{
     String id;
     String name;
     int price;

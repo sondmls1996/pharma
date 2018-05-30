@@ -111,8 +111,6 @@ public class Wellcome extends AppCompatActivity {
                 getCataloPill(ServerPath.CATALO_SICK);
             } else if (databaseHandle.isCataloPillEmpty()) {
                 getCataloPill(ServerPath.CATALO_PILL);
-            } else if (databaseHandle.isCataloPillIntroEmpty()) {
-                getCataloPill(ServerPath.CATALO_PILL_INTRO);
             } else if (databaseHandle.isCataloDrEmpty()) {
                 getCataloPill(ServerPath.CATALO_DR);
             } else {

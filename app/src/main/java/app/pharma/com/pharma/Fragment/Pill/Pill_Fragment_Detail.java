@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -48,11 +49,12 @@ import me.relex.circleindicator.CircleIndicator;
 public class Pill_Fragment_Detail extends Fragment {
     LinearLayout ln,ln_buy;
     private  ViewPager mPager;
+    ScrollView scroll;
     ImageView hearth;
     int page = 1;
     boolean like = false;
     View v;
-    Pill_obj objPill;
+    public Pill_obj objPill;
     String product_id;
     User user;
     DatabaseHandle db;
@@ -90,7 +92,7 @@ public class Pill_Fragment_Detail extends Fragment {
             db = new DatabaseHandle();
             user = db.getAllUserInfor();
         }
-
+        scroll = v.findViewById(R.id.scroll_detail);
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         ln.removeAllViews();
         ImagesArray  = new ArrayList<>();
@@ -114,6 +116,7 @@ public class Pill_Fragment_Detail extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(Common.context, Order.class);
+                it.putExtra("obj",objPill);
                 startActivity(it);
             }
         });
@@ -127,7 +130,7 @@ public class Pill_Fragment_Detail extends Fragment {
 
 
 
-        loadData();
+        loadAgaint(Detail.id);
 
     }
 
@@ -176,9 +179,13 @@ public class Pill_Fragment_Detail extends Fragment {
 
     }
 
-    private void loadData() {
+    public void loadAgaint(String id){
+        loadData(id);
+    }
+
+    private void loadData(String id) {
         Map<String,String> map = new HashMap<>();
-        map.put("id", Detail.id);
+        map.put("id", id);
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -195,6 +202,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                 String code = jo.getString(JsonConstant.CODE);
                                 switch (code){
                                     case "0":
+                                        ImagesArray.clear();
                                         JSONObject data = jo.getJSONObject(JsonConstant.DATA);
                                         JSONObject product = data.getJSONObject(JsonConstant.PRODUCT);
                                         JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
@@ -278,12 +286,13 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void getOtherPrd(JSONObject jo) {
-
+             ln.removeAllViews();
             new AsyncTask<Void,Void,Void>(){
 
                 @Override
                 protected Void doInBackground(Void... voids) {
                     arrOther.clear();
+
                     JSONArray  other = null;
                     try {
                         other = jo.getJSONArray(JsonConstant.OTHER_PRD);
@@ -326,6 +335,16 @@ public class Pill_Fragment_Detail extends Fragment {
                         tv_name_lq.setText(product.getName());
                         tv_company_lq.setText(product.getCompany());
                         ln.addView(rowView);
+
+                        int finalI = i;
+                        rowView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Utils.setAlphalAnimation(v);
+                     //           scroll.fullScroll(ScrollView.FOCUS_UP);
+                                loadAgaint(arrOther.get(finalI).getId());
+                            }
+                        });
                     }
                     super.onPostExecute(aVoid);
                 }

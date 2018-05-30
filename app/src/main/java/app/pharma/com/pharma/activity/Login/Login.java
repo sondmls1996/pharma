@@ -77,6 +77,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         tv_reg.setOnClickListener(this);
         if(!Utils.getUserName().equals("")){
             eduser.setText(Utils.getUserName());
+            check.setChecked(true);
         }
     }
 

@@ -49,8 +49,6 @@ public class List_Rate_Adapter extends ArrayAdapter<Rating_Obj> {
 
             int s = Integer.valueOf(star.intValue());
             LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
 // insert into main view
             for(int i = 0; i<s;i++){
                 View stars = vi.inflate(R.layout.star, null);
@@ -59,10 +57,10 @@ public class List_Rate_Adapter extends ArrayAdapter<Rating_Obj> {
             }
 
         }
-
         short_cmt.setText(rate.getShortComment());
         cmt.setText(rate.getComment());
         date.setText(Utils.convertTimestampToDate(rate.getTime()));
+        name_rate.setText(rate.getUserName());
 
 
         return v;

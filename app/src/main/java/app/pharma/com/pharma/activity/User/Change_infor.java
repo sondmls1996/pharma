@@ -3,17 +3,22 @@ package app.pharma.com.pharma.activity.User;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
@@ -21,13 +26,15 @@ import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Change_infor extends AppCompatActivity {
     ImageView avt,avt2;
     ImageView header_bg;
-    EditText edfullname,edEmail,edpass,edRepass,edBirth,edadr;
+    EditText edfullname,edEmail,edPhone,edRepass,edBirth,edadr;
     DatabaseHandle db;
+    Button update;
     Calendar c;
     SimpleDateFormat format;
     int day,month,year1;
@@ -49,13 +56,19 @@ public class Change_infor extends AppCompatActivity {
         Common.context = this;
         avt = findViewById(R.id.img_avt);
         avt2 = findViewById(R.id.img_avtbg);
-        edpass = findViewById(R.id.ed_pass);
-        edRepass = findViewById(R.id.ed_repass);
+        edPhone = findViewById(R.id.ed_phone);
+        update = findViewById(R.id.btn_update);
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update();
+            }
+        });
         edEmail = findViewById(R.id.ed_email);
         edBirth = findViewById(R.id.ed_birth);
         edadr = findViewById(R.id.ed_adr);
         edfullname=findViewById(R.id.ed_fullname);
-        c.setTimeInMillis(user.getDate());
+
         day = c.get(Calendar.DAY_OF_MONTH);
         month = c.get(Calendar.MONTH);
         year1 = c.get(Calendar.YEAR);
@@ -65,13 +78,22 @@ public class Change_infor extends AppCompatActivity {
         edEmail.setText(user.getEmail());
         edBirth.clearFocus();
         edBirth.setFocusable(false);
-        edBirth.setText(format.format(c.getTime()));
+
+        if(user.getDate()>0){
+            c.setTimeInMillis(user.getDate());
+            edBirth.setText(format.format(c.getTime()));
+        }else{
+     //       c.setTimeInMillis(user.getDate());
+            edBirth.setText(format.format(c.getTimeInMillis()));
+        }
+
         edBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialogDate(day,month,year1);
             }
         });
+        edPhone.setText(user.getPhone());
 
         header_bg = findViewById(R.id.header_bg);
         TextView tvTitle = (TextView)findViewById(R.id.title);
@@ -86,6 +108,24 @@ public class Change_infor extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
         Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
         Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+    }
+
+    private void update() {
+
+        Map<String,String> map = new HashMap<>();
+        map.put("email",edEmail.getText().toString());
+        map.put("fullName",edfullname.getText().toString());
+        map.put("addressDetail",edadr.getText().toString());
+        map.put("phone",edPhone.getText().toString());
+        map.put("dob",c.getTimeInMillis()+"");
+        map.put("accessToken",user.getToken());
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            Log.d("RESPONSE_CHANGE_INFOR",response);
+            }
+        };
+        Utils.PostServer(this,ServerPath.CHANGE_INFO,map,response);
     }
 
     @Override

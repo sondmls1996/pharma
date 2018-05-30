@@ -371,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()){
             case R.id.catalo_pills:
                 ln_pill.performClick();
+
                 break;
             case R.id.catalo_sick:
                 ln_sick.performClick();

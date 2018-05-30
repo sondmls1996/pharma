@@ -31,7 +31,7 @@ import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Register extends AppCompatActivity {
-    EditText eduser,edEmail,edpass,edRepass,edBirth;
+    EditText eduser,edEmail,edpass,edRepass,edBirth,edPhone;
     CheckBox cb_acc;
     Button login_btn;
     int day,month,year1;
@@ -96,10 +96,12 @@ public class Register extends AppCompatActivity {
         edpass = findViewById(R.id.ed_pass);
         edRepass = findViewById(R.id.ed_repass);
         edEmail = findViewById(R.id.ed_email);
+        edPhone = findViewById(R.id.ed_phone);
         edBirth = findViewById(R.id.ed_birth);
         edBirth.clearFocus();
         edBirth.setFocusable(false);
         edBirth.setText(stringdate);
+
         edBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,9 +136,10 @@ public class Register extends AppCompatActivity {
         String pass = edpass.getText().toString();
         String repass = edRepass.getText().toString();
         String email = edEmail.getText().toString();
+        String phone = edPhone.getText().toString();
         String date = edBirth.getText().toString();
         util.showLoading(this,10000,true);
-        if(user.length()>0&&pass.length()>0&&repass.length()>0&&email.length()>0&&date.length()>0){
+        if(user.length()>0&&pass.length()>0&&repass.length()>0&&email.length()>0&&date.length()>0&&phone.length()>0){
             if(!pass.equals(repass)){
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.pass_notequal));
@@ -148,13 +151,14 @@ public class Register extends AppCompatActivity {
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.validate_email));
 
-            }else{
+            }
+            else{
                 Map<String ,String> map = new HashMap<>();
                 map.put("userName",user);
                 map.put("email",email);
                 map.put("password",pass);
                 map.put("passAgain",repass);
-                map.put("dob",c.getTimeInMillis()+"");
+                map.put("phone",phone);
 
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override

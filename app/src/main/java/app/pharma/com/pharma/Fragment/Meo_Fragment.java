@@ -84,6 +84,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(Common.context, Infor_Meo.class);
                 it.putExtra("link",arr.get(i).getLink());
                 startActivity(it);

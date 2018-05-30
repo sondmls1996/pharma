@@ -22,7 +22,7 @@
         android:layout_height="40dp"
         android:background="@color/green"
         android:gravity="center"
-        android:id="@+id/ln_contact"
+        android:id="@+id/ln_order"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -40,10 +40,11 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/gray"
-        android:layout_above="@+id/ln_contact"/>
+        android:layout_above="@+id/ln_order"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_above="@id/ln_contact"
+        android:layout_above="@id/ln_order"
+        android:id="@+id/scroll_detail"
         android:layout_below="@+id/rl_top"
         android:layout_height="match_parent">
         <LinearLayout
@@ -90,22 +91,54 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-
+                        android:id="@+id/name_pill"
                         android:textColor="@color/black"
-                        android:text="Thuốc cảm cúm"/>
+                        />
 
-                    <TextView
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:text="Số lượng: 1"/>
-                    <TextView
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:text="Số lượng: "/>
+                        <EditText
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:gravity="center"
+                            android:id="@+id/ed_quality"
+                            android:inputType="number"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/red"
-                        android:text="Giá tiền: 150.000 VND"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/red"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:text="Giá tiền: "/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_price"
+
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/red"
+                            android:textSize="16sp"
+                           />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -274,7 +307,7 @@
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
                         android:minWidth="300dp"
-
+                        android:inputType="number"
                         android:hint="@string/phone"
 
                         android:textColorHint="@color/blue"

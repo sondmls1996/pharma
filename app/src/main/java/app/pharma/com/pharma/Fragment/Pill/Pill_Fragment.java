@@ -63,8 +63,8 @@ public class Pill_Fragment extends Fragment {
     ListView lv;
     List_Pill_Adapter adapter;
     Spinner spiner;
-    ArrayList<String> arrString,arr_tp;
-    ArrayList<CataloModel> arrTp;
+    ArrayList<String> arrMedicine,arr_tp;
+    ArrayList<CataloModel> arrTp,arrMedicineAll;
     TextView tvnull;
     String ingredient = "";
     ArrayList<Pill_Constructor> arr;
@@ -77,6 +77,7 @@ public class Pill_Fragment extends Fragment {
     View v;
     String idingredient = "";
     String idPill = "";
+    boolean isFillter = false;
     FloatingActionButton fillter;
     int page = 1;
     DatabaseHandle db;
@@ -99,16 +100,17 @@ public class Pill_Fragment extends Fragment {
 
     private void init() {
         db = new DatabaseHandle();
-        arrString = new ArrayList<>();
+        arrMedicine = new ArrayList<>();
         arr_tp = new ArrayList<>();
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                minPrice=-1;
-                maxPrice=-1;
-                idingredient="";
-                loadPage(1);
+//                minPrice=-1;
+//                maxPrice=-1;
+//                idingredient="";
+                isFillter = false;
+                loadPage(1,isFillter);
             }
         });
         ct = getContext();
@@ -189,7 +191,7 @@ public class Pill_Fragment extends Fragment {
 
                         page++;
                         Log.d("PAGE_PILL",page+"");
-                        loadPage(page);
+                        loadPage(page,isFillter);
                     }
 
                     //load more content
@@ -212,22 +214,23 @@ public class Pill_Fragment extends Fragment {
         });
     }
 
-    public void fillter(Context ct,int minPrice,int maxPrice,String ingredient){
-        page = 1;
-        this.context = ct;
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
-        this.idingredient = ingredient;
-        loadPage(page);
-
-    }
+//    public void fillter(Context ct,int minPrice,int maxPrice,String ingredient){
+//        page = 1;
+//        this.context = ct;
+//        this.minPrice = minPrice;
+//        this.maxPrice = maxPrice;
+//        this.idingredient = ingredient;
+//        loadPage(page,isFillter);
+//
+//    }
 
     private void selectItem() {
         page = 1;
-        loadPage(page);
+
+        loadPage(page,isFillter);
     }
 
-    private void loadPage(int page) {
+    private void loadPage(int page,boolean isFillter) {
         if(arr==null){
             arr = new ArrayList<>();
         }
@@ -239,16 +242,13 @@ public class Pill_Fragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("page",page+"");
         map.put("type",idPill);
-        if(minPrice>-1){
-            map.put("minPrice",minPrice+"");
-        }
-        if(maxPrice>-1){
-            map.put("maxPrice",maxPrice+"");
-        }
-        if(!idingredient.equals("")){
-            map.put("ingredient",idingredient);
 
+        if(isFillter){
+            map.put("minPrice",minPrice+"");
+            map.put("maxPrice",maxPrice+"");
+            map.put("ingredient",idingredient);
         }
+
 
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
@@ -331,7 +331,8 @@ public class Pill_Fragment extends Fragment {
     }
     private void showDialogFillter() {
 //        arr.clear();
-        arrString.clear();
+        arrMedicine.clear();
+        arrMedicineAll = new ArrayList<>();
         arr_tp.clear();
         arrTp = new ArrayList<>();
         Dialog dialog = new Dialog(Common.context);
@@ -359,11 +360,12 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Utils.setAlphalAnimation(view);
-                if(maxPrice>0){
+//                if(maxPrice>0){
+                    isFillter = true;
                     dialog.dismiss();
-                    loadPage(1);
+                    loadPage(1,isFillter);
 
-                }
+             //   }
 
             }
         });
@@ -411,32 +413,41 @@ public class Pill_Fragment extends Fragment {
             Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
             RealmList<CataloModel> list = cata.getListCatalo();
             for (int i =0; i <list.size();i++){
-                arrString.add(list.get(i).getName());
+                arrMedicine.add(list.get(i).getName());
+                arrMedicineAll.add(list.get(i));
             }
 
         }
-        if(!db.isCataloPillEmpty()){
-            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL_INTRO);
-            RealmList<CataloModel> list = cata.getListCatalo();
-            for (int i =0; i <list.size();i++){
-                arr_tp.add(list.get(i).getName());
-                arrTp.add(list.get(i));
-            }
-
-        }
+//        if(!db.isCataloPillEmpty()){
+//            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL_INTRO);
+//            RealmList<CataloModel> list = cata.getListCatalo();
+//            for (int i =0; i <list.size();i++){
+//                arr_tp.add(list.get(i).getName());
+//                arrTp.add(list.get(i));
+//            }
+//
+//        }
 
 
 
         ArrayAdapter<String> dataAdapter =
                 new ArrayAdapter<String>
-                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arrString);
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arrMedicine);
         dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
         sp_sick.setAdapter(dataAdapter);
 
         sp_sick.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Map<String,String> map = new HashMap();
+                map.put("key",arrMedicineAll.get(i).getId());
+                        Response.Listener<String> response = new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("RESPONSE_MEDICINE",response);
+                            }
+                        };
+                        Utils.PostServer(getActivity(),ServerPath.CATALO_PILL_INTRO,map,response);
             }
 
             @Override
@@ -467,8 +478,6 @@ public class Pill_Fragment extends Fragment {
 
             }
         });
-
-
 
         dialog.show();
     }

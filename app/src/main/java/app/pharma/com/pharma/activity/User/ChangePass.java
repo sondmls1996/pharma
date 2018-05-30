@@ -3,6 +3,7 @@ package app.pharma.com.pharma.activity.User;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,9 +71,14 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
         header_bg = findViewById(R.id.header_bg);
         btn_ok = findViewById(R.id.btn_accep);
         btn_ok.setOnClickListener(this);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new TransImage()).into(avt);
-        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-        Picasso.with(getApplicationContext()).load(R.drawable.img_avt).transform(new BlurImagePicasso()).into(header_bg);
+        if(Utils.isLogin()){
+            user = data.getAllUserInfor();
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
+            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+
+        }
+
 
 
     }
@@ -81,7 +87,7 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_accep:
-               utils.showLoading(getApplicationContext(),20000,true);
+               utils.showLoading(this,20000,true);
                     String oldPass = ed_oldpass.getText().toString();
                     String newPass = ed_newpass.getText().toString();
                     String reNewPass  =ed_renewpass.getText().toString();
@@ -97,10 +103,12 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                         map.put("accessToken",user.getToken());
                         map.put("oldPass",oldPass);
                         map.put("newPass",newPass);
+                        map.put("reNewPass",reNewPass);
                         Response.Listener<String> response = new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 try {
+                                    Log.d("RESPONSE_CHANGE_PASS",response);
                                     JSONObject jo = new JSONObject(response);
                                     String code = jo.getString(JsonConstant.CODE);
                                     switch (code){
@@ -116,6 +124,10 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                                             utils.showLoading(getApplicationContext(),20000,false);
                                             Utils.dialogNotif(getResources().getString(R.string.you_not_login));
                                             break;
+                                            default:
+                                                utils.showLoading(getApplicationContext(),20000,false);
+                                                Utils.dialogNotif(getResources().getString(R.string.error));
+                                                break;
                                     }
                                 } catch (JSONException e) {
                                     utils.showLoading(getApplicationContext(),20000,false);

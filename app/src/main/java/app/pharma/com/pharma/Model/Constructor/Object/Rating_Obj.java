@@ -6,6 +6,15 @@ public class Rating_Obj {
     String comment;
     double star;
     long time;
+    String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Rating_Obj() {
     }
