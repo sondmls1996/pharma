@@ -50,6 +50,7 @@ public class Sick_Detail_Fragment extends Fragment {
     Sick_Obj sickObj;
     Double star;
     DatabaseHandle db;
+    Utils utils;
     User user;
     LinearLayout ln_star;
     TextView comment;
@@ -78,13 +79,13 @@ public class Sick_Detail_Fragment extends Fragment {
             db = new DatabaseHandle();
             user = db.getAllUserInfor();
         }
+        utils = new Utils();
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         hearth = (ImageView)v.findViewById(R.id.img_hearth);
         tv_title = v.findViewById(R.id.tv_title_sick);
         content = v.findViewById(R.id.tv_content_sick);
         tv_like = v.findViewById(R.id.txt_like);
-        ln_star = v.findViewById(R.id.ln_star_sick);
-        ln_star.removeAllViews();
+
         comment = v.findViewById(R.id.txt_comment);
         arrSickLq = new ArrayList<>();
         share = v.findViewById(R.id.img_share);
@@ -108,9 +109,7 @@ public class Sick_Detail_Fragment extends Fragment {
 //        for(int i=0;i<IMAGES.length;i++)
 //            ImagesArray.add(IMAGES[i]);
 
-        getData();
-
-
+        getData(Detail.id);
 
     }
 
@@ -159,15 +158,19 @@ public class Sick_Detail_Fragment extends Fragment {
 
     }
 
-    private void getData() {
+    public void loadAgaint(String id){
+        getData(id);
+    }
+
+    private void getData(String id) {
         ImagesArray.clear();
         Map<String,String> map = new HashMap<>();
-        map.put("id", Detail.id);
+        map.put("id", id);
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("RESPONSE_SICK_DETAIL",response);
-
+                utils.showLoading(getActivity(),10000,true);
                 try {
 
                     JSONObject jo = new JSONObject(response);
@@ -208,6 +211,8 @@ public class Sick_Detail_Fragment extends Fragment {
 
                                 @Override
                                 protected void onPostExecute(JSONObject jo) {
+                                    ln_star = v.findViewById(R.id.ln_star_sick);
+                                    ln_star.removeAllViews();
                                     Detail.headerObj = sickObj;
                                     tv_title.setText(sickObj.getName());
                                     tv_like.setText(sickObj.getLike()+"");
@@ -235,7 +240,7 @@ public class Sick_Detail_Fragment extends Fragment {
                                     content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
                                             sickObj.getDescri(),
                                             "")));
-
+                                    utils.showLoading(getActivity(),10000,false);
                                     getSickOther(jo);
 
                                     super.onPostExecute(jo);
@@ -257,43 +262,69 @@ public class Sick_Detail_Fragment extends Fragment {
     }
 
     private void getSickOther(JSONObject jo) {
-        try {
+
             arrSickLq.clear();
-            JSONArray other = jo.getJSONArray(JsonConstant.OTHER_DISEA);
-            for (int i = 0; i<other.length();i++){
-                JSONObject index = other.getJSONObject(i);
-                JSONObject product = index.getJSONObject(JsonConstant.DISEASE);
-                JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-                Sick_LQ_Construct otherPrd = new Sick_LQ_Construct();
-                otherPrd.setTitle(product.getString(JsonConstant.NAME));
-                otherPrd.setId(product.getString(JsonConstant.ID));
+            ln.removeAllViews();
 
-                otherPrd.setImage(images.getString(0));
-                otherPrd.setDecri(product.getString(JsonConstant.DEFINE));
-                JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
-                otherPrd.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
-                arrSickLq.add(otherPrd);
-            }
+            new AsyncTask<Void,Void,Void>(){
 
-            LayoutInflater inflater2 = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    JSONArray other = null;
+                    try {
+                        other = jo.getJSONArray(JsonConstant.OTHER_DISEA);
+                        for (int i = 0; i<other.length();i++){
+                            JSONObject index = other.getJSONObject(i);
+                            JSONObject product = index.getJSONObject(JsonConstant.DISEASE);
+                            JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                            Sick_LQ_Construct otherPrd = new Sick_LQ_Construct();
+                            otherPrd.setTitle(product.getString(JsonConstant.NAME));
+                            otherPrd.setId(product.getString(JsonConstant.ID));
 
-            for (int i = 0; i < arrSickLq.size(); i++){
-                Sick_LQ_Construct product = arrSickLq.get(i);
-                View rowView = inflater2.inflate(R.layout.item_sick_lq, null);
-                ImageView img_pill_lq = rowView.findViewById(R.id.img_sick_lq);
-                TextView tv_name_lq  = rowView.findViewById(R.id.tv_sick_lq);
-                TextView tv_descri = rowView.findViewById(R.id.tv_content_lq);
-                TextView cata_lq= rowView.findViewById(R.id.tv_cata_sick_lq);
-                Picasso.with(getActivity()).load(ServerPath.ROOT_URL+arrSickLq.get(i).getImage()).into(img_pill_lq);
-                tv_name_lq.setText(arrSickLq.get(i).getTitle());
-                tv_descri.setText(arrSickLq.get(i).getDecri());
-                cata_lq.setText(arrSickLq.get(i).getCatalo());
-                ln.addView(rowView);
-            }
+                            otherPrd.setImage(images.getString(0));
+                            otherPrd.setDecri(product.getString(JsonConstant.DEFINE));
+                            JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
+                            otherPrd.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
+                            arrSickLq.add(otherPrd);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    LayoutInflater inflater2 = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    for (int i = 0; i < arrSickLq.size(); i++){
+                        Sick_LQ_Construct product = arrSickLq.get(i);
+                        View rowView = inflater2.inflate(R.layout.item_sick_lq, null);
+                        ImageView img_pill_lq = rowView.findViewById(R.id.img_sick_lq);
+                        TextView tv_name_lq  = rowView.findViewById(R.id.tv_sick_lq);
+                        TextView tv_descri = rowView.findViewById(R.id.tv_content_lq);
+                        TextView cata_lq= rowView.findViewById(R.id.tv_cata_sick_lq);
+                        Picasso.with(getActivity()).load(ServerPath.ROOT_URL+arrSickLq.get(i).getImage()).into(img_pill_lq);
+                        tv_name_lq.setText(arrSickLq.get(i).getTitle());
+                        tv_descri.setText(arrSickLq.get(i).getDecri());
+                        cata_lq.setText(arrSickLq.get(i).getCatalo());
+                        ln.addView(rowView);
+
+                        int finalI = i;
+                        rowView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Utils.setAlphalAnimation(v);
+                                //           scroll.fullScroll(ScrollView.FOCUS_UP);
+                                loadAgaint(arrSickLq.get(finalI).getId());
+                            }
+                        });
+                    }
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
     }
 
     public void checkHearth(int likeStt){

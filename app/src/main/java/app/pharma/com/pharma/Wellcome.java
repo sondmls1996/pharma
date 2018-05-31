@@ -160,7 +160,7 @@ public class Wellcome extends AppCompatActivity {
                     ja = job.getJSONArray(JsonConstant.LIST_DISE);
                 }
 
-                for(int i = 0; i < ja.length();i++){
+                for(int i = 0; i  < ja.length();i++){
                     type = new StringBuffer();
                     JSONObject index = ja.getJSONObject(i);
                     JSONObject catalo = index.getJSONObject(JsonConstant.CATEGORY);

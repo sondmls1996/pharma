@@ -55,6 +55,7 @@ public class Pill_Fragment_Detail extends Fragment {
     boolean like = false;
     View v;
     public Pill_obj objPill;
+    Utils utils;
     String product_id;
     User user;
     DatabaseHandle db;
@@ -92,9 +93,9 @@ public class Pill_Fragment_Detail extends Fragment {
             db = new DatabaseHandle();
             user = db.getAllUserInfor();
         }
+        utils = new Utils();
         scroll = v.findViewById(R.id.scroll_detail);
-        ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
-        ln.removeAllViews();
+
         ImagesArray  = new ArrayList<>();
         hearth = (ImageView)v.findViewById(R.id.img_hearth);
         ln_buy = v.findViewById(R.id.ln_buynow);
@@ -127,8 +128,6 @@ public class Pill_Fragment_Detail extends Fragment {
                 onClickHeart();
             }
         });
-
-
 
         loadAgaint(Detail.id);
 
@@ -189,6 +188,8 @@ public class Pill_Fragment_Detail extends Fragment {
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                utils.showLoading(getActivity(),10000,true);
+                ImagesArray.clear();
                 Log.d("RESPONSE_DETAIL",response);
                     new AsyncTask<Void,Void,JSONObject>(){
 
@@ -239,6 +240,7 @@ public class Pill_Fragment_Detail extends Fragment {
 
                         @Override
                         protected void onPostExecute(JSONObject jo) {
+
                             Detail.headerObj = objPill;
                             Detail.imagesArray = ImagesArray;
                             tv_title.setText(objPill.getName());
@@ -262,7 +264,6 @@ public class Pill_Fragment_Detail extends Fragment {
                             adapter.registerDataSetObserver(indicator.getDataSetObserver());
                             adapter.notifyDataSetChanged();
 
-
                             checkHearth(objPill.getLikeStt());
 
                             LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
@@ -275,6 +276,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                 View star = vi.inflate(R.layout.star, null);
                                 insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
                             }
+                            utils.showLoading(getActivity(),10000,false);
                             getOtherPrd(jo);
                             super.onPostExecute(jo);
                         }
@@ -286,7 +288,9 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void getOtherPrd(JSONObject jo) {
-             ln.removeAllViews();
+        ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
+        ln.removeAllViews();
+
             new AsyncTask<Void,Void,Void>(){
 
                 @Override

@@ -115,7 +115,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 user.setAdr(acc.getString(JsonConstant.USER_ADR));
                                 user.setId(acc.getString(JsonConstant.ID));
                                 user.setAvt(acc.getString(JsonConstant.AVATAR));
-                                user.setDate(acc.getLong(JsonConstant.DOB));
+                                if(acc.getString(JsonConstant.DOB).equals("")){
+                                    user.setDate(0);
+                                }else{
+                                    user.setDate(acc.getLong(JsonConstant.DOB));
+                                }
+
                                 user.setUserName(acc.getString(JsonConstant.USERNAME));
                                 user.setToken(acc.getString(JsonConstant.ACCESS));
                                 user.setName(acc.getString(JsonConstant.FULLNAME));
@@ -148,7 +153,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view) { 
         switch (view.getId()){
             case R.id.tv_register:
                 Intent it = new Intent(getApplicationContext(),Register.class);
