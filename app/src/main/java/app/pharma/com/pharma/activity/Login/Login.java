@@ -153,7 +153,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) { 
+    public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_register:
                 Intent it = new Intent(getApplicationContext(),Register.class);

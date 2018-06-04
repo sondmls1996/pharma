@@ -233,8 +233,6 @@ public class Infor_Dr extends AppCompatActivity {
                                 }
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-
-
                             break;
                         case "1":
                             break;

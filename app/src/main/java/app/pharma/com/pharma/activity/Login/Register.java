@@ -54,8 +54,6 @@ public class Register extends AppCompatActivity {
         stringdate = df.format(System.currentTimeMillis());
         init();
 
-
-
     }
 
     public void openDialogDate(int d, int m, int y){
@@ -116,17 +114,6 @@ public class Register extends AppCompatActivity {
                 doRegister();
             }
         });
-//        Utils.setCompondEdt(R.drawable.profile,eduser);
-//        Utils.setCompondEdt(R.drawable.padlock,edpass);
-//        Utils.setCompondEdt(R.drawable.padlock,edRepass);
-//        Utils.setCompondEdt(R.drawable.email,edEmail);
-//        Utils.setCompondEdt(R.drawable.calendar,edBirth);
-
-//        eduser.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.profile)),null,null,null);
-//        edpass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
-//        edRepass.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.padlock)),null,null,null);
-//        edEmail.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.email)),null,null,null);
-//        edBirth.setCompoundDrawables(Utils.setDrawableEdt(getResources().getDrawable(R.drawable.calendar)),null,null,null);
 
     }
 
@@ -151,8 +138,10 @@ public class Register extends AppCompatActivity {
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.validate_email));
 
-            }
-            else{
+            }else if(phone.length()<10){
+                util.showLoading(this,10000,false);
+                Utils.dialogNotif(getResources().getString(R.string.validate_phone));
+            }else{
                 Map<String ,String> map = new HashMap<>();
                 map.put("userName",user);
                 map.put("email",email);

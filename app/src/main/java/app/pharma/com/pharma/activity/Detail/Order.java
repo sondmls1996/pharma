@@ -98,12 +98,6 @@ public class Order extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    if(s.equals("0")||s.equals("")){
-//                        quality.setText("1");
-//                    }else{
-//
-//
-//                    }
 
                     if(!s.toString().equals("")){
                         countPrice = Integer.parseInt(s.toString())*pillObj.getPrice();
@@ -135,13 +129,11 @@ public class Order extends AppCompatActivity {
             ed_email.setText(user.getEmail());
             ed_phone.setText(user.getPhone());
         }
-//        Utils.setCompondEdt(R.drawable.blue_place,ed_adr);
-//        Utils.setCompondEdt(R.drawable.profile,ed_fullname);
-//        Utils.setCompondEdt(R.drawable.email,ed_email);
-//        Utils.setCompondEdt(R.drawable.phone_blue,ed_phone);
     }
 
     private void order() {
+
+
     }
 
     @Override

@@ -136,6 +136,10 @@ public class Insite_List extends Fragment {
                 };
                 Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
             }else{
+                Map<String, String> map = new HashMap<>();
+                map.put("latGPS", Common.lat+"");
+                map.put("longGPS",Common.lng+"");
+                map.put("page",page+"");
                 Response.Listener<String> response = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -145,18 +149,14 @@ public class Insite_List extends Fragment {
                         initJson(response,"show_all");
                     }
                 };
-                Utils.GetServer(getActivity(),ServerPath.LIST_PHARMA,response);
+                Utils.PostServer(getActivity(),ServerPath.LIST_PHARMA,map,response);
             }
         }
-
-
-
-
 
     }
 
     private void initJson(String response,String type) {
-        Log.d("RESPONSE__PHARMA",response);
+        Log.d("RESPONSE_INSITE_PHARMA",response);
         try {
 
             JSONObject jo = new JSONObject(response);
@@ -165,65 +165,10 @@ public class Insite_List extends Fragment {
                 String code = jo.getString(JsonConstant.CODE);
                 switch (code){
                     case "0":
-                        new AsyncTask<Void,Void,Void>(){
-
-                            @Override
-                            protected Void doInBackground(Void... voids) {
-                                try{
-                                    JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
-                                    if(array.length()>0){
-                                        for (int i =0; i<array.length();i++){
-                                            JSONObject obj = array.getJSONObject(i);
-                                            JSONObject store = obj.getJSONObject(JsonConstant.STORE);
-                                            JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
-                                            Pharma_Constructor pharma = new Pharma_Constructor();
-                                            pharma.setName(store.getString(JsonConstant.NAME));
-                                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                                        //    pharma.setComment(store.getString(JsonConstant.COMMENT));
-                                            pharma.setAvatar(images.getString(0));
-                                            pharma.setId(store.getString(JsonConstant.ID));
-                                       //     pharma.setLike(store.getString(JsonConstant.LIKE));
-                                        //    pharma.setRate(store.getDouble(JsonConstant.STAR));
-                                            JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
-                                            pharma.setX(location.getDouble(JsonConstant.LAT));
-                                            pharma.setY(location.getDouble(JsonConstant.LONG));
-                                            arr.add(pharma);
-                                        }
-                                    }else {
-                                        return null;
-                                    }
-
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                if(type.equals("show_all")){
-                                    if(arr.size()>0){
-                                        tvnull.setVisibility(View.GONE);
-                                    }else{
-                                        tvnull.setVisibility(View.VISIBLE);
-                                    }
-                                }else{
-                                    if(arr.size()>0){
-                                        ln_null.setVisibility(View.GONE);
-                                    }else{
-                                        ln_null.setVisibility(View.VISIBLE);
-                                    }
-                                }
-
-                                adapter.notifyDataSetChanged();
-                                super.onPostExecute(aVoid);
-                            }
-                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-
+                        getResponseData(jo,type);
                         break;
-                    case "1":
+                    case "3":
+                        getResponseData(jo,type);
                         break;
                 }
 
@@ -234,6 +179,64 @@ public class Insite_List extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void getResponseData(JSONObject jo,String type) {
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try{
+                    JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
+                    if(array.length()>0){
+                        for (int i =0; i<array.length();i++){
+                            JSONObject obj = array.getJSONObject(i);
+                            JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                            JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
+                            Pharma_Constructor pharma = new Pharma_Constructor();
+                            pharma.setName(store.getString(JsonConstant.NAME));
+                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                            //    pharma.setComment(store.getString(JsonConstant.COMMENT));
+                            pharma.setAvatar(images.getString(0));
+                            pharma.setId(store.getString(JsonConstant.ID));
+                            //     pharma.setLike(store.getString(JsonConstant.LIKE));
+                            //    pharma.setRate(store.getDouble(JsonConstant.STAR));
+                            JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                            pharma.setX(location.getDouble(JsonConstant.LAT));
+                            pharma.setY(location.getDouble(JsonConstant.LONG));
+                            arr.add(pharma);
+                        }
+                    }else {
+                        return null;
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if(type.equals("show_all")){
+                    if(arr.size()>0){
+                        tvnull.setVisibility(View.GONE);
+                    }else{
+                        tvnull.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    if(arr.size()>0){
+                        ln_null.setVisibility(View.GONE);
+                    }else{
+                        ln_null.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+                super.onPostExecute(aVoid);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 }

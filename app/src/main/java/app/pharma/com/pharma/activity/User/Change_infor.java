@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -24,6 +27,7 @@ import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
@@ -36,6 +40,7 @@ public class Change_infor extends AppCompatActivity {
     DatabaseHandle db;
     Button update;
     Calendar c;
+    Utils utils;
     SimpleDateFormat format;
     int day,month,year1;
     User user;
@@ -45,6 +50,7 @@ public class Change_infor extends AppCompatActivity {
         setContentView(R.layout.activity_change_infor);
         c = GregorianCalendar.getInstance();
         format = new SimpleDateFormat("dd-MM-yyyy");
+        utils = new Utils();
         init();
 
 
@@ -111,7 +117,7 @@ public class Change_infor extends AppCompatActivity {
     }
 
     private void update() {
-
+        utils.showLoading(this,10000,true);
         Map<String,String> map = new HashMap<>();
         map.put("email",edEmail.getText().toString());
         map.put("fullName",edfullname.getText().toString());
@@ -122,7 +128,26 @@ public class Change_infor extends AppCompatActivity {
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-            Log.d("RESPONSE_CHANGE_INFOR",response);
+
+                try {
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            utils.showLoading(Change_infor.this,10000,false);
+                            Utils.dialogNotif(getResources().getString(R.string.change_infor_success));
+                            break;
+                        default:
+                            utils.showLoading(Change_infor.this,10000,false);
+                            Utils.dialogNotif(getResources().getString(R.string.change_infor_failse));
+                            break;
+                    }
+                } catch (JSONException e) {
+                    utils.showLoading(Change_infor.this,10000,false);
+                    Utils.dialogNotif(getResources().getString(R.string.change_infor_failse));
+                    e.printStackTrace();
+                }
+                Log.d("RESPONSE_CHANGE_INFOR",response);
             }
         };
         Utils.PostServer(this,ServerPath.CHANGE_INFO,map,response);

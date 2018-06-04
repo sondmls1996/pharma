@@ -81,7 +81,7 @@ public class Care_Sick_Activity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
                 Intent it = new Intent(getApplicationContext(), Detail.class);
-                it.putExtra("key","pill");
+                it.putExtra("key","sick");
                 it.putExtra("id", arr.get(i).getId());
                 startActivity(it);
             }

@@ -228,6 +228,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                         objPill.setLikeStt(product.getInt(JsonConstant.LIKE_STT));
 
                                         break;
+
                                     default:
                                         break;
                                 }
