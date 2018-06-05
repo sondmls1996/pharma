@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
@@ -23,7 +24,7 @@ public class Share extends AppCompatActivity {
     private void init() {
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
-        ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        RelativeLayout imgBack = findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_share));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
@@ -25,7 +26,7 @@ public class Infor_Meo extends AppCompatActivity {
         Intent it = getIntent();
         if(it.getExtras()!=null){
             link = it.getStringExtra("link");
-            ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+            RelativeLayout imgBack = findViewById(R.id.img_back);
             tvTitle.setText(getResources().getString(R.string.title_meo));
             imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -91,7 +92,7 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
     private void init() {
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
-        ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        RelativeLayout imgBack = findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_user_inf));
         tv_name = findViewById(R.id.tv_name);
         tv_phone = findViewById(R.id.tv_phone);

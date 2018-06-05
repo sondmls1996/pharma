@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -57,8 +58,7 @@ public class Change_infor extends AppCompatActivity {
     }
 
     private void init() {
-        db = new DatabaseHandle();
-        user = db.getAllUserInfor();
+
         Common.context = this;
         avt = findViewById(R.id.img_avt);
         avt2 = findViewById(R.id.img_avtbg);
@@ -79,31 +79,11 @@ public class Change_infor extends AppCompatActivity {
         month = c.get(Calendar.MONTH);
         year1 = c.get(Calendar.YEAR);
 
-        edfullname.setText(user.getName());
-        edadr.setText(user.getAdr());
-        edEmail.setText(user.getEmail());
-        edBirth.clearFocus();
-        edBirth.setFocusable(false);
 
-        if(user.getDate()>0){
-            c.setTimeInMillis(user.getDate());
-            edBirth.setText(format.format(c.getTime()));
-        }else{
-     //       c.setTimeInMillis(user.getDate());
-            edBirth.setText(format.format(c.getTimeInMillis()));
-        }
-
-        edBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialogDate(day,month,year1);
-            }
-        });
-        edPhone.setText(user.getPhone());
 
         header_bg = findViewById(R.id.header_bg);
         TextView tvTitle = (TextView)findViewById(R.id.title);
-        ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        RelativeLayout imgBack = findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_change_infor));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +116,7 @@ public class Change_infor extends AppCompatActivity {
                         case "0":
                             utils.showLoading(Change_infor.this,10000,false);
                             Utils.dialogNotif(getResources().getString(R.string.change_infor_success));
+
                             break;
                         default:
                             utils.showLoading(Change_infor.this,10000,false);
@@ -156,6 +137,31 @@ public class Change_infor extends AppCompatActivity {
     @Override
     protected void onResume() {
         Common.context = this;
+        if(Utils.isLogin()){
+            db = new DatabaseHandle();
+            user = db.getAllUserInfor();
+            edfullname.setText(user.getName());
+            edadr.setText(user.getAdr());
+            edEmail.setText(user.getEmail());
+            edBirth.clearFocus();
+            edBirth.setFocusable(false);
+
+            if(user.getDate()>0){
+                c.setTimeInMillis(user.getDate());
+                edBirth.setText(format.format(c.getTime()));
+            }else{
+                //       c.setTimeInMillis(user.getDate());
+                edBirth.setText(format.format(c.getTimeInMillis()));
+            }
+
+            edBirth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openDialogDate(day,month,year1);
+                }
+            });
+            edPhone.setText(user.getPhone());
+        }
         super.onResume();
 
     }

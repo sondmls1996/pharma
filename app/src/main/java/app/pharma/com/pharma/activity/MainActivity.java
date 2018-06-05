@@ -392,14 +392,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ln_meo.performClick();
                 break;
             case R.id.sub_pill:
-                Intent it2 = new Intent(getApplicationContext(),Care_PILL_Activity.class);
-                it2.putExtra("key","pill");
-                startActivity(it2);
+                if(Utils.isLogin()){
+                    Intent it2 = new Intent(getApplicationContext(),Care_PILL_Activity.class);
+                    it2.putExtra("key","pill");
+                    startActivity(it2);
+                }else{
+                    Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                }
+
                 break;
             case R.id.sub_sick:
-                Intent it3 = new Intent(getApplicationContext(),Care_Sick_Activity.class);
-                it3.putExtra("key","sick");
-                startActivity(it3);
+
+                if(Utils.isLogin()){
+                    Intent it3 = new Intent(getApplicationContext(),Care_Sick_Activity.class);
+                    it3.putExtra("key","sick");
+                    startActivity(it3);
+                }else{
+                    Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                }
+
                 break;
             case R.id.log_out:
                 if(Utils.isLogin()){

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     Pharma_Constructor pharmaConstructor;
     TextView tv_left, tv_right;
     TextView tvTitle;
-    ImageView imgBack;
+    RelativeLayout imgBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
 
         Common.context = this;
         tvTitle = (TextView)findViewById(R.id.title);
-        imgBack = (ImageView)findViewById(R.id.img_back);
+        imgBack = findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.detail_infor));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +27,8 @@ public class Show_map extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_map);
+
+        init();
         title = findViewById(R.id.title);
         title.setText("Bản đồ");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -36,6 +40,16 @@ public class Show_map extends AppCompatActivity implements OnMapReadyCallback {
             lng = it.getDoubleExtra("long", 0);
 
         }
+    }
+
+    private void init() {
+        RelativeLayout rlback = findViewById(R.id.img_back);
+        rlback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

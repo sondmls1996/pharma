@@ -145,6 +145,7 @@
                     android:layout_height="match_parent"
                     android:textColor="@color/blue"
                     android:gravity="center_vertical"
+                    android:id="@+id/txt_cb_save_login"
                     android:text="@string/save_login"/>
 
             </LinearLayout>
@@ -193,7 +194,7 @@
             android:gravity="center"
             android:id="@+id/not_login"
             android:textColor="@color/blue"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="15dp"
             android:text="@string/not_login"/>
         </LinearLayout>
     </LinearLayout>

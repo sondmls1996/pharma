@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -83,7 +83,7 @@ public class Register extends AppCompatActivity {
 
     private void init() {
         TextView tvTitle = (TextView)findViewById(R.id.title);
-        ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        RelativeLayout imgBack = findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_register));
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

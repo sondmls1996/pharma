@@ -1,13 +1,13 @@
 package app.pharma.com.pharma.activity.Like;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -58,7 +58,7 @@ public class Care_Sick_Activity extends AppCompatActivity {
         }
 
         TextView tvTitle = (TextView)findViewById(R.id.title);
-        ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        RelativeLayout imgBack = findViewById(R.id.img_back);
         if(key.equals("pill")){
             tvTitle.setText(getResources().getString(R.string.title_care_pill));
         }else{

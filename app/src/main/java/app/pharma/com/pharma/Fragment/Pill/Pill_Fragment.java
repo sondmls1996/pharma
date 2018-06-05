@@ -17,19 +17,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -195,13 +190,13 @@ public class Pill_Fragment extends Fragment {
 
                 //Check if the last view is visible
 
-                if(absListView.getLastVisiblePosition()==total-1&&isLoading==false){
-                  //  lv.addFooterView(footer);
-                    page++;
-                    Log.d("PAGE_PILL",page+"");
-                    loadPage(page,isFillter);
-
-                }
+//                if(absListView.getLastVisiblePosition()==total-1&&isLoading==false){
+//                  //  lv.addFooterView(footer);
+//                    page++;
+//                    Log.d("PAGE_PILL",page+"");
+//                    loadPage(page,isFillter);
+//
+//                }
 //                if (++firstVisibleItem + i1 > i2) {
 //
 //

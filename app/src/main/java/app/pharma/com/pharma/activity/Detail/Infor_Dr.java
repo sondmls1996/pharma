@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -91,7 +92,7 @@ public class Infor_Dr extends AppCompatActivity {
         });
 
         TextView tvTitle = (TextView) findViewById(R.id.title);
-        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
+        RelativeLayout imgBack =  findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.detail_infor));
         dr_name = findViewById(R.id.dr_name);
         dr_adr = findViewById(R.id.dr_adr);

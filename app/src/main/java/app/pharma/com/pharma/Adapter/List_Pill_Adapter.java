@@ -1,12 +1,10 @@
 package app.pharma.com.pharma.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,14 +12,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
@@ -29,7 +23,6 @@ import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
-import app.pharma.com.pharma.activity.Detail.Detail;
 
 /**
  * Created by Vi on 3/18/2018.
@@ -84,7 +77,7 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
         ImageView imgPill = v.findViewById(R.id.img_pill);
         TextView tv_comment = v.findViewById(R.id.txt_comment);
         tv_title.setText(pill.getName());
-        decr_pill.setText(pill.getHtuse()+"...");
+        decr_pill.setText(pill.getHtuse());
         price.setText(Constant.format.format((pill.getPrice())));
         tv_like.setText(pill.getLike()+"");
         tv_comment.setText(pill.getCmt()+"");

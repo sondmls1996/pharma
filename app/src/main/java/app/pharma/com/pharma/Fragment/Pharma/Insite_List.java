@@ -196,11 +196,11 @@ public class Insite_List extends Fragment {
                             Pharma_Constructor pharma = new Pharma_Constructor();
                             pharma.setName(store.getString(JsonConstant.NAME));
                             pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                            //    pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                pharma.setComment(store.getString(JsonConstant.COMMENT));
                             pharma.setAvatar(images.getString(0));
                             pharma.setId(store.getString(JsonConstant.ID));
-                            //     pharma.setLike(store.getString(JsonConstant.LIKE));
-                            //    pharma.setRate(store.getDouble(JsonConstant.STAR));
+                                 pharma.setLike(store.getString(JsonConstant.LIKE));
+                                pharma.setRate(store.getDouble(JsonConstant.STAR));
                             JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
                             pharma.setX(location.getDouble(JsonConstant.LAT));
                             pharma.setY(location.getDouble(JsonConstant.LONG));

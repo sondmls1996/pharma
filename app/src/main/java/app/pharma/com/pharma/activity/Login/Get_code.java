@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +48,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
     private void init() {
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
-        ImageView imgBack = (ImageView)findViewById(R.id.img_back);
+        RelativeLayout imgBack = findViewById(R.id.img_back);
         ed_email = findViewById(R.id.ed_email);
         bac_lg = findViewById(R.id.back_login);
         bac_lg.setOnClickListener(new View.OnClickListener() {

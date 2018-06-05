@@ -33,6 +33,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     EditText eduser;
     CheckBox check;
     TextView not_login;
+    TextView save_login;
     EditText edpass;
     Utils util;
     DatabaseHandle databaseHandle;
@@ -55,6 +56,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         eduser = findViewById(R.id.ed_user);
         edpass = findViewById(R.id.ed_pass);
         btnlogin = findViewById(R.id.btnlogin);
+        save_login = findViewById(R.id.txt_cb_save_login);
         not_login = findViewById(R.id.not_login);
         not_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +64,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 Intent it = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(it);
                 finish();
+            }
+        });
+        save_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                check.performClick();
             }
         });
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +143,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 startActivity(it);
                                 finish();
 
+                                break;
+                            case "-1":
+                                util.showLoading(Login.this,0,false);
+                                Utils.dialogNotif(getResources().getString(R.string.login_fail));
                                 break;
                         }
                     } catch (JSONException e) {
