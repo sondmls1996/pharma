@@ -1,19 +1,24 @@
 package app.pharma.com.pharma.activity;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.multidex.MultiDex;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +47,7 @@ import app.pharma.com.pharma.Fragment.Pill.Pill_Fragment;
 import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.ServerPath;
@@ -449,7 +455,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(Utils.isLogin()){
             db = new DatabaseHandle();
             User user = db.getAllUserInfor();
-            Log.d("USER_NAME",user.getUserName());
             nav_name.setText(user.getName());
 
             logoutItem.setVisible(true);
@@ -463,9 +468,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
             Picasso.with(getApplicationContext()).load(R.color.white).transform(new BlurImagePicasso()).into(header_background);
         }
+        if (Build.VERSION.SDK_INT >= 23) {
+            RequestPermission();
+        } else {
+            if(!Utils.isMyServiceRunning(GetLocationService.class)){
+                startService(new Intent(this, GetLocationService.class));
+            }
+
+        }
     }
 
+    public void RequestPermission(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        Constant.PERMISSION_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            if(!Utils.isMyServiceRunning(GetLocationService.class)){
+                startService(new Intent(this, GetLocationService.class));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constant.PERMISSION_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(!Utils.isMyServiceRunning(GetLocationService.class)){
+                        startService(new Intent(this, GetLocationService.class));
+                    }
+                } else {
+                    Utils.dialogNotif("Ứng dụng sẽ không hiển thị nha thuốc xung quanh nếu không được cấp quyền vị trí");
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
 
     private void showDialogRateApp() {
         Dialog dialog = new Dialog(Common.context);

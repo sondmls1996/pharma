@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.Model;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -108,6 +109,16 @@ public class Utils {
         GetCL get = new GetCL(link,listener);
         RequestQueue que = Volley.newRequestQueue(ct);
         que.add(get);
+    }
+
+    public static boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) Common.context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void PostServer(Context ct, String link, Map<String, String> map,

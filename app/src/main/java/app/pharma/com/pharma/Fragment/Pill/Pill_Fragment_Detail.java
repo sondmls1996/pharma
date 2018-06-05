@@ -273,10 +273,17 @@ public class Pill_Fragment_Detail extends Fragment {
                             LayoutInflater vi = (LayoutInflater) Common.context.getSystemService
                                     (Context.LAYOUT_INFLATER_SERVICE);
                             Log.d("STAR",s+"");
-                            for(int i = 0; i<s;i++){
-                                View star = vi.inflate(R.layout.star, null);
-                                insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                            if(s>0){
+                                for(int i = 0; i<s;i++){
+                                    View star = vi.inflate(R.layout.star, null);
+                                    insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                                }
+                            }else{
+                                View null_text = vi.inflate(R.layout.null_textview, null);
+
+                                insertPoint.addView(null_text, 0);
                             }
+
                             utils.showLoading(getActivity(),10000,false);
                             getOtherPrd(jo);
                             super.onPostExecute(jo);
@@ -304,11 +311,12 @@ public class Pill_Fragment_Detail extends Fragment {
                         for (int i = 0; i<other.length();i++){
                             JSONObject index = other.getJSONObject(i);
                             JSONObject product = index.getJSONObject(JsonConstant.PRODUCT);
+                            JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
                             Other_Product_Constuctor otherPrd = new Other_Product_Constuctor();
                             otherPrd.setName(product.getString(JsonConstant.NAME));
                             otherPrd.setCompany(product.getString(JsonConstant.COMPANY));
                             otherPrd.setId(product.getString(JsonConstant.ID));
-                            otherPrd.setImage(product.getString(JsonConstant.AVATAR));
+                            otherPrd.setImage(images.getString(0));
                             otherPrd.setStar(product.getDouble(JsonConstant.STAR));
                             JSONObject price = product.getJSONObject(JsonConstant.PRICE);
                             otherPrd.setPrice(price.getInt(JsonConstant.MONEY));

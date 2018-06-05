@@ -158,7 +158,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
             pharmater = v.findViewById(R.id.tv_pharmater);
             adr = v.findViewById(R.id.tv_adr);
-            ln = v.findViewById(R.id.ln_star_pharma);
+
             ln_phone = v.findViewById(R.id.ln_phone);
             ln_mess = v.findViewById(R.id.ln_mess);
             ln_phone.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +187,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                     }
                 }
             });
+            ln = v.findViewById(R.id.ln_star_pharma);
             ln.removeAllViews();
             around = v.findViewById(R.id.tv_around);
             phone = v.findViewById(R.id.tv_phone);
@@ -291,7 +292,9 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                             pharma.setName(store.getString(JsonConstant.NAME));
                                             pharma.setAdr(store.getString(JsonConstant.USER_ADR));
                                             pharma.setId(store.getString(JsonConstant.ID));
-
+                                            pharma.setLike(store.getString(JsonConstant.LIKE));
+                                            pharma.setStar(store.getDouble(JsonConstant.STAR));
+                                            pharma.setComment(store.getString(JsonConstant.COMMENT));
                                             JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
 
                                             for (int i =0; i<images.length();i++){
@@ -332,15 +335,18 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                         indicator.setViewPager(mPager);
                                         adapter.registerDataSetObserver(indicator.getDataSetObserver());
                                         adapter.notifyDataSetChanged();
-//                                        int s = Integer.valueOf(star.intValue());
-//                                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                                        if(s !=0){
-//                                            for(int i = 0; i<s;i++){
-//                                                View star = vi.inflate(R.layout.star, null);
-//
-//                                                ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-//                                            }
-//                                        }
+                                        int s = Integer.valueOf(star.intValue());
+                                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                        if(s !=0){
+                                            for(int i = 0; i<s;i++){
+                                                View star = vi.inflate(R.layout.star, null);
+
+                                                ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                                            }
+                                        }else{
+                                            View nullView = vi.inflate(R.layout.null_textview, null);
+                                            ln.addView(nullView, 0);
+                                        }
 // insert into main view
                                         checkHearth(pharma.likeStt);
                                         if(gg!=null){

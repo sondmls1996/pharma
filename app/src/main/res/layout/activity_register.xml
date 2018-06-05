@@ -302,6 +302,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/blue"
+                    android:id="@+id/tv_access"
                     android:gravity="center_vertical"
                     android:text="@string/agree"/>
 
@@ -319,13 +320,14 @@
             android:padding="5dp"
 
             android:maxWidth="300dp"
-            android:background="@drawable/border_edt_pink"
+            android:background="@drawable/ripbutton_pink"
             android:layout_marginTop="20dp"
             android:gravity="center"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:id="@+id/have_acc"
             android:layout_marginTop="20dp"
             android:textColor="@color/blue"
             android:text="@string/have_acc"/>

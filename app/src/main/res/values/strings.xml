@@ -134,6 +134,7 @@
     <string name="change_infor_success">Thay đổi thông tin thành công</string>
     <string name="change_infor_failse">Thay đổi thông tin thất bại</string>
     <string name="validate_phone">Số điện thoại không đúng</string>
+    <string name="null_star">Chưa có đánh giá</string>
     <string name="login_fail">Đăng nhập thất bại</string>
     <string name="you_not_login">Bạn chưa đăng nhập</string>
     <!--<string name="title_user_inf">Thông tin tài khoản</string>-->

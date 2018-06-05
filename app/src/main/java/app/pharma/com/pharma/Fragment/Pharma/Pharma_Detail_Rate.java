@@ -164,11 +164,18 @@ public class Pharma_Detail_Rate extends Fragment {
         int s = Integer.valueOf(sick.getStar().intValue());
         LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 // insert into main view
-        for(int i = 0; i<s;i++){
-            View star = vi.inflate(R.layout.star, null);
+        if(s>0){
+            for(int i = 0; i<s;i++){
+                View star = vi.inflate(R.layout.star, null);
 
-            ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+            }
+        }else{
+            View nullTv = vi.inflate(R.layout.null_tv_smal, null);
+
+            ln.addView(nullTv, 0);
         }
+
         rl_top.addView(rowView);
     }
 
@@ -193,11 +200,18 @@ public class Pharma_Detail_Rate extends Fragment {
 
             int s = Integer.valueOf(obj.getStar().intValue());
             LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            for(int i = 0; i<s;i++){
-                View star = vi.inflate(R.layout.star, null);
+            if(s>0){
+                for(int i = 0; i<s;i++){
+                    View star = vi.inflate(R.layout.star, null);
 
-                ln.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
+                    ln.addView(star, 0, new ViewGroup.LayoutParams(30, 30));
+                }
+            }else{
+                View nullTv = vi.inflate(R.layout.null_tv_smal, null);
+
+                ln.addView(nullTv, 0);
             }
+
 
         }
         rl_top.addView(rowView);
@@ -209,12 +223,27 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView tvAround = rowView.findViewById(R.id.include_pharma_around);
         ImageView img = rowView.findViewById(R.id.include_pharma_image);
         LinearLayout ln = rowView.findViewById(R.id.include_pharma_star);
-
         ln.removeAllViews();
         Pharma_Obj pharma = (Pharma_Obj) Detail.headerObj;
         idProduct = pharma.getId();
         type = "store";
         tvName.setText(pharma.getName());
+
+        int s = Integer.valueOf(pharma.getStar().intValue());
+        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+// insert into main view
+        if(s>0){
+            for(int i = 0; i<s;i++){
+                View star = vi.inflate(R.layout.star, null);
+
+                ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+            }
+        }else{
+            View nullTv = vi.inflate(R.layout.null_tv_smal, null);
+
+            ln.addView(nullTv, 0);
+        }
+
         if(Common.lat!=0&&Common.lng!=0){
             Location location = new Location("");
             location.setLatitude(Common.lat);
@@ -281,11 +310,21 @@ public class Pharma_Detail_Rate extends Fragment {
                                                 JSONObject idx = listRate.getJSONObject(i);
                                                 JSONObject Rating = idx.getJSONObject(JsonConstant.RATING);
                                                 Rating_Obj rate = new Rating_Obj();
-                                                rate.setShortComment(Rating.getString(JsonConstant.SHORT_CMT));
-                                                rate.setComment(Rating.getString(JsonConstant.COMMENT));
-                                                rate.setStar(Rating.getDouble(JsonConstant.STAR));
-                                                rate.setTime(Rating.getLong(JsonConstant.TIME));
-                                                rate.setUserName(Rating.getString(JsonConstant.USERNAME));
+                                                if(Rating.has(JsonConstant.SHORT_CMT)){
+                                                    rate.setShortComment(Rating.getString(JsonConstant.SHORT_CMT));
+                                                }
+                                                if(Rating.has(JsonConstant.COMMENT)){
+                                                    rate.setComment(Rating.getString(JsonConstant.COMMENT));
+                                                }
+                                                if(Rating.has(JsonConstant.STAR)){
+                                                    rate.setStar(Rating.getDouble(JsonConstant.STAR));
+                                                }
+                                                if(Rating.has(JsonConstant.TIME)){
+                                                    rate.setTime(Rating.getLong(JsonConstant.TIME));
+                                                }
+                                                if(Rating.has(JsonConstant.USERNAME)){
+                                                    rate.setUserName(Rating.getString(JsonConstant.USERNAME));
+                                                }
                                                 arrRate.add(rate);
 
                                             }

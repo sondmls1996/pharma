@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,7 +27,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -76,12 +80,15 @@ public class Pill_Fragment extends Fragment {
     int maxPrice = 0;
     View v;
     String idingredient = "";
+    View footer;
     String idPill = "";
     boolean isFillter = false;
     FloatingActionButton fillter;
     int page = 1;
     DatabaseHandle db;
+    boolean isLoading = false;
     int lastVisibleItem = 0;
+    mHandler mHandler;
     private int lastY = 0;
     public Pill_Fragment() {
         // Required empty public constructor
@@ -102,6 +109,7 @@ public class Pill_Fragment extends Fragment {
         db = new DatabaseHandle();
         arrMedicine = new ArrayList<>();
         arr_tp = new ArrayList<>();
+        mHandler = new mHandler();
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -118,6 +126,8 @@ public class Pill_Fragment extends Fragment {
         arrCata = new ArrayList<>();
         tvnull = v.findViewById(R.id.txt_null);
         lv = (ListView)v.findViewById(R.id.lv_pill);
+        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        footer = inflater.inflate(R.layout.footer_view,null);
         spiner = (Spinner) v.findViewById(R.id.spin_pill);
         fillter = v.findViewById(R.id.fb_fill);
         fillter.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
@@ -183,18 +193,17 @@ public class Pill_Fragment extends Fragment {
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visiableItem, int total) {
 
                 //Check if the last view is visible
-                if (++firstVisibleItem + i1 > i2) {
-                    if(arr.size()>=15){
 
-                        page++;
-                        Log.d("PAGE_PILL",page+"");
-                        loadPage(page,isFillter);
-                    }
+                if(absListView.getLastVisiblePosition()==total-1&&isLoading==false){
+                  //  lv.addFooterView(footer);
+                    isLoading = true;
+                    page++;
+                    Log.d("PAGE_PILL",page+"");
+                    loadPage(page,isFillter);
 
-                    //load more content
                 }
 
             }
@@ -214,15 +223,25 @@ public class Pill_Fragment extends Fragment {
         });
     }
 
-//    public void fillter(Context ct,int minPrice,int maxPrice,String ingredient){
-//        page = 1;
-//        this.context = ct;
-//        this.minPrice = minPrice;
-//        this.maxPrice = maxPrice;
-//        this.idingredient = ingredient;
-//        loadPage(page,isFillter);
-//
-//    }
+    public class mHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    //loading
+                    lv.addFooterView(footer);
+                    break;
+                case 1:
+                    //loaded
+                    lv.removeFooterView(footer);
+                    adapter.notifyDataSetChanged();
+                    isLoading = false;
+                    break;
+            }
+            super.handleMessage(msg);
+
+        }
+    }
 
     private void selectItem() {
         page = 1;
@@ -230,7 +249,11 @@ public class Pill_Fragment extends Fragment {
         loadPage(page,isFillter);
     }
 
+
+
     private void loadPage(int page,boolean isFillter) {
+
+
         if(arr==null){
             arr = new ArrayList<>();
         }
@@ -302,7 +325,7 @@ public class Pill_Fragment extends Fragment {
                                         }else{
                                             tvnull.setVisibility(View.VISIBLE);
                                         }
-                                        adapter.notifyDataSetChanged();
+                                       isLoading = false;
                                         super.onPostExecute(aVoid);
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

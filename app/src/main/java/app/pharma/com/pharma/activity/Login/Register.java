@@ -38,6 +38,8 @@ public class Register extends AppCompatActivity {
     Calendar calendar;
     String stringdate = "";
     SimpleDateFormat df;
+    TextView have_acc;
+    TextView tv_access;
     Utils util;
      Calendar c;
     @Override
@@ -97,9 +99,25 @@ public class Register extends AppCompatActivity {
         edPhone = findViewById(R.id.ed_phone);
         edBirth = findViewById(R.id.ed_birth);
         edBirth.clearFocus();
+        have_acc = findViewById(R.id.have_acc);
+        have_acc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(),Login.class);
+                startActivity(it);
+                finish();
+            }
+        });
         edBirth.setFocusable(false);
         edBirth.setText(stringdate);
-
+        tv_access = findViewById(R.id.tv_access);
+        tv_access.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             //   Utils.setAlphalAnimation(v);
+                cb_acc.performClick();
+            }
+        });
         edBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

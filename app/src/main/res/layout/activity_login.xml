@@ -176,7 +176,7 @@
             android:maxWidth="300dp"
             android:minWidth="350dp"
             android:padding="5dp"
-            android:background="@drawable/border_edt_pink"
+            android:background="@drawable/ripbutton_pink"
             android:layout_marginTop="10dp"
             android:gravity="center"/>
         <TextView
@@ -193,7 +193,7 @@
             android:gravity="center"
             android:id="@+id/not_login"
             android:textColor="@color/blue"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:text="@string/not_login"/>
         </LinearLayout>
     </LinearLayout>

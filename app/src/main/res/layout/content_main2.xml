@@ -4,17 +4,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<FrameLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/contentContainer"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="app.pharma.com.pharma.Main2Activity"
-    tools:showIn="@layout/app_bar_main2">
 
-</FrameLayout>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -145,9 +135,23 @@
     </LinearLayout>
     </android.support.v7.widget.CardView>
     <View
+        android:id="@+id/view_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:background="@color/light_gray"
         android:layout_above="@+id/cv_bot"
         ></View>
+    <FrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contentContainer"
+        android:layout_above="@id/view_top"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="app.pharma.com.pharma.Main2Activity"
+        tools:showIn="@layout/app_bar_main2">
+
+    </FrameLayout>
 
 </RelativeLayout>

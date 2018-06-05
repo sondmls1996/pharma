@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -28,6 +29,7 @@ import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Detail;
 
 /**
  * Created by Vi on 3/18/2018.
@@ -35,13 +37,24 @@ import app.pharma.com.pharma.R;
 
 public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
     Context ct;
-    ArrayAdapter<Pill_Constructor> array;
+    ArrayList<Pill_Constructor> array;
 
     public List_Pill_Adapter(Context context, int resource, ArrayList<Pill_Constructor> items) {
 
         super(context, resource, items);
         this.ct = context;
+        this.array = items;
 
+    }
+
+    public void addListItem(ArrayList<Pill_Constructor> itemplust){
+        array.addAll(itemplust);
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return array.size();
     }
 
     @NonNull
@@ -53,7 +66,15 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v =  inflater.inflate(R.layout.item_pill, null);
         }
-
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getContext(), Detail.class);
+                it.putExtra("key","pill");
+                it.putExtra("id", pill.getId());
+                getContext().startActivity(it);
+            }
+        });
 
         TextView tv_title = v.findViewById(R.id.title_pill);
         TextView decr_pill = v.findViewById(R.id.decrip_pill);

@@ -89,6 +89,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                        @Override
                        public void onResponse(String response) {
                            try {
+                               Log.d("RESPONSE_GETCODE",response);
                                JSONObject jo = new JSONObject(response);
                                String code = jo.getString(JsonConstant.CODE);
                                switch (code){

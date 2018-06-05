@@ -232,11 +232,19 @@ public class Sick_Detail_Fragment extends Fragment {
                                     int s = Integer.valueOf(sickObj.getStar().intValue());
                                     LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 // insert into main view
-                                    for(int i = 0; i<s;i++){
-                                        View star = vi.inflate(R.layout.star, null);
+                                    if(s!=0){
+                                        for(int i = 0; i<s;i++){
+                                            View star = vi.inflate(R.layout.star, null);
 
-                                        ln_star.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                                            ln_star.addView(star, 0,
+                                                    new ViewGroup.LayoutParams(40, 40));
+                                        }
+                                    }else{
+                                        View null_text = vi.inflate(R.layout.null_textview, null);
+
+                                        ln_star.addView(null_text, 0);
                                     }
+
                                     content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
                                             sickObj.getDescri(),
                                             "")));
