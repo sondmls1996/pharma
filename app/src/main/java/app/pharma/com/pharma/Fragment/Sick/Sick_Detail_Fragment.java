@@ -198,7 +198,10 @@ public class Sick_Detail_Fragment extends Fragment {
                                         sickObj.setId(Dise.getString(JsonConstant.ID));
 
                                         for (int j = 0; j<images.length();j++){
-                                            ImagesArray.add(images.getString(j));
+                                            if(!images.getString(j).equals("")){
+                                                ImagesArray.add(images.getString(j));
+                                            }
+
                                         }
                                         sickObj.setImages(ImagesArray);
                                     } catch (JSONException e) {

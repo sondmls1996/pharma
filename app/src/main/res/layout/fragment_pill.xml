@@ -42,10 +42,10 @@
             android:id="@+id/swip"
             android:layout_height="match_parent">
 
-            <app.pharma.com.pharma.View.ListviewCustom
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lv_pill"></app.pharma.com.pharma.View.ListviewCustom>
+                android:id="@+id/lv_pill"></ListView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>

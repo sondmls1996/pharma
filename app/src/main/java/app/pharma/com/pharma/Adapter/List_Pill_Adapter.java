@@ -66,15 +66,15 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v =  inflater.inflate(R.layout.item_pill, null);
         }
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(getContext(), Detail.class);
-                it.putExtra("key","pill");
-                it.putExtra("id", pill.getId());
-                getContext().startActivity(it);
-            }
-        });
+//        v.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent it = new Intent(getContext(), Detail.class);
+//                it.putExtra("key","pill");
+//                it.putExtra("id", pill.getId());
+//                getContext().startActivity(it);
+//            }
+//        });
 
         TextView tv_title = v.findViewById(R.id.title_pill);
         TextView decr_pill = v.findViewById(R.id.decrip_pill);

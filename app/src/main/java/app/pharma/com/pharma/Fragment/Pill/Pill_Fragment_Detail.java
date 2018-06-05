@@ -219,7 +219,10 @@ public class Pill_Fragment_Detail extends Fragment {
                                         objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));
                                         objPill.setStorage( product.getString(JsonConstant.STORAGE));
                                         for (int j = 0; j<images.length();j++){
-                                            ImagesArray.add(images.getString(j));
+                                            if(!images.getString(j).equals("")){
+                                                ImagesArray.add(images.getString(j));
+                                            }
+
                                         }
                                         objPill.setImages(ImagesArray);
                                         objPill.setLike(product.getInt(JsonConstant.LIKE));

@@ -88,7 +88,6 @@ public class Pill_Fragment extends Fragment {
     DatabaseHandle db;
     boolean isLoading = false;
     int lastVisibleItem = 0;
-    mHandler mHandler;
     private int lastY = 0;
     public Pill_Fragment() {
         // Required empty public constructor
@@ -109,7 +108,6 @@ public class Pill_Fragment extends Fragment {
         db = new DatabaseHandle();
         arrMedicine = new ArrayList<>();
         arr_tp = new ArrayList<>();
-        mHandler = new mHandler();
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -199,12 +197,18 @@ public class Pill_Fragment extends Fragment {
 
                 if(absListView.getLastVisiblePosition()==total-1&&isLoading==false){
                   //  lv.addFooterView(footer);
-                    isLoading = true;
                     page++;
                     Log.d("PAGE_PILL",page+"");
                     loadPage(page,isFillter);
 
                 }
+//                if (++firstVisibleItem + i1 > i2) {
+//
+//
+//
+//
+//                    //load more content
+//                }
 
             }
         });
@@ -248,8 +252,6 @@ public class Pill_Fragment extends Fragment {
 
         loadPage(page,isFillter);
     }
-
-
 
     private void loadPage(int page,boolean isFillter) {
 
@@ -325,7 +327,9 @@ public class Pill_Fragment extends Fragment {
                                         }else{
                                             tvnull.setVisibility(View.VISIBLE);
                                         }
-                                       isLoading = false;
+
+                                        adapter.notifyDataSetChanged();
+
                                         super.onPostExecute(aVoid);
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

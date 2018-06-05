@@ -44,6 +44,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
     int lastVisibleItem = 0;
     private int lastY = 0;
     int page = 1;
+    TextView tvNull;
     TextView tv_focus;
     TextView tv_hearth;
     TextView tv_meo;
@@ -68,7 +69,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         tv_focus = v.findViewById(R.id.tv_focus);
         tv_hearth = v.findViewById(R.id.tv_hearth);
         tv_meo = v.findViewById(R.id.tv_meo);
-
+        tvNull = v.findViewById(R.id.txt_null);
         tv_focus.setOnClickListener(this);
         tv_hearth.setOnClickListener(this);
         tv_meo.setOnClickListener(this);
@@ -142,6 +143,13 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
+                                    if(arr.size()>0){
+                                        tvNull.setVisibility(View.GONE);
+                                        lv.setVisibility(View.VISIBLE);
+                                    }else{
+                                        tvNull.setVisibility(View.VISIBLE);
+                                        lv.setVisibility(View.GONE);
+                                    }
                                     adapter.notifyDataSetChanged();
                                     super.onPostExecute(aVoid);
                                 }
@@ -151,6 +159,8 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                             break;
                     }
                 } catch (JSONException e) {
+                    tvNull.setVisibility(View.VISIBLE);
+                    lv.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
                 Log.d("RESPONSE_MEO",response);

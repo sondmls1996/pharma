@@ -47,10 +47,26 @@
                 android:textColor="@color/gray"></TextView>
 
         </LinearLayout>
-        <ListView
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/swip"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:id="@+id/txt_null"
+                android:textColor="@color/black"
+                android:text="@string/empty_list"
+                android:textSize="16sp"
+                android:gravity="center"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-            android:id="@+id/lv_meo"></ListView>
+                android:id="@+id/lv_meo"></ListView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 </FrameLayout>
