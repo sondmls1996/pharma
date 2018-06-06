@@ -38,7 +38,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import app.pharma.com.pharma.Fragment.Dr.Dr_Fragment;
 import app.pharma.com.pharma.Fragment.Meo_Fragment;
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_pharma;
     ImageView header_background;
     ImageView img_meo;
-
+    User user;
     boolean isAnimated = false;
     TextView tv_pill;
     TextView tv_sick;
@@ -414,8 +418,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.log_out:
                 if(Utils.isLogin()){
+                    Map<String,String> map = new HashMap<>();
+                    map.put("accessToken",user.getToken());
+                    Response.Listener<String> response = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("RESPONSE_LOGOUT",response);
+                        }
+                    };
+                    Utils.PostServer(this,ServerPath.LOG_OUT,map,response);
+
                     db.clearUserData();
                     Utils.setLogin(false);
+
                 }
                 Intent it4 = new Intent(getApplicationContext(),Login.class);
                 startActivity(it4);
@@ -465,7 +480,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Common.context = this;
         if(Utils.isLogin()){
             db = new DatabaseHandle();
-            User user = db.getAllUserInfor();
+             user = db.getAllUserInfor();
             nav_name.setText(user.getName());
 
             logoutItem.setVisible(true);

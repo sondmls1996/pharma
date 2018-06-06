@@ -59,7 +59,7 @@
     <string name="agree">Tôi đồng ý với các điều khoản</string>
     <string name="have_acc">Đã có tài khoản</string>
     <string name="back_login">Quay lại đăng nhập</string>
-    <string name="txt_lostpass">Hãy nhập địa chỉ Email của bạn chúng tôi sẽ gửi mã xác nhận</string>
+    <string name="txt_lostpass">Hãy nhập tên tài khoản chúng tôi sẽ gửi mã xác nhận về địa chỉ Email của bạn</string>
     <string name="type_code">Nhập mã xác nhận</string>
     <string name="get_pass">Lấy lại mật khẩu</string>
     <string name="change_infor">Thay đổi thông tin</string>
@@ -135,6 +135,7 @@
     <string name="change_infor_failse">Thay đổi thông tin thất bại</string>
     <string name="validate_phone">Số điện thoại không đúng</string>
     <string name="null_star">Chưa có đánh giá</string>
+    <string name="user_pass_wrong">Tài khoản hoặc mật khẩu không chính xác</string>
     <string name="login_fail">Đăng nhập thất bại</string>
     <string name="you_not_login">Bạn chưa đăng nhập</string>
     <!--<string name="title_user_inf">Thông tin tài khoản</string>-->

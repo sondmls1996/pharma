@@ -42,6 +42,7 @@ public class Change_infor extends AppCompatActivity {
     Button update;
     Calendar c;
     Utils utils;
+    String id;
     SimpleDateFormat format;
     int day,month,year1;
     User user;
@@ -98,11 +99,16 @@ public class Change_infor extends AppCompatActivity {
 
     private void update() {
         utils.showLoading(this,10000,true);
+        String email = edEmail.getText().toString();
+        String name = edfullname.getText().toString();
+        String adr = edadr.getText().toString();
+        String phone = edPhone.getText().toString();
+
         Map<String,String> map = new HashMap<>();
-        map.put("email",edEmail.getText().toString());
-        map.put("fullName",edfullname.getText().toString());
-        map.put("addressDetail",edadr.getText().toString());
-        map.put("phone",edPhone.getText().toString());
+        map.put("email",email);
+        map.put("fullName",name);
+        map.put("addressDetail",adr);
+        map.put("phone",phone);
         map.put("dob",c.getTimeInMillis()+"");
         map.put("accessToken",user.getToken());
         Response.Listener<String> response = new Response.Listener<String>() {
@@ -116,7 +122,14 @@ public class Change_infor extends AppCompatActivity {
                         case "0":
                             utils.showLoading(Change_infor.this,10000,false);
                             Utils.dialogNotif(getResources().getString(R.string.change_infor_success));
-
+                            User user = new User();
+                            user.setId(id);
+                            user.setEmail(email);
+                            user.setAdr(adr);
+                            user.setDate(c.getTimeInMillis());
+                            user.setPhone(phone);
+                            user.setName(name);
+                            db.updateOrInstall(user);
                             break;
                         default:
                             utils.showLoading(Change_infor.this,10000,false);
@@ -139,7 +152,9 @@ public class Change_infor extends AppCompatActivity {
         Common.context = this;
         if(Utils.isLogin()){
             db = new DatabaseHandle();
+
             user = db.getAllUserInfor();
+            id = user.getId();
             edfullname.setText(user.getName());
             edadr.setText(user.getAdr());
             edEmail.setText(user.getEmail());
@@ -181,7 +196,6 @@ public class Change_infor extends AppCompatActivity {
                         c.set(Calendar.YEAR,year1);
                         c.set(Calendar.MONTH,month);
                         c.set(Calendar.DAY_OF_MONTH,day);
-
                         edBirth.setText(format.format(c.getTime()));
                     }
                 }, y, m, d);

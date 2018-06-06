@@ -24,8 +24,8 @@
         android:gravity="center"
         android:orientation="vertical">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/logo"/>
 
@@ -70,7 +70,7 @@
                 android:maxWidth="300dp"
                 android:minWidth="300dp"
                 android:id="@+id/ed_email"
-                android:hint="@string/email"
+                android:hint="@string/user_name"
 
                 android:textColorHint="@color/blue"
 

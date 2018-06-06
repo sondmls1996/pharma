@@ -122,12 +122,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 user.setEmail(acc.getString(JsonConstant.EMAIL));
                                 user.setAdr(acc.getString(JsonConstant.USER_ADR));
                                 user.setId(acc.getString(JsonConstant.ID));
-                                user.setAvt(acc.getString(JsonConstant.AVATAR));
-                                if(acc.getString(JsonConstant.DOB).equals("")){
-                                    user.setDate(0);
-                                }else{
-                                    user.setDate(acc.getLong(JsonConstant.DOB));
+                                if(acc.has(JsonConstant.AVATAR)){
+                                    user.setAvt(acc.getString(JsonConstant.AVATAR));
                                 }
+                                if(acc.has(JsonConstant.DOB)){
+                                    if(acc.getString(JsonConstant.DOB).equals("")){
+                                        user.setDate(0);
+                                    }else{
+                                        user.setDate(acc.getLong(JsonConstant.DOB));
+                                    }
+                                }else{
+                                    user.setDate(0);
+                                }
+
 
                                 user.setUserName(acc.getString(JsonConstant.USERNAME));
                                 user.setToken(acc.getString(JsonConstant.ACCESS));
@@ -146,7 +153,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 break;
                             case "-1":
                                 util.showLoading(Login.this,0,false);
-                                Utils.dialogNotif(getResources().getString(R.string.login_fail));
+                                Utils.dialogNotif(getResources().getString(R.string.user_pass_wrong));
                                 break;
                         }
                     } catch (JSONException e) {

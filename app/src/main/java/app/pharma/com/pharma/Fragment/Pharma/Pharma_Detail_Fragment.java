@@ -298,7 +298,10 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                             JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
 
                                             for (int i =0; i<images.length();i++){
-                                                ImagesArray.add(images.getString(i));
+                                                if(!images.getString(i).equals("")){
+                                                    ImagesArray.add(images.getString(i));
+                                                }
+
                                             }
                                             pharma.setImage(ImagesArray);
                                             pharma.setPhone(store.getString(JsonConstant.PHONE));

@@ -34,8 +34,8 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
     Button get_code;
     Utils utils;
     TextView bac_lg;
-    EditText ed_email;
-    String mail = "";
+    EditText ed_user;
+    String username = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         RelativeLayout imgBack = findViewById(R.id.img_back);
-        ed_email = findViewById(R.id.ed_email);
+        ed_user = findViewById(R.id.ed_email);
         bac_lg = findViewById(R.id.back_login);
         bac_lg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,15 +76,15 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
         switch (view.getId()){
             case R.id.btn_confirmcode:
               utils.showLoading(this,10000,true);
-                mail = ed_email.getText().toString();
-                if(!Utils.isValidEmail(mail)){
+                username = ed_user.getText().toString();
+                if(username.equals("")){
                 utils.showLoading(this,10000,false);
                     Toast.makeText(getApplicationContext(),
-                            "Email không đúng định dạng",Toast.LENGTH_SHORT).show();
+                            getResources().getString(R.string.notnull),Toast.LENGTH_SHORT).show();
             }
-               if(!TextUtils.isEmpty(mail)&& Utils.isValidEmail(mail)){
+               if(!TextUtils.isEmpty(username)){
                    Map<String,String> map = new HashMap<>();
-                   map.put("email",mail);
+                   map.put("userName",username);
                    Response.Listener<String> response = new Response.Listener<String>() {
                        @Override
                        public void onResponse(String response) {
@@ -100,7 +100,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                    case "1":
                                        utils.showLoading(Get_code.this,10000,false);
                                        Toast.makeText(getApplicationContext(),
-                                               "Email này chưa được đăng ký",Toast.LENGTH_SHORT).show();
+                                               "Tài khoản này chưa được đăng ký",Toast.LENGTH_SHORT).show();
                                        break;
                                }
                            } catch (JSONException e) {
@@ -144,12 +144,12 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                 String code = type_code.getText().toString();
                 if(TextUtils.isEmpty(code)){
                     Map<String, String> map = new HashMap<>();
-                    map.put("email",mail);
+                    map.put("userName",username);
                     map.put("codeForgetPass",code);
                     Response.Listener<String> response = new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.d("RESPONSE_GETCODE",response);
+                            Log.d("RESPONSE_GETCODE_DIALOG",response);
                             JSONObject jo = null;
                             try {
                                 jo = new JSONObject(response);

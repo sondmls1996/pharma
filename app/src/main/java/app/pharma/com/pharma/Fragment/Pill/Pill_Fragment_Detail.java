@@ -143,9 +143,12 @@ public class Pill_Fragment_Detail extends Fragment {
             map.put("accessToken",user.getToken());
             if(likestt==0){
                 map.put("likeStatus","1");
+                Log.d("LIKE_STT_Send","1");
             }else{
                 map.put("likeStatus","0");
+                Log.d("LIKE_STT_Send","0");
             }
+
 
             Response.Listener<String> response  = new Response.Listener<String>() {
                 @Override
@@ -259,7 +262,6 @@ public class Pill_Fragment_Detail extends Fragment {
                             product_id = objPill.getId();
                             link_share = objPill.getLinkShare();
 
-
                             adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
                             mPager = (ViewPager) v.findViewById(R.id.slide_image);
                             CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
@@ -371,6 +373,7 @@ public class Pill_Fragment_Detail extends Fragment {
 
 
     public void checkHearth(int likeStt){
+        Log.d("LIKE_STT",likeStt+"");
         if(likeStt==0){
             hearth.setImageDrawable(Common.context.getResources().getDrawable(R.drawable.gray_hearth));
             like = false;
