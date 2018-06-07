@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,11 +21,12 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
@@ -36,6 +34,7 @@ import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Object.Pill_obj;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
@@ -232,6 +231,7 @@ public class Order extends AppCompatActivity {
         }else if(phone.length()<10){
             Toast.makeText(getApplicationContext(),"Số điện thoại không đúng",Toast.LENGTH_SHORT).show();
         }else{
+            utils.showLoading(this,20000,true);
             Map<String, String> map = new HashMap<>();
             map.put("accessToken",user.getToken());
             map.put("idProduct",pillObj.getId());
@@ -244,7 +244,21 @@ public class Order extends AppCompatActivity {
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("RESPONSE_ORDER",response);
+                    try {
+                        JSONObject jo = new JSONObject(response);
+                        String code = jo.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                utils.showLoading(Order.this,20000,false);
+                                Utils.dialogNotif(getResources().getString(R.string.order_success));
+
+                                break;
+                            case "1":
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
             Utils.PostServer(this, ServerPath.BUY_NOW,map,response);

@@ -213,7 +213,7 @@ public class Dr_Fragment extends Fragment {
                                     Dr_Constructor dr = new Dr_Constructor();
                                     dr.setName(pharma.getString(JsonConstant.NAME));
                                     dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
-                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
+//                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
                                     dr.setId(pharma.getString(JsonConstant.ID));
                                     dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
                                     dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));

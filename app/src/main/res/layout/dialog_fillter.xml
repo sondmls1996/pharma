@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/black"
-                android:text="@string/sick"/>
+                android:text="@string/pill"/>
             <Spinner
 
                 android:id="@+id/spin_sick"

@@ -65,22 +65,26 @@ public class Infor_Dr extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
-                if (Build.VERSION.SDK_INT >= 23) {
-                    RequestPermission();
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + strPhone));
-                    if (ActivityCompat.checkSelfPermission(Infor_Dr.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
+
+                if(!strPhone.equals("")){
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        RequestPermission();
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + strPhone));
+                        if (ActivityCompat.checkSelfPermission(Infor_Dr.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        startActivity(intent);
                     }
-                    startActivity(intent);
                 }
+
             }
         });
 
@@ -88,6 +92,13 @@ public class Infor_Dr extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
+
+                if(!strPhone.equals("")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + strPhone));
+
+                    startActivity(intent);
+                }
+
             }
         });
 

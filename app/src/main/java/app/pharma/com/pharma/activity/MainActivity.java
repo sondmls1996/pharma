@@ -119,11 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
 
-
     }
-
-
-
     private void initView() {
         title = (TextView)findViewById(R.id.title_main) ;
 
@@ -439,8 +435,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showDialogRateApp();
                 break;
             case R.id.share:
-                Intent it5 = new Intent(getApplicationContext(),Share.class);
-                startActivity(it5);
+                Utils.shareLink("");
                 break;
 
         }

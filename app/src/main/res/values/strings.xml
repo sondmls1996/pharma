@@ -138,6 +138,7 @@
     <string name="title_change_infor">Thay đổi thông tin</string>
     <string name="title_care_sick">Bệnh đã quan tâm</string>
     <string name="title_care_pill">Thuốc đã quan tâm</string>
+    <string name="order_success">Đặt hàng thành công</string>
 
 
     //notif

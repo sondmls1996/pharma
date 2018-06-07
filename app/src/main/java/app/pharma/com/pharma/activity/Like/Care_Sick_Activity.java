@@ -114,14 +114,14 @@ public class Care_Sick_Activity extends AppCompatActivity {
                                 for(int i=0;i<list.length();i++){
                                     JSONObject idx = list.getJSONObject(i);
                                     JSONObject product = idx.getJSONObject(JsonConstant.DISEASE);
-
+                                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
                                     Like_Constructor like = new Like_Constructor();
                                     like.setName(product.getString(JsonConstant.NAME));
                                     like.setComment(product.getString(JsonConstant.COMMENT));
                                     like.setLike(product.getString(JsonConstant.LIKE));
                                     like.setDescri(product.getString(JsonConstant.DESCRI));
                                     like.setId(product.getString(JsonConstant.ID));
-//                                    like.setImage(product.getString(JsonConstant.AVATAR));
+                                    like.setImage(images.getString(0));
                                     like.setTime(product.getLong(JsonConstant.TIME));
                                     arr.add(like);
                                 }
