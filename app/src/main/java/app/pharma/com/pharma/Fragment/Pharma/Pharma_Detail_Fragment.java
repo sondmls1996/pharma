@@ -268,6 +268,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     private void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("id",id);
+
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

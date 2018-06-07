@@ -120,7 +120,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 JSONObject acc = data.getJSONObject(JsonConstant.ACCOUNTS );
                                 User user = new User();
                                 user.setEmail(acc.getString(JsonConstant.EMAIL));
-                                user.setAdr(acc.getString(JsonConstant.USER_ADR));
+                                user.setAdr(acc.getString(JsonConstant.ADRESS_DETAIL));
                                 user.setId(acc.getString(JsonConstant.ID));
                                 if(acc.has(JsonConstant.AVATAR)){
                                     user.setAvt(acc.getString(JsonConstant.AVATAR));
@@ -167,7 +167,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         }else{
             util.showLoading(this,0,false);
-            Utils.dialogNotif("Không được để trống");
+            if(user.equals("")){
+                eduser.setError(getResources().getString(R.string.notnull));
+            }
+
+            if(pass.equals("")){
+                edpass.setError(getResources().getString(R.string.notnull));
+            }
+         //   Utils.dialogNotif("Không được để trống");
         }
     }
 

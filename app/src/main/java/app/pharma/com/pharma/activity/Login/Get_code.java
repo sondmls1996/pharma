@@ -142,7 +142,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
             public void onClick(View v) {
                 utils.showLoading(Get_code.this,20000,true);
                 String code = type_code.getText().toString();
-                if(TextUtils.isEmpty(code)){
+                if(!TextUtils.isEmpty(code)){
                     Map<String, String> map = new HashMap<>();
                     map.put("userName",username);
                     map.put("codeForgetPass",code);
@@ -176,6 +176,9 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                         }
                     };
                     Utils.PostServer(Get_code.this,ServerPath.TYPE_CODE,map,response);
+                }else{
+                    utils.showLoading(Get_code.this,20000,false);
+                    type_code.setError(getResources().getString(R.string.notnull));
                 }
             }
         });

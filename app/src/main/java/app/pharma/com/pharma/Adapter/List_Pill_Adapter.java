@@ -78,7 +78,8 @@ public class List_Pill_Adapter extends ArrayAdapter<Pill_Constructor> {
         TextView tv_comment = v.findViewById(R.id.txt_comment);
         tv_title.setText(pill.getName());
         decr_pill.setText(pill.getHtuse());
-        price.setText(Constant.format.format((pill.getPrice())));
+        price.setText(Constant.format.format((pill.getPrice()))+"VND"
+        );
         tv_like.setText(pill.getLike()+"");
         tv_comment.setText(pill.getCmt()+"");
         Double D = pill.getStar();

@@ -45,7 +45,7 @@ public class Change_infor extends AppCompatActivity {
     String id;
     SimpleDateFormat format;
     int day,month,year1;
-    User user;
+    User Mainuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +81,34 @@ public class Change_infor extends AppCompatActivity {
         year1 = c.get(Calendar.YEAR);
 
 
+        if(Utils.isLogin()){
+            db = new DatabaseHandle();
 
-        header_bg = findViewById(R.id.header_bg);
+            Mainuser = db.getAllUserInfor();
+            id = Mainuser.getId();
+            edfullname.setText(Mainuser.getName());
+            edadr.setText(Mainuser.getAdr());
+            edEmail.setText(Mainuser.getEmail());
+            edBirth.clearFocus();
+            edBirth.setFocusable(false);
+            header_bg = findViewById(R.id.header_bg);
+            if(Mainuser.getDate()>0){
+                c.setTimeInMillis(Mainuser.getDate());
+                edBirth.setText(format.format(c.getTime()));
+            }else{
+                //       c.setTimeInMillis(user.getDate());
+                edBirth.setText(format.format(c.getTimeInMillis()));
+            }
+
+            edBirth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openDialogDate(day,month,year1);
+                }
+            });
+            edPhone.setText(Mainuser.getPhone());
+        }
+
         TextView tvTitle = (TextView)findViewById(R.id.title);
         RelativeLayout imgBack = findViewById(R.id.img_back);
         tvTitle.setText(getResources().getString(R.string.title_change_infor));
@@ -92,9 +118,9 @@ public class Change_infor extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
+        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new TransImage()).into(avt);
         Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
     }
 
     private void update() {
@@ -110,7 +136,7 @@ public class Change_infor extends AppCompatActivity {
         map.put("addressDetail",adr);
         map.put("phone",phone);
         map.put("dob",c.getTimeInMillis()+"");
-        map.put("accessToken",user.getToken());
+        map.put("accessToken",Mainuser.getToken());
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -129,6 +155,10 @@ public class Change_infor extends AppCompatActivity {
                             user.setDate(c.getTimeInMillis());
                             user.setPhone(phone);
                             user.setName(name);
+                            user.setName(Mainuser.getName());
+                            user.setToken(Mainuser.getToken());
+                            user.setAvt(Mainuser.getAvt());
+                            user.setUserName(Mainuser.getUserName());
                             db.updateOrInstall(user);
                             break;
                         default:
@@ -153,16 +183,16 @@ public class Change_infor extends AppCompatActivity {
         if(Utils.isLogin()){
             db = new DatabaseHandle();
 
-            user = db.getAllUserInfor();
-            id = user.getId();
-            edfullname.setText(user.getName());
-            edadr.setText(user.getAdr());
-            edEmail.setText(user.getEmail());
+            Mainuser = db.getAllUserInfor();
+            id = Mainuser.getId();
+            edfullname.setText(Mainuser.getName());
+            edadr.setText(Mainuser.getAdr());
+            edEmail.setText(Mainuser.getEmail());
             edBirth.clearFocus();
             edBirth.setFocusable(false);
 
-            if(user.getDate()>0){
-                c.setTimeInMillis(user.getDate());
+            if(Mainuser.getDate()>0){
+                c.setTimeInMillis(Mainuser.getDate());
                 edBirth.setText(format.format(c.getTime()));
             }else{
                 //       c.setTimeInMillis(user.getDate());
@@ -175,7 +205,10 @@ public class Change_infor extends AppCompatActivity {
                     openDialogDate(day,month,year1);
                 }
             });
-            edPhone.setText(user.getPhone());
+            edPhone.setText(Mainuser.getPhone());
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new TransImage()).into(avt);
+            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
+            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
         }
         super.onResume();
 

@@ -117,18 +117,18 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
         ln_changepass = findViewById(R.id.ln_changepass);
         ln_changeinf.setOnClickListener(this);
         ln_changepass.setOnClickListener(this);
-
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ln_changeinf:
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(Common.context,Change_infor.class);
                 startActivity(it);
                 break;
             case R.id.ln_changepass:
+                Utils.setAlphalAnimation(view);
                 Intent it2 = new Intent(Common.context,ChangePass.class);
                 startActivity(it2);
                 break;

@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class Constant {
     public static String SCROLL_LV = "scroll_lv";
-    public static NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
+    public static NumberFormat format = NumberFormat.getNumberInstance(Locale.UK);
     public static  int ACTION_DOWN = 1;
     public static int ACTION_UP = 2;
     public static Resources resources = Common.context.getResources();

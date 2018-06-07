@@ -25,6 +25,26 @@
         ]]>
 </Data></string>
 
+    <string name="order_dialog_product"><Data>
+<![CDATA[
+			<b>Tên sản phẩm:</b> <br>%1$s <br> <br>
+       		<b>Số lượng:&#160;</b> <br>%2$s <br><br>
+       		<b>Giá:&#160;</b> <br>%3$s <br><br>
+       		<b>Tổng giá:&#160;</b> <br>%4$s <br><br>
+
+        ]]>
+</Data></string>
+
+    <string name="order_dialog_customer"><Data>
+<![CDATA[
+			<b>Tên người đặt:</b> <br>%1$s <br> <br>
+       		<b>Địa chỉ:&#160;</b> <br>%2$s <br><br>
+       		<b>Số điện thoại:&#160;</b> <br>%3$s <br><br>
+       		<b>Email:&#160;</b> <br>%4$s <br><br>
+
+        ]]>
+</Data></string>
+
     <string name="how_to_use_sick"><Data>
 <![CDATA[
 			<b>Thông tin bệnh:</b> <br>%1$s <br> <br>

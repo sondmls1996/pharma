@@ -7,7 +7,7 @@ public class Pill_obj implements Serializable{
     String id;
     String name;
     int price;
-
+    int quality;
     ArrayList<String> images;
     String usage;
     String recoment;
@@ -19,6 +19,13 @@ public class Pill_obj implements Serializable{
     String linkShare;
     int likeStt;
 
+    public int getQuality() {
+        return quality;
+    }
+
+    public void setQuality(int quality) {
+        this.quality = quality;
+    }
 
     public String getId() {
         return id;

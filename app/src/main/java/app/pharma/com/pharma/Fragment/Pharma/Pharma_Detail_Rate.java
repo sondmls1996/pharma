@@ -434,11 +434,21 @@ public class Pharma_Detail_Rate extends Fragment {
                 map.put("shortComment",short_cmt.getText().toString());
                 map.put("comment",cmt.getText().toString());
                 map.put("star",rating.getRating()+"");
-                map.put("idProduct",idProduct);
-                Log.d("RATING",rating.getRating()+"");
+                if(type.equals("product")){
+                    map.put("idProduct",idProduct);
+                }
+                if(type.equals("store")){
+                    map.put("idStore",idProduct);
+                }
+                if(type.equals("disease")){
+                    map.put("idDisease",idProduct);
+                }
+
+
                 Response.Listener<String> response = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("RESPONSE_COMMENT_PILL",response);
                         try {
                             JSONObject jo = new JSONObject(response);
                             String code = jo.getString(JsonConstant.CODE);

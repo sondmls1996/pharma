@@ -61,6 +61,7 @@ public class Pill_Fragment_Detail extends Fragment {
     DatabaseHandle db;
     String link_share = "";
     Double star_count;
+    String token = "";
     Slide_Image_Adapter adapter;
     ImageView img_share;
     TextView tv_title;
@@ -143,11 +144,12 @@ public class Pill_Fragment_Detail extends Fragment {
             map.put("accessToken",user.getToken());
             if(likestt==0){
                 map.put("likeStatus","1");
-                Log.d("LIKE_STT_Send","1");
+
             }else{
                 map.put("likeStatus","0");
-                Log.d("LIKE_STT_Send","0");
+
             }
+            Log.d("MAP",map.toString());
 
 
             Response.Listener<String> response  = new Response.Listener<String>() {
@@ -160,9 +162,12 @@ public class Pill_Fragment_Detail extends Fragment {
                         if(code.equals("0")){
                             if(likestt==0){
                                 objPill.setLikeStt(1);
-
+                                objPill.setLike(objPill.getLike()+1);
+                                tv_like.setText(objPill.getLike()+"");
                             }else{
                                 objPill.setLikeStt(0);
+                                objPill.setLike(objPill.getLike()-1);
+                                tv_like.setText(objPill.getLike()+"");
                             }
 
                             checkHearth(objPill.getLikeStt());
@@ -188,6 +193,9 @@ public class Pill_Fragment_Detail extends Fragment {
     private void loadData(String id) {
         Map<String,String> map = new HashMap<>();
         map.put("id", id);
+        if(Utils.isLogin()){
+            map.put("accessToken",user.getToken());
+        }
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -250,6 +258,7 @@ public class Pill_Fragment_Detail extends Fragment {
 
                             Detail.headerObj = objPill;
                             Detail.imagesArray = ImagesArray;
+                            Detail.id = objPill.getId();
                             tv_title.setText(objPill.getName());
                             tv_like.setText(objPill.getLike()+"");
                             tv_comment.setText(objPill.getComment()+"");

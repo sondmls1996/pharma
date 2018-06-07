@@ -166,6 +166,9 @@ public class Sick_Detail_Fragment extends Fragment {
         ImagesArray.clear();
         Map<String,String> map = new HashMap<>();
         map.put("id", id);
+        if(Utils.isLogin()){
+            map.put("accessToken",user.getToken());
+        }
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -217,6 +220,7 @@ public class Sick_Detail_Fragment extends Fragment {
                                     ln_star = v.findViewById(R.id.ln_star_sick);
                                     ln_star.removeAllViews();
                                     Detail.headerObj = sickObj;
+                                    Detail.id = sickObj.getId();
                                     tv_title.setText(sickObj.getName());
                                     tv_like.setText(sickObj.getLike()+"");
                                     comment.setText(sickObj.getCmt()+"");

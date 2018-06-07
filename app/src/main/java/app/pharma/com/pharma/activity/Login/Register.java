@@ -198,8 +198,25 @@ public class Register extends AppCompatActivity {
             }
 
         }else{
+
             util.showLoading(this,10000,false);
-            Utils.dialogNotif(getResources().getString(R.string.notnull));
+            if(user.equals("")){
+                eduser.setError(getResources().getString(R.string.notnull));
+            }
+            if(pass.equals("")){
+                edpass.setError(getResources().getString(R.string.notnull));
+            }
+            if(repass.equals("")){
+                edRepass.setError(getResources().getString(R.string.notnull));
+            }
+            if(email.equals("")){
+                edEmail.setError(getResources().getString(R.string.notnull));
+            }
+            if(phone.equals("")){
+                edPhone.setError(getResources().getString(R.string.notnull));
+            }
+
+//            Utils.dialogNotif(getResources().getString(R.string.notnull));
         }
 
     }

@@ -10,6 +10,7 @@ public class JsonConstant {
     public static String FULLNAME = "fullName";
     public static String AVATAR = "avatar";
     public static String USER_ADR = "detailAddress";
+    public static String ADRESS_DETAIL = "addressDetail";
     public static String PHONE = "phone";
     public static String TYPE = "type";
     public static String SHORT_CMT = "shortComment";
