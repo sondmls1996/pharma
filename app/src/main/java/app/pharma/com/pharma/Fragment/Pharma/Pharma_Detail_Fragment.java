@@ -165,7 +165,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                 @Override
                 public void onClick(View view) {
                     Utils.setAlphalAnimation(view);
-                    if(!strphone.equals("")){
+                    if(!strphone.equals("")&&strphone!=null){
                         if(Build.VERSION.SDK_INT>=23){
                         RequestPermission();
                         }else{
@@ -180,7 +180,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                 @Override
                 public void onClick(View view) {
                     Utils.setAlphalAnimation(view);
-                    if(!strphone.equals("")){
+                    if(!strphone.equals("")&&strphone!=null){
 
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
                                 + strphone)));

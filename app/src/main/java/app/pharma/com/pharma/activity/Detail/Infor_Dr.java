@@ -66,7 +66,7 @@ public class Infor_Dr extends AppCompatActivity {
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
 
-                if(!strPhone.equals("")){
+                if(!strPhone.equals("")&&strPhone!=null){
                     if (Build.VERSION.SDK_INT >= 23) {
                         RequestPermission();
                     } else {
@@ -93,7 +93,7 @@ public class Infor_Dr extends AppCompatActivity {
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
 
-                if(!strPhone.equals("")){
+                if(!strPhone.equals("")&&strPhone!=null){
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + strPhone));
 
                     startActivity(intent);
