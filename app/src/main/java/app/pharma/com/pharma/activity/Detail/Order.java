@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -244,6 +245,7 @@ public class Order extends AppCompatActivity {
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d("RESPONSE_ORDER",response);
                     try {
                         JSONObject jo = new JSONObject(response);
                         String code = jo.getString(JsonConstant.CODE);
@@ -254,6 +256,8 @@ public class Order extends AppCompatActivity {
 
                                 break;
                             case "1":
+                                utils.showLoading(Order.this,20000,false);
+                                Utils.dialogNotif(getResources().getString(R.string.order_fail));
                                 break;
                         }
                     } catch (JSONException e) {

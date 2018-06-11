@@ -139,6 +139,7 @@
     <string name="title_care_sick">Bệnh đã quan tâm</string>
     <string name="title_care_pill">Thuốc đã quan tâm</string>
     <string name="order_success">Đặt hàng thành công</string>
+    <string name="order_fail">Sản phẩm đã hết hoặc không tồn tại</string>
 
 
     //notif

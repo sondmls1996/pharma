@@ -59,8 +59,9 @@ import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.Service.GetLocationService;
-import app.pharma.com.pharma.activity.Like.Care_PILL_Activity;
-import app.pharma.com.pharma.activity.Like.Care_Sick_Activity;
+import app.pharma.com.pharma.activity.Care.Care_Order;
+import app.pharma.com.pharma.activity.Care.Care_PILL_Activity;
+import app.pharma.com.pharma.activity.Care.Care_Sick_Activity;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
 
@@ -137,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         avatar2 = headerview.findViewById(R.id.img_avtbg);
         header_background = headerview.findViewById(R.id.header_bg);
         nav_name = headerview.findViewById(R.id.nav_name);
+        nav_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!Utils.isLogin()){
+                    Intent it = new Intent(getApplicationContext(),Login.class);
+                    startActivity(it);
+                }
+            }
+        });
 
 
         imgnav = (ImageView)findViewById(R.id.img_nav);
@@ -400,6 +410,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Utils.dialogNotif(getResources().getString(R.string.you_not_login));
                 }
 
+                break;
+
+            case R.id.order:
+                Intent it = new Intent(getApplicationContext(), Care_Order.class);
+                startActivity(it);
                 break;
             case R.id.sub_sick:
 

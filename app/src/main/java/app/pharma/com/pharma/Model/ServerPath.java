@@ -81,6 +81,11 @@ public class ServerPath {
     public static String LIST_MEO = "getTipNotice";
     public static String DETAIL_MEO = "getNotice";
 
+    //Orderlist
+    public static String LIST_ORDER = "getListOrderAccountsAPI";
+    public static String CANCEL_ORDER = "cancelOrderInMobile";
+    public  static String DETAIL_ORDER = "getInfoOrderAccountsAPI";
+
 //
 //    public static String REGISTER = "checkRegister";
 //

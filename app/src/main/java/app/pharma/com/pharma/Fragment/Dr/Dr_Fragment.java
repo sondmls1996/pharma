@@ -31,9 +31,9 @@ import app.pharma.com.pharma.Adapter.List_Dr_Adapter;
 import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Constructor.Dr_Constructor;
 import app.pharma.com.pharma.Model.Database.Catalo;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
-import app.pharma.com.pharma.Model.Constructor.Dr_Constructor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
@@ -186,67 +186,74 @@ public class Dr_Fragment extends Fragment {
     }
 
     private void loadPage(int page) {
-        isEmpty(false);
-        if(page==1){
-            arr.clear();
-        }
 
-        Map<String, String> map = new HashMap<>();
-        map.put("page",page+"");
-        map.put("type",idDr);
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                swip.setRefreshing(false);
-                Log.d("RESPONSE_DR",response);
-                try {
-                    JSONObject jobj = new JSONObject(response);
-                    if (jobj.has(JsonConstant.CODE)){
-                        String code = jobj.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                JSONArray ja = jobj.getJSONArray(JsonConstant.LIST_DR);
-
-                                for (int i = 0; i<ja.length();i++){
-                                    JSONObject jo = ja.getJSONObject(i);
-                                    JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
-                                    Dr_Constructor dr = new Dr_Constructor();
-                                    dr.setName(pharma.getString(JsonConstant.NAME));
-                                    dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
-//                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
-                                    dr.setId(pharma.getString(JsonConstant.ID));
-                                    dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
-                                    dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
-                                    dr.setAge(pharma.getString(JsonConstant.AGE));
-                                    arr.add(dr);
-
-                                }
-                                if(arr.size()>0){
-                                    isEmpty(false);
-                                }else{
-                                    isEmpty(true);
-                                }
-                                adapter.notifyDataSetChanged();
-                                break;
-                            case "1":
-                                Utils.dialogNotif(getActivity().getResources().getString(R.string.error));
-                                break;
-                        }
-                    }
-
-
-                } catch (JSONException e) {
-
-                    e.printStackTrace();
-                }
-                if(arr.size()>0){
-                    isEmpty(false);
-                }else{
-                    isEmpty(true);
-                }
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+        }else{
+            isEmpty(false);
+            if(page==1){
+                arr.clear();
             }
-        };
-        Utils.PostServer(getActivity(), ServerPath.LIST_DR,map,response);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("page",page+"");
+            map.put("type",idDr);
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    swip.setRefreshing(false);
+                    Log.d("RESPONSE_DR",response);
+                    try {
+                        JSONObject jobj = new JSONObject(response);
+                        if (jobj.has(JsonConstant.CODE)){
+                            String code = jobj.getString(JsonConstant.CODE);
+                            switch (code){
+                                case "0":
+                                    JSONArray ja = jobj.getJSONArray(JsonConstant.LIST_DR);
+
+                                    for (int i = 0; i<ja.length();i++){
+                                        JSONObject jo = ja.getJSONObject(i);
+                                        JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
+                                        Dr_Constructor dr = new Dr_Constructor();
+                                        dr.setName(pharma.getString(JsonConstant.NAME));
+                                        dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
+//                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
+                                        dr.setId(pharma.getString(JsonConstant.ID));
+                                        dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
+                                        dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
+                                        dr.setAge(pharma.getString(JsonConstant.AGE));
+                                        arr.add(dr);
+
+                                    }
+                                    if(arr.size()>0){
+                                        isEmpty(false);
+                                    }else{
+                                        isEmpty(true);
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                    break;
+                                case "1":
+                                    Utils.dialogNotif(getActivity().getResources().getString(R.string.error));
+                                    break;
+                            }
+                        }
+
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+                    if(arr.size()>0){
+                        isEmpty(false);
+                    }else{
+                        isEmpty(true);
+                    }
+                }
+            };
+            Utils.PostServer(getActivity(), ServerPath.LIST_DR,map,response);
+
+        }
 
     }
 

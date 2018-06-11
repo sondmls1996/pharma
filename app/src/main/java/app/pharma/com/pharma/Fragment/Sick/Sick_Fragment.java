@@ -152,92 +152,99 @@ public class Sick_Fragment extends Fragment {
     }
 
     private void loadPage(int page) {
-        if(page==1){
-            arr.clear();
-        }
 
-        Map<String, String> map = new HashMap<>();
-        map.put("page",page+"");
-        map.put("type",idSick);
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                swip.setRefreshing(false);
-                Log.d("RESPONSE_SICK",response);
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+        }else{
+            if(page==1){
+                arr.clear();
+            }
+
+            Map<String, String> map = new HashMap<>();
+            map.put("page",page+"");
+            map.put("type",idSick);
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    swip.setRefreshing(false);
+                    Log.d("RESPONSE_SICK",response);
 //
 
 
 
 //                JSONArray ja = null;
-                try {
-                    JSONObject jobj = new JSONObject(response);
-                    if(jobj.has(JsonConstant.CODE)){
-                        String code = jobj.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                new AsyncTask<Void,Void,Void>(){
+                    try {
+                        JSONObject jobj = new JSONObject(response);
+                        if(jobj.has(JsonConstant.CODE)){
+                            String code = jobj.getString(JsonConstant.CODE);
+                            switch (code){
+                                case "0":
+                                    new AsyncTask<Void,Void,Void>(){
 
-                                    @Override
-                                    protected Void doInBackground(Void... voids) {
-                                        JSONArray listDis = null;
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            JSONArray listDis = null;
 
-                                        try {
+                                            try {
 
-                                            listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
-                                            for (int i =0;i<listDis.length();i++){
+                                                listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
+                                                for (int i =0;i<listDis.length();i++){
 
-                                                JSONObject jo = listDis.getJSONObject(i);
-                                                JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
-                                                Sick_Construct sick = new Sick_Construct();
-                                                sick.setName(product.getString(JsonConstant.NAME));
-                                                sick.setDescri(product.getString(JsonConstant.DESCRI));
-                                                sick.setId(product.getString(JsonConstant.ID));
-                                                JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-                                                sick.setImage(images.getString(0));
-                                                JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
-                                                sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
-                                                //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
-                                                sick.setLike(product.getInt(JsonConstant.LIKE));
-                                                sick.setDate(product.getLong(JsonConstant.TIME));
-                                                arr.add(sick);
+                                                    JSONObject jo = listDis.getJSONObject(i);
+                                                    JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
+                                                    Sick_Construct sick = new Sick_Construct();
+                                                    sick.setName(product.getString(JsonConstant.NAME));
+                                                    sick.setDescri(product.getString(JsonConstant.DESCRI));
+                                                    sick.setId(product.getString(JsonConstant.ID));
+                                                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                                                    sick.setImage(images.getString(0));
+                                                    JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
+                                                    sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
+                                                    //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                    sick.setLike(product.getInt(JsonConstant.LIKE));
+                                                    sick.setDate(product.getLong(JsonConstant.TIME));
+                                                    arr.add(sick);
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+
+                                            return null;
                                         }
 
-                                        return null;
-                                    }
+                                        @Override
+                                        protected void onPostExecute(Void aVoid) {
+                                            if(arr.size()>0){
+                                                tvNull.setVisibility(View.GONE);
+                                            }else{
+                                                tvNull.setVisibility(View.VISIBLE);
+                                            }
 
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-                                        if(arr.size()>0){
-                                            tvNull.setVisibility(View.GONE);
-                                        }else{
-                                            tvNull.setVisibility(View.VISIBLE);
+                                            adapter.notifyDataSetChanged();
+                                            super.onPostExecute(aVoid);
                                         }
-
-                                        adapter.notifyDataSetChanged();
-                                        super.onPostExecute(aVoid);
-                                    }
-                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
-                                break;
-                            case "1":
-                                break;
+                                    break;
+                                case "1":
+                                    break;
+                            }
                         }
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
 
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            };
+            Utils.PostServer(getActivity(), ServerPath.LIST_SICK,map,response);
 
-
-            }
-        };
-        Utils.PostServer(getActivity(), ServerPath.LIST_SICK,map,response);
+        }
 
     }
     @Override

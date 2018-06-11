@@ -18,10 +18,13 @@
         android:roundIcon="@drawable/laucher_white_2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            />
-        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -29,65 +32,66 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activity.Detail.Detail"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Detail.Infor_Dr"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Login.Login"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Login.Register"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Detail.Infor_Meo"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Login.Lost_password"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Login.Get_code"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.User.Infor_User"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.User.Change_infor"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.User.ChangePass"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Like.Care_PILL_Activity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Share"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.Detail.Order"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".activity.Detail.Detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Detail.Infor_Dr"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Login.Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Login.Register"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Detail.Infor_Meo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Login.Lost_password"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Login.Get_code"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.User.Infor_User"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.User.Change_infor"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.User.ChangePass"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Care.Care_PILL_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Share"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Detail.Order"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".Service.GetLocationService"
             android:enabled="true" />
 
-        <activity android:name=".Wellcome"
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".Wellcome"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Show_map"
-
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.Like.Care_Sick_Activity"
-            android:screenOrientation="portrait"
-            ></activity>
+        <activity
+            android:name=".activity.Show_map"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Care.Care_Sick_Activity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.Care.Care_Order"></activity>
     </application>
 
 </manifest>

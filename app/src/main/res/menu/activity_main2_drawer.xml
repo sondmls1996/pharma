@@ -39,6 +39,14 @@
                     android:id="@+id/sub_sick"
                     android:icon="@drawable/heartbeat"
                     android:title="Bệnh đã quan tâm" />
+                <item
+                    android:id="@+id/pharma_care"
+                    android:icon="@drawable/heartbeat"
+                    android:title="Nhà thuốc đã quan tâm" />
+                <item
+                    android:id="@+id/order"
+                    android:icon="@drawable/heartbeat"
+                    android:title="Đơn hàng" />
             </menu>
         </item>
         <item android:title="Ứng dụng">

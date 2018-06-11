@@ -100,27 +100,16 @@ public class Insite_List extends Fragment {
     }
 
     private void getData(int page, String type) {
-        if(page==1){
-            arr.clear();
-        }
 
-        if(type.equals("show_all")){
-            Map<String, String> map = new HashMap<>();
-            map.put("latGPS", Common.lat+"");
-            map.put("longGPS",Common.lng+"");
-            map.put("page",page+"");
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    swip.setRefreshing(false);
-                    tvnull.setVisibility(View.GONE);
-                    ln_null.setVisibility(View.GONE);
-                    initJson(response,type);
-                }
-            };
-            Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
         }else{
-            if(Common.lat!=0&&Common.lng!=0){
+            if(page==1){
+                arr.clear();
+            }
+
+            if(type.equals("show_all")){
                 Map<String, String> map = new HashMap<>();
                 map.put("latGPS", Common.lat+"");
                 map.put("longGPS",Common.lng+"");
@@ -136,22 +125,40 @@ public class Insite_List extends Fragment {
                 };
                 Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
             }else{
-                Map<String, String> map = new HashMap<>();
-                map.put("latGPS", Common.lat+"");
-                map.put("longGPS",Common.lng+"");
-                map.put("page",page+"");
-                Response.Listener<String> response = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        swip.setRefreshing(false);
-                        tvnull.setVisibility(View.GONE);
-                        ln_null.setVisibility(View.GONE);
-                        initJson(response,"show_all");
-                    }
-                };
-                Utils.PostServer(getActivity(),ServerPath.LIST_PHARMA,map,response);
+                if(Common.lat!=0&&Common.lng!=0){
+                    Map<String, String> map = new HashMap<>();
+                    map.put("latGPS", Common.lat+"");
+                    map.put("longGPS",Common.lng+"");
+                    map.put("page",page+"");
+                    Response.Listener<String> response = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            swip.setRefreshing(false);
+                            tvnull.setVisibility(View.GONE);
+                            ln_null.setVisibility(View.GONE);
+                            initJson(response,type);
+                        }
+                    };
+                    Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+                }else{
+                    Map<String, String> map = new HashMap<>();
+                    map.put("latGPS", Common.lat+"");
+                    map.put("longGPS",Common.lng+"");
+                    map.put("page",page+"");
+                    Response.Listener<String> response = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            swip.setRefreshing(false);
+                            tvnull.setVisibility(View.GONE);
+                            ln_null.setVisibility(View.GONE);
+                            initJson(response,"show_all");
+                        }
+                    };
+                    Utils.PostServer(getActivity(),ServerPath.LIST_PHARMA,map,response);
+                }
             }
         }
+
 
     }
 

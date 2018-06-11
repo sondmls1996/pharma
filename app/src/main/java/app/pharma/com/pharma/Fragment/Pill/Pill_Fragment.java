@@ -249,106 +249,111 @@ public class Pill_Fragment extends Fragment {
     }
 
     private void loadPage(int page,boolean isFillter) {
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+        }else{
+            if(arr==null){
+                arr = new ArrayList<>();
+            }
+            if(page==1){
+                arr.clear();
+
+            }
+
+            Map<String, String> map = new HashMap<>();
+            map.put("page",page+"");
+            map.put("type",idPill);
+
+            if(isFillter){
+                map.put("minPrice",minPrice+"");
+                map.put("maxPrice",maxPrice+"");
+                map.put("ingredient",idingredient);
+            }
 
 
-        if(arr==null){
-            arr = new ArrayList<>();
-        }
-        if(page==1){
-            arr.clear();
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("RESPONSE_PILL",response);
+                    swip.setRefreshing(false);
+                    try {
+                        JSONObject root = new JSONObject(response);
+                        if(root.has(JsonConstant.CODE)){
+                            String code = root.getString(JsonConstant.CODE);
+                            switch (code){
+                                case "0":
+                                    new AsyncTask<Void,Void,Void>(){
 
-        }
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            JSONArray ja = null;
+                                            try {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("page",page+"");
-        map.put("type",idPill);
+                                                ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
+                                                for (int i = 0; i<ja.length();i++){
+                                                    JSONObject jo = ja.getJSONObject(i);
+                                                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                                    Pill_Constructor pill = new Pill_Constructor();
+                                                    pill.setName(product.getString(JsonConstant.NAME));
+                                                    pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                                    pill.setId(product.getString(JsonConstant.ID));
+                                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                                    pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                    pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                    pill.setLike(product.getInt(JsonConstant.LIKE));
+                                                    pill.setStar(product.getDouble(JsonConstant.STAR));
+                                                    JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                                    pill.setImage(Image.toString());
+                                                    pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                                    arr.add(pill);
 
-        if(isFillter){
-            map.put("minPrice",minPrice+"");
-            map.put("maxPrice",maxPrice+"");
-            map.put("ingredient",idingredient);
-        }
-
-
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("RESPONSE_PILL",response);
-                swip.setRefreshing(false);
-                try {
-                    JSONObject root = new JSONObject(response);
-                    if(root.has(JsonConstant.CODE)){
-                        String code = root.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                new AsyncTask<Void,Void,Void>(){
-
-                                    @Override
-                                    protected Void doInBackground(Void... voids) {
-                                        JSONArray ja = null;
-                                        try {
-
-                                            ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
-                                            for (int i = 0; i<ja.length();i++){
-                                                JSONObject jo = ja.getJSONObject(i);
-                                                JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                                                Pill_Constructor pill = new Pill_Constructor();
-                                                pill.setName(product.getString(JsonConstant.NAME));
-                                                pill.setHtuse(product.getString(JsonConstant.DESCRI));
-                                                pill.setId(product.getString(JsonConstant.ID));
-                                                JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                                pill.setPrice(price.getInt(JsonConstant.MONEY));
-                                                pill.setCmt(product.getInt(JsonConstant.COMMENT));
-                                                pill.setLike(product.getInt(JsonConstant.LIKE));
-                                                 pill.setStar(product.getDouble(JsonConstant.STAR));
-                                                JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
-                                                pill.setImage(Image.toString());
-                                                pill.setOthername(product.getString(JsonConstant.COMPANY));
-                                                arr.add(pill);
-
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+
+
+                                            return null;
                                         }
 
+                                        @Override
+                                        protected void onPostExecute(Void aVoid) {
+                                            if(arr.size()>0){
+                                                tvnull.setVisibility(View.GONE);
+                                            }else{
+                                                tvnull.setVisibility(View.VISIBLE);
+                                            }
 
-                                        return null;
-                                    }
+                                            adapter.notifyDataSetChanged();
 
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-                                        if(arr.size()>0){
-                                            tvnull.setVisibility(View.GONE);
-                                        }else{
-                                            tvnull.setVisibility(View.VISIBLE);
+                                            super.onPostExecute(aVoid);
                                         }
-
-                                        adapter.notifyDataSetChanged();
-
-                                        super.onPostExecute(aVoid);
-                                    }
-                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
-                                break;
-                            case "1":
-                                Utils.dialogNotif(getResources().getString(R.string.error));
-                                break;
+                                    break;
+                                case "1":
+                                    Utils.dialogNotif(getResources().getString(R.string.error));
+                                    break;
                                 default:
                                     break;
+                            }
+
+
                         }
 
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            };
+            Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
 
-            }
-        };
-        Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
+        }
+
 
     }
     private void showDialogFillter() {

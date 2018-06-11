@@ -184,6 +184,8 @@ public class Infor_Dr extends AppCompatActivity {
     }
 
     private void loadData() {
+
+
         Map<String,String> map = new HashMap<>();
         map.put("id",id);
         Response.Listener<String> response = new Response.Listener<String>() {
