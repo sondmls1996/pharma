@@ -18,7 +18,7 @@
         android:textColor="@color/gray"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:text="23"/>
+        android:text="0"/>
     <ImageView
         android:layout_width="12dp"
         android:layout_height="12dp"
@@ -33,5 +33,5 @@
         android:textStyle="bold"
         android:textColor="@color/gray"
         android:textSize="12sp"
-        android:text="20"/>
+        android:text="0"/>
 </LinearLayout>

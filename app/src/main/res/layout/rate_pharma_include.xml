@@ -27,14 +27,14 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ln_info"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/rl_img"
-            android:orientation="vertical">
+                >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,12 +42,15 @@
                 android:id="@+id/include_pharma_name"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
+                android:maxLength="30"
+
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/include_pharma_star"
+                android:layout_below="@+id/include_pharma_name"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <!--<ImageView-->
@@ -75,14 +78,15 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                android:id="@+id/include_pharma_around"
-                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/red"
+                android:text="sdsdsdsd"
                 android:textSize="12sp"
                  />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="60sp"

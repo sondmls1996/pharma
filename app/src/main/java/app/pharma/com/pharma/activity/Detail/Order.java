@@ -134,12 +134,12 @@ public class Order extends AppCompatActivity {
 
                     if(!s.toString().equals("")&&!s.toString().equals("0")){
                         countPrice = Integer.parseInt(s.toString())*pillObj.getPrice();
-                        price.setText(Constant.format.format((countPrice)));
+                        price.setText(Constant.format.format((countPrice))+" VND");
                     }
                     if(s.toString().equals("0")){
                         quality.setText("1");
                         countPrice = Integer.parseInt("1")*pillObj.getPrice();
-                        price.setText(Constant.format.format((countPrice)));
+                        price.setText(Constant.format.format((countPrice))+" VND");
                     }
             }
 

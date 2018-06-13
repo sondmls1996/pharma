@@ -32,7 +32,7 @@
             android:id="@+id/ln_info"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/rl_img"
             android:orientation="vertical">
@@ -41,19 +41,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLength="20"
+                android:maxLength="25"
                 android:id="@+id/name_pharma"
                 android:textSize="16sp"
-                android:text="Nhà thuốc Duy Tuấn"
+
                 android:textColor="@color/blue"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:maxLength="25"
-                android:text="123 Đê La Thành - Hà Nội"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:maxLength="30"
+
                 android:id="@+id/adr_pharma"
                 android:textColor="@color/gray"
                 android:textSize="13sp"
@@ -61,7 +60,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:gravity="bottom"
 
                 android:textColor="@color/red"
@@ -73,7 +72,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_toRightOf="@+id/ln_info"
             android:gravity="right"

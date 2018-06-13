@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,21 +21,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,9 +48,15 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.pharma.com.pharma.Adapter.List_Pill_Adapter;
 import app.pharma.com.pharma.Fragment.Dr.Dr_Fragment;
 import app.pharma.com.pharma.Fragment.Meo_Fragment;
 import app.pharma.com.pharma.Fragment.Pharma.Pharma_Fragment;
@@ -52,8 +65,10 @@ import app.pharma.com.pharma.Fragment.Sick.Sick_Fragment;
 import app.pharma.com.pharma.Model.BlurImagePicasso;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
@@ -62,8 +77,10 @@ import app.pharma.com.pharma.Service.GetLocationService;
 import app.pharma.com.pharma.activity.Care.Care_Order;
 import app.pharma.com.pharma.activity.Care.Care_PILL_Activity;
 import app.pharma.com.pharma.activity.Care.Care_Sick_Activity;
+import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
+import okhttp3.internal.Util;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     Class fragment;
@@ -77,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView header_background;
     ImageView img_meo;
     User user;
+    List_Pill_Adapter adapterPillSearch;
+    ArrayList<Pill_Constructor> arrPillSearch;
     boolean isAnimated = false;
     TextView tv_pill;
     TextView tv_sick;
@@ -85,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView title;
     TextView tv_meo;
     EditText edSearch;
+    RelativeLayout rl_type_search;
+    TextView tv_null;
     DrawerLayout drawer;
     LinearLayout ln_pill;
     LinearLayout ln_sick;
@@ -92,9 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout rl_search;
     LinearLayout ln_pharma;
     int minPrice = 0,maxPrice = 0;
+    int page = 1;
     DatabaseHandle db;
     LinearLayout ln_meo;
-
+    ListView lv_search;
     FrameLayout fragContrent;
     CardView cv;
     Menu menu;
@@ -114,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MultiDex.install(this);
         Common.context = this;
         db = new DatabaseHandle();
-
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
 
@@ -128,8 +149,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rl_search = (RelativeLayout)findViewById(R.id.rl_search);
         appbar = findViewById(R.id.app_bar);
         img_close = (ImageView)findViewById(R.id.img_close);
-
-                r = getResources();
+        lv_search = findViewById(R.id.lv_search);
+        rl_type_search = findViewById(R.id.rl_list_search);
+        tv_null = findViewById(R.id.tv_null_search);
+        r = getResources();
         nav = findViewById(R.id.nav_view);
         cv = (CardView)findViewById(R.id.cv_bot);
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -187,6 +210,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals("")&&s!=null){
+
+                    Intent it = new Intent(Constant.SEARCH_ACTION);
+                    it.putExtra("key",s.toString());
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
+//                    switch (Constant.inFragment){
+//                        case "pill":
+//                            page = 1;
+//                            Intent it = new Intent(Constant.SEARCH_ACTION);
+//                            it.putExtra("key",s.toString());
+//                            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
+//                            break;
+//                        case "pharma":
+//                            page = 1;
+//                            searchPharma(s.toString(),page);
+//                            break;
+//                        case "sick":
+//                            page = 1;
+//                            searchSick(s.toString(),page);
+//                            break;
+//                        case "dr":
+//                            page = 1;
+//                            searchDr(s.toString(),page);
+//                            break;
+//
+//                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         if(!Utils.isNetworkEnable(Common.context)){
             Utils.dialogNotif(getResources().getString(R.string.no_internet));
         }
@@ -203,6 +269,144 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onCreateOptionsMenu(menu);
 
     }
+
+
+
+    public void onSearch(String type, String Json,int page){
+        if(type.equals("sick")){
+            searchSick(Json,page);
+        }else if(type.equals("pill")){
+            searchPill(Json,page);
+        }else if(type.equals("pharma")){
+            searchPharma(Json,page);
+        }else if(type.equals("dr")){
+            searchDr(Json,page);
+        }
+
+    }
+
+    private void searchPharma(String json,int page) {
+    }
+
+    private void searchDr(String json,int page) {
+    }
+
+    public void initJson(String response){
+        try {
+            JSONObject root = new JSONObject(response);
+            if(root.has(JsonConstant.CODE)){
+                String code = root.getString(JsonConstant.CODE);
+                switch (code){
+                    case "0":
+                        new AsyncTask<Void,Void,Void>(){
+
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                JSONArray ja = null;
+                                try {
+
+                                    ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
+                                    for (int i = 0; i<ja.length();i++){
+                                        JSONObject jo = ja.getJSONObject(i);
+                                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                        Pill_Constructor pill = new Pill_Constructor();
+                                        pill.setName(product.getString(JsonConstant.NAME));
+                                        pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                        pill.setId(product.getString(JsonConstant.ID));
+                                        JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                        pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                        pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                        pill.setLike(product.getInt(JsonConstant.LIKE));
+                                        pill.setStar(product.getDouble(JsonConstant.STAR));
+                                        JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                        pill.setImage(Image.toString());
+                                        pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                              arrPillSearch.add(pill);
+
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                        if(arrPillSearch.size()>0){
+                                            lv_search.setVisibility(View.VISIBLE);
+                                            tv_null.setVisibility(View.GONE);
+                                        }else{
+                                            lv_search.setVisibility(View.GONE);
+                                            tv_null.setVisibility(View.VISIBLE);
+                                        }
+                                        adapterPillSearch = new List_Pill_Adapter(getApplicationContext(),R.layout.item_pill,arrPillSearch);
+                                        lv_search.setAdapter(adapterPillSearch);
+                                lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                                        Utils.setAlphalAnimation(view);
+                                        Intent it = new Intent(MainActivity.this, Detail.class);
+                                        it.putExtra("key","pill");
+                                        it.putExtra("id", arrPillSearch.get(i).getId());
+
+                                        startActivity(it);
+                                    }
+                                });
+                                        adapterPillSearch.notifyDataSetChanged();
+
+                                super.onPostExecute(aVoid);
+                            }
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+                        break;
+                    case "1":
+                        Utils.dialogNotif(getResources().getString(R.string.error));
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void searchPill(String json, int page) {
+//        if(arrPillSearch==null){
+//            arrPillSearch = new ArrayList<>();
+//        }
+//        if(page==1){
+//            arrPillSearch.clear();
+//        }
+//        rl_type_search.setVisibility(View.VISIBLE);
+//        lv_search.setVisibility(View.VISIBLE);
+//        Map<String, String> map = new HashMap<>();
+//        map.put("page",page+"");
+//        map.put("type",Pill_Fragment.idPill);
+//        map.put("key",json);
+//        Response.Listener<String> response = new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.d("RESPONSE_PILL_SEARCH",response);
+//               // swip.setRefreshing(false);
+//                initJson(response);
+//            }
+//        };
+//        Utils.PostServer(this,ServerPath.LIST_PILL,map,response);
+
+
+    }
+
+    private void searchSick(String json,int page) {
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -220,6 +424,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
+                rl_type_search.setVisibility(View.GONE);
                 edSearch.setText(null);
                 break;
         }
@@ -292,10 +497,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-
-
                 ReplaceFrag(fragment);
                 changeColor();
+                rl_type_search.setVisibility(View.GONE);
                 tv_pill.setTextColor(r.getColor(R.color.blue));
                 img_pill.setImageDrawable(r.getDrawable(R.drawable.pill_blue));
                 break;
@@ -311,6 +515,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 ReplaceFrag(fragment);
                 changeColor();
+                rl_type_search.setVisibility(View.GONE);
                 tv_sick.setTextColor(r.getColor(R.color.blue));
                 img_sick.setImageDrawable(r.getDrawable(R.drawable.sick));
                 break;
@@ -322,6 +527,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(0).setVisible(true);
                 menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
+                rl_type_search.setVisibility(View.GONE);
                 rl_search.setVisibility(View.GONE);
 
                 ReplaceFrag(fragment);
@@ -338,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.getItem(1).setVisible(false);
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
-
+                rl_type_search.setVisibility(View.GONE);
                 ReplaceFrag(fragment);
                 changeColor();
                 tv_pharma.setTextColor(r.getColor(R.color.blue));
@@ -356,6 +562,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 ReplaceFrag(fragment);
                 changeColor();
+                rl_type_search.setVisibility(View.GONE);
                 tv_meo.setTextColor(r.getColor(R.color.blue));
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 break;
@@ -374,6 +581,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(rl_search.getVisibility()==View.VISIBLE&&title.getVisibility()==View.GONE){
                     rl_search.setVisibility(View.GONE);
                     title.setVisibility(View.VISIBLE);
+                    rl_type_search.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -447,7 +655,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(it4);
                 break;
             case R.id.rate:
-                showDialogRateApp();
+                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+              //  showDialogRateApp();
                 break;
             case R.id.share:
                 Utils.shareLink("");

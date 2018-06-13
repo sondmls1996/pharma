@@ -358,7 +358,7 @@ public class Pill_Fragment_Detail extends Fragment {
                         Double d = product.getStar();
                         int s = Integer.valueOf(d.intValue());
                         Picasso.with(getActivity()).load(ServerPath.ROOT_URL+product.getImage()).into(img_pill_lq);
-                        price_lq.setText(Constant.format.format(product.getPrice()));
+                        price_lq.setText(Constant.format.format(product.getPrice())+"VND");
                         tv_name_lq.setText(product.getName());
                         tv_company_lq.setText(product.getCompany());
                         ln.addView(rowView);

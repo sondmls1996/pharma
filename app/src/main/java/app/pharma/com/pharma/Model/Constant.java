@@ -10,7 +10,8 @@ import java.util.Locale;
  */
 
 public class Constant {
-    public static String SCROLL_LV = "scroll_lv";
+    public static String SEARCH_ACTION = "search";
+    public static String inFragment = "";
     public static NumberFormat format = NumberFormat.getNumberInstance(Locale.UK);
     public static  int ACTION_DOWN = 1;
     public static int ACTION_UP = 2;

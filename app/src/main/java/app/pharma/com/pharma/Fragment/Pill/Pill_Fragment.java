@@ -2,8 +2,10 @@ package app.pharma.com.pharma.Fragment.Pill;
 
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.Log;
@@ -73,10 +76,11 @@ public class Pill_Fragment extends Fragment {
     Context ct;
     int minPrice = 0;
     int maxPrice = 0;
+    BroadcastReceiver broadcastSearch;
     View v;
     String idingredient = "";
     View footer;
-    String idPill = "";
+    public  String idPill = "";
     boolean isFillter = false;
     FloatingActionButton fillter;
     int page = 1;
@@ -94,9 +98,30 @@ public class Pill_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          v = inflater.inflate(R.layout.fragment_pill, container, false);
+        Constant.inFragment = "pill";
         init();
-
+        registerBroadcast();
         return v;
+    }
+
+    private void registerBroadcast() {
+        broadcastSearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.SEARCH_ACTION)){
+                    String key = intent.getStringExtra("key");
+                    loadPageSearch(1,idPill,key);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastSearch,
+                it);
+    }
+
+    private void unRegister(){
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
     }
 
     private void init() {
@@ -248,6 +273,92 @@ public class Pill_Fragment extends Fragment {
         loadPage(page,isFillter);
     }
 
+    private void getData(Map map){
+
+
+
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("RESPONSE_PILL",response);
+                swip.setRefreshing(false);
+                try {
+                    JSONObject root = new JSONObject(response);
+                    if(root.has(JsonConstant.CODE)){
+                        String code = root.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                new AsyncTask<Void,Void,Void>(){
+
+                                    @Override
+                                    protected Void doInBackground(Void... voids) {
+                                        JSONArray ja = null;
+                                        try {
+
+                                            ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
+                                            for (int i = 0; i<ja.length();i++){
+                                                JSONObject jo = ja.getJSONObject(i);
+                                                JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                                Pill_Constructor pill = new Pill_Constructor();
+                                                pill.setName(product.getString(JsonConstant.NAME));
+                                                pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                                pill.setId(product.getString(JsonConstant.ID));
+                                                JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                                pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                pill.setLike(product.getInt(JsonConstant.LIKE));
+                                                pill.setStar(product.getDouble(JsonConstant.STAR));
+                                                JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                                pill.setImage(Image.toString());
+                                                pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                                arr.add(pill);
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        if(arr.size()>0){
+                                            tvnull.setVisibility(View.GONE);
+                                        }else{
+                                            tvnull.setVisibility(View.VISIBLE);
+                                        }
+
+                                        adapter.notifyDataSetChanged();
+
+                                        super.onPostExecute(aVoid);
+                                    }
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+                                break;
+                            case "1":
+                                Utils.dialogNotif(getResources().getString(R.string.error));
+                                break;
+                            default:
+                                break;
+                        }
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
+
+    }
+
     private void loadPage(int page,boolean isFillter) {
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
@@ -270,88 +381,29 @@ public class Pill_Fragment extends Fragment {
                 map.put("maxPrice",maxPrice+"");
                 map.put("ingredient",idingredient);
             }
+                getData(map);
+        }
 
 
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("RESPONSE_PILL",response);
-                    swip.setRefreshing(false);
-                    try {
-                        JSONObject root = new JSONObject(response);
-                        if(root.has(JsonConstant.CODE)){
-                            String code = root.getString(JsonConstant.CODE);
-                            switch (code){
-                                case "0":
-                                    new AsyncTask<Void,Void,Void>(){
+    }
+    private void loadPageSearch(int page,String idPill, String key) {
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+        }else{
+            if(arr==null){
+                arr = new ArrayList<>();
+            }
+            if(page==1){
+                arr.clear();
 
-                                        @Override
-                                        protected Void doInBackground(Void... voids) {
-                                            JSONArray ja = null;
-                                            try {
+            }
 
-                                                ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
-                                                for (int i = 0; i<ja.length();i++){
-                                                    JSONObject jo = ja.getJSONObject(i);
-                                                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                                                    Pill_Constructor pill = new Pill_Constructor();
-                                                    pill.setName(product.getString(JsonConstant.NAME));
-                                                    pill.setHtuse(product.getString(JsonConstant.DESCRI));
-                                                    pill.setId(product.getString(JsonConstant.ID));
-                                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                                    pill.setPrice(price.getInt(JsonConstant.MONEY));
-                                                    pill.setCmt(product.getInt(JsonConstant.COMMENT));
-                                                    pill.setLike(product.getInt(JsonConstant.LIKE));
-                                                    pill.setStar(product.getDouble(JsonConstant.STAR));
-                                                    JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
-                                                    pill.setImage(Image.toString());
-                                                    pill.setOthername(product.getString(JsonConstant.COMPANY));
-                                                    arr.add(pill);
-
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-
-
-                                            return null;
-                                        }
-
-                                        @Override
-                                        protected void onPostExecute(Void aVoid) {
-                                            if(arr.size()>0){
-                                                tvnull.setVisibility(View.GONE);
-                                            }else{
-                                                tvnull.setVisibility(View.VISIBLE);
-                                            }
-
-                                            adapter.notifyDataSetChanged();
-
-                                            super.onPostExecute(aVoid);
-                                        }
-                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-
-                                    break;
-                                case "1":
-                                    Utils.dialogNotif(getResources().getString(R.string.error));
-                                    break;
-                                default:
-                                    break;
-                            }
-
-
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            };
-            Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
-
+            Map<String, String> map = new HashMap<>();
+            map.put("page",page+"");
+            map.put("type",idPill);
+            map.put("key",key);
+            getData(map);
         }
 
 
@@ -510,12 +562,29 @@ public class Pill_Fragment extends Fragment {
     }
     @Override
     public void onResume() {
-        Intent it = new Intent(Constant.SCROLL_LV);
-        it.putExtra("action",Constant.ACTION_UP);
-        ct.sendBroadcast(it);
+        if(broadcastSearch==null){
+
+            registerBroadcast();
+        }
 
 
         super.onResume();
 
     }
+
+    @Override
+    public void onStop() {
+        unRegister();
+        broadcastSearch=null;
+        super.onStop();
+    }
+
+//    class BroadcastSearch extends BroadcastReceiver{
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//
+//        }
+//    }
+
 }

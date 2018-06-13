@@ -1,10 +1,14 @@
 package app.pharma.com.pharma.Fragment.Pharma;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +30,7 @@ import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
@@ -44,6 +49,7 @@ public class Insite_List extends Fragment {
     TextView not_near, showall;
     SwipeRefreshLayout swip;
     private int lastY = 0;
+    BroadcastReceiver broadcastSearch;
     TextView tvnull;
     int page = 1;
     ArrayList<Pharma_Constructor> arr;
@@ -58,6 +64,8 @@ public class Insite_List extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_insite__list, container, false);
+        Constant.inFragment = "pharma";
+        registerBroadcast();
         init();
         return v;
     }
@@ -97,6 +105,24 @@ public class Insite_List extends Fragment {
             }
         });
         getData(page,"");
+    }
+
+    private void loadPageSearch(int page, String key){
+        Map<String, String> map = new HashMap<>();
+        map.put("latGPS", Common.lat+"");
+        map.put("longGPS",Common.lng+"");
+        map.put("page",page+"");
+        map.put("key",key);
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                swip.setRefreshing(false);
+                tvnull.setVisibility(View.GONE);
+                ln_null.setVisibility(View.GONE);
+                initJson(response,"show_all");
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
     }
 
     private void getData(int page, String type) {
@@ -226,6 +252,7 @@ public class Insite_List extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                Pharma_Fragment.arrPharma = arr;
                 if(type.equals("show_all")){
                     if(arr.size()>0){
                         tvnull.setVisibility(View.GONE);
@@ -246,4 +273,37 @@ public class Insite_List extends Fragment {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    @Override
+    public void onResume() {
+        if(broadcastSearch==null){
+            registerBroadcast();
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        unRegister();
+        super.onStop();
+    }
+
+    private void unRegister(){
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
+        broadcastSearch=null;
+    }
+    private void registerBroadcast() {
+        broadcastSearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.SEARCH_ACTION)){
+                    String key = intent.getStringExtra("key");
+                    loadPageSearch(1,key);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastSearch,
+                it);
+    }
 }

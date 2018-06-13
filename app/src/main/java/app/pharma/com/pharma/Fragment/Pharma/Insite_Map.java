@@ -3,7 +3,9 @@ package app.pharma.com.pharma.Fragment.Pharma;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -15,10 +17,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
+import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.R;
 
 
@@ -68,13 +79,26 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
             lat = Common.lat;
             lng = Common.lng;
            gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),15f));
+           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),12f));
        }else{
            lat = 17.0828177;
            lng = 106.38272;
          //  gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),7f));
+           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),5f));
        }
+        ArrayList<Pharma_Constructor> arrPm = Pharma_Fragment.arrPharma;
+        if(arrPm!=null&&arrPm.size()>0){
+            for (int i=0; i<arrPm.size();i++){
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(arrPm.get(i).getX(),arrPm.get(i).getY()));
+                markerOptions.title(arrPm.get(i).getName());
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                markerOptions.snippet(arrPm.get(i).getAdr());
+                gg.addMarker(markerOptions);
+            }
+        }
+
+
 
 
     }

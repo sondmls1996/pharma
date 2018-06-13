@@ -68,12 +68,8 @@
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_search"
-        android:layout_below="@+id/app_bar"
-        android:visibility="gone"></ListView>
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -83,6 +79,32 @@
         <include layout="@layout/content_main2" />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:background="@color/red"
+        android:minWidth="200dp"
+        android:id="@+id/rl_list_search"
+        android:visibility="visible"
 
+        android:layout_height="300dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/tv_null_search"
+            android:text="@string/cant_search"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_search"
+            android:background="@color/white"
+
+            android:visibility="gone"></ListView>
+
+    </RelativeLayout>
 
 </RelativeLayout>

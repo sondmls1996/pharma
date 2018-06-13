@@ -45,6 +45,7 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
     MapView mMapView;
     Class fragment;
     int page = 1;
+    public static ArrayList<Pharma_Constructor> arrPharma;
     TextView tv_list;
     TextView tv_map;
     int lastVisibleItem = 0;
@@ -60,7 +61,7 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          v = inflater.inflate(R.layout.fragment_pharma, container, false);
-
+        arrPharma = new ArrayList<>();
         initView();
         tv_list.performClick();
 
@@ -121,23 +122,17 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
             tv_map.setTextColor(Constant.resources.getColor(R.color.blue));
             tv_map.setBackgroundColor(Constant.resources.getColor(R.color.white));
          //   lv.setVisibility(View.GONE);
-            Intent it = new Intent(Constant.SCROLL_LV);
-            it.putExtra("action",Constant.ACTION_DOWN);
-            ct.sendBroadcast(it);
+
         }else{
             tv_list.setTextColor(Constant.resources.getColor(R.color.blue));
             tv_list.setBackgroundColor(Constant.resources.getColor(R.color.white));
-            Intent it = new Intent(Constant.SCROLL_LV);
-            it.putExtra("action",Constant.ACTION_UP);
-            ct.sendBroadcast(it);
+
          //   lv.setVisibility(View.VISIBLE);
         }
     }
     @Override
     public void onResume() {
-        Intent it = new Intent(Constant.SCROLL_LV);
-        it.putExtra("action",Constant.ACTION_UP);
-        ct.sendBroadcast(it);
+
         super.onResume();
 
     }

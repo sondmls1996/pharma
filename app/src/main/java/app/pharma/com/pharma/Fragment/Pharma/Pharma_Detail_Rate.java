@@ -192,7 +192,7 @@ public class Pharma_Detail_Rate extends Fragment {
         idProduct = obj.getId();
         type = "product";
         tvName.setText(obj.getName());
-        tvPrice.setText(Constant.format.format((obj.getPrice())));
+        tvPrice.setText(Constant.format.format((obj.getPrice()))+"VND");
         Utils.loadImagePicasso(ServerPath.ROOT_URL+obj.getImages().get(0),img);
         like.setText(obj.getLike()+"");
         cmt.setText(obj.getComment()+"");

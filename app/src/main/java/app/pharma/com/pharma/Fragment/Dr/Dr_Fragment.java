@@ -1,9 +1,12 @@
 package app.pharma.com.pharma.Fragment.Dr;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +53,8 @@ public class Dr_Fragment extends Fragment {
     Context ct;
     int lastVisibleItem = 0;
     Spinner spiner;
+    int page = 1;
+    BroadcastReceiver broadcastSearch;
     TextView tv_null;
     SwipeRefreshLayout swip;
     String idDr;
@@ -65,6 +70,7 @@ public class Dr_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dr_, container, false);
+        Constant.inFragment = "dr";
         lv = (ListView)v.findViewById(R.id.lv_dr);
         arr = new ArrayList<>();
         adapter = new List_Dr_Adapter(getContext(),0,arr);
@@ -127,44 +133,7 @@ public class Dr_Fragment extends Fragment {
 
             }
         });
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
-                int top = 0;
-                if(lv.getChildAt(0) != null){
-                    top = lv.getChildAt(0).getTop();
-                }
-
-                if(firstVisibleItem > lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_DOWN);
-                    ct.sendBroadcast(it);
-                }else if(firstVisibleItem < lastVisibleItem){
-                    Intent it = new Intent(Constant.SCROLL_LV);
-                    it.putExtra("action",Constant.ACTION_UP);
-                    ct.sendBroadcast(it);
-                }else{
-                    if(top < lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_DOWN);
-                        ct.sendBroadcast(it);
-                    }else if(top > lastY){
-                        Intent it = new Intent(Constant.SCROLL_LV);
-                        it.putExtra("action",Constant.ACTION_UP);
-                        ct.sendBroadcast(it);
-                    }
-                }
-
-                lastVisibleItem = firstVisibleItem;
-                lastY = top;
-
-            }
-        });
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -185,6 +154,8 @@ public class Dr_Fragment extends Fragment {
         }
     }
 
+
+
     private void loadPage(int page) {
 
         if(!Utils.isNetworkEnable(getActivity())){
@@ -199,72 +170,121 @@ public class Dr_Fragment extends Fragment {
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
             map.put("type",idDr);
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    swip.setRefreshing(false);
-                    Log.d("RESPONSE_DR",response);
-                    try {
-                        JSONObject jobj = new JSONObject(response);
-                        if (jobj.has(JsonConstant.CODE)){
-                            String code = jobj.getString(JsonConstant.CODE);
-                            switch (code){
-                                case "0":
-                                    JSONArray ja = jobj.getJSONArray(JsonConstant.LIST_DR);
-
-                                    for (int i = 0; i<ja.length();i++){
-                                        JSONObject jo = ja.getJSONObject(i);
-                                        JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
-                                        Dr_Constructor dr = new Dr_Constructor();
-                                        dr.setName(pharma.getString(JsonConstant.NAME));
-                                        dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
-//                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
-                                        dr.setId(pharma.getString(JsonConstant.ID));
-                                        dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
-                                        dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
-                                        dr.setAge(pharma.getString(JsonConstant.AGE));
-                                        arr.add(dr);
-
-                                    }
-                                    if(arr.size()>0){
-                                        isEmpty(false);
-                                    }else{
-                                        isEmpty(true);
-                                    }
-                                    adapter.notifyDataSetChanged();
-                                    break;
-                                case "1":
-                                    Utils.dialogNotif(getActivity().getResources().getString(R.string.error));
-                                    break;
-                            }
-                        }
-
-
-                    } catch (JSONException e) {
-
-                        e.printStackTrace();
-                    }
-                    if(arr.size()>0){
-                        isEmpty(false);
-                    }else{
-                        isEmpty(true);
-                    }
-                }
-            };
-            Utils.PostServer(getActivity(), ServerPath.LIST_DR,map,response);
+            getData(map);
 
         }
 
     }
 
+    private void getData(Map<String, String> map) {
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                swip.setRefreshing(false);
+                Log.d("RESPONSE_DR",response);
+                try {
+                    JSONObject jobj = new JSONObject(response);
+                    if (jobj.has(JsonConstant.CODE)){
+                        String code = jobj.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                JSONArray ja = jobj.getJSONArray(JsonConstant.LIST_DR);
+
+                                for (int i = 0; i<ja.length();i++){
+                                    JSONObject jo = ja.getJSONObject(i);
+                                    JSONObject pharma = jo.getJSONObject(JsonConstant.PHARMACIS);
+                                    Dr_Constructor dr = new Dr_Constructor();
+                                    dr.setName(pharma.getString(JsonConstant.NAME));
+                                    dr.setAvatar(pharma.getString(JsonConstant.AVATAR));
+//                                    dr.setRate(pharma.getDouble(JsonConstant.STAR));
+                                    dr.setId(pharma.getString(JsonConstant.ID));
+                                    dr.setHospital(pharma.getString(JsonConstant.HOSPITAL));
+                                    dr.setWork_year(pharma.getString(JsonConstant.WORK_YEAR));
+                                    dr.setAge(pharma.getString(JsonConstant.AGE));
+                                    arr.add(dr);
+
+                                }
+                                if(arr.size()>0){
+                                    isEmpty(false);
+                                }else{
+                                    isEmpty(true);
+                                }
+                                adapter.notifyDataSetChanged();
+                                break;
+                            case "1":
+                                Utils.dialogNotif(getActivity().getResources().getString(R.string.error));
+                                break;
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+                if(arr.size()>0){
+                    isEmpty(false);
+                }else{
+                    isEmpty(true);
+                }
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.LIST_DR,map,response);
+    }
+
 
     @Override
     public void onResume() {
-        Intent it = new Intent(Constant.SCROLL_LV);
-        it.putExtra("action",Constant.ACTION_UP);
-        ct.sendBroadcast(it);
+        if(broadcastSearch==null){
+            registerBroadcast();
+        }
         super.onResume();
 
     }
+    private void unRegister(){
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
+        broadcastSearch=null;
+    }
+    private void registerBroadcast() {
+        broadcastSearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.SEARCH_ACTION)){
+                    String key = intent.getStringExtra("key");
+                    loadPageSearch(1,key);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastSearch,
+                it);
+    }
+
+    private void loadPageSearch(int i, String key) {
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+        }else{
+            isEmpty(false);
+            if(page==1){
+                arr.clear();
+            }
+
+            Map<String, String> map = new HashMap<>();
+            map.put("page",page+"");
+            map.put("type",idDr);
+            map.put("key",key);
+            getData(map);
+
+        }
+    }
+
+    @Override
+    public void onStop() {
+        unRegister();
+        super.onStop();
+    }
+
 
 }
