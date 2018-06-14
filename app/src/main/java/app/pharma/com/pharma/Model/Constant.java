@@ -15,6 +15,7 @@ public class Constant {
     public static NumberFormat format = NumberFormat.getNumberInstance(Locale.UK);
     public static  int ACTION_DOWN = 1;
     public static int ACTION_UP = 2;
+    public static String PILL_INTRO_TYPE = "introtype";
     public static Resources resources = Common.context.getResources();
 
     public static String LIST_CATALO_PILL = "product";

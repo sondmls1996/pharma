@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.Model.Database;
 
+import app.pharma.com.pharma.Model.Constant;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -150,7 +151,7 @@ public class DatabaseHandle {
         if(user==null){
             return true;
         }else{
-            RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type","ingredient").findAll();
+            RealmResults<Catalo> results = realm.where(Catalo.class).equalTo("type", Constant.PILL_INTRO_TYPE).findAll();
             if(results.size()>0){
                 return false;
             }else{

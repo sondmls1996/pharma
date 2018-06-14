@@ -54,7 +54,7 @@
                 android:id="@+id/day_order"
 
                 android:textColor="@color/gray"
-                android:textStyle="bold" />
+                 />
 
             <TextView
                 android:layout_width="match_parent"

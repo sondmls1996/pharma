@@ -65,8 +65,8 @@ public class Pill_Fragment extends Fragment {
     ListView lv;
     List_Pill_Adapter adapter;
     Spinner spiner;
-    ArrayList<String> arrMedicine,arr_tp;
-    ArrayList<CataloModel> arrTp,arrMedicineAll;
+    ArrayList<String> arrMedicine,arrTP;
+    ArrayList<CataloModel> arrTpAll,arrMedicineAll;
     TextView tvnull;
     String ingredient = "";
     ArrayList<Pill_Constructor> arr;
@@ -126,8 +126,8 @@ public class Pill_Fragment extends Fragment {
 
     private void init() {
         db = new DatabaseHandle();
-        arrMedicine = new ArrayList<>();
-        arr_tp = new ArrayList<>();
+
+
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -410,10 +410,12 @@ public class Pill_Fragment extends Fragment {
     }
     private void showDialogFillter() {
 //        arr.clear();
-        arrMedicine.clear();
+        final String[] strTPId = {""};
+        final String[] strMedicineId = {""};
+        arrMedicine = new ArrayList<>();
         arrMedicineAll = new ArrayList<>();
-        arr_tp.clear();
-        arrTp = new ArrayList<>();
+        arrTP = new ArrayList<>();
+        arrTpAll = new ArrayList<>();
         Dialog dialog = new Dialog(Common.context);
         Window view=((Dialog)dialog).getWindow();
         view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -422,7 +424,7 @@ public class Pill_Fragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_fillter);
         dialog.setCanceledOnTouchOutside(true);
-        Spinner sp_sick = dialog.findViewById(R.id.spin_sick);
+        Spinner spMedicine = dialog.findViewById(R.id.spin_sick);
         Spinner sp_tp = dialog.findViewById(R.id.spin_tp);
         TextView tv_price = dialog.findViewById(R.id.tv_price);
 
@@ -497,36 +499,33 @@ public class Pill_Fragment extends Fragment {
             }
 
         }
-//        if(!db.isCataloPillEmpty()){
-//            Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL_INTRO);
-//            RealmList<CataloModel> list = cata.getListCatalo();
-//            for (int i =0; i <list.size();i++){
-//                arr_tp.add(list.get(i).getName());
-//                arrTp.add(list.get(i));
-//            }
-//
-//        }
+        if(!db.isCataloPillIntroEmpty()){
+            Catalo cata = db.getListCataloById(Constant.PILL_INTRO_TYPE);
+            RealmList<CataloModel> list = cata.getListCatalo();
+            for (int i =0; i <list.size();i++){
+                arrTP.add(list.get(i).getName());
+                arrTpAll.add(list.get(i));
+            }
 
-
+        }
 
         ArrayAdapter<String> dataAdapter =
                 new ArrayAdapter<String>
                         (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arrMedicine);
         dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
-        sp_sick.setAdapter(dataAdapter);
+        spMedicine.setAdapter(dataAdapter);
 
-        sp_sick.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+        ArrayAdapter<String> dataAdapter2 =
+                new ArrayAdapter<String>
+                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arrTP);
+        dataAdapter2.setDropDownViewResource(R.layout.custom_text_spiner);
+        sp_tp.setAdapter(dataAdapter2);
+        sp_tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Map<String,String> map = new HashMap();
-                map.put("key",arrMedicineAll.get(i).getId());
-                        Response.Listener<String> response = new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.d("RESPONSE_MEDICINE",response);
-                            }
-                        };
-                        Utils.PostServer(getActivity(),ServerPath.CATALO_PILL_INTRO,map,response);
+                strTPId[0] = arrTpAll.get(i).getId();
             }
 
             @Override
@@ -534,22 +533,11 @@ public class Pill_Fragment extends Fragment {
 
             }
         });
-
-        ArrayAdapter<String> dataAdapter2 =
-                new ArrayAdapter<String>
-                        (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arr_tp);
-        dataAdapter2.setDropDownViewResource(R.layout.custom_text_spiner);
-        sp_tp.setAdapter(dataAdapter2);
-        sp_tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spMedicine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String text = arr_tp.get(i).toString();
-                for (int j =0; j<arrTp.size();j++){
-                    if(text.equals(arrTp.get(j).getName())){
-                        idingredient = text;
-                        break;
-                    }
-                }
+                strMedicineId[0] = arrMedicineAll.get(i).getId();
+
             }
 
             @Override

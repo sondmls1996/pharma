@@ -113,7 +113,9 @@ public class Wellcome extends AppCompatActivity {
                 getCataloPill(ServerPath.CATALO_PILL);
             } else if (databaseHandle.isCataloDrEmpty()) {
                 getCataloPill(ServerPath.CATALO_DR);
-            } else {
+            }else if(databaseHandle.isCataloPillIntroEmpty()){
+                getCataloPill(ServerPath.CATALO_PILL_INTRO);
+            }else {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -164,8 +166,14 @@ public class Wellcome extends AppCompatActivity {
                     type = new StringBuffer();
                     JSONObject index = ja.getJSONObject(i);
                     JSONObject catalo = index.getJSONObject(JsonConstant.CATEGORY);
-                     type.append(catalo.getString(JsonConstant.TYPE));
+                    if(catalo.has(JsonConstant.TYPE)){
+                        type.append(catalo.getString(JsonConstant.TYPE));
+                    }else{
+                        type.append(Constant.PILL_INTRO_TYPE);
+                    }
+
                     CataloModel model = new CataloModel();
+
                     model.setId(catalo.getString(JsonConstant.ID));
                     model.setName(catalo.getString(JsonConstant.NAME));
 
