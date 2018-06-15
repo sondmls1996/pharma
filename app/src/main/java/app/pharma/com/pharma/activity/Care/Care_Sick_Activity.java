@@ -80,6 +80,7 @@ public class Care_Sick_Activity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(getApplicationContext(), Detail.class);
                 it.putExtra("key","sick");
                 it.putExtra("id", arr.get(i).getId());
@@ -134,7 +135,7 @@ public class Care_Sick_Activity extends AppCompatActivity {
                     }
                 }
             };
-            Utils.PostServer(this, ServerPath.LIST_LIKE_PILL,map,response);
+            Utils.PostServer(this, ServerPath.LIST_FAVOR,map,response);
         }
 
     }

@@ -64,7 +64,7 @@ public class Like_Adapter  extends ArrayAdapter<Like_Constructor> {
                 TextView date = v.findViewById(R.id.date_sick);
 
                 title.setText(pill.getName());
-//                Utils.loadImagePicasso(ServerPath.ROOT_URL+pill.get);
+                Utils.loadImagePicasso(ServerPath.ROOT_URL+pill.getImage(),img);
                 decri.setText(pill.getDescri());
                 like.setText(pill.getLike());
                 cmt.setText(pill.getComment());

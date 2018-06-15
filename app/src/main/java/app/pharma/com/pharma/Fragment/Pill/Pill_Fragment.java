@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
@@ -339,6 +340,7 @@ public class Pill_Fragment extends Fragment {
 
                                 break;
                             case "1":
+
                                 Utils.dialogNotif(getResources().getString(R.string.error));
                                 break;
                             default:

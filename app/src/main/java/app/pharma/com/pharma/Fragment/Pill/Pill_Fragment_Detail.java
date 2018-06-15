@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.Fragment.Pill;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
@@ -117,9 +119,25 @@ public class Pill_Fragment_Detail extends Fragment {
         ln_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(Common.context, Order.class);
-                it.putExtra("obj",objPill);
-                startActivity(it);
+                if(Utils.isNetworkEnable(getActivity())){
+                    if(Utils.isLogin()){
+                        Intent it = new Intent(Common.context, Order.class);
+                        it.putExtra("obj",objPill);
+                        startActivity(it);
+                    }else{
+                        Utils.ShowNotifString(getResources().getString(R.string.error),
+                                new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                            @Override
+                            public void onClose(Dialog dialog) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                    //    Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+                    }
+                }
+
+
             }
         });
         hearth.setOnClickListener(new View.OnClickListener() {

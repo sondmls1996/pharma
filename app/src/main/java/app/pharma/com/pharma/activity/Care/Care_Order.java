@@ -48,7 +48,7 @@ public class Care_Order extends AppCompatActivity {
         Common.context = this;
         db = new DatabaseHandle();
         init();
-        getPage(1);
+
 
     }
 
@@ -70,6 +70,7 @@ public class Care_Order extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Utils.setAlphalAnimation(view);
                 Intent it = new Intent(getApplicationContext(), Order_Detail.class);
                 it.putExtra("id",arr.get(i).getId());
                 startActivity(it);
@@ -83,6 +84,10 @@ public class Care_Order extends AppCompatActivity {
             if(!Utils.isNetworkEnable(this)){
                 Utils.dialogNotif(getResources().getString(R.string.no_internet));
             }else{
+                if(i==1){
+                    arr.clear();
+                    adapter.notifyDataSetChanged();
+                }
                 user = db.getAllUserInfor();
                 Map<String,String> map = new HashMap<>();
                 map.put("page",i+"");
@@ -110,6 +115,7 @@ public class Care_Order extends AppCompatActivity {
 
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
+                            adapter.notifyDataSetChanged();
                             e.printStackTrace();
                         }
 
@@ -128,6 +134,7 @@ public class Care_Order extends AppCompatActivity {
     @Override
     protected void onResume() {
         Common.context = this;
+        getPage(1);
         super.onResume();
     }
 }

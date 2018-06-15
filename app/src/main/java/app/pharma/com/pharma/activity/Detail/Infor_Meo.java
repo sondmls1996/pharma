@@ -12,18 +12,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import app.pharma.com.pharma.Model.Common;
+import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 public class Infor_Meo extends AppCompatActivity {
     WebView mWebView;
     String link;
+    Utils utils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infor__meo);
         Common.context = this;
+        utils = new Utils();
         TextView tvTitle = (TextView)findViewById(R.id.title);
         Intent it = getIntent();
+        utils.showLoading(this,20000,true);
         if(it.getExtras()!=null){
             link = it.getStringExtra("link");
             RelativeLayout imgBack = findViewById(R.id.img_back);
@@ -36,9 +40,17 @@ public class Infor_Meo extends AppCompatActivity {
             });
             mWebView = (WebView)findViewById(R.id.webview);
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.setWebViewClient(new WebViewClient());
+            mWebView.setWebViewClient(new WebViewClient() {
+
+                public void onPageFinished(WebView view, String url) {
+
+                    utils.showLoading(Infor_Meo.this,20000,false);
+                }
+            });
 
             mWebView.loadUrl(link);
+
+
         }
 
 

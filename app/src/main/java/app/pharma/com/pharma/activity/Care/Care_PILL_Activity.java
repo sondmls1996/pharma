@@ -115,13 +115,14 @@ public class Care_PILL_Activity extends AppCompatActivity {
                                     JSONObject idx = list.getJSONObject(i);
                                     JSONObject product = idx.getJSONObject(JsonConstant.PRODUCT);
                                     JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
                                     Like_Constructor like = new Like_Constructor();
                                     like.setName(product.getString(JsonConstant.NAME));
                                     like.setComment(product.getString(JsonConstant.COMMENT));
                                     like.setLike(product.getString(JsonConstant.LIKE));
                                     like.setDescri(product.getString(JsonConstant.DESCRI));
                                     like.setId(product.getString(JsonConstant.ID));
-                                    like.setImage(product.getString(JsonConstant.AVATAR));
+                                    like.setImage(images.getString(0));
                                     like.setPrice(price.getInt(JsonConstant.MONEY));
                                     arr.add(like);
                                 }
@@ -134,7 +135,7 @@ public class Care_PILL_Activity extends AppCompatActivity {
                     }
                 }
             };
-            Utils.PostServer(this, ServerPath.LIST_LIKE_PILL,map,response);
+            Utils.PostServer(this, ServerPath.LIST_FAVOR,map,response);
         }
 
     }

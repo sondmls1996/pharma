@@ -76,6 +76,7 @@ import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.Service.GetLocationService;
 import app.pharma.com.pharma.activity.Care.Care_Order;
 import app.pharma.com.pharma.activity.Care.Care_PILL_Activity;
+import app.pharma.com.pharma.activity.Care.Care_Pharma;
 import app.pharma.com.pharma.activity.Care.Care_Sick_Activity;
 import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Login.Login;
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().equals("")&&s!=null){
+                if(s!=null){
 
                     Intent it = new Intent(Constant.SEARCH_ACTION);
                     it.putExtra("key",s.toString());
@@ -252,10 +253,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
-        if(!Utils.isNetworkEnable(Common.context)){
-            Utils.dialogNotif(getResources().getString(R.string.no_internet));
-        }
 
         ln_pill.performClick();
 
@@ -621,10 +618,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.order:
-                Intent it = new Intent(getApplicationContext(), Care_Order.class);
-                startActivity(it);
+                if(Utils.isLogin()){
+                    Intent it = new Intent(getApplicationContext(), Care_Order.class);
+                    startActivity(it);
+                }else{
+                    Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                }
+
                 break;
+            case R.id.pharma_care:
+                Intent it2 = new Intent(getApplicationContext(), Care_Pharma.class);
+                startActivity(it2);
+                break;
+
             case R.id.sub_sick:
+
+
 
                 if(Utils.isLogin()){
                     Intent it3 = new Intent(getApplicationContext(),Care_Sick_Activity.class);

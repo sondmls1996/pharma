@@ -200,6 +200,7 @@ public class Order extends AppCompatActivity {
         tv_access.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 order();
             }
         });
@@ -258,6 +259,10 @@ public class Order extends AppCompatActivity {
                             case "1":
                                 utils.showLoading(Order.this,20000,false);
                                 Utils.dialogNotif(getResources().getString(R.string.order_fail));
+                                break;
+                            case "-1":
+                                utils.showLoading(Order.this,20000,false);
+                                Utils.dialogNotif(getResources().getString(R.string.session_out));
                                 break;
                         }
                     } catch (JSONException e) {

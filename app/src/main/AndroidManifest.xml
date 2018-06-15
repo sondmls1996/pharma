@@ -41,10 +41,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Login.Login"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.Login.Register"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.Detail.Infor_Meo"
             android:screenOrientation="portrait" />
@@ -59,6 +61,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.User.Change_infor"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.User.ChangePass"
@@ -71,7 +74,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Detail.Order"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
 
         <service
             android:name=".Service.GetLocationService"

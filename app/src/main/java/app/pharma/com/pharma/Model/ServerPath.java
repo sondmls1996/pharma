@@ -36,7 +36,7 @@ public class ServerPath {
 
      public static String LIKE_PILL = "addFavorite";
 
-     public static String LIST_LIKE_PILL = "listFavorite";
+     public static String LIST_FAVOR = "listFavorite";
 
 
 
@@ -58,6 +58,7 @@ public class ServerPath {
 
     public static String LIST_PHARMA = "listStore";
 
+    public static String SEARCH_PHARMA = "fillterTheStoreAPI";
 
     public static String  DETAIL_PHARMA= "getStore";
 

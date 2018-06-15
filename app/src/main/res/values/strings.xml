@@ -25,12 +25,21 @@
         ]]>
 </Data></string>
 
+    <string name="order_infor_prd"><Data>
+<![CDATA[
+			<b><font color="#23a0d7" size="20">%1$s</font></b> <br><br>
+       		<b>Số lượng:&#160;</b> %2$s <br><br>
+       		<b>Tổng giá:&#160;</b><font color="#BE1E2D"> %3$s VND</font><br><br>
+
+        ]]>
+</Data></string>
+
     <string name="order_dialog_product"><Data>
 <![CDATA[
 			<b>Tên sản phẩm:</b> <br>%1$s <br> <br>
        		<b>Số lượng:&#160;</b> <br>%2$s <br><br>
-       		<b>Giá:&#160;</b> <br>%3$s <br><br>
-       		<b>Tổng giá:&#160;</b> <br>%4$s <br><br>
+       		<b>Giá:&#160;</b> <br>%3$s VND<br><br>
+       		<b>Tổng giá:&#160;</b> <br>%4$s VND<br>
 
         ]]>
 </Data></string>
@@ -66,6 +75,7 @@
     <string name="dr2">Dược sĩ</string>
     <string name="rate_now">Đánh giá ngay</string>
     <string name="save_login">Lưu đăng nhập</string>
+    <string name="detail_order">Chi tiết đơn hàng</string>
     <string name="lost_pass">Quên mật khẩu</string>
     <string name="login">Đăng nhập</string>
     <string name="register">Đăng ký tài khoản mới</string>
@@ -94,6 +104,7 @@
     <string name="inf_sick">Thông tin bệnh</string>
     <string name="detail_infor">Thông tin chi tiết</string>
     <string name="list_order">Danh sách đơn hàng</string>
+    <string name="list_pharma_care">Danh sách nhà thuốc</string>
     <string name="rate">Đánh giá</string>
     <string name="txt_comment_pharma">Đánh giá nhà thuốc</string>
     <string name="txt_comment_pill">Đánh giá thuốc</string>
@@ -177,8 +188,10 @@
     <string name="found_email">Email đã tồn tại</string>
     <string name="cant_register">Đăng ký không thành công, vui lòng thử lại</string>
     <string name="network_err">Lỗi kết nối, vui lòng thử lại</string>
+    <string name="cancel_success">Hủy đơn hàng thành công</string>
     //validate
     <string name="notnull">Không được để trống</string>
+    <string name="session_out">Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại</string>
 
 
 </resources>

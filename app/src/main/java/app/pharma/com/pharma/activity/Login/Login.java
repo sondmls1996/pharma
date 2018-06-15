@@ -120,7 +120,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 JSONObject acc = data.getJSONObject(JsonConstant.ACCOUNTS );
                                 User user = new User();
                                 user.setEmail(acc.getString(JsonConstant.EMAIL));
-                                user.setAdr(acc.getString(JsonConstant.ADRESS_DETAIL));
+                                user.setAdr(acc.getString(JsonConstant.USER_ADR));
                                 user.setId(acc.getString(JsonConstant.ID));
                                 if(acc.has(JsonConstant.AVATAR)){
                                     user.setAvt(acc.getString(JsonConstant.AVATAR));

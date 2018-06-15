@@ -81,6 +81,25 @@ public class Pill_Order_Adapter  extends ArrayAdapter<Order_List_Constructor> {
             status.setTextColor(getContext().getResources().getColor(R.color.green));
 
         }
+
+        if(pill.getStatus().equals("paid")){
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                status.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.stroke_gray) );
+            } else {
+                status.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.stroke_gray));
+            }
+            status.setText("Đã thanh toán");
+            status.setTextColor(getContext().getResources().getColor(R.color.gray));
+        }
+        if(pill.getStatus().equals("disable")){
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                status.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.stroke_red) );
+            } else {
+                status.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.stroke_red));
+            }
+            status.setText("Đã hủy");
+            status.setTextColor(getContext().getResources().getColor(R.color.dark_red));
+        }
         Picasso.with(getContext()).load(ServerPath.ROOT_URL+pill.getImage()).into(img);
 
         return v;

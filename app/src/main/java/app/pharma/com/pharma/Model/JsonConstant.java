@@ -8,13 +8,17 @@ public class JsonConstant {
     public static String ID = "id";
     public static String NAME = "name";
     public static String FULLNAME = "fullName";
+    public static String QUALITY = "quality";
     public static String ORDER = "Order";
+    public static String LIST_FAVOR_STORE = "listFavoriteStore";
     public static String AVATAR = "avatar";
+    public static String ADRESS = "address";
     public static String USER_ADR = "detailAddress";
     public static String ADRESS_DETAIL = "addressDetail";
     public static String TOTAL_MONEY = "totalMoney";
     public static String STATUS = "status";
     public static String PRODUCT_ORDER = "productOrder";
+    public static String ID_ACC = "idAccount";
     public static String PHONE = "phone";
     public static String TYPE = "type";
     public static String SHORT_CMT = "shortComment";

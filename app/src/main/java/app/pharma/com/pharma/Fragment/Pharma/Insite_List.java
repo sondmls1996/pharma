@@ -108,6 +108,10 @@ public class Insite_List extends Fragment {
     }
 
     private void loadPageSearch(int page, String key){
+        if(page==1){
+            arr.clear();
+            //adapter.notifyDataSetChanged();
+        }
         Map<String, String> map = new HashMap<>();
         map.put("latGPS", Common.lat+"");
         map.put("longGPS",Common.lng+"");
@@ -116,13 +120,14 @@ public class Insite_List extends Fragment {
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("SEARCH_RESPONSE",response);
                 swip.setRefreshing(false);
                 tvnull.setVisibility(View.GONE);
                 ln_null.setVisibility(View.GONE);
                 initJson(response,"show_all");
             }
         };
-        Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+        Utils.PostServer(getActivity(), ServerPath.SEARCH_PHARMA,map,response);
     }
 
     private void getData(int page, String type) {
@@ -134,7 +139,7 @@ public class Insite_List extends Fragment {
             if(page==1){
                 arr.clear();
             }
-
+            Log.d("LAT_LNG",Common.lat+"\n"+Common.lng);
             if(type.equals("show_all")){
                 Map<String, String> map = new HashMap<>();
                 map.put("latGPS", Common.lat+"");
@@ -167,20 +172,7 @@ public class Insite_List extends Fragment {
                     };
                     Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
                 }else{
-                    Map<String, String> map = new HashMap<>();
-                    map.put("latGPS", Common.lat+"");
-                    map.put("longGPS",Common.lng+"");
-                    map.put("page",page+"");
-                    Response.Listener<String> response = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            swip.setRefreshing(false);
-                            tvnull.setVisibility(View.GONE);
-                            ln_null.setVisibility(View.GONE);
-                            initJson(response,"show_all");
-                        }
-                    };
-                    Utils.PostServer(getActivity(),ServerPath.LIST_PHARMA,map,response);
+                    getData(1,"show_all");
                 }
             }
         }
@@ -201,6 +193,9 @@ public class Insite_List extends Fragment {
                         getResponseData(jo,type);
                         break;
                     case "3":
+                        getResponseData(jo,type);
+                        break;
+                    default:
                         getResponseData(jo,type);
                         break;
                 }

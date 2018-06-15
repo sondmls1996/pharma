@@ -41,11 +41,11 @@
                     android:title="Bệnh đã quan tâm" />
                 <item
                     android:id="@+id/pharma_care"
-                    android:icon="@drawable/heartbeat"
+                    android:icon="@drawable/pharma_care"
                     android:title="Nhà thuốc đã quan tâm" />
                 <item
                     android:id="@+id/order"
-                    android:icon="@drawable/heartbeat"
+                    android:icon="@drawable/order_care"
                     android:title="Đơn hàng" />
             </menu>
         </item>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.pharma.com.pharma.activity.Detail.Infor_Meo">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

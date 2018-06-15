@@ -203,21 +203,59 @@ public class Utils {
         Picasso.with(Common.context).load(res).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
     }
 
-    public class dialogNotif{
-        OnCloseDialogNotif onclose = null;
 
-        public OnCloseDialogNotif getOnclose() {
-            return onclose;
+
+
+    public static void ShowNotifString(String mess, ShowDialogNotif.OnCloseDialogNotif onClose){
+        ShowDialogNotif notif = new ShowDialogNotif(mess);
+        notif.setOnCloseDialogNotif(onClose);
+        notif.dialogNotif();
+    }
+
+    public static class ShowDialogNotif{
+        String message = "";
+        public interface OnCloseDialogNotif{
+            void onClose(Dialog dialog);
+        }
+        public ShowDialogNotif(String mess){
+            this.message = mess;
         }
 
-        public void setOnclose(OnCloseDialogNotif onclose) {
-            this.onclose = onclose;
+        public OnCloseDialogNotif onCloseDialogNotif;
+
+        public  void dialogNotif(){
+
+            Dialog dialog = new Dialog(Common.context);
+            Window view=dialog.getWindow();
+            view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+// to get rounded corners and border for dialog window
+            view.setBackgroundDrawableResource(R.drawable.border_white);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_notif);
+            dialog.setCanceledOnTouchOutside(false);
+            TextView tvMess = (TextView)dialog.findViewById(R.id.tv_notif);
+            TextView close = (TextView)dialog.findViewById(R.id.tv_close);
+            tvMess.setText(message);
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCloseDialogNotif.onClose(dialog);
+              //      dialog.dismiss();
+
+                }
+            });
+            dialog.show();
+        }
+
+        public OnCloseDialogNotif getOnCloseDialogNotif() {
+            return onCloseDialogNotif;
+        }
+
+        public void setOnCloseDialogNotif(OnCloseDialogNotif onCloseDialogNotif) {
+            this.onCloseDialogNotif = onCloseDialogNotif;
         }
     }
 
-    public interface OnCloseDialogNotif{
-            public void onClose(Dialog dialog);
-    }
 
     public static void dialogNotif(String mess){
 
@@ -235,6 +273,7 @@ public class Utils {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
 
             }

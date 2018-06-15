@@ -2,6 +2,7 @@ package app.pharma.com.pharma.Fragment.Pharma;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.activity.Detail.Detail;
 
 
 public class Insite_Map extends Fragment implements OnMapReadyCallback {
@@ -78,7 +80,7 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
        if(Common.lat!=0&&Common.lng!=0){
             lat = Common.lat;
             lng = Common.lng;
-           gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
+           gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("Vị trí của tôi"));
            gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),12f));
        }else{
            lat = 17.0828177;
@@ -94,9 +96,32 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
                 markerOptions.title(arrPm.get(i).getName());
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 markerOptions.snippet(arrPm.get(i).getAdr());
+
                 gg.addMarker(markerOptions);
+
+                int finalI = i;
+
+
             }
+            gg.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    if(!marker.getTitle().equals("Vị trí của tôi")){
+                        for (int i =0; i<arrPm.size();i++){
+                            if(marker.getPosition().latitude==arrPm.get(i).getX()){
+                                Intent it = new Intent(getActivity(), Detail.class);
+                                it.putExtra("key","pharma");
+                                it.putExtra("id",arrPm.get(i).getId());
+                                startActivity(it);
+                            }
+                        }
+                    }
+
+                }
+            });
         }
+
+
 
 
 

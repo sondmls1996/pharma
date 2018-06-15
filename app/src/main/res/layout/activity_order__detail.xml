@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="app.pharma.com.pharma.activity.Detail.Order_Detail">
-    <include
-        layout="@layout/toolbar_back"
-        ></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_top">
+        <include
+            layout="@layout/toolbar_back"
+            ></include>
+
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_below="@+id/rl_top"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,25 +31,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/map"/>
+                android:id="@+id/img_order_img"
+                android:src="@drawable/no_image_small"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:textSize="18sp"
+                android:text="Thông tin sản phẩm:"
                 android:textColor="@color/blue"
-                android:text="sdsdsdsdsdsd"
+                android:textSize="18sp"
+                android:textStyle="bold"
+
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/tv_number_price"
-                ></TextView>
+                android:layout_margin="5dp"
+                android:id="@+id/txt_product"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Thông tin khách hàng:"
+                android:textColor="@color/blue"
+                android:textSize="18sp"
+                android:textStyle="bold"
 
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:id="@+id/txt_custom"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hủy đơn"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:id="@+id/btn_cancel"
+            android:background="@color/dark_red"/>
         </LinearLayout>
 
 
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

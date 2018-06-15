@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.activity.User;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -147,7 +148,7 @@ public class Change_infor extends AppCompatActivity {
                     switch (code){
                         case "0":
                             utils.showLoading(Change_infor.this,10000,false);
-                            Utils.dialogNotif(getResources().getString(R.string.change_infor_success));
+
                             User user = new User();
                             user.setId(id);
                             user.setEmail(email);
@@ -160,6 +161,24 @@ public class Change_infor extends AppCompatActivity {
                             user.setAvt(Mainuser.getAvt());
                             user.setUserName(Mainuser.getUserName());
                             db.updateOrInstall(user);
+                            Utils.ShowNotifString(getResources().getString(R.string.change_infor_success),
+                                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                        @Override
+                                        public void onClose(Dialog dialog) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
+                            break;
+                        case "-1":
+                            Utils.ShowNotifString(getResources().getString(R.string.session_out),
+                                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                        @Override
+                                        public void onClose(Dialog dialog) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
                             break;
                         default:
                             utils.showLoading(Change_infor.this,10000,false);
