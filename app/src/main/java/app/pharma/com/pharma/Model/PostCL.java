@@ -1,7 +1,6 @@
 package app.pharma.com.pharma.Model;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 

@@ -125,7 +125,7 @@ public class Pill_Fragment_Detail extends Fragment {
                         it.putExtra("obj",objPill);
                         startActivity(it);
                     }else{
-                        Utils.ShowNotifString(getResources().getString(R.string.error),
+                        Utils.ShowNotifString(getResources().getString(R.string.you_not_login),
                                 new Utils.ShowDialogNotif.OnCloseDialogNotif() {
                             @Override
                             public void onClose(Dialog dialog) {
@@ -153,54 +153,66 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void onClickHeart() {
-        if(Utils.isLogin()){
-            int likestt = objPill.getLikeStt();
-
-            Map<String, String> map = new HashMap<>();
-            map.put("type","product");
-            map.put("id",product_id);
-            map.put("accessToken",user.getToken());
-            if(likestt==0){
-                map.put("likeStatus","1");
-
-            }else{
-                map.put("likeStatus","0");
-
-            }
-            Log.d("MAP",map.toString());
-
-
-            Response.Listener<String> response  = new Response.Listener<String>() {
+        if(!Utils.isNetworkEnable(getActivity())){
+            Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
+                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
                 @Override
-                public void onResponse(String response) {
-                    Log.d("LIKE_STT_PILL",response);
-                    try {
-                        JSONObject jo = new JSONObject(response);
-                        String code = jo.getString(JsonConstant.CODE);
-                        if(code.equals("0")){
-                            if(likestt==0){
-                                objPill.setLikeStt(1);
-                                objPill.setLike(objPill.getLike()+1);
-                                tv_like.setText(objPill.getLike()+"");
-                            }else{
-                                objPill.setLikeStt(0);
-                                objPill.setLike(objPill.getLike()-1);
-                                tv_like.setText(objPill.getLike()+"");
-                            }
+                public void onClose(Dialog dialog) {
+                    dialog.dismiss();
 
-                            checkHearth(objPill.getLikeStt());
-                        }else{
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
-            };
-            Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+            });
         }else{
-            Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+            if(Utils.isLogin()){
+                int likestt = objPill.getLikeStt();
+
+                Map<String, String> map = new HashMap<>();
+                map.put("type","product");
+                map.put("id",product_id);
+                map.put("accessToken",user.getToken());
+                if(likestt==0){
+                    map.put("likeStatus","1");
+
+                }else{
+                    map.put("likeStatus","0");
+
+                }
+                Log.d("MAP",map.toString());
+
+
+                Response.Listener<String> response  = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("LIKE_STT_PILL",response);
+                        try {
+                            JSONObject jo = new JSONObject(response);
+                            String code = jo.getString(JsonConstant.CODE);
+                            if(code.equals("0")){
+                                if(likestt==0){
+                                    objPill.setLikeStt(1);
+                                    objPill.setLike(objPill.getLike()+1);
+                                    tv_like.setText(objPill.getLike()+"");
+                                }else{
+                                    objPill.setLikeStt(0);
+                                    objPill.setLike(objPill.getLike()-1);
+                                    tv_like.setText(objPill.getLike()+"");
+                                }
+
+                                checkHearth(objPill.getLikeStt());
+                            }else{
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+            }else{
+                Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
+            }
         }
+
 
     }
 
@@ -209,17 +221,20 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void loadData(String id) {
-        Map<String,String> map = new HashMap<>();
-        map.put("id", id);
-        if(Utils.isLogin()){
-            map.put("accessToken",user.getToken());
-        }
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                utils.showLoading(getActivity(),10000,true);
-                ImagesArray.clear();
-                Log.d("RESPONSE_DETAIL",response);
+        if(!Utils.isNetworkEnable(getActivity())){
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.no_internet));
+        }else{
+            Map<String,String> map = new HashMap<>();
+            map.put("id", id);
+            if(Utils.isLogin()){
+                map.put("accessToken",user.getToken());
+            }
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    utils.showLoading(getActivity(),10000,true);
+                    ImagesArray.clear();
+                    Log.d("RESPONSE_DETAIL",response);
                     new AsyncTask<Void,Void,JSONObject>(){
 
                         @Override
@@ -321,10 +336,12 @@ public class Pill_Fragment_Detail extends Fragment {
                             super.onPostExecute(jo);
                         }
                     }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        };
+                }
+            };
 
-        Utils.PostServer(getActivity(), ServerPath.DETAIL_PILL,map,response);
+            Utils.PostServer(getActivity(), ServerPath.DETAIL_PILL,map,response);
+        }
+
     }
 
     private void getOtherPrd(JSONObject jo) {

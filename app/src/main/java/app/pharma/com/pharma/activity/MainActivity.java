@@ -224,27 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent it = new Intent(Constant.SEARCH_ACTION);
                     it.putExtra("key",s.toString());
                     LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
-//                    switch (Constant.inFragment){
-//                        case "pill":
-//                            page = 1;
-//                            Intent it = new Intent(Constant.SEARCH_ACTION);
-//                            it.putExtra("key",s.toString());
-//                            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
-//                            break;
-//                        case "pharma":
-//                            page = 1;
-//                            searchPharma(s.toString(),page);
-//                            break;
-//                        case "sick":
-//                            page = 1;
-//                            searchSick(s.toString(),page);
-//                            break;
-//                        case "dr":
-//                            page = 1;
-//                            searchDr(s.toString(),page);
-//                            break;
-//
-//                    }
+
                 }
             }
 

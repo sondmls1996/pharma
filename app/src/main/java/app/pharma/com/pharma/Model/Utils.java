@@ -123,9 +123,12 @@ public class Utils {
 
     public static void PostServer(Context ct, String link, Map<String, String> map,
                                   Response.Listener<String> listener){
-        PostCL post = new PostCL(link,map,listener);
-        RequestQueue que = Volley.newRequestQueue(ct);
-        que.add(post);
+
+            PostCL post = new PostCL(link,map,listener);
+            RequestQueue que = Volley.newRequestQueue(ct);
+            que.add(post);
+
+
     }
     public static Bitmap blur(Context context, Bitmap image) {
         int width = Math.round(image.getWidth());
