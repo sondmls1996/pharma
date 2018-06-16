@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.Fragment.Pharma;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -268,7 +269,14 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     private void getData() {
         if(!Utils.isNetworkEnable(getActivity())){
            // swip.setRefreshing(false);
-            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+            Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
+                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                        @Override
+                        public void onClose(Dialog dialog) {
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+                    });
         }else{
             Map<String, String> map = new HashMap<>();
             map.put("id",id);

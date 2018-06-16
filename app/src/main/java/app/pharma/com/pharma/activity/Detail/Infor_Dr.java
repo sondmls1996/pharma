@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.activity.Detail;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -184,79 +185,91 @@ public class Infor_Dr extends AppCompatActivity {
     }
 
     private void loadData() {
+        if(!Utils.isNetworkEnable(this)){
+            Utils.ShowNotifString(getResources().getString(R.string.no_internet),
+                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                        @Override
+                        public void onClose(Dialog dialog) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+            //   Utils.dialogNotif(getActivity().getResources().getString(R.string.no_internet));
+        }else{
+            Map<String,String> map = new HashMap<>();
+            map.put("id",id);
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("RESPONSE_DR_DETAIL",response);
+                    try {
+                        drObj = new Infor_Dr_Obj();
+                        JSONObject jo = new JSONObject(response);
+                        String code = jo.getString(JsonConstant.CODE);
+                        switch (code){
+                            case "0":
+                                new AsyncTask<Void,Void,Void>(){
 
+                                    @Override
+                                    protected Void doInBackground(Void... voids) {
+                                        JSONObject Pharma = null;
+                                        try {
+                                            JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+                                            Pharma = data.getJSONObject(JsonConstant.PHARMACIS);
+                                            drObj.setAdr(Pharma.getString(JsonConstant.USER_ADR));
+                                            drObj.setName(Pharma.getString(JsonConstant.NAME));
+                                            drObj.setAge(Pharma.getString(JsonConstant.AGE));
+                                            drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
+                                            drObj.setHospital(Pharma.getString(JsonConstant.HOSPITAL));
+                                            drObj.setPhone(Pharma.getString(JsonConstant.PHONE));
+                                            JSONArray ck = Pharma.getJSONArray(JsonConstant.SPECIALLIST);
+                                            String StrCk = "";
+                                            for (int i =0; i<ck.length();i++){
+                                                StrCk = StrCk+" "+ck.getString(i)+",";
+                                            }
+                                            if(StrCk.endsWith(",")){
+                                                StrCk = StrCk.substring(0,StrCk.length()-1);
+                                            }
 
-        Map<String,String> map = new HashMap<>();
-        map.put("id",id);
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("RESPONSE_DR_DETAIL",response);
-                try {
-                    drObj = new Infor_Dr_Obj();
-                    JSONObject jo = new JSONObject(response);
-                    String code = jo.getString(JsonConstant.CODE);
-                    switch (code){
-                        case "0":
-                            new AsyncTask<Void,Void,Void>(){
-
-                                @Override
-                                protected Void doInBackground(Void... voids) {
-                                    JSONObject Pharma = null;
-                                    try {
-                                        JSONObject data = jo.getJSONObject(JsonConstant.DATA);
-                                        Pharma = data.getJSONObject(JsonConstant.PHARMACIS);
-                                        drObj.setAdr(Pharma.getString(JsonConstant.USER_ADR));
-                                        drObj.setName(Pharma.getString(JsonConstant.NAME));
-                                        drObj.setAge(Pharma.getString(JsonConstant.AGE));
-                                        drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
-                                        drObj.setHospital(Pharma.getString(JsonConstant.HOSPITAL));
-                                        drObj.setPhone(Pharma.getString(JsonConstant.PHONE));
-                                        JSONArray ck = Pharma.getJSONArray(JsonConstant.SPECIALLIST);
-                                        String StrCk = "";
-                                        for (int i =0; i<ck.length();i++){
-                                            StrCk = StrCk+" "+ck.getString(i)+",";
+                                            drObj.setCatalo(StrCk);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-                                        if(StrCk.endsWith(",")){
-                                            StrCk = StrCk.substring(0,StrCk.length()-1);
-                                        }
 
-                                        drObj.setCatalo(StrCk);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        return null;
                                     }
 
-                                    return null;
-                                }
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        dr_name.setText(drObj.getName());
+                                        dr_adr.setText(drObj.getAdr());
+                                        dr_ck.setText(drObj.getCatalo());
+                                        dr_office.setText(drObj.getHospital());
+                                        dr_phone.setText(drObj.getPhone());
+                                        dr_name.setText(drObj.getName());
+                                        strPhone = drObj.getPhone();
+                                        Utils.loadTransimagePicasso(ServerPath.ROOT_URL+drObj.getAvatar(),avt);
+                                        Utils.loadTransimagePicasso(R.drawable.white,avt2);
 
-                                @Override
-                                protected void onPostExecute(Void aVoid) {
-                                    dr_name.setText(drObj.getName());
-                                    dr_adr.setText(drObj.getAdr());
-                                    dr_ck.setText(drObj.getCatalo());
-                                    dr_office.setText(drObj.getHospital());
-                                    dr_phone.setText(drObj.getPhone());
-                                    dr_name.setText(drObj.getName());
-                                    strPhone = drObj.getPhone();
-                                    Utils.loadTransimagePicasso(ServerPath.ROOT_URL+drObj.getAvatar(),avt);
-                                  Utils.loadTransimagePicasso(R.drawable.white,avt2);
+                                        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+drObj.getAvatar())
+                                                .transform(new BlurImagePicasso()).into(header_bg);
+                                        super.onPostExecute(aVoid);
+                                    }
+                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-                                  Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+drObj.getAvatar())
-                                 .transform(new BlurImagePicasso()).into(header_bg);
-                                    super.onPostExecute(aVoid);
-                                }
-                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                            break;
-                        case "1":
-                            break;
+                                break;
+                            case "1":
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-        Utils.PostServer(this, ServerPath.DETAIL_DR,map,response);
+            };
+            Utils.PostServer(this, ServerPath.DETAIL_DR,map,response);
+        }
+
+
     }
 
     @Override

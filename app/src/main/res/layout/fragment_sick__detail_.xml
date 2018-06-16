@@ -67,7 +67,7 @@
                             android:textStyle="bold"
                             android:id="@+id/tv_title_sick"
                             android:textColor="@color/blue"
-                            android:text="Viêm đại tràng"/>
+                            />
                      <LinearLayout
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"

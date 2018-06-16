@@ -185,7 +185,7 @@ public class Sick_Detail_Fragment extends Fragment {
                         @Override
                         public void onClose(Dialog dialog) {
                             dialog.dismiss();
-
+                            getActivity().finish();
                         }
                     });
         }else{

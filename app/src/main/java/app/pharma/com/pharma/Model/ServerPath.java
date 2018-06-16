@@ -38,7 +38,7 @@ public class ServerPath {
 
      public static String LIST_FAVOR = "listFavorite";
 
-
+    public static String FILTER_PILL = "filterOnTheMobileAPI";
 
      public static String COMMENT_PILL = "addRating";
 

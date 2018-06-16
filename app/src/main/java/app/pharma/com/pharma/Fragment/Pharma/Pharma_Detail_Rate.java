@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,6 +122,24 @@ public class Pharma_Detail_Rate extends Fragment {
         });
         inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setRelativeTop(Detail.key);
+
+        lv_rate.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(view.getLastVisiblePosition()==visibleItemCount-1){
+                  //  lv.addFooterView(footer);
+                    page++;
+                    Log.d("PAGE_PILL",page+"");
+                    getListRate(page,type,Detail.id);
+
+                }
+            }
+        });
 
     }
 

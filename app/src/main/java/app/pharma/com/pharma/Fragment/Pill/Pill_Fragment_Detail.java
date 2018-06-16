@@ -222,7 +222,15 @@ public class Pill_Fragment_Detail extends Fragment {
 
     private void loadData(String id) {
         if(!Utils.isNetworkEnable(getActivity())){
-            Utils.dialogNotif(getActivity().getResources().getString(R.string.no_internet));
+            Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
+                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                @Override
+                public void onClose(Dialog dialog) {
+                  dialog.dismiss();
+                  getActivity().finish();
+                }
+            });
+         //   Utils.dialogNotif(getActivity().getResources().getString(R.string.no_internet));
         }else{
             Map<String,String> map = new HashMap<>();
             map.put("id", id);

@@ -127,7 +127,7 @@ public class Insite_List extends Fragment {
                 initJson(response,"show_all");
             }
         };
-        Utils.PostServer(getActivity(), ServerPath.SEARCH_PHARMA,map,response);
+        Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
     }
 
     private void getData(int page, String type) {
