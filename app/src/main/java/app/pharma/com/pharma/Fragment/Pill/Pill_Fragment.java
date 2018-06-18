@@ -18,6 +18,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,21 +57,27 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Support.EndlessScroll;
+import app.pharma.com.pharma.Support.RecyclerItemClickListener;
 import app.pharma.com.pharma.activity.Detail.Detail;
 import io.realm.RealmList;
+
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Pill_Fragment extends Fragment {
-    ListView lv;
+    RecyclerView lv;
+
     List_Pill_Adapter adapter;
     Spinner spiner;
     ArrayList<String> arrMedicine,arrTP;
     ArrayList<CataloModel> arrTpAll,arrMedicineAll;
     TextView tvnull;
     String ingredient = "";
+    String key = "";
     ArrayList<Pill_Constructor> arr;
     ArrayList<CataloModel> arrCata;
     Context context;
@@ -83,11 +91,14 @@ public class Pill_Fragment extends Fragment {
     View footer;
     public  String idPill = "";
     boolean isFillter = false;
+    boolean isSearch = false;
+    boolean isNomar = true;
     FloatingActionButton fillter;
-    int page = 1;
+    int Mainpage = 1;
     DatabaseHandle db;
     boolean isLoading = false;
     int lastVisibleItem = 0;
+    boolean mIsLoading;
     private int lastY = 0;
     public Pill_Fragment() {
         // Required empty public constructor
@@ -110,8 +121,15 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(Constant.SEARCH_ACTION)){
-                    String key = intent.getStringExtra("key");
-                    loadPageSearch(1,idPill,key);
+                    key = intent.getStringExtra("key");
+                    Mainpage = 1;
+                    isNomar = false;
+                    isFillter = false;
+                    isSearch = true;
+
+                    loadManager(1,isFillter,isNomar,isSearch,key);
+
+                 //   loadPageSearch(Mainpage,idPill,key);
                 }
             }
         };
@@ -120,6 +138,38 @@ public class Pill_Fragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastSearch,
                 it);
     }
+    public void setRecycle(View v){
+        lv = v.findViewById(R.id.lv_pill);
+        lv.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        lv.setLayoutManager(layoutManager);
+        adapter = new List_Pill_Adapter(getActivity(), arr);
+        lv.setAdapter(adapter);
+        EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Mainpage++;
+               loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+            }
+        };
+        lv.addOnScrollListener(endlessScroll);
+        lv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Utils.setAlphalAnimation(view);
+                        Intent it = new Intent(getActivity(), Detail.class);
+                        it.putExtra("key","pill");
+                        it.putExtra("id", arr.get(position).getId());
+
+                        startActivity(it);
+                        // TODO Handle item click
+                    }
+                })
+        );
+    }
+
 
     private void unRegister(){
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
@@ -127,7 +177,8 @@ public class Pill_Fragment extends Fragment {
 
     private void init() {
         db = new DatabaseHandle();
-
+        footer = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.footer_view, null, false);
 
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -136,17 +187,22 @@ public class Pill_Fragment extends Fragment {
 //                minPrice=-1;
 //                maxPrice=-1;
 //                idingredient="";
+                Mainpage = 1;
                 isFillter = false;
-                loadPage(1,isFillter);
+                isSearch = false;
+                isNomar = true;
+                key = "";
+                loadManager(Mainpage,isFillter,isNomar,isSearch,key);
             }
         });
         ct = getContext();
         context = getActivity();
         arrCata = new ArrayList<>();
         tvnull = v.findViewById(R.id.txt_null);
-        lv = (ListView)v.findViewById(R.id.lv_pill);
+        arr = new ArrayList<>();
+        setRecycle(v);
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        footer = inflater.inflate(R.layout.footer_view,null);
+
         spiner = (Spinner) v.findViewById(R.id.spin_pill);
         fillter = v.findViewById(R.id.fb_fill);
         fillter.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
@@ -186,11 +242,20 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = categories.get(i);
-                for (int j =0;j<arrCata.size();j++){
-                    if(arrCata.get(j).getName().equals(text)){
 
-                        idPill = arrCata.get(j).getId();
-                        selectItem();
+                for (int j =0;j<arrCata.size();j++){
+
+                    if(arrCata.get(j).getName().equals(text)){
+                        if(!idPill.equals(arrCata.get(j).getId())){
+                            idPill = arrCata.get(j).getId();
+                            isNomar = true;
+                            Mainpage = 1;
+                            isFillter = false;
+                            isSearch = false;
+                            key = "";
+                            loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                        }
+
                         break;
                     }
                 }
@@ -201,83 +266,48 @@ public class Pill_Fragment extends Fragment {
 
             }
         });
-        arr = new ArrayList<>();
-        adapter = new List_Pill_Adapter(getContext(),0,arr);
-        lv.setAdapter(adapter);
 
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
 
-            }
 
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visiableItem, int total) {
-
-                //Check if the last view is visible
-
-//                if(absListView.getLastVisiblePosition()==total-1&&isLoading==false){
-//                  //  lv.addFooterView(footer);
-//                    page++;
-//                    Log.d("PAGE_PILL",page+"");
-//                    loadPage(page,isFillter);
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//              Utils.setAlphalAnimation(view);
+//                Intent it = new Intent(getActivity(), Detail.class);
+//                it.putExtra("key","pill");
+//                it.putExtra("id", arr.get(i).getId());
 //
-//                }
-//                if (++firstVisibleItem + i1 > i2) {
+//                startActivity(it);
 //
-//
-//
-//
-//                    //load more content
-//                }
-
-            }
-        });
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-              Utils.setAlphalAnimation(view);
-                Intent it = new Intent(getActivity(), Detail.class);
-                it.putExtra("key","pill");
-                it.putExtra("id", arr.get(i).getId());
-
-                startActivity(it);
-
-            }
-        });
+//            }
+//        });
     }
 
-    public class mHandler extends Handler{
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0:
-                    //loading
-                    lv.addFooterView(footer);
-                    break;
-                case 1:
-                    //loaded
-                    lv.removeFooterView(footer);
-                    adapter.notifyDataSetChanged();
-                    isLoading = false;
-                    break;
-            }
-            super.handleMessage(msg);
 
+//    private void selectItem() {
+//        Mainpage = 1;
+//        isFillter = false;
+//        isSearch = false;
+//        loadPage(Mainpage,isFillter,isSearch);
+//    }
+
+    public void loadManager(int page,boolean isFillter, boolean isNomar, boolean isSearch,String key){
+        if(isFillter){
+
+            loadPageFliter(page);
         }
-    }
-
-    private void selectItem() {
-        page = 1;
-
-        loadPage(page,isFillter);
+        if (isNomar) {
+            loadPage(page);
+        }
+        if(isSearch){
+            loadPageSearch(page,idPill,key);
+        }
     }
 
     private void getData(Map map){
 
 
-
+        final boolean[] isEmpty = {false};
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -297,26 +327,34 @@ public class Pill_Fragment extends Fragment {
                                         try {
 
                                             ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
-                                            for (int i = 0; i<ja.length();i++){
-                                                JSONObject jo = ja.getJSONObject(i);
-                                                JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                                                Pill_Constructor pill = new Pill_Constructor();
-                                                pill.setName(product.getString(JsonConstant.NAME));
-                                                pill.setHtuse(product.getString(JsonConstant.DESCRI));
-                                                pill.setId(product.getString(JsonConstant.ID));
-                                                JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                                pill.setPrice(price.getInt(JsonConstant.MONEY));
-                                                pill.setCmt(product.getInt(JsonConstant.COMMENT));
-                                                pill.setLike(product.getInt(JsonConstant.LIKE));
-                                                pill.setStar(product.getDouble(JsonConstant.STAR));
-                                                JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
-                                                pill.setImage(Image.toString());
-                                                pill.setOthername(product.getString(JsonConstant.COMPANY));
-                                                arr.add(pill);
+                                            if(ja.length()>0){
+                                                for (int i = 0; i<ja.length();i++){
+                                                    JSONObject jo = ja.getJSONObject(i);
+                                                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                                    Pill_Constructor pill = new Pill_Constructor();
+                                                    pill.setName(product.getString(JsonConstant.NAME));
+                                                    pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                                    pill.setId(product.getString(JsonConstant.ID));
+                                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                                    pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                    pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                    pill.setLike(product.getInt(JsonConstant.LIKE));
+                                                    pill.setStar(product.getDouble(JsonConstant.STAR));
+                                                    JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                                    pill.setImage(Image.toString());
+                                                    pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                                    arr.add(pill);
 
+                                                }
+                                                isEmpty[0] = false;
+                                            }else{
+                                                isEmpty[0] = true;
                                             }
+
                                         } catch (JSONException e) {
+
                                             e.printStackTrace();
+                                            return null;
                                         }
 
 
@@ -325,6 +363,10 @@ public class Pill_Fragment extends Fragment {
 
                                     @Override
                                     protected void onPostExecute(Void aVoid) {
+
+                                        if(isEmpty[0]&&Mainpage>1){
+                                            Mainpage = Mainpage -1;
+                                        }
                                         if(arr.size()>0){
                                             tvnull.setVisibility(View.GONE);
                                         }else{
@@ -361,7 +403,8 @@ public class Pill_Fragment extends Fragment {
 
     }
 
-    private void loadPage(int page,boolean isFillter) {
+    private void loadPage(int page) {
+        Log.d("PAGE_PILL",page+"");
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
             Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
@@ -378,12 +421,32 @@ public class Pill_Fragment extends Fragment {
             map.put("page",page+"");
             map.put("type",idPill);
 
-            if(isFillter){
+
+                getData(map);
+        }
+
+
+    }
+    private void loadPageFliter(int page) {
+        if(!Utils.isNetworkEnable(getActivity())){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+        }else{
+            if(arr==null){
+                arr = new ArrayList<>();
+            }
+            if(page==1){
+                arr.clear();
+
+            }
+
+            Map<String, String> map = new HashMap<>();
+            map.put("page",page+"");
+            map.put("type",idPill);
                 map.put("minPrice",minPrice+"");
                 map.put("maxPrice",maxPrice+"");
                 map.put("ingredient",idingredient);
-            }
-                getData(map);
+            getData(map);
         }
 
 
@@ -400,7 +463,6 @@ public class Pill_Fragment extends Fragment {
                 arr.clear();
 
             }
-
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
             map.put("type",idPill);
@@ -445,9 +507,11 @@ public class Pill_Fragment extends Fragment {
                 Utils.setAlphalAnimation(view);
 //                if(maxPrice>0){
                     isFillter = true;
+                    isNomar = false;
+                    key = "";
+                    isSearch = false;
                     dialog.dismiss();
-                    loadPage(1,isFillter);
-
+                  loadManager(Mainpage,isFillter,isNomar,isSearch,key);
              //   }
 
             }

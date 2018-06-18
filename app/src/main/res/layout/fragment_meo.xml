@@ -52,11 +52,11 @@
             android:id="@+id/swip"
             android:layout_height="match_parent">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:id="@+id/lv_meo"></ListView>
+                android:id="@+id/lv_meo"></android.support.v7.widget.RecyclerView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

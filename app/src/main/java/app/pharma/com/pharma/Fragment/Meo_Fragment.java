@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,10 +42,12 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
     ListView lv;
     List_Meo_Adapter adapter;
     ArrayList<Meo_Constructor> arr;
+    SwipeRefreshLayout swip;
     int lastVisibleItem = 0;
     private int lastY = 0;
     int page = 1;
     TextView tvNull;
+
     TextView tv_focus;
     TextView tv_hearth;
     TextView tv_meo;
@@ -69,6 +72,14 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         tv_focus = v.findViewById(R.id.tv_focus);
         tv_hearth = v.findViewById(R.id.tv_hearth);
         tv_meo = v.findViewById(R.id.tv_meo);
+        swip = v.findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+             page = 1;
+             getData(page);
+            }
+        });
         tvNull = v.findViewById(R.id.txt_null);
         tv_focus.setOnClickListener(this);
         tv_hearth.setOnClickListener(this);
@@ -131,8 +142,6 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                             meo.setLink(notice.getString(JsonConstant.LINKVIEW));
                                             arr.add(meo);
                                         }
-
-
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();

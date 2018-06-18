@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.pharma.com.pharma.Adapter.List_Dr_Adapter;
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
@@ -36,22 +39,30 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Support.EndlessScroll;
+import app.pharma.com.pharma.Support.RecyclerItemClickListener;
 import app.pharma.com.pharma.activity.Detail.Detail;
+import app.pharma.com.pharma.activity.Detail.Infor_Dr;
+
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Insite_List extends Fragment {
-    ListView lv;
+    RecyclerView lv;
     List_Pharma_Adapter adapter;
     int lastVisibleItem = 0;
     LinearLayout ln_null;
     TextView not_near, showall;
     SwipeRefreshLayout swip;
+    boolean isNomar = true,isSearch = false;
+    String key = "";
     private int lastY = 0;
+    String type = "";
     BroadcastReceiver broadcastSearch;
     TextView tvnull;
-    int page = 1;
+    int Mainpage = 1;
     ArrayList<Pharma_Constructor> arr;
     View v;
     public Insite_List() {
@@ -69,10 +80,48 @@ public class Insite_List extends Fragment {
         init();
         return v;
     }
+    public void setRecycle(View v){
+        lv = v.findViewById(R.id.lv_pharma);
+        lv.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        lv.setLayoutManager(layoutManager);
+        adapter = new List_Pharma_Adapter(getActivity(), arr);
+        lv.setAdapter(adapter);
+        EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Mainpage++;
+                if(isNomar){
+                    getData(Mainpage,type);
+                }
+                if(isSearch){
+                    loadPageSearch(Mainpage,key);
+                }
+            }
+        };
+        lv.addOnScrollListener(endlessScroll);
+        lv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int i) {
+                        Utils.setAlphalAnimation(view);
+                        Intent it = new Intent(getActivity(), Detail.class);
+                        it.putExtra("key","pharma");
+                        it.putExtra("id",arr.get(i).getId());
+                        startActivity(it);
+                        // TODO Handle item click
+                    }
+                })
+        );
+    }
+
+
 
     private void init() {
-        lv = (ListView)v.findViewById(R.id.lv_pharma);
+
         arr = new ArrayList<>();
+        setRecycle(v);
         tvnull = v.findViewById(R.id.txt_null);
         ln_null = v.findViewById(R.id.ln_null);
         showall = v.findViewById(R.id.show_all);
@@ -80,31 +129,24 @@ public class Insite_List extends Fragment {
             @Override
             public void onClick(View v) {
                 ln_null.setVisibility(View.GONE);
-                getData(1,"show_all");
+                type = "show_all";
+                getData(1,type);
             }
         });
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData(1,"");
+                Mainpage = 1;
+                type = "";
+                isNomar = true;
+                isSearch = false;
+                getData(Mainpage,type);
             }
         });
-        adapter = new List_Pharma_Adapter(getContext(),0,arr);
 
-          lv.setAdapter(adapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Utils.setAlphalAnimation(view);
-                Intent it = new Intent(getActivity(), Detail.class);
-                it.putExtra("key","pharma");
-                it.putExtra("id",arr.get(i).getId());
-                startActivity(it);
-            }
-        });
-        getData(page,"");
+        getData(Mainpage,type);
     }
 
     private void loadPageSearch(int page, String key){
@@ -291,8 +333,11 @@ public class Insite_List extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(Constant.SEARCH_ACTION)){
-                    String key = intent.getStringExtra("key");
-                    loadPageSearch(1,key);
+                    Mainpage = 1;
+                    isNomar = false;
+                    isSearch = true;
+                     key = intent.getStringExtra("key");
+                    loadPageSearch(Mainpage,key);
                 }
             }
         };

@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -31,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
 import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
@@ -42,22 +46,32 @@ import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Support.EndlessScroll;
+import app.pharma.com.pharma.Support.RecyclerItemClickListener;
 import app.pharma.com.pharma.activity.Detail.Detail;
 import io.realm.RealmList;
+
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Sick_Fragment extends Fragment {
-    ListView lv;
+    RecyclerView lv;
     List_Sick_Adapter adapter;
     ArrayList<Sick_Construct> arr;
     ArrayList<CataloModel> arrcata;
     SwipeRefreshLayout swip;
     TextView tvNull;
     Context ct;
+    boolean mIsLoading;
+    boolean isNomar = true;
+    boolean isSearch = false;
+    View footer;
     DatabaseHandle db;
     String idSick;
+    String key = "";
+    int Mainpage = 1;
     BroadcastReceiver broadcastSearch;
     int lastVisibleItem = 0;
     private int lastY = 0;
@@ -84,17 +98,19 @@ public class Sick_Fragment extends Fragment {
     private void initView() {
         db = new DatabaseHandle();
         ct = getContext();
-        lv = (ListView)v.findViewById(R.id.lv_sick);
         arr = new ArrayList<>();
+        setRecycle(v);
+        footer = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.footer_view, null, false);
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadPage(1);
+                Mainpage = 1;
+                loadPage(Mainpage);
             }
         });
-        adapter = new List_Sick_Adapter(getContext(),0,arr);
-        lv.setAdapter(adapter);
+
         tvNull = v.findViewById(R.id.txt_null);
         spiner = (Spinner) v.findViewById(R.id.spin_sick);
         List<String> categories = new ArrayList<String>();
@@ -124,8 +140,7 @@ public class Sick_Fragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = categories.get(i);
-                
-                
+
                 for (int j =0;j<arrcata.size();j++){
                     if(arrcata.get(j).getName().equals(text)){
 
@@ -142,21 +157,51 @@ public class Sick_Fragment extends Fragment {
             }
         });
 
-
-        adapter.notifyDataSetChanged();
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Utils.setAlphalAnimation(view);
-                Intent it = new Intent(getActivity(), Detail.class);
-                it.putExtra("key","sick");
-                it.putExtra("id", arr.get(i).getId());
-                startActivity(it);
-            }
-        });
-
     }
 
+    public void setRecycle(View v){
+        lv = v.findViewById(R.id.lv_sick);
+        lv.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        lv.setLayoutManager(layoutManager);
+        adapter = new List_Sick_Adapter(getActivity(), arr);
+        lv.setAdapter(adapter);
+        EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Mainpage++;
+                Log.d("PAGE_RATE",Mainpage+"");
+                loadManager(Mainpage,isSearch,isNomar);
+            }
+        };
+        lv.addOnScrollListener(endlessScroll);
+        lv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int i) {
+                        Utils.setAlphalAnimation(view);
+                        Intent it = new Intent(getActivity(), Detail.class);
+                        it.putExtra("key","sick");
+                        it.putExtra("id", arr.get(i).getId());
+                        startActivity(it);
+                        // TODO Handle item click
+                    }
+                })
+        );
+    }
+    public void loadManager(int page, boolean isSearch, boolean isNomar){
+
+        if(isNomar){
+
+            loadPage(page);
+        }
+
+        if(isSearch){
+            loadPageSearch(page,key);
+        }
+
+    }
     private void registerBroadcast() {
         broadcastSearch = new BroadcastReceiver() {
             @Override
@@ -216,6 +261,9 @@ public class Sick_Fragment extends Fragment {
     }
 
     private void getData(Map<String, String> map) {
+
+        mIsLoading = true;
+        final boolean[] isEmpty = {false};
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -239,25 +287,33 @@ public class Sick_Fragment extends Fragment {
                                         try {
 
                                             listDis = jobj.getJSONArray(JsonConstant.LIST_DISE);
-                                            for (int i =0;i<listDis.length();i++){
+                                            if(listDis.length()>0){
+                                                for (int i =0;i<listDis.length();i++){
 
-                                                JSONObject jo = listDis.getJSONObject(i);
-                                                JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
-                                                Sick_Construct sick = new Sick_Construct();
-                                                sick.setName(product.getString(JsonConstant.NAME));
-                                                sick.setDescri(product.getString(JsonConstant.DESCRI));
-                                                sick.setId(product.getString(JsonConstant.ID));
-                                                JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-                                                sick.setImage(images.getString(0));
-                                                JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
-                                                sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
-                                                //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
-                                                sick.setLike(product.getInt(JsonConstant.LIKE));
-                                                sick.setDate(product.getLong(JsonConstant.TIME));
-                                                arr.add(sick);
+                                                    JSONObject jo = listDis.getJSONObject(i);
+                                                    JSONObject product = jo.getJSONObject(JsonConstant.DISEASE);
+                                                    Sick_Construct sick = new Sick_Construct();
+                                                    sick.setName(product.getString(JsonConstant.NAME));
+                                                    sick.setDescri(product.getString(JsonConstant.DESCRI));
+                                                    sick.setId(product.getString(JsonConstant.ID));
+                                                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                                                    sick.setImage(images.getString(0));
+                                                    JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
+                                                    sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
+                                                    //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                    sick.setLike(product.getInt(JsonConstant.LIKE));
+                                                    sick.setDate(product.getLong(JsonConstant.TIME));
+                                                    arr.add(sick);
+                                                }
+                                                isEmpty[0] = false;
+                                            }else{
+                                                isEmpty[0] = true;
                                             }
+
                                         } catch (JSONException e) {
+                                            mIsLoading = false;
                                             e.printStackTrace();
+                                            return null;
                                         }
 
                                         return null;
@@ -265,6 +321,10 @@ public class Sick_Fragment extends Fragment {
 
                                     @Override
                                     protected void onPostExecute(Void aVoid) {
+                                        if(isEmpty[0]&&Mainpage>1){
+                                            Mainpage = Mainpage-1;
+                                        }
+
                                         if(arr.size()>0){
                                             tvNull.setVisibility(View.GONE);
                                         }else{

@@ -48,6 +48,7 @@ public class Infor_Dr extends AppCompatActivity {
             dr_office,
             dr_ck;
     String strPhone;
+
     Infor_Dr_Obj drObj;
     ImageView header_bg;
 

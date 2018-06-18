@@ -60,13 +60,16 @@ public class Pharma_Detail_Rate extends Fragment {
     ListView lv_rate;
     ArrayList<View> arrView;
     LinearLayout ln_rate_now;
-    int page = 1;
+    int Mainpage = 1;
     List_Rate_Adapter rateAdapter;
     ArrayList<Rating_Obj> arrRate;
     Utils util;
     SwipeRefreshLayout swip;
+    private boolean mIsLoading, isLoadFinish;
+    String allCmt;
     View v;
     DatabaseHandle db;
+    View footer;
     User user;
     String idProduct="";
     String type = "";
@@ -94,15 +97,18 @@ public class Pharma_Detail_Rate extends Fragment {
         db = new DatabaseHandle();
         user = db.getAllUserInfor();
         arrRate = new ArrayList<>();
+         footer = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
         util = new Utils();
         lv_rate = v.findViewById(R.id.lv_list_rate);
+
         rateAdapter = new List_Rate_Adapter(getActivity(),R.layout.item_rate,arrRate);
         lv_rate.setAdapter(rateAdapter);
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getListRate(1,type,keyId);
+                Mainpage = 1;
+                getListRate(Mainpage,type,keyId);
             }
         });
         ln_rate_now = v.findViewById(R.id.ln_rate_now);
@@ -131,11 +137,16 @@ public class Pharma_Detail_Rate extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(view.getLastVisiblePosition()==visibleItemCount-1){
-                  //  lv.addFooterView(footer);
-                    page++;
-                    Log.d("PAGE_PILL",page+"");
-                    getListRate(page,type,Detail.id);
+                boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+                Log.d("TAG", "onScroll " + loadMore + " " + totalItemCount + " ");
+
+                if (loadMore && !mIsLoading) {
+
+                    if (arrRate != null && arrRate.size() > 0) {
+                        Mainpage++;
+                         Log.d("PAGE_RATE",Mainpage+"");
+                        getListRate(Mainpage,type,keyId);
+                    }
 
                 }
             }
@@ -148,15 +159,15 @@ public class Pharma_Detail_Rate extends Fragment {
         if(key.equals("pharma")){
             setHeaderPharma();
             keyId = "idStore";
-            getListRate(page,type,keyId);
+            getListRate(Mainpage,type,keyId);
         }else if(key.equals("pill")){
             setHeaderPill();
             keyId = "idProduct";
-            getListRate(page,type,keyId);
+            getListRate(Mainpage,type,keyId);
         }else if(key.equals("sick")){
             setHeaderSick();
             keyId = "idDisease";
-            getListRate(page,type,keyId);
+            getListRate(Mainpage,type,keyId);
 
         }
 
@@ -174,6 +185,7 @@ public class Pharma_Detail_Rate extends Fragment {
         LinearLayout ln = rowView.findViewById(R.id.include_sick_star);
         Sick_Obj sick = (Sick_Obj)Detail.headerObj;
         idProduct = sick.getId();
+        allCmt = sick.getCmt()+"";
         type = "disease";
         tvName.setText(sick.getName());
         Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages().get(0),img);
@@ -207,6 +219,7 @@ public class Pharma_Detail_Rate extends Fragment {
         ImageView img = rowView.findViewById(R.id.include_pill_image);
         TextView like = rowView.findViewById(R.id.txt_like);
         TextView cmt = rowView.findViewById(R.id.txt_comment);
+
         Pill_obj obj = (Pill_obj) Detail.headerObj;
         idProduct = obj.getId();
         type = "product";
@@ -215,6 +228,7 @@ public class Pharma_Detail_Rate extends Fragment {
         Utils.loadImagePicasso(ServerPath.ROOT_URL+obj.getImages().get(0),img);
         like.setText(obj.getLike()+"");
         cmt.setText(obj.getComment()+"");
+        allCmt = obj.getComment()+"";
         if(obj.getStar()!=null){
 
             int s = Integer.valueOf(obj.getStar().intValue());
@@ -247,7 +261,7 @@ public class Pharma_Detail_Rate extends Fragment {
         idProduct = pharma.getId();
         type = "store";
         tvName.setText(pharma.getName());
-
+        allCmt = pharma.getComment();
         int s = Integer.valueOf(pharma.getStar().intValue());
         LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 // insert into main view
@@ -302,10 +316,13 @@ public class Pharma_Detail_Rate extends Fragment {
         if(page==1){
             arrRate.clear();
         }
+        lv_rate.addFooterView(footer);
+        mIsLoading = true;
         Map<String,String> map = new HashMap<>();
         map.put("page",page+"");
         map.put("type",type);
         map.put(keyId,Detail.id);
+        final boolean[] isEmpty = {false};
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -347,6 +364,9 @@ public class Pharma_Detail_Rate extends Fragment {
                                                 arrRate.add(rate);
 
                                             }
+                                            isEmpty[0] = false;
+                                        }else{
+                                            isEmpty[0] = true;
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -357,18 +377,23 @@ public class Pharma_Detail_Rate extends Fragment {
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
+                                     if(isEmpty[0]&&page>1){
+                                         Mainpage = page-1;
+                                     }
+                                    mIsLoading = false;
+                                    lv_rate.removeFooterView(footer);
                                     switch (type){
                                         case "store":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                                    numComment,"nhà thuốc"));
+                                                    allCmt,"nhà thuốc"));
                                             break;
                                         case "product":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                                    numComment,"sản phẩm"));
+                                                    allCmt,"sản phẩm"));
                                             break;
                                         case "disease":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                                    numComment,"bài viết"));
+                                                    allCmt,"bài viết"));
                                             break;
                                     }
 
@@ -379,18 +404,19 @@ public class Pharma_Detail_Rate extends Fragment {
 
                             break;
                         case "1":
+                            lv_rate.removeFooterView(footer);
                             switch (type){
                                 case "store":
                                     tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                            numComment,"nhà thuốc"));
+                                            allCmt,"nhà thuốc"));
                                     break;
                                 case "product":
                                     tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                            numComment,"sản phẩm"));
+                                            allCmt,"sản phẩm"));
                                     break;
                                 case "disease":
                                     tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
-                                            numComment,"bài viết"));
+                                            allCmt,"bài viết"));
                                     break;
                             }
 
@@ -401,6 +427,9 @@ public class Pharma_Detail_Rate extends Fragment {
 
 
                 } catch (JSONException e) {
+                    lv_rate.removeFooterView(footer);
+                    mIsLoading = false;
+                    isLoadFinish = false;
                     e.printStackTrace();
                 }
                 Log.d("RESPONSE_RATE_LIST",response);
@@ -476,6 +505,7 @@ public class Pharma_Detail_Rate extends Fragment {
                                     util.showLoading(getActivity(),10000,false);
                                     dialog.dismiss();
                                     Utils.dialogNotif("Đánh giá thành công");
+
                                     break;
                                 case "-1":
                                     util.showLoading(getActivity(),10000,false);

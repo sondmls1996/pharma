@@ -37,10 +37,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/swip">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lv_sick"></ListView>
+                android:id="@+id/lv_sick"></android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
