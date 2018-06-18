@@ -81,11 +81,11 @@
                    android:id="@+id/swip">
 
 
-               <ListView
+               <android.support.v7.widget.RecyclerView
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="vertical"
-                   android:id="@+id/lv_list_rate"></ListView>
+                   android:id="@+id/lv_list_rate"></android.support.v7.widget.RecyclerView>
                </android.support.v4.widget.SwipeRefreshLayout>
            </LinearLayout>
 

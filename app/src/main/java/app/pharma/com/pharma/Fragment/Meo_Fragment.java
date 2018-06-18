@@ -6,13 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -33,19 +32,23 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Support.EndlessScroll;
+import app.pharma.com.pharma.Support.RecyclerItemClickListener;
 import app.pharma.com.pharma.activity.Detail.Infor_Meo;
+
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Meo_Fragment extends Fragment implements View.OnClickListener {
-    ListView lv;
+    RecyclerView lv;
     List_Meo_Adapter adapter;
     ArrayList<Meo_Constructor> arr;
     SwipeRefreshLayout swip;
     int lastVisibleItem = 0;
     private int lastY = 0;
-    int page = 1;
+    int Mainpage = 1;
     TextView tvNull;
 
     TextView tv_focus;
@@ -76,8 +79,8 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-             page = 1;
-             getData(page);
+                Mainpage = 1;
+             getData(Mainpage);
             }
         });
         tvNull = v.findViewById(R.id.txt_null);
@@ -85,31 +88,46 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         tv_hearth.setOnClickListener(this);
         tv_meo.setOnClickListener(this);
 
-        lv = (ListView)v.findViewById(R.id.lv_meo);
         arr = new ArrayList<>();
-        adapter = new List_Meo_Adapter(getContext(),0,arr);
-        lv.setAdapter(adapter);
+        setRecycle(v);
 
-
-
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Utils.setAlphalAnimation(view);
-                Intent it = new Intent(Common.context, Infor_Meo.class);
-                it.putExtra("link",arr.get(i).getLink());
-                startActivity(it);
-            }
-        });
         tv_focus.performClick();
-        getData(page);
+        getData(Mainpage);
     }
+    public void setRecycle(View v){
+        lv = v.findViewById(R.id.lv_meo);
+        lv.setHasFixedSize(true);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        lv.setLayoutManager(layoutManager);
+        adapter = new List_Meo_Adapter(getActivity(), arr);
+        lv.setAdapter(adapter);
+        EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Mainpage ++;
+                getData(Mainpage);
+            }
+        };
+        lv.addOnScrollListener(endlessScroll);
+        lv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Utils.setAlphalAnimation(view);
+                        Intent it = new Intent(Common.context, Infor_Meo.class);
+                        it.putExtra("link",arr.get(position).getLink());
+                        startActivity(it);
+                        // TODO Handle item click
+                    }
+                })
+        );
+    }
     private void getData(int page) {
         if(page==1){
             arr.clear();
         }
+        final boolean[] isEmpty = {false};
         Map<String,String> map = new HashMap<>();
         map.put("page",page+"");
         Response.Listener<String> response = new Response.Listener<String>() {
@@ -128,23 +146,30 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                     try {
                                         JSONObject jo = new JSONObject(response);
                                         JSONArray tipnote = jo.getJSONArray(JsonConstant.TIPNOTE);
-                                        for (int i =0; i<tipnote.length();i++){
-                                            JSONObject idx =tipnote.getJSONObject(i);
-                                            JSONObject notice = idx.getJSONObject(JsonConstant.NOTICE);
+                                        if(tipnote.length()>0){
+                                            for (int i =0; i<tipnote.length();i++){
+                                                JSONObject idx =tipnote.getJSONObject(i);
+                                                JSONObject notice = idx.getJSONObject(JsonConstant.NOTICE);
 
-                                            Meo_Constructor meo = new Meo_Constructor();
-                                            meo.setTitle(notice.getString(JsonConstant.TITLE));
-                                            meo.setImage(notice.getString(JsonConstant.IMAGE));
-                                            meo.setId(notice.getString(JsonConstant.ID));
-                                         //   meo.setComment(notice.getString(JsonConstant.COMMENT));
-                                            meo.setDate(notice.getLong(JsonConstant.TIME));
-                                            meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
-                                            meo.setLink(notice.getString(JsonConstant.LINKVIEW));
-                                            arr.add(meo);
+                                                Meo_Constructor meo = new Meo_Constructor();
+                                                meo.setTitle(notice.getString(JsonConstant.TITLE));
+                                                meo.setImage(notice.getString(JsonConstant.IMAGE));
+                                                meo.setId(notice.getString(JsonConstant.ID));
+                                                //   meo.setComment(notice.getString(JsonConstant.COMMENT));
+                                                meo.setDate(notice.getLong(JsonConstant.TIME));
+                                                meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
+                                                meo.setLink(notice.getString(JsonConstant.LINKVIEW));
+                                                arr.add(meo);
+                                            }
+                                            isEmpty[0] = false;
+                                        }else{
+                                            isEmpty[0] = true;
                                         }
+
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
+                                        return null;
                                     }
 
                                     return null;
@@ -152,6 +177,10 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
+                                    if(isEmpty[0]&&Mainpage>1){
+                                        Mainpage = Mainpage -1;
+                                    }
+
                                     if(arr.size()>0){
                                         tvNull.setVisibility(View.GONE);
                                         lv.setVisibility(View.VISIBLE);

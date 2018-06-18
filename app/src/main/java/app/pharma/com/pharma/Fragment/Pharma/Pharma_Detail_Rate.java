@@ -11,17 +11,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,19 +50,22 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Support.EndlessScroll;
 import app.pharma.com.pharma.activity.Detail.Detail;
+
+import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Pharma_Detail_Rate extends Fragment {
 
-    ListView lv_rate;
+    RecyclerView lv_rate;
     ArrayList<View> arrView;
     LinearLayout ln_rate_now;
     int Mainpage = 1;
-    List_Rate_Adapter rateAdapter;
-    ArrayList<Rating_Obj> arrRate;
+    List_Rate_Adapter adapter;
+    ArrayList<Rating_Obj> arr;
     Utils util;
     SwipeRefreshLayout swip;
     private boolean mIsLoading, isLoadFinish;
@@ -96,13 +99,10 @@ public class Pharma_Detail_Rate extends Fragment {
     private void init() {
         db = new DatabaseHandle();
         user = db.getAllUserInfor();
-        arrRate = new ArrayList<>();
+        arr = new ArrayList<>();
          footer = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
         util = new Utils();
-        lv_rate = v.findViewById(R.id.lv_list_rate);
-
-        rateAdapter = new List_Rate_Adapter(getActivity(),R.layout.item_rate,arrRate);
-        lv_rate.setAdapter(rateAdapter);
+        setRecycle(v);
         swip = v.findViewById(R.id.swip);
         swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -129,31 +129,28 @@ public class Pharma_Detail_Rate extends Fragment {
         inflater2 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setRelativeTop(Detail.key);
 
-        lv_rate.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-                Log.d("TAG", "onScroll " + loadMore + " " + totalItemCount + " ");
-
-                if (loadMore && !mIsLoading) {
-
-                    if (arrRate != null && arrRate.size() > 0) {
-                        Mainpage++;
-                         Log.d("PAGE_RATE",Mainpage+"");
-                        getListRate(Mainpage,type,keyId);
-                    }
-
-                }
-            }
-        });
 
     }
+    public void setRecycle(View v){
+        lv_rate = v.findViewById(R.id.lv_list_rate);
+        lv_rate.setHasFixedSize(true);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        lv_rate.setLayoutManager(layoutManager);
+        adapter = new List_Rate_Adapter(getActivity(), arr);
+        lv_rate.setAdapter(adapter);
+        EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Mainpage++;
+                Log.d("PAGE_RATE",Mainpage+"");
+                getListRate(Mainpage,type,keyId);
+            }
+        };
+        lv_rate.addOnScrollListener(endlessScroll);
+
+    }
     private void setRelativeTop(String key) {
 
         if(key.equals("pharma")){
@@ -314,9 +311,9 @@ public class Pharma_Detail_Rate extends Fragment {
 
     private void getListRate(int page,String type,String keyId) {
         if(page==1){
-            arrRate.clear();
+            arr.clear();
         }
-        lv_rate.addFooterView(footer);
+
         mIsLoading = true;
         Map<String,String> map = new HashMap<>();
         map.put("page",page+"");
@@ -327,6 +324,7 @@ public class Pharma_Detail_Rate extends Fragment {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d("RESPONSE_RATE_CMT",response);
                     swip.setRefreshing(false);
                     JSONObject jo = new JSONObject(response);
                     String code = jo.getString(JsonConstant.CODE);
@@ -361,7 +359,7 @@ public class Pharma_Detail_Rate extends Fragment {
                                                 if(Rating.has(JsonConstant.USERNAME)){
                                                     rate.setUserName(Rating.getString(JsonConstant.USERNAME));
                                                 }
-                                                arrRate.add(rate);
+                                                arr.add(rate);
 
                                             }
                                             isEmpty[0] = false;
@@ -381,7 +379,6 @@ public class Pharma_Detail_Rate extends Fragment {
                                          Mainpage = page-1;
                                      }
                                     mIsLoading = false;
-                                    lv_rate.removeFooterView(footer);
                                     switch (type){
                                         case "store":
                                             tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
@@ -397,14 +394,14 @@ public class Pharma_Detail_Rate extends Fragment {
                                             break;
                                     }
 
-                                    rateAdapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChanged();
                                     super.onPostExecute(aVoid);
                                 }
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                             break;
                         case "1":
-                            lv_rate.removeFooterView(footer);
+
                             switch (type){
                                 case "store":
                                     tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
@@ -427,7 +424,7 @@ public class Pharma_Detail_Rate extends Fragment {
 
 
                 } catch (JSONException e) {
-                    lv_rate.removeFooterView(footer);
+
                     mIsLoading = false;
                     isLoadFinish = false;
                     e.printStackTrace();
