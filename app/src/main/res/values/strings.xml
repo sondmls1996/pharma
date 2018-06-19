@@ -159,6 +159,7 @@
     <string name="no_internet">Không có kết nối mạng, vui lòng kiểm tra lại.</string>
     <string name="error">Có lỗi, vui lòng thử lại</string>
     <string name="empty_list">Danh sách rỗng</string>
+    <string name="server_err">Lỗi lấy dữ liệu</string>
     <string name="old_pass">Mật khẩu cũ</string>
     <string name="new_pass">Mật khẩu mới</string>
     <string name="re_new_pass">Nhập lại mật khẩu mới</string>

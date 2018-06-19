@@ -15,10 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -34,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Dr_Adapter;
-import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
 import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
@@ -47,7 +44,6 @@ import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.Support.EndlessScroll;
 import app.pharma.com.pharma.Support.RecyclerItemClickListener;
-import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Detail.Infor_Dr;
 import io.realm.RealmList;
 
@@ -307,7 +303,7 @@ public class Dr_Fragment extends Fragment {
 
 
                 } catch (JSONException e) {
-
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                     e.printStackTrace();
                 }
 

@@ -3,10 +3,10 @@ package app.pharma.com.pharma.activity.Care;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,10 +29,12 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Support.EndlessScroll;
+import app.pharma.com.pharma.Support.RecyclerItemClickListener;
 import app.pharma.com.pharma.activity.Detail.Detail;
 
 public class Care_Sick_Activity extends AppCompatActivity {
-    ListView lv;
+    RecyclerView lv;
     Like_Adapter adapter;
     DatabaseHandle db;
     User user;
@@ -71,30 +73,42 @@ public class Care_Sick_Activity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        lv = (ListView)findViewById(R.id.lv_like);
+
         arr = new ArrayList<>();
-        adapter = new Like_Adapter(getApplicationContext(),0,arr,key);
-        lv.setAdapter(adapter);
+        setRecycle();
 
         getDataLike();
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                Utils.setAlphalAnimation(view);
-                Intent it = new Intent(getApplicationContext(), Detail.class);
-                it.putExtra("key","sick");
-                it.putExtra("id", arr.get(i).getId());
-                startActivity(it);
-            }
-        });
 
-//        arr.add(new Like_Constructor());
-//        arr.add(new Like_Constructor());
-//        arr.add(new Like_Constructor());
-//        arr.add(new Like_Constructor());
-//        adapter.notifyDataSetChanged();
     }
+    public void setRecycle(){
+        lv = findViewById(R.id.lv_like);
+        lv.setHasFixedSize(true);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        lv.setLayoutManager(layoutManager);
+        adapter = new Like_Adapter(getApplicationContext(), arr,key);
+        lv.setAdapter(adapter);
+        EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                //   getDataLike();
+            }
+        };
+        lv.addOnScrollListener(endlessScroll);
+        lv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int i) {
+                        Utils.setAlphalAnimation(view);
+                        Intent it = new Intent(getApplicationContext(), Detail.class);
+                        it.putExtra("key","sick");
+                        it.putExtra("id", arr.get(i).getId());
+                        startActivity(it);
+                        // TODO Handle item click
+                    }
+                })
+        );
+    }
     private void getDataLike() {
 
         if(Utils.isLogin()){

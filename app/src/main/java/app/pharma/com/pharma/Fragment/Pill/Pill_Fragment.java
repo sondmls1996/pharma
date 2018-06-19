@@ -347,7 +347,7 @@ public class Pill_Fragment extends Fragment {
                                             }
 
                                         } catch (JSONException e) {
-
+                                            Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                                             e.printStackTrace();
                                             return null;
                                         }

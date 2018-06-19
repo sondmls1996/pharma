@@ -16,10 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import app.pharma.com.pharma.Adapter.List_Sick_Adapter;
 import app.pharma.com.pharma.Model.CataloModel;
@@ -346,6 +343,7 @@ public class Sick_Fragment extends Fragment {
 
 
                 } catch (JSONException e) {
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                     e.printStackTrace();
                 }
 

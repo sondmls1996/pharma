@@ -31,6 +31,7 @@ public class List_Meo_Adapter 	extends
     Context context;
 
     public List_Meo_Adapter(Context context, List<Meo_Constructor> listData) {
+        formatHours = new SimpleDateFormat();
         this.context = context;
         this.listData = listData;
     }

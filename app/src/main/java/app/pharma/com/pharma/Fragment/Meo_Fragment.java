@@ -124,6 +124,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         );
     }
     private void getData(int page) {
+        Log.d("PAGE_MEO",page+"");
         if(page==1){
             arr.clear();
         }
@@ -134,6 +135,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 try {
+                    swip.setRefreshing(false);
                     JSONObject jo = new JSONObject(response);
                     String code = jo.getString(JsonConstant.CODE);
                     switch (code){
@@ -197,6 +199,8 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                             break;
                     }
                 } catch (JSONException e) {
+                    swip.setRefreshing(false);
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                     tvNull.setVisibility(View.VISIBLE);
                     lv.setVisibility(View.GONE);
                     e.printStackTrace();
