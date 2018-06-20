@@ -166,10 +166,10 @@ public class Change_infor extends AppCompatActivity {
                                         @Override
                                         public void onClose(Dialog dialog) {
                                             dialog.dismiss();
-                                            finish();
+
                                         }
                                     });
-                            break;
+                            finish();                            break;
                         case "-1":
                             Utils.ShowNotifString(getResources().getString(R.string.session_out),
                                     new Utils.ShowDialogNotif.OnCloseDialogNotif() {

@@ -18,6 +18,15 @@ public class Pill_obj implements Serializable{
     Double star;
     String linkShare;
     int likeStt;
+    boolean binding;
+
+    public boolean isBinding() {
+        return binding;
+    }
+
+    public void setBinding(boolean binding) {
+        this.binding = binding;
+    }
 
     public int getQuality() {
         return quality;

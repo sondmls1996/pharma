@@ -160,6 +160,7 @@
     <string name="error">Có lỗi, vui lòng thử lại</string>
     <string name="empty_list">Danh sách rỗng</string>
     <string name="server_err">Lỗi lấy dữ liệu</string>
+    <string name="need_image">Thuốc này cần có đơn của bác sỹ</string>
     <string name="old_pass">Mật khẩu cũ</string>
     <string name="new_pass">Mật khẩu mới</string>
     <string name="re_new_pass">Nhập lại mật khẩu mới</string>

@@ -9,6 +9,7 @@ public class JsonConstant {
     public static String NAME = "name";
     public static String FULLNAME = "fullName";
     public static String QUALITY = "quality";
+    public static String BINDING = "binding";
     public static String ORDER = "Order";
     public static String LIST_FAVOR_STORE = "listFavoriteStore";
     public static String AVATAR = "avatar";

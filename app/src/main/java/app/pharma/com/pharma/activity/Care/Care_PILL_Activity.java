@@ -38,6 +38,7 @@ public class Care_PILL_Activity extends AppCompatActivity {
     Like_Adapter adapter;
     DatabaseHandle db;
     User user;
+    int Mainpage = 1;
     String key = "";
     ArrayList<Like_Constructor> arr;
     @Override
@@ -77,7 +78,7 @@ public class Care_PILL_Activity extends AppCompatActivity {
         arr = new ArrayList<>();
         setRecycle();
 
-        getDataLike();
+        getDataLike(Mainpage);
 //                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -125,12 +126,13 @@ public class Care_PILL_Activity extends AppCompatActivity {
         );
     }
 
-    private void getDataLike() {
+    private void getDataLike(int page) {
 
         if(Utils.isLogin()){
             Map<String,String> map = new HashMap<>();
             map.put("accessToken",user.getToken());
             map.put("type","product");
+            map.put("page",page+"");
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {

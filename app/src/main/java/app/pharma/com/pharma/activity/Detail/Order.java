@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,6 +54,8 @@ public class Order extends AppCompatActivity {
     LinearLayout ln_order;
     Slide_Image_Adapter adapter;
     DatabaseHandle db;
+    LinearLayout ln_blin;
+    ImageView img_upload;
     int countPrice = 0;
     User user;
     Utils utils;
@@ -84,6 +87,7 @@ public class Order extends AppCompatActivity {
             user = db.getAllUserInfor();
         }
         utils = new Utils();
+
         ImagesArray = Detail.imagesArray;
         adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
         mPager = (ViewPager) findViewById(R.id.slide_image);
@@ -95,7 +99,14 @@ public class Order extends AppCompatActivity {
         ln_order = findViewById(R.id.ln_order);
         name_pill = findViewById(R.id.name_pill);
         name_pill.setText(pillObj.getName());
-        ln_order.setOnClickListener(new View.OnClickListener() {
+        ln_blin = findViewById(R.id.ln_blin);
+        img_upload = findViewById(R.id.img_upload);
+        if(pillObj.isBinding()){
+            ln_blin.setVisibility(View.VISIBLE);
+        }else{
+            ln_blin.setVisibility(View.GONE);
+        }
+                ln_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
@@ -233,9 +244,15 @@ public class Order extends AppCompatActivity {
         }else if(phone.length()<10){
             Toast.makeText(getApplicationContext(),"Số điện thoại không đúng",Toast.LENGTH_SHORT).show();
         }else{
+            if(pillObj.isBinding()){
+
+            }
             utils.showLoading(this,20000,true);
             Map<String, String> map = new HashMap<>();
-            map.put("accessToken",user.getToken());
+            if(Utils.isLogin()){
+                 map.put("accessToken",user.getToken());
+            }
+
             map.put("idProduct",pillObj.getId());
             map.put("quality",quality.getText().toString());
             map.put("fullName",name);
@@ -254,6 +271,7 @@ public class Order extends AppCompatActivity {
                             case "0":
                                 utils.showLoading(Order.this,20000,false);
                                 Utils.dialogNotif(getResources().getString(R.string.order_success));
+                                finish();
 
                                 break;
                             case "1":

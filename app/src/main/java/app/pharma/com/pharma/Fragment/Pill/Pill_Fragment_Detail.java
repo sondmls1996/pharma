@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
@@ -33,8 +32,8 @@ import java.util.Map;
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
-import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
 import app.pharma.com.pharma.Model.Constructor.Object.Pill_obj;
+import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
@@ -120,21 +119,14 @@ public class Pill_Fragment_Detail extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Utils.isNetworkEnable(getActivity())){
-                    if(Utils.isLogin()){
-                        Intent it = new Intent(Common.context, Order.class);
-                        it.putExtra("obj",objPill);
-                        startActivity(it);
-                    }else{
-                        Utils.ShowNotifString(getResources().getString(R.string.you_not_login),
-                                new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                            @Override
-                            public void onClose(Dialog dialog) {
-                                dialog.dismiss();
+                        if(objPill!=null){
+                            Intent it = new Intent(Common.context, Order.class);
+                            it.putExtra("obj",objPill);
 
-                            }
-                        });
-                    //    Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
-                    }
+                            startActivity(it);
+                        }
+
+
                 }
 
 
@@ -262,6 +254,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                         JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
 
                                         objPill = new Pill_obj();
+
                                         objPill.setId(product.getString(JsonConstant.ID));
                                         objPill.setName(product.getString(JsonConstant.NAME));
                                         objPill.setLinkShare(product.getString(JsonConstant.LINK_SHARE));
@@ -281,6 +274,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                         objPill.setComment(product.getInt(JsonConstant.COMMENT));
                                         objPill.setStar(product.getDouble(JsonConstant.STAR));
                                         objPill.setLikeStt(product.getInt(JsonConstant.LIKE_STT));
+                                        objPill.setBinding(product.getBoolean(JsonConstant.BINDING));
 
                                         break;
 
