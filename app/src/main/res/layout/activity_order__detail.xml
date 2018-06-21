@@ -27,12 +27,37 @@
             android:layout_height="match_parent"
 
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/img_order_img"
-                android:src="@drawable/no_image_small"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/img_order_img"
+                    android:src="@drawable/no_image_small"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sdsdsdsd"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/img_order_img"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="16sp"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+
+                    android:id="@+id/tv_stt"/>
+
+
+            </RelativeLayout>
+
 
             <TextView
                 android:layout_width="match_parent"

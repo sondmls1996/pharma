@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
@@ -41,6 +42,7 @@ public class Order_Detail extends AppCompatActivity {
     User user;
     Button btnCancel;
     TextView tvproduct;
+    TextView tvStt;
     Utils utils;
     TextView tvUserInfo;
     Order_Detail_Obj detail;
@@ -73,6 +75,10 @@ public class Order_Detail extends AppCompatActivity {
 
 
         });
+        tvStt = findViewById(R.id.tv_stt);
+
+
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +90,40 @@ public class Order_Detail extends AppCompatActivity {
             user = db.getAllUserInfor();
         }
         getData();
+    }
+
+    private void setStatus(String status) {
+         int sdk = android.os.Build.VERSION.SDK_INT;
+        if(status.equals("new")){
+
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                tvStt.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.soild_green) );
+            } else {
+                tvStt.setBackground(ContextCompat.getDrawable(this, R.drawable.soild_green));
+            }
+            tvStt.setText("Mới");
+            tvStt.setTextColor(getResources().getColor(R.color.white));
+
+        }
+
+        if(status.equals("paid")){
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                tvStt.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.soild_gray) );
+            } else {
+                tvStt.setBackground(ContextCompat.getDrawable(this, R.drawable.soild_gray));
+            }
+            tvStt.setText("Đã thanh toán");
+            tvStt.setTextColor(getResources().getColor(R.color.white));
+        }
+        if(status.equals("disable")){
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                tvStt.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.soild_red) );
+            } else {
+                tvStt.setBackground(ContextCompat.getDrawable(this, R.drawable.soild_red));
+            }
+            tvStt.setText("Đã hủy");
+            tvStt.setTextColor(getResources().getColor(R.color.white));
+        }
     }
 
     private void showDialogCancel() {
@@ -228,7 +268,7 @@ public class Order_Detail extends AppCompatActivity {
 
                         Picasso.with(getApplicationContext()).load
                                 (ServerPath.ROOT_URL+detail.getImgPrd()).into(img_order);
-
+                        setStatus(detail.getStatus());
 //                        JSONObject order = idx.getJSONObject(JsonConstant.ORDER);
 
                     }

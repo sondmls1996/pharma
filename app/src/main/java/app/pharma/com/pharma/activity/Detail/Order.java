@@ -52,7 +52,6 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
-import app.pharma.com.pharma.Service.GetLocationService;
 import me.relex.circleindicator.CircleIndicator;
 
 public class Order extends AppCompatActivity {
@@ -74,6 +73,7 @@ public class Order extends AppCompatActivity {
     int countPrice = 0;
     User user;
     Utils utils;
+    String bm="";
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
 
@@ -279,7 +279,7 @@ public class Order extends AppCompatActivity {
             if(pillObj.isBinding()){
 
             }
-            utils.showLoading(this,20000,true);
+            utils.showLoading(this,40000,true);
             Map<String, String> map = new HashMap<>();
             if(Utils.isLogin()){
                  map.put("accessToken",user.getToken());
@@ -291,8 +291,8 @@ public class Order extends AppCompatActivity {
             map.put("email",mail);
             map.put("phone",phone);
             map.put("address",adr);
-            if(pillObj.isBinding()&&mBitmap!=null){
-            map.put("image",converBase64(mBitmap));
+            if(pillObj.isBinding()&&bm.length()>0){
+            map.put("image",bm);
             }
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
@@ -408,7 +408,28 @@ public class Order extends AppCompatActivity {
             try {
                  mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
-                
+                new AsyncTask<Bitmap,Void,String>(){
+
+                    @Override
+                    protected String doInBackground(Bitmap... bitmaps) {
+
+                        return converBase64(bitmaps);
+                    }
+
+                    private String converBase64(Bitmap[] bitmaps) {
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmaps[0].compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                        byte[] byteArray = byteArrayOutputStream .toByteArray();
+                        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                        return encoded;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        bm = s;
+                        super.onPostExecute(s);
+                    }
+                }.execute(mBitmap);
                 img_upload.setImageBitmap(mBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
