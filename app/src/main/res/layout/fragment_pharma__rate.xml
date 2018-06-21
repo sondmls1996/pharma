@@ -75,8 +75,15 @@
                    android:id="@+id/view_gray2"
 
                    android:background="@color/gray"/>
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:id="@+id/txt_null"
+                   android:gravity="center"
+                   android:visibility="gone"
+                   android:text="@string/null_comment"/>
                <android.support.v4.widget.SwipeRefreshLayout
-                   android:layout_width="wrap_content"
+                   android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:id="@+id/swip">
 
@@ -85,7 +92,11 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="vertical"
-                   android:id="@+id/lv_list_rate"></android.support.v7.widget.RecyclerView>
+                   android:visibility="visible"
+                   android:id="@+id/lv_list_rate">
+
+               </android.support.v7.widget.RecyclerView>
+
                </android.support.v4.widget.SwipeRefreshLayout>
            </LinearLayout>
 

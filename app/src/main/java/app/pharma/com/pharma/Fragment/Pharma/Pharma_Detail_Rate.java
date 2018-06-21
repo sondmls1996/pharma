@@ -65,6 +65,7 @@ public class Pharma_Detail_Rate extends Fragment {
     LinearLayout ln_rate_now;
     int Mainpage = 1;
     List_Rate_Adapter adapter;
+    TextView txt_null;
     ArrayList<Rating_Obj> arr;
     Utils util;
     SwipeRefreshLayout swip;
@@ -112,6 +113,7 @@ public class Pharma_Detail_Rate extends Fragment {
             }
         });
         ln_rate_now = v.findViewById(R.id.ln_rate_now);
+        txt_null = v.findViewById(R.id.txt_null);
         rl_top = v.findViewById(R.id.rl_rate_top);
         arrView = new ArrayList<>();
 
@@ -185,7 +187,9 @@ public class Pharma_Detail_Rate extends Fragment {
         allCmt = sick.getCmt()+"";
         type = "disease";
         tvName.setText(sick.getName());
-        Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages().get(0),img);
+        if(sick.getImages().size()>0){
+            Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages().get(0),img);
+        }
         tvLike.setText(sick.getLike()+"");
         tvCommment.setText(sick.getCmt()+"");
 
@@ -305,8 +309,6 @@ public class Pharma_Detail_Rate extends Fragment {
         Picasso.with(getActivity()).load(ServerPath.ROOT_URL+pharma.getImage().get(0)).into(img);
         rl_top.addView(rowView);
 
-
-
     }
 
     private void getListRate(int page,String type,String keyId) {
@@ -367,7 +369,9 @@ public class Pharma_Detail_Rate extends Fragment {
                                             isEmpty[0] = true;
                                         }
                                     } catch (JSONException e) {
+                                        isEmpty[0] = true;
                                         e.printStackTrace();
+                                        return null;
                                     }
 
                                     return null;
@@ -378,6 +382,14 @@ public class Pharma_Detail_Rate extends Fragment {
                                      if(isEmpty[0]&&page>1){
                                          Mainpage = page-1;
                                      }
+                                     if(arr.size()>0){
+                                         lv_rate.setVisibility(View.VISIBLE);
+                                         txt_null.setVisibility(View.GONE);
+                                     }else{
+                                         lv_rate.setVisibility(View.GONE);
+                                         txt_null.setVisibility(View.VISIBLE);
+                                     }
+
                                     mIsLoading = false;
                                     switch (type){
                                         case "store":
@@ -425,8 +437,6 @@ public class Pharma_Detail_Rate extends Fragment {
 
                 } catch (JSONException e) {
 
-                    mIsLoading = false;
-                    isLoadFinish = false;
                     e.printStackTrace();
                 }
                 Log.d("RESPONSE_RATE_LIST",response);

@@ -204,7 +204,12 @@ public class Order_Detail extends AppCompatActivity {
                         detail.setNamePrd(product.getString(JsonConstant.NAME));
                         detail.setQuality(product.getString(JsonConstant.QUALITY));
                         detail.setImgPrd(product.getString(JsonConstant.IMAGE));
-                        detail.setPricePrd(product.getInt(JsonConstant.PRICE));
+                        if(product.getString(JsonConstant.PRICE).equals("")){
+                            detail.setPricePrd(0);
+                        }else{
+                            detail.setPricePrd(product.getInt(JsonConstant.PRICE));
+                        }
+
 
                         if(detail.getStatus().equals("paid")||detail.getStatus().equals("disable")){
                             btnCancel.setVisibility(View.GONE);

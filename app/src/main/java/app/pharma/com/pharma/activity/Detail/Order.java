@@ -1,16 +1,26 @@
 package app.pharma.com.pharma.activity.Detail;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,6 +36,8 @@ import com.android.volley.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +52,7 @@ import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
+import app.pharma.com.pharma.Service.GetLocationService;
 import me.relex.circleindicator.CircleIndicator;
 
 public class Order extends AppCompatActivity {
@@ -52,7 +65,9 @@ public class Order extends AppCompatActivity {
     Pill_obj pillObj;
     TextView name_pill;
     LinearLayout ln_order;
+    Bitmap mBitmap;
     Slide_Image_Adapter adapter;
+    int PICK_IMAGE_REQUEST = 1;
     DatabaseHandle db;
     LinearLayout ln_blin;
     ImageView img_upload;
@@ -106,22 +121,39 @@ public class Order extends AppCompatActivity {
         }else{
             ln_blin.setVisibility(View.GONE);
         }
+        img_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    RequestPermission();
+                } else {
+                    Intent intent = new Intent();
+// Show only images, no videos or anything else
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                }
+            }
+        });
+
+
                 ln_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utils.setAlphalAnimation(v);
-                if(Utils.isLogin()){
+
 
                     if(TextUtils.isEmpty(quality.getText().toString())){
                         Toast.makeText(getApplicationContext(),"Hãy điền số lượng muốn mua",Toast.LENGTH_SHORT).show();
+                    }else if(pillObj.isBinding()&&mBitmap==null){
+                        Toast.makeText(getApplicationContext(),"Hãy chọn ảnh đơn thuốc",Toast.LENGTH_SHORT).show();
                     }else{
                         pillObj.setQuality(Integer.parseInt(quality.getText().toString()));
                         dialogPreview();
                     }
 
-                }else{
-                    Utils.dialogNotif(getResources().getString(R.string.you_not_login));
-                }
+
             }
         });
 
@@ -196,11 +228,11 @@ public class Order extends AppCompatActivity {
         int price = pillObj.getPrice();
 
         int tong = numqualy*price;
-        if(tong>0){
+
             tv_prd.setText(Html.fromHtml(Order.this.getResources().getString(R.string.order_dialog_product,
                     pillObj.getName(),numqualy+"",
                     Constant.format.format(price)+"VND",Constant.format.format(tong)+"VND")));
-        }
+
         String adr = ed_adr.getText().toString();
         String name = ed_fullname.getText().toString();
         String mail = ed_email.getText().toString();
@@ -259,7 +291,9 @@ public class Order extends AppCompatActivity {
             map.put("email",mail);
             map.put("phone",phone);
             map.put("address",adr);
-
+            if(pillObj.isBinding()&&mBitmap!=null){
+            map.put("image",converBase64(mBitmap));
+            }
             Response.Listener<String> response = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -297,6 +331,90 @@ public class Order extends AppCompatActivity {
 
     }
 
+    public void RequestPermission(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        Constant.PERMISSION_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            Intent intent = new Intent();
+// Show only images, no videos or anything else
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constant.PERMISSION_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent();
+// Show only images, no videos or anything else
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                } else {
+                    Utils.dialogNotif("Bạn sẽ không thể đăng ảnh nếu không cấp quyền");
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
+    public String converBase64(Bitmap bm){
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return encoded;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                 mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                
+                img_upload.setImageBitmap(mBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     protected void onResume() {
         Common.context = this;

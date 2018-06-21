@@ -1,6 +1,7 @@
 package app.pharma.com.pharma;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -161,31 +162,40 @@ public class Wellcome extends AppCompatActivity {
                 if(job.has(JsonConstant.LIST_DISE)){
                     ja = job.getJSONArray(JsonConstant.LIST_DISE);
                 }
+                if(ja.length()>0){
+                    for(int i = 0; i  < ja.length();i++){
+                        type = new StringBuffer();
+                        JSONObject index = ja.getJSONObject(i);
+                        JSONObject catalo = index.getJSONObject(JsonConstant.CATEGORY);
+                        if(catalo.has(JsonConstant.TYPE)){
+                            type.append(catalo.getString(JsonConstant.TYPE));
+                        }else{
+                            type.append(Constant.PILL_INTRO_TYPE);
+                        }
 
-                for(int i = 0; i  < ja.length();i++){
-                    type = new StringBuffer();
-                    JSONObject index = ja.getJSONObject(i);
-                    JSONObject catalo = index.getJSONObject(JsonConstant.CATEGORY);
-                    if(catalo.has(JsonConstant.TYPE)){
-                        type.append(catalo.getString(JsonConstant.TYPE));
-                    }else{
-                        type.append(Constant.PILL_INTRO_TYPE);
+                        CataloModel model = new CataloModel();
+
+                        model.setId(catalo.getString(JsonConstant.ID));
+                        model.setName(catalo.getString(JsonConstant.NAME));
+
+                        list.add(model);
+
                     }
+                    Catalo cataloMain = new Catalo();
+                    cataloMain.setType(type.toString());
+                    cataloMain.setListCatalo(list);
+                    databaseHandle.updateOrInstall(cataloMain);
 
-                    CataloModel model = new CataloModel();
-
-                    model.setId(catalo.getString(JsonConstant.ID));
-                    model.setName(catalo.getString(JsonConstant.NAME));
-
-                    list.add(model);
-
+                    checkData();
+                }else{
+                    Utils.ShowNotifString(getResources().getString(R.string.server_err), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                        @Override
+                        public void onClose(Dialog dialog) {
+                            finish();
+                        }
+                    });
                 }
-                Catalo cataloMain = new Catalo();
-                cataloMain.setType(type.toString());
-                cataloMain.setListCatalo(list);
-                databaseHandle.updateOrInstall(cataloMain);
 
-                checkData();
 
             }catch (Exception e){
                 e.printStackTrace();

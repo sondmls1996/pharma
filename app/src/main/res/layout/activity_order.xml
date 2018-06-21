@@ -156,27 +156,33 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/ln_blin"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:visibility="gone"
-                    android:id="@+id/ln_blin"
                     android:layout_marginRight="15dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
                     <ImageView
-                        android:layout_width="80dp"
                         android:id="@+id/img_upload"
-                        android:src="@drawable/no_image_small"
+                        android:layout_width="80dp"
+                        android:scaleType="centerCrop"
+                        android:layout_height="80dp"
                         android:background="@drawable/border_image"
-                        android:layout_height="80dp" />
+                        android:src="@drawable/no_image_small" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
                         android:text="@string/need_image"
-                        android:layout_gravity="center"/>
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
                 <View
@@ -210,7 +216,7 @@
                         android:layout_marginLeft="5dp"
                         android:textSize="12sp"
                         android:background="@android:color/transparent"
-
+                    android:gravity="center_vertical"
                         android:minWidth="300dp"
                         android:hint="@string/adr"
                         android:textColorHint="@color/blue"
@@ -247,6 +253,7 @@
                         android:drawablePadding="10dp"
                         android:layout_marginLeft="5dp"
                         android:textSize="12sp"
+                        android:gravity="center_vertical"
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
                         android:minWidth="300dp"
@@ -287,6 +294,7 @@
                         android:id="@+id/ed_email"
                         android:drawablePadding="10dp"
                         android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
                         android:textSize="12sp"
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
@@ -329,6 +337,7 @@
                         android:drawablePadding="10dp"
                         android:layout_marginLeft="5dp"
                         android:textSize="12sp"
+                        android:gravity="center_vertical"
                         android:background="@android:color/transparent"
                         android:maxWidth="300dp"
                         android:minWidth="300dp"

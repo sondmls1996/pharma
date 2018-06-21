@@ -258,7 +258,12 @@ public class Pill_Fragment_Detail extends Fragment {
                                         objPill.setId(product.getString(JsonConstant.ID));
                                         objPill.setName(product.getString(JsonConstant.NAME));
                                         objPill.setLinkShare(product.getString(JsonConstant.LINK_SHARE));
-                                        objPill.setPrice(joPrice.getInt(JsonConstant.MONEY));
+                                        if(joPrice.getString(JsonConstant.MONEY).equals("")){
+                                            objPill.setPrice(0);
+                                        }else{
+                                            objPill.setPrice(joPrice.getInt(JsonConstant.MONEY));
+                                        }
+
                                         objPill.setUsage(product.getString(JsonConstant.USAGE));
                                         objPill.setRecoment(product.getString(JsonConstant.RECOMENT));
                                         objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));

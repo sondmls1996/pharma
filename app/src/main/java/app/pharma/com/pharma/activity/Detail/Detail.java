@@ -96,27 +96,32 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_left:
-                changeColor();
-                tv_left.setBackgroundColor(getResources().getColor(R.color.white));
-                tv_left.setTextColor(getResources().getColor(R.color.blue));
-                if(key.equals("pill")){
-                    fragment = Pill_Fragment_Detail.class;
-                }else if(key.equals("pharma")){
-                    fragment = Pharma_Detail_Fragment.class;
-                }else if (key.equals("sick")){
-                    fragment = Sick_Detail_Fragment.class;
-                }
+
+                    changeColor();
+                    tv_left.setBackgroundColor(getResources().getColor(R.color.white));
+                    tv_left.setTextColor(getResources().getColor(R.color.blue));
+                    if(key.equals("pill")){
+                        fragment = Pill_Fragment_Detail.class;
+                    }else if(key.equals("pharma")){
+                        fragment = Pharma_Detail_Fragment.class;
+                    }else if (key.equals("sick")){
+                        fragment = Sick_Detail_Fragment.class;
+                    }
 
 
-                ReplaceFrag(fragment);
+                    ReplaceFrag(fragment);
+
+
                 break;
             case R.id.tv_right:
-                changeColor();
-                tv_right.setBackgroundColor(getResources().getColor(R.color.white));
-                tv_right.setTextColor(getResources().getColor(R.color.blue));
-                fragment = Pharma_Detail_Rate.class;
+                if(headerObj!=null) {
+                    changeColor();
+                    tv_right.setBackgroundColor(getResources().getColor(R.color.white));
+                    tv_right.setTextColor(getResources().getColor(R.color.blue));
+                    fragment = Pharma_Detail_Rate.class;
 
-                ReplaceFrag(fragment);
+                    ReplaceFrag(fragment);
+                }
                 break;
         }
     }

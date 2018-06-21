@@ -331,7 +331,11 @@ public class Pill_Fragment extends Fragment {
                                                     pill.setHtuse(product.getString(JsonConstant.DESCRI));
                                                     pill.setId(product.getString(JsonConstant.ID));
                                                     JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                                    pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                    if(price.getString(JsonConstant.MONEY).equals("")){
+                                                        pill.setPrice(0);
+                                                    }else{
+                                                        pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                    }
                                                     pill.setCmt(product.getInt(JsonConstant.COMMENT));
                                                     pill.setLike(product.getInt(JsonConstant.LIKE));
                                                     pill.setStar(product.getDouble(JsonConstant.STAR));
@@ -347,7 +351,7 @@ public class Pill_Fragment extends Fragment {
                                             }
 
                                         } catch (JSONException e) {
-                                            Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+
                                             e.printStackTrace();
                                             return null;
                                         }
@@ -389,6 +393,7 @@ public class Pill_Fragment extends Fragment {
 
 
                 } catch (JSONException e) {
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                     e.printStackTrace();
                 }
 
@@ -409,7 +414,7 @@ public class Pill_Fragment extends Fragment {
             }
             if(page==1){
                 arr.clear();
-
+                adapter.notifyDataSetChanged();
             }
 
             Map<String, String> map = new HashMap<>();

@@ -156,19 +156,19 @@ public class Change_infor extends AppCompatActivity {
                             user.setDate(c.getTimeInMillis());
                             user.setPhone(phone);
                             user.setName(name);
-                            user.setName(Mainuser.getName());
+
                             user.setToken(Mainuser.getToken());
                             user.setAvt(Mainuser.getAvt());
                             user.setUserName(Mainuser.getUserName());
                             db.updateOrInstall(user);
-                            Utils.ShowNotifString(getResources().getString(R.string.change_infor_success),
-                                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                                        @Override
-                                        public void onClose(Dialog dialog) {
-                                            dialog.dismiss();
-
-                                        }
-                                    });
+//                            Utils.ShowNotifString(getResources().getString(R.string.change_infor_success),
+//                                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+//                                        @Override
+//                                        public void onClose(Dialog dialog) {
+//                                            dialog.dismiss();
+//
+//                                        }
+//                                    });
                             finish();                            break;
                         case "-1":
                             Utils.ShowNotifString(getResources().getString(R.string.session_out),
