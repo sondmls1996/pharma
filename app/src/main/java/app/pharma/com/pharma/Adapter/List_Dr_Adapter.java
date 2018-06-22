@@ -67,10 +67,10 @@ public void onBindViewHolder(RecyclerViewHolder viewHolder, int position) {
     viewHolder.name_dr.setText(dr.getName());
     viewHolder.age_dr.setText(dr.getAge()+" tuổi");
     viewHolder.work_year.setText(dr.getWork_year() +" công tác");
-    String[] main = dr.getHospital().split("-");
 
-    viewHolder.ck.setText(main[0]);
-    viewHolder.hospital.setText(main[1]);
+
+    viewHolder.ck.setText(dr.getHospital());
+ //   viewHolder.hospital.setText(main[1]);
 
         }
 
