@@ -314,7 +314,7 @@ public class Pill_Fragment extends Fragment {
                         String code = root.getString(JsonConstant.CODE);
                         switch (code){
                             case "0":
-                                new AsyncTask<Void,Void,Void>(){
+                                 new AsyncTask<Void,Void,Void>(){
 
                                     @Override
                                     protected Void doInBackground(Void... voids) {
@@ -393,7 +393,10 @@ public class Pill_Fragment extends Fragment {
 
 
                 } catch (JSONException e) {
-                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                    if(getActivity()!=null){
+                        Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                    }
+
                     e.printStackTrace();
                 }
 
@@ -461,7 +464,7 @@ public class Pill_Fragment extends Fragment {
             }
             if(page==1){
                 arr.clear();
-
+                adapter.notifyDataSetChanged();
             }
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");

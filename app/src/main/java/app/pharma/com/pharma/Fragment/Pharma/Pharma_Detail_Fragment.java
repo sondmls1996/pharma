@@ -449,6 +449,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                     Intent it = new Intent(getActivity(), Show_map.class);
                     it.putExtra("lat",lat);
                     it.putExtra("long",lng);
+                    it.putExtra("adr",pharma.adr);
                     getActivity().startActivity(it);
                 }
             }

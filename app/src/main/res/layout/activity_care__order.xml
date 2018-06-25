@@ -9,8 +9,24 @@
     <include
         layout="@layout/toolbar_back"
         ></include>
-    <ListView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv_order"></ListView>
+        android:visibility="gone"
+        android:id="@+id/txt_null"
+        android:textColor="@color/black"
+        android:text="@string/empty_list"
+        android:textSize="16sp"
+        android:gravity="center"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swip">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lv_order"></android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

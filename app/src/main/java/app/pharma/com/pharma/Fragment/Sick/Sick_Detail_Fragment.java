@@ -217,7 +217,13 @@ public class Sick_Detail_Fragment extends Fragment {
                                             JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
                                             sickObj = new Sick_Obj();
                                             sickObj.setName(Dise.getString(JsonConstant.NAME));
-                                            sickObj.setDescri(Dise.getString(JsonConstant.DEFINE));
+                                            if(Dise.has(JsonConstant.DESCRI)){
+                                                sickObj.setDescri(Dise.getString(JsonConstant.DESCRI));
+                                            }
+                                            if(Dise.has(JsonConstant.DEFINE)){
+                                                sickObj.setDefine(Dise.getString(JsonConstant.DEFINE));
+                                            }
+
                                             sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
                                             sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
                                             sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
@@ -276,10 +282,15 @@ public class Sick_Detail_Fragment extends Fragment {
 
                                             ln_star.addView(null_text, 0);
                                         }
-
+                                        if(sickObj.getDescri()==null||sickObj.getDescri().length()<0){
+                                            sickObj.setDescri("Không có mô tả");
+                                        }
+                                        if(sickObj.getDefine()==null||sickObj.getDefine().length()<0){
+                                            sickObj.setDefine("Không có mô tả");
+                                        }
                                         content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
                                                 sickObj.getDescri(),
-                                                "")));
+                                                sickObj.getDefine())));
                                         utils.showLoading(getActivity(),10000,false);
                                         getSickOther(jo);
 

@@ -12,6 +12,7 @@ public class Pill_obj implements Serializable{
     String usage;
     String recoment;
     String interactIn;
+    String interaction;
     String storage;
     int like;
     int comment;
@@ -19,6 +20,14 @@ public class Pill_obj implements Serializable{
     String linkShare;
     int likeStt;
     boolean binding;
+
+    public String getInteraction() {
+        return interaction;
+    }
+
+    public void setInteraction(String interaction) {
+        this.interaction = interaction;
+    }
 
     public boolean isBinding() {
         return binding;

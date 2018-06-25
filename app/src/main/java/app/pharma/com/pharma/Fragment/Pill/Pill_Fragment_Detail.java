@@ -267,6 +267,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                         objPill.setUsage(product.getString(JsonConstant.USAGE));
                                         objPill.setRecoment(product.getString(JsonConstant.RECOMENT));
                                         objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));
+                                        objPill.setInteraction(product.getString(JsonConstant.INTERAC));
                                         objPill.setStorage( product.getString(JsonConstant.STORAGE));
                                         for (int j = 0; j<images.length();j++){
                                             if(!images.getString(j).equals("")){
@@ -302,10 +303,28 @@ public class Pill_Fragment_Detail extends Fragment {
                             tv_title.setText(objPill.getName());
                             tv_like.setText(objPill.getLike()+"");
                             tv_comment.setText(objPill.getComment()+"");
+
+                            if(objPill.getUsage()==null||objPill.getUsage().length()<0){
+                                objPill.setUsage("Không có dữ liệu");
+                            }
+                            if(objPill.getRecoment()==null||objPill.getRecoment().length()<0){
+                                objPill.setRecoment("Không có dữ liệu");
+                            }
+                            if(objPill.getInteractIn()==null||objPill.getInteractIn().length()<0){
+                                objPill.setInteractIn("Không có dữ liệu");
+                            }
+                            if(objPill.getInteraction()==null||objPill.getInteraction().length()<0){
+                                objPill.setInteraction("Không có dữ liệu");
+                            }
+                            if(objPill.getStorage()==null||objPill.getStorage().length()<0){
+                                objPill.setStorage("Không có dữ liệu");
+                            }
+
                             tv_content.setText(Html.fromHtml(Common.context.getResources().getString(R.string.how_to_use_pill,
                                     objPill.getUsage(),
                                     objPill.getRecoment(),
                                     objPill.getInteractIn(),
+                                    objPill.getInteraction(),
                                     objPill.getStorage())
                             ));
                             product_id = objPill.getId();

@@ -13,6 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -209,7 +213,7 @@ public class Order extends AppCompatActivity {
         }
     }
 
-    public void dialogPreview(){
+    public void  dialogPreview(){
         Dialog dialog = new Dialog(Common.context);
         Window view=((Dialog)dialog).getWindow();
         view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

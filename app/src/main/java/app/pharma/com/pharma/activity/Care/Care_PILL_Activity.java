@@ -2,6 +2,7 @@ package app.pharma.com.pharma.activity.Care;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,8 +38,10 @@ public class Care_PILL_Activity extends AppCompatActivity {
     RecyclerView lv;
     Like_Adapter adapter;
     DatabaseHandle db;
+    TextView tvNull;
     User user;
     int Mainpage = 1;
+    SwipeRefreshLayout swip;
     String key = "";
     ArrayList<Like_Constructor> arr;
     @Override
@@ -67,33 +70,25 @@ public class Care_PILL_Activity extends AppCompatActivity {
         }else{
             tvTitle.setText(getResources().getString(R.string.title_care_sick));
         }
-
+        tvNull = findViewById(R.id.txt_null);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
+        swip = findViewById(R.id.swip);
+        swip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Mainpage =1;
+                getDataLike(Mainpage);
+            }
+        });
         arr = new ArrayList<>();
         setRecycle();
 
         getDataLike(Mainpage);
-//                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-//                Intent it = new Intent(getApplicationContext(), Detail.class);
-//                it.putExtra("key","pill");
-//                it.putExtra("id", arr.get(i).getId());
-//                startActivity(it);
-//            }
-//        });
-
-//        arr.add(new Like_Constructor());
-//        arr.add(new Like_Constructor());
-//        arr.add(new Like_Constructor());
-//        arr.add(new Like_Constructor());
-//        adapter.notifyDataSetChanged();
     }
 
     public void setRecycle(){
@@ -129,6 +124,11 @@ public class Care_PILL_Activity extends AppCompatActivity {
     private void getDataLike(int page) {
 
         if(Utils.isLogin()){
+            if(page==1){
+                arr.clear();
+                adapter.notifyDataSetChanged();
+            }
+            boolean isEmpty[] = {false};
             Map<String,String> map = new HashMap<>();
             map.put("accessToken",user.getToken());
             map.put("type","product");
@@ -137,40 +137,73 @@ public class Care_PILL_Activity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     Log.d("RESPONSE_CARE_PILL",response);
-
+                    swip.setRefreshing(false);
                     try {
                         JSONObject jo = new JSONObject(response);
                         String code = jo.getString(JsonConstant.CODE);
                         switch (code){
                             case "0":
                                 JSONArray list = jo.getJSONArray(JsonConstant.LIST_FAVOR_PRODUCT);
-                                for(int i=0;i<list.length();i++){
-                                    JSONObject idx = list.getJSONObject(i);
-                                    JSONObject product = idx.getJSONObject(JsonConstant.PRODUCT);
-                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                    JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-                                    Like_Constructor like = new Like_Constructor();
-                                    like.setName(product.getString(JsonConstant.NAME));
-                                    like.setComment(product.getString(JsonConstant.COMMENT));
-                                    like.setLike(product.getString(JsonConstant.LIKE));
-                                    like.setDescri(product.getString(JsonConstant.DESCRI));
-                                    like.setId(product.getString(JsonConstant.ID));
-                                    like.setImage(images.getString(0));
-                                    like.setPrice(price.getInt(JsonConstant.MONEY));
-                                    arr.add(like);
+                                if(list.length()>0){
+                                    for(int i=0;i<list.length();i++){
+                                        JSONObject idx = list.getJSONObject(i);
+                                        JSONObject product = idx.getJSONObject(JsonConstant.PRODUCT);
+                                        JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                        JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                                        Like_Constructor like = new Like_Constructor();
+                                        like.setName(product.getString(JsonConstant.NAME));
+                                        like.setComment(product.getString(JsonConstant.COMMENT));
+                                        like.setLike(product.getString(JsonConstant.LIKE));
+                                        like.setDescri(product.getString(JsonConstant.DESCRI));
+                                        like.setId(product.getString(JsonConstant.ID));
+                                        like.setImage(images.getString(0));
+                                        if(price.getString(JsonConstant.MONEY).equals("")){
+                                            like.setPrice(0);
+                                        }else{
+                                            like.setPrice(price.getInt(JsonConstant.MONEY));
+                                        }
+
+                                        arr.add(like);
+                                    }
+                                    isEmpty[0] = false;
+                                }else{
+                                    isEmpty[0] = true;
                                 }
+                                if(isEmpty[0]&&Mainpage>1){
+                                    Mainpage = Mainpage -1;
+                                }
+
+                                if(arr.size()>0){
+                                    setIsEmpty(false);
+                                }else{
+                                    setIsEmpty(true);
+                                }
+
                                 adapter.notifyDataSetChanged();
                                 break;
 
                         }
                     } catch (JSONException e) {
+                        isEmpty[0] = true;
+                        swip.setRefreshing(false);
                         e.printStackTrace();
                     }
+
                 }
             };
             Utils.PostServer(this, ServerPath.LIST_FAVOR,map,response);
         }
 
+    }
+
+    public void setIsEmpty(boolean empty){
+        if(empty){
+            lv.setVisibility(View.GONE);
+            tvNull.setVisibility(View.VISIBLE);
+        }else{
+            lv.setVisibility(View.VISIBLE);
+            tvNull.setVisibility(View.GONE);
+        }
     }
 
     @Override

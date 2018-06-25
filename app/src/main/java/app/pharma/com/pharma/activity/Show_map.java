@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import app.pharma.com.pharma.R;
@@ -23,6 +24,7 @@ public class Show_map extends AppCompatActivity implements OnMapReadyCallback {
     double lat, lng;
     GoogleMap gg;
     TextView title;
+    String adr = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class Show_map extends AppCompatActivity implements OnMapReadyCallback {
         if (it.getExtras() != null) {
             lat = it.getDoubleExtra("lat", 0);
             lng = it.getDoubleExtra("long", 0);
+            adr = it.getStringExtra("adr");
 
         }
     }
@@ -67,8 +70,22 @@ public class Show_map extends AppCompatActivity implements OnMapReadyCallback {
         }
         gg.setMyLocationEnabled(true);
 
+        gg.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                marker.showInfoWindow();
+                return false;
+            }
+        });
+
         if(lat!=0&&lng!=0){
-            gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
+            MarkerOptions marker = new MarkerOptions();
+            marker.title(adr);
+            marker.position(new LatLng(lat,lng));
+
+            Marker myMarker = gg.addMarker(marker);
+            myMarker.showInfoWindow();
+
             gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),15f));
         }
     }

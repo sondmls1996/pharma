@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Sick_Obj {
     String id;
     String name;
+    String define;
     int like;
     int cmt;
     int like_stt;
@@ -13,6 +14,13 @@ public class Sick_Obj {
     Double star;
     String descri;
 
+    public String getDefine() {
+        return define;
+    }
+
+    public void setDefine(String define) {
+        this.define = define;
+    }
 
     public String getId() {
         return id;

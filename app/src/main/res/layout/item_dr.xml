@@ -52,14 +52,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:id="@+id/ln_star_dr"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:gravity="right"></LinearLayout>
+
             </LinearLayout>
 
             <TextView

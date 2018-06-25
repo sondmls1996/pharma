@@ -361,7 +361,7 @@ public class Dr_Fragment extends Fragment {
 
             Map<String, String> map = new HashMap<>();
             map.put("page",i+"");
-            map.put("type",idDr);
+        //    map.put("type",idDr);
             map.put("key",key);
             getData(map);
 

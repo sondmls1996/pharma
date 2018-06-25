@@ -44,7 +44,7 @@
                 android:maxLength="30"
                 android:id="@+id/name_pharma"
                 android:textSize="16sp"
-
+                android:maxLines="1"
                 android:textColor="@color/blue"
                 android:textStyle="bold" />
 

@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s!=null){
+                if(s!=null && edSearch.getVisibility() == View.VISIBLE){
 
                     Intent it = new Intent(Constant.SEARCH_ACTION);
                     it.putExtra("key",s.toString());
@@ -249,54 +249,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-    public void onSearch(String type, String Json,int page){
-        if(type.equals("sick")){
-            searchSick(Json,page);
-        }else if(type.equals("pill")){
-            searchPill(Json,page);
-        }else if(type.equals("pharma")){
-            searchPharma(Json,page);
-        }else if(type.equals("dr")){
-            searchDr(Json,page);
-        }
-
-    }
-
-    private void searchPharma(String json,int page) {
-    }
-
-    private void searchDr(String json,int page) {
-    }
-
-
-
-    private void searchPill(String json, int page) {
-//        if(arrPillSearch==null){
-//            arrPillSearch = new ArrayList<>();
-//        }
-//        if(page==1){
-//            arrPillSearch.clear();
-//        }
-//        rl_type_search.setVisibility(View.VISIBLE);
-//        lv_search.setVisibility(View.VISIBLE);
-//        Map<String, String> map = new HashMap<>();
-//        map.put("page",page+"");
-//        map.put("type",Pill_Fragment.idPill);
-//        map.put("key",json);
-//        Response.Listener<String> response = new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Log.d("RESPONSE_PILL_SEARCH",response);
-//               // swip.setRefreshing(false);
-//                initJson(response);
-//            }
-//        };
-//        Utils.PostServer(this,ServerPath.LIST_PILL,map,response);
-
-
-    }
 
     private void searchSick(String json,int page) {
     }
@@ -353,10 +305,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-
-
-
-
 
     private void changeColor() {
 

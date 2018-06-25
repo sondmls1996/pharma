@@ -85,7 +85,7 @@ public class Sick_Fragment extends Fragment {
         // Inflate the layout for this fragment
          v = inflater.inflate(R.layout.fragment_sick_, container, false);
          Constant.inFragment = "sick";
-         registerBroadcast();
+       //  registerBroadcast();
         arrcata = new ArrayList<>();
         initView();
 
