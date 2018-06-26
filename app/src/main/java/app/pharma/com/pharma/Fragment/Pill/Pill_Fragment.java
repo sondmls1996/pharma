@@ -336,6 +336,7 @@ public class Pill_Fragment extends Fragment {
                                                     }else{
                                                         pill.setPrice(price.getInt(JsonConstant.MONEY));
                                                     }
+
                                                     pill.setCmt(product.getInt(JsonConstant.COMMENT));
                                                     pill.setLike(product.getInt(JsonConstant.LIKE));
                                                     pill.setStar(product.getDouble(JsonConstant.STAR));
@@ -431,6 +432,7 @@ public class Pill_Fragment extends Fragment {
 
     }
     private void loadPageFliter(int page) {
+
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
             Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));

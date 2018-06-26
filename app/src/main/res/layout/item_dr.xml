@@ -84,15 +84,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_dr_hospital"
-                android:maxLength="20"
-                android:text="Bệnh viện Bạch Mai"
-                android:textColor="@color/gray"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+
 
         </LinearLayout>
 

@@ -207,8 +207,6 @@ public class Utils {
     }
 
 
-
-
     public static void ShowNotifString(String mess, ShowDialogNotif.OnCloseDialogNotif onClose){
         ShowDialogNotif notif = new ShowDialogNotif(mess);
         notif.setOnCloseDialogNotif(onClose);
@@ -350,6 +348,22 @@ public class Utils {
                 Common.context.getSharedPreferences(Constant.USER_NAME, Context.MODE_PRIVATE);
 
         return preferences.getString("username","");
+    }
+
+    public static String getTerm(){
+
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.TERM, Context.MODE_PRIVATE);
+
+        return preferences.getString("linkterm","");
+    }
+
+    public static void setTerm(String userName){
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.TERM, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putString("linkterm",userName);
+        editor.commit();
     }
 
     public static void setAlphalAnimation(View v){

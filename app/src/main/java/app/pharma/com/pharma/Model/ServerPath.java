@@ -3,7 +3,8 @@ package app.pharma.com.pharma.Model;
 public class ServerPath {
 
     public static String ROOT_URL = "http://pharmatopes.mantanservices.com/";
-
+    public static String LINK_TERM = "getTermsOfUseAPI";
+    public static String CHECK_UPDATE = "checkUpdateVerAPI";
 
     //Tai khoan
     public static String REGISTER = "checkRegister";

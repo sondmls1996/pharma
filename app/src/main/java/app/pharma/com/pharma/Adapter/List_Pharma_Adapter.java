@@ -73,6 +73,7 @@ public class List_Pharma_Adapter extends
         viewHolder.tv_adr.setText(pharma.getAdr());
         viewHolder.like.setText(pharma.getLike());
         viewHolder.comment.setText(pharma.getComment());
+        viewHolder.ln.removeAllViews();
         if(Common.lat!=0&&Common.lng!=0){
             Location location = new Location("");
             location.setLatitude(Common.lat);
@@ -90,8 +91,6 @@ public class List_Pharma_Adapter extends
                     String around = d+"";
 
                     viewHolder.tv_distance.setText("Cách "+around+" km");
-
-
                 }else{
 
                 }
@@ -101,15 +100,8 @@ public class List_Pharma_Adapter extends
                     String around = d+"";
 
                     viewHolder.tv_distance.setText("Cách "+around+" m");
-
-
                 }
             }
-
-
-
-
-
         }
         Double d = pharma.getRate();
         if(d!=null){
@@ -149,7 +141,7 @@ public class List_Pharma_Adapter extends
              tv_adr = v.findViewById(R.id.adr_pharma);
              tv_distance = v.findViewById(R.id.distance_pharma);
              ln = v.findViewById(R.id.ln_star_pharma);
-            ln.removeAllViews();
+             ln.removeAllViews();
              like = v.findViewById(R.id.txt_like);
              comment = v.findViewById(R.id.txt_comment);
 

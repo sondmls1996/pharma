@@ -97,7 +97,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
          age_dr = v.findViewById(R.id.tv_age_dr);
          work_year = v.findViewById(R.id.tv_work_dr_age);
          ck = v.findViewById(R.id.tv_dr_ck);
-         hospital = v.findViewById(R.id.tv_dr_hospital);
+        // hospital = v.findViewById(R.id.tv_dr_hospital);
     }
 }
 }

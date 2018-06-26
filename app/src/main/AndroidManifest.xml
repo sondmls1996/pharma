@@ -4,9 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +17,6 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/laucher_white_1"
-
         android:label="@string/app_name"
         android:resizeableActivity="true"
         android:roundIcon="@drawable/laucher_white_2"
@@ -25,8 +24,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <meta-data
             android:name="android.max_aspect"
@@ -47,11 +46,11 @@
         <activity
             android:name=".activity.Login.Login"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.Login.Register"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.Detail.Infor_Meo"
             android:screenOrientation="portrait" />
@@ -66,8 +65,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.User.Change_infor"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.User.ChangePass"
             android:screenOrientation="portrait" />
@@ -80,8 +79,7 @@
         <activity
             android:name=".activity.Detail.Order"
             android:screenOrientation="portrait"
-
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <service
             android:name=".Service.GetLocationService"
@@ -104,7 +102,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.Care.Care_Order" />
         <activity android:name=".activity.Care.Care_Pharma" />
-        <activity android:name=".activity.Detail.Order_Detail"></activity>
+        <activity android:name=".activity.Detail.Order_Detail" />
+        <activity android:name=".activity.Login.GotoWeb"></activity>
     </application>
 
 </manifest>

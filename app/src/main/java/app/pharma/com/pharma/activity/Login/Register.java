@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
@@ -115,7 +116,12 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              //   Utils.setAlphalAnimation(v);
-                cb_acc.performClick();
+              if(!Utils.getTerm().equals("")){
+                Intent it = new Intent(getApplicationContext(),GotoWeb.class);
+                startActivity(it);
+              }else{
+                  Toast.makeText(getApplicationContext(),"Đường dẫn không tồn tại",Toast.LENGTH_SHORT).show();
+              }
             }
         });
         edBirth.setOnClickListener(new View.OnClickListener() {

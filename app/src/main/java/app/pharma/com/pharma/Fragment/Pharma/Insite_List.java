@@ -88,12 +88,8 @@ public class Insite_List extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Mainpage++;
-                if(isNomar){
-                    getData(Mainpage,type);
-                }
-                if(isSearch){
-                    loadPageSearch(Mainpage,key);
-                }
+
+                loadManager(Mainpage,isNomar,isSearch,key,type);
             }
         };
         lv.addOnScrollListener(endlessScroll);
@@ -143,6 +139,16 @@ public class Insite_List extends Fragment {
 
 
         getData(Mainpage,type);
+    }
+
+    public void loadManager(int page, boolean isNomar, boolean isSearch,String key,String type){
+
+        if (isNomar) {
+            getData(page,type);
+        }
+        if(isSearch){
+            loadPageSearch(page,key);
+        }
     }
 
     private void loadPageSearch(int page, String key){
@@ -210,7 +216,8 @@ public class Insite_List extends Fragment {
                     };
                     Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
                 }else{
-                    getData(1,"show_all");
+                    Mainpage =1;
+                    getData(Mainpage,"show_all");
                 }
             }
         }
@@ -248,11 +255,13 @@ public class Insite_List extends Fragment {
     }
 
     private void getResponseData(JSONObject jo,String type) {
+        boolean isEmpty[] = {false};
         new AsyncTask<Void,Void,Void>(){
 
             @Override
             protected Void doInBackground(Void... voids) {
                 try{
+
                     JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
                     if(array.length()>0){
                         for (int i =0; i<array.length();i++){
@@ -272,7 +281,9 @@ public class Insite_List extends Fragment {
                             pharma.setY(location.getDouble(JsonConstant.LONG));
                             arr.add(pharma);
                         }
+                        isEmpty[0] = false;
                     }else {
+                        isEmpty[0] = true;
                         return null;
                     }
 
@@ -287,6 +298,9 @@ public class Insite_List extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 Pharma_Fragment.arrPharma = arr;
+                if(isEmpty[0]&&Mainpage>1){
+                    Mainpage = Mainpage -1;
+                }
                 if(type.equals("show_all")){
                     if(arr.size()>0){
                         tvnull.setVisibility(View.GONE);

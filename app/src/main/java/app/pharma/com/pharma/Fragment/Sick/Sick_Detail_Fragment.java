@@ -226,7 +226,12 @@ public class Sick_Detail_Fragment extends Fragment {
 
                                             sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
                                             sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
-                                            sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
+                                            if(Dise.has(JsonConstant.STAR)){
+                                                sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
+                                            }else{
+                                                sickObj.setStar(0.0);
+                                            }
+
                                             sickObj.setLink_share(Dise.getString(JsonConstant.LINK_SHARE));
                                             sickObj.setLike_stt(Dise.getInt(JsonConstant.LIKE_STT));
                                             sickObj.setId(Dise.getString(JsonConstant.ID));

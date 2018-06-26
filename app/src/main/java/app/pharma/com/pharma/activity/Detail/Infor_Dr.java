@@ -69,6 +69,7 @@ public class Infor_Dr extends AppCompatActivity {
                 Utils.setAlphalAnimation(v);
 
                 if(!strPhone.equals("")&&strPhone!=null){
+                    strPhone = strPhone.replace(" ","");
                     if (Build.VERSION.SDK_INT >= 23) {
                         RequestPermission();
                     } else {
@@ -93,6 +94,7 @@ public class Infor_Dr extends AppCompatActivity {
         ln_mess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                strPhone = strPhone.replace(" ","");
                 Utils.setAlphalAnimation(v);
 
                 if(!strPhone.equals("")&&strPhone!=null){

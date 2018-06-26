@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.pharma.com.pharma.Model.CataloModel;
@@ -107,6 +109,9 @@ public class Wellcome extends AppCompatActivity {
     }
 
     public void checkData() {
+        if(TextUtils.isEmpty(Utils.getTerm())){
+            getTerm();
+        }
         if (!databaseHandle.isCataloEmpty()) {
             if (databaseHandle.isCataloSickEmpty()) {
                 getCataloPill(ServerPath.CATALO_SICK);
@@ -134,6 +139,25 @@ public class Wellcome extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void getTerm() {
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.d("RESPONSE_TERM",response);
+                    JSONObject jo = new JSONObject(response);
+                    JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+                    JSONObject notice = data.getJSONObject(JsonConstant.NOTICE);
+                    String link = notice.getString(JsonConstant.LINKVIEW);
+                    Utils.setTerm(link);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Utils.GetServer(this,ServerPath.LINK_TERM,response);
     }
 
 

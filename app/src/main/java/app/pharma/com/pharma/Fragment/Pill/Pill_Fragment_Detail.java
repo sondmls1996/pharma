@@ -1,6 +1,7 @@
 package app.pharma.com.pharma.Fragment.Pill;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -213,7 +214,9 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void loadData(String id) {
+        utils.showLoading(getActivity(),10000,true);
         if(!Utils.isNetworkEnable(getActivity())){
+            utils.showLoading(getActivity(),10000,false);
             Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
                     new Utils.ShowDialogNotif.OnCloseDialogNotif() {
                 @Override
@@ -230,9 +233,10 @@ public class Pill_Fragment_Detail extends Fragment {
                 map.put("accessToken",user.getToken());
             }
             Response.Listener<String> response = new Response.Listener<String>() {
+                @SuppressLint("StaticFieldLeak")
                 @Override
                 public void onResponse(String response) {
-                    utils.showLoading(getActivity(),10000,true);
+
                     ImagesArray.clear();
                     Log.d("RESPONSE_DETAIL",response);
                     new AsyncTask<Void,Void,JSONObject>(){
@@ -263,7 +267,6 @@ public class Pill_Fragment_Detail extends Fragment {
                                         }else{
                                             objPill.setPrice(joPrice.getInt(JsonConstant.MONEY));
                                         }
-
                                         objPill.setUsage(product.getString(JsonConstant.USAGE));
                                         objPill.setRecoment(product.getString(JsonConstant.RECOMENT));
                                         objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));
@@ -278,7 +281,12 @@ public class Pill_Fragment_Detail extends Fragment {
                                         objPill.setImages(ImagesArray);
                                         objPill.setLike(product.getInt(JsonConstant.LIKE));
                                         objPill.setComment(product.getInt(JsonConstant.COMMENT));
-                                        objPill.setStar(product.getDouble(JsonConstant.STAR));
+                                        if(product.has(JsonConstant.STAR)){
+                                            objPill.setStar(product.getDouble(JsonConstant.STAR));
+                                        }else{
+                                            objPill.setStar(0.0);
+                                        }
+
                                         objPill.setLikeStt(product.getInt(JsonConstant.LIKE_STT));
                                         objPill.setBinding(product.getBoolean(JsonConstant.BINDING));
 
@@ -289,6 +297,7 @@ public class Pill_Fragment_Detail extends Fragment {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                return null;
                             }
 
                             return jo;
@@ -392,9 +401,19 @@ public class Pill_Fragment_Detail extends Fragment {
                             otherPrd.setCompany(product.getString(JsonConstant.COMPANY));
                             otherPrd.setId(product.getString(JsonConstant.ID));
                             otherPrd.setImage(images.getString(0));
-                            otherPrd.setStar(product.getDouble(JsonConstant.STAR));
+                            if(product.has(JsonConstant.STAR)){
+                                otherPrd.setStar(product.getDouble(JsonConstant.STAR));
+                            }else{
+                                otherPrd.setStar(0);
+                            }
+
                             JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                            otherPrd.setPrice(price.getInt(JsonConstant.MONEY));
+                            if(price.getString(JsonConstant.MONEY).equals("")){
+                                otherPrd.setPrice(0);
+                            }else{
+                                otherPrd.setPrice(price.getInt(JsonConstant.MONEY));
+                            }
+
                             arrOther.add(otherPrd);
                         }
                     } catch (JSONException e) {

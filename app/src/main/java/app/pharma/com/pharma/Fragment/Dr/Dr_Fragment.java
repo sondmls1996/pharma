@@ -199,8 +199,10 @@ public class Dr_Fragment extends Fragment {
 
     public void isEmpty(boolean empty){
         if(empty){
+            lv.setVisibility(View.GONE);
             tv_null.setVisibility(View.VISIBLE);
         }else{
+            lv.setVisibility(View.VISIBLE);
             tv_null.setVisibility(View.GONE);
         }
     }

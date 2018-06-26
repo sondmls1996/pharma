@@ -93,6 +93,7 @@ public class Care_Order extends AppCompatActivity {
         lv.setLayoutManager(layoutManager);
         adapter = new Pill_Order_Adapter(getApplicationContext(), arr);
         lv.setAdapter(adapter);
+
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {

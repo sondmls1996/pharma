@@ -145,6 +145,7 @@
     <string name="title_user_inf">Thông tin tài khoản</string>
     <string name="title_register">Đăng ký tài khoản</string>
     <string name="title_meo">Chi tiết mẹo vặt</string>
+    <string name="title_term">Điều khoản sử dụng</string>
     <string name="title_changepass">Thay đổi mật khẩu</string>
     <string name="title_lost_pass">Lấy lại mật khẩu</string>
     <string name="title_share">Chia sẻ</string>

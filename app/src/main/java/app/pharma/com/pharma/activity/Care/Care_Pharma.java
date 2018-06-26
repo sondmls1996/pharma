@@ -94,6 +94,7 @@ public class Care_Pharma extends AppCompatActivity {
         lv.setLayoutManager(layoutManager);
         adapter = new Pharma_Care_Adapter(getApplicationContext(), arr);
         lv.setAdapter(adapter);
+
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -154,7 +155,12 @@ public class Care_Pharma extends AppCompatActivity {
                                             list.setName(order.getString(JsonConstant.NAME));
                                             list.setAdr(order.getString(JsonConstant.USER_ADR));
                                             list.setImage(images.getString(0));
-                                            list.setStar(order.getDouble(JsonConstant.STAR));
+                                            if(order.has(JsonConstant.STAR)){
+                                                list.setStar(order.getDouble(JsonConstant.STAR));
+                                            }else{
+                                                list.setStar(0.0);
+                                            }
+
                                             list.setLat(location.getDouble(JsonConstant.LAT));
                                             list.setLng(location.getDouble(JsonConstant.LONG));
                                             arr.add(list);

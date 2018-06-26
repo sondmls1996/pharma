@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,6 +56,7 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_insite__map, container, false);
+        hideKeyboard();
         ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
         return v;
     }
@@ -86,18 +88,38 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
            lat = 17.0828177;
            lng = 106.38272;
          //  gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),5f));
+           gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),8f));
        }
         ArrayList<Pharma_Constructor> arrPm = Pharma_Fragment.arrPharma;
         if(arrPm!=null&&arrPm.size()>0){
             for (int i=0; i<arrPm.size();i++){
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(new LatLng(arrPm.get(i).getX(),arrPm.get(i).getY()));
-                markerOptions.title(arrPm.get(i).getName());
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                markerOptions.snippet(arrPm.get(i).getAdr());
+               new AsyncTask<Integer,MarkerOptions,Void>(){
 
-                gg.addMarker(markerOptions);
+                   @Override
+                   protected Void doInBackground(Integer... i) {
+                       MarkerOptions markerOptions = new MarkerOptions();
+                       markerOptions.position(new LatLng(arrPm.get(i[0]).getX(),arrPm.get(i[0]).getY()));
+                       markerOptions.title(arrPm.get(i[0]).getName());
+                       markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                       markerOptions.snippet(arrPm.get(i[0]).getAdr());
+                       publishProgress(markerOptions);
+                       return null;
+                   }
+
+                   @Override
+                   protected void onProgressUpdate(MarkerOptions... values) {
+                       gg.addMarker(values[0]);
+                       super.onProgressUpdate(values);
+                   }
+
+                   @Override
+                   protected void onPostExecute(Void aVoid) {
+                       super.onPostExecute(aVoid);
+                   }
+               }.execute(i);
+
+
+
 
                 int finalI = i;
 
@@ -124,7 +146,13 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
 
 
 
-
+    }
+    public void hideKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
 
     }
 }
