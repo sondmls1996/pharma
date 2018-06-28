@@ -4,22 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Pill_obj implements Serializable{
-    String id;
-    String name;
-    int price;
-    int quality;
+    String id="";
+    String name="";
+    int price=0;
+    int quality=0;
     ArrayList<String> images;
-    String usage;
-    String recoment;
-    String interactIn;
-    String interaction;
-    String storage;
-    int like;
-    int comment;
-    Double star;
-    String linkShare;
-    int likeStt;
-    boolean binding;
+    String usage="";
+    String recoment="";
+    String interactIn="";
+    String interaction="";
+    String storage="";
+    int like=0;
+    int comment=0;
+    Double star=0.0;
+    String linkShare="";
+    int likeStt=0;
+    boolean binding=false;
 
     public String getInteraction() {
         return interaction;

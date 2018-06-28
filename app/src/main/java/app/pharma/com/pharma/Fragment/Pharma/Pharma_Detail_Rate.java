@@ -73,6 +73,7 @@ public class Pharma_Detail_Rate extends Fragment {
     String allCmt;
     View v;
     DatabaseHandle db;
+
     View footer;
     User user;
     String idProduct="";
@@ -100,6 +101,7 @@ public class Pharma_Detail_Rate extends Fragment {
     private void init() {
         db = new DatabaseHandle();
         user = db.getAllUserInfor();
+
         arr = new ArrayList<>();
          footer = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
         util = new Utils();
@@ -393,15 +395,15 @@ public class Pharma_Detail_Rate extends Fragment {
                                     mIsLoading = false;
                                     switch (type){
                                         case "store":
-                                            tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                            tv_de_comment.setText(Common.context.getResources().getString(R.string.people_cmt,
                                                     allCmt,"nhà thuốc"));
                                             break;
                                         case "product":
-                                            tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                            tv_de_comment.setText(Common.context.getResources().getString(R.string.people_cmt,
                                                     allCmt,"sản phẩm"));
                                             break;
                                         case "disease":
-                                            tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                            tv_de_comment.setText(Common.context.getResources().getString(R.string.people_cmt,
                                                     allCmt,"bài viết"));
                                             break;
                                     }
@@ -416,15 +418,15 @@ public class Pharma_Detail_Rate extends Fragment {
 
                             switch (type){
                                 case "store":
-                                    tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                    tv_de_comment.setText(Common.context.getResources().getString(R.string.people_cmt,
                                             allCmt,"nhà thuốc"));
                                     break;
                                 case "product":
-                                    tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                    tv_de_comment.setText(Common.context.getResources().getString(R.string.people_cmt,
                                             allCmt,"sản phẩm"));
                                     break;
                                 case "disease":
-                                    tv_de_comment.setText(getActivity().getResources().getString(R.string.people_cmt,
+                                    tv_de_comment.setText(Common.context.getResources().getString(R.string.people_cmt,
                                             allCmt,"bài viết"));
                                     break;
                             }

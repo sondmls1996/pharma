@@ -3,16 +3,16 @@ package app.pharma.com.pharma.Model.Constructor.Object;
 import java.util.ArrayList;
 
 public class Sick_Obj {
-    String id;
-    String name;
-    String define;
-    int like;
-    int cmt;
-    int like_stt;
-    String link_share;
+    String id="";
+    String name="";
+    String define="";
+    int like=0;
+    int cmt=0;
+    int like_stt=0;
+    String link_share="";
     ArrayList<String> images;
-    Double star;
-    String descri;
+    Double star=0.0;
+    String descri="";
 
     public String getDefine() {
         return define;

@@ -47,7 +47,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
             id = it.getExtras().getString("id");
 
         }
-
+        headerJson = "";
         imagesArray = new ArrayList<>();
 
         Common.context = this;
@@ -128,8 +128,9 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onResume() {
-        super.onResume();
         Common.context = this;
+        super.onResume();
+
     }
 
     public void changeColor(){

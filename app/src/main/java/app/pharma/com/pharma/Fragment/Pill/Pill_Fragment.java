@@ -10,7 +10,9 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -78,8 +80,11 @@ public class Pill_Fragment extends Fragment {
     Context context;
     SwipeRefreshLayout swip;
     Context ct;
-    int minPrice = 0;
-    int maxPrice = 0;
+    int step = 10;
+    int stepMax = 2000000;
+    int stepMin = 10000;
+    int minPrice = 10000;
+    int maxPrice = 2000000;
     BroadcastReceiver broadcastSearch;
     View v;
     String idingredient = "";
@@ -444,7 +449,7 @@ public class Pill_Fragment extends Fragment {
                 arr.clear();
 
             }
-
+        Log.d("PAGE_PILL",page+"");
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
             map.put("type",idPill);
@@ -477,6 +482,7 @@ public class Pill_Fragment extends Fragment {
 
 
     }
+
     private void showDialogFillter() {
 //        arr.clear();
         final String[] strTPId = {""};
@@ -499,12 +505,18 @@ public class Pill_Fragment extends Fragment {
 
         AppCompatSeekBar seek = dialog.findViewById(R.id.seek_bar_min);
         AppCompatSeekBar seekMax = dialog.findViewById(R.id.seek_bar_max);
+        seek.setMax(stepMax);
+        seek.setMin(stepMin);
+        seekMax.setMax(stepMax);
+        seekMax.setMin(stepMin);
+
         if(minPrice>-1){
             seek.setProgress(minPrice);
         }
         if(maxPrice>-1){
             seekMax.setProgress(maxPrice);
         }
+
         Button apply = dialog.findViewById(R.id.btn_apply);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -522,13 +534,14 @@ public class Pill_Fragment extends Fragment {
             }
         });
         tv_price.setText(getActivity().getResources().
-                getString(R.string.price,minPrice+"",maxPrice+""));
+                getString(R.string.price,Constant.format.format(minPrice)+"VND ",
+                        Constant.format.format(maxPrice)+"VND "));
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 minPrice = progress;
                 tv_price.setText(getActivity().getResources().
-                        getString(R.string.price,minPrice+"",maxPrice+""));
+                        getString(R.string.price,Constant.format.format(minPrice)+"VND ",Constant.format.format(maxPrice)+"VND "));
             }
 
             @Override
@@ -547,7 +560,8 @@ public class Pill_Fragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 maxPrice = progress;
                 tv_price.setText(getActivity().getResources().
-                        getString(R.string.price,minPrice+"",maxPrice+""));
+                        getString(R.string.price,Constant.format.format(minPrice)+"VND ",
+                                Constant.format.format(maxPrice)+"VND "));
             }
 
             @Override

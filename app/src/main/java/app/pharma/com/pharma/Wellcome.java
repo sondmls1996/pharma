@@ -54,6 +54,7 @@ public class Wellcome extends AppCompatActivity {
         setContentView(R.layout.activity_wellcome);
         Common.context = this;
         databaseHandle = new DatabaseHandle();
+        databaseHandle.clearCataloData();
         if (Build.VERSION.SDK_INT >= 23) {
             RequestPermission();
         } else {

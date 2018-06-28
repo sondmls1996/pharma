@@ -158,7 +158,7 @@ public class Care_Pharma extends AppCompatActivity {
                                             if(order.has(JsonConstant.STAR)){
                                                 list.setStar(order.getDouble(JsonConstant.STAR));
                                             }else{
-                                                list.setStar(0.0);
+                                                list.setStar((double)0);
                                             }
 
                                             list.setLat(location.getDouble(JsonConstant.LAT));

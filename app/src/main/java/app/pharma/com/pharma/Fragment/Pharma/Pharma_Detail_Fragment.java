@@ -149,6 +149,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
         }
     }
 
+
         private void init() {
         if(Utils.isLogin()){
             db = new DatabaseHandle();
@@ -245,9 +246,12 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                         if(code.equals("0")){
                             if(likestt==0){
                                 pharma.setLikeStt(1);
-
+                                pharma.setLike(pharma.getLike()+1);
+                                tv_like.setText(pharma.getLike()+"");
                             }else{
                                 pharma.setLikeStt(0);
+                                pharma.setLike(pharma.getLike()-1);
+                                tv_like.setText(pharma.getLike()+"");
                             }
 
                             checkHearth(pharma.getLikeStt());
@@ -259,7 +263,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                     }
                 }
             };
-            Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+            Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
         }else{
             Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
         }
@@ -267,129 +271,158 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     }
 
     private void getData() {
-        if(!Utils.isNetworkEnable(getActivity())){
-           // swip.setRefreshing(false);
-            Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
-                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                        @Override
-                        public void onClose(Dialog dialog) {
-                            dialog.dismiss();
-                            getActivity().finish();
-                        }
-                    });
+        if(Detail.headerJson.length()>0){
+            initJson(Detail.headerJson);
         }else{
-            Map<String, String> map = new HashMap<>();
-            map.put("id",id);
-            if(Utils.isLogin()){
-                map.put("accessToken",user.getToken());
-            }
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        Log.d("RESPONSE_PHARMA",response);
-                        JSONObject jo = new JSONObject(response);
-                        if(jo.has(JsonConstant.CODE)){
-                            String code = jo.getString(JsonConstant.CODE);
-                            switch (code){
-                                case "0":
-                                    new AsyncTask<Void,Void,Void>(){
-
-                                        @Override
-                                        protected Void doInBackground(Void... voids) {
-                                            ImagesArray.clear();
-                                            JSONObject data = null;
-                                            try {
-                                                data = jo.getJSONObject(JsonConstant.DATA);
-                                                JSONObject store = data.getJSONObject(JsonConstant.STORE);
-                                                JSONObject maploc = store.getJSONObject(JsonConstant.MAP_LOCATION);
-
-                                                pharma.setName(store.getString(JsonConstant.NAME));
-                                                pharma.setAdr(store.getString(JsonConstant.USER_ADR));
-                                                pharma.setId(store.getString(JsonConstant.ID));
-                                                pharma.setLike(store.getString(JsonConstant.LIKE));
-                                                pharma.setStar(store.getDouble(JsonConstant.STAR));
-                                                pharma.setComment(store.getString(JsonConstant.COMMENT));
-                                                JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
-
-                                                for (int i =0; i<images.length();i++){
-                                                    if(!images.getString(i).equals("")){
-                                                        ImagesArray.add(images.getString(i));
-                                                    }
-
-                                                }
-                                                pharma.setImage(ImagesArray);
-                                                pharma.setPhone(store.getString(JsonConstant.PHONE));
-                                                pharma.setLat(maploc.getDouble(JsonConstant.LAT));
-                                                pharma.setLng(maploc.getDouble(JsonConstant.LONG));
-                                                pharma.setLinkShare(store.getString(JsonConstant.LINK_SHARE));
-                                                pharma.setLikeStt(store.getInt(JsonConstant.LIKE_STT));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            return null;
-                                        }
-
-                                        @Override
-                                        protected void onPostExecute(Void aVoid) {
-                                            Detail.headerObj = pharma;
-                                            tv_title.setText(pharma.getName());
-                                            star = pharma.getStar();
-
-                                            lat = pharma.getLat();
-                                            lng = pharma.getLng();
-                                            adr.setText(pharma.getAdr());
-                                            phone.setText(pharma.getPhone());
-                                            strphone = pharma.getPhone();
-                                            tv_like.setText(pharma.getLike());
-                                            comment.setText(pharma.getComment());
-                                            likeStt = pharma.getLikeStt();
-                                            linkShare = pharma.getLinkShare();
-                                            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
-                                            mPager = (ViewPager) v.findViewById(R.id.slide_image);
-                                            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-                                            mPager.setAdapter(adapter);
-                                            indicator.setViewPager(mPager);
-                                            adapter.registerDataSetObserver(indicator.getDataSetObserver());
-                                            adapter.notifyDataSetChanged();
-                                            int s = Integer.valueOf(star.intValue());
-                                            LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                            if(s !=0){
-                                                for(int i = 0; i<s;i++){
-                                                    View star = vi.inflate(R.layout.star, null);
-
-                                                    ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-                                                }
-                                            }else{
-                                                View nullView = vi.inflate(R.layout.null_textview, null);
-                                                ln.addView(nullView, 0);
-                                            }
-// insert into main view
-                                            checkHearth(pharma.likeStt);
-                                            if(gg!=null){
-                                                setMap();
-                                            }
-
-
-                                            super.onPostExecute(aVoid);
-                                        }
-                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                                    break;
-                                case "1":
-                                    break;
+            if(!Utils.isNetworkEnable(getActivity())){
+                // swip.setRefreshing(false);
+                Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
+                        new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                            @Override
+                            public void onClose(Dialog dialog) {
+                                dialog.dismiss();
+                                getActivity().finish();
                             }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        });
+            }else{
+                Map<String, String> map = new HashMap<>();
+                map.put("id",id);
+                if(Utils.isLogin()){
+                    map.put("accessToken",user.getToken());
                 }
-            };
-            Utils.PostServer(getActivity(), ServerPath.DETAIL_PHARMA,map,response);
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Detail.headerJson = response;
+                        initJson(response);
+                    }
+                };
+                Utils.PostServer(Common.context, ServerPath.DETAIL_PHARMA,map,response);
+            }
         }
 
 
+
+
+    }
+
+    private void initJson(String response) {
+        try {
+            Log.d("RESPONSE_PHARMA",response);
+            JSONObject jo = new JSONObject(response);
+            if(jo.has(JsonConstant.CODE)){
+                String code = jo.getString(JsonConstant.CODE);
+                switch (code){
+                    case "0":
+                        new AsyncTask<Void,Void,Void>(){
+
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                ImagesArray.clear();
+                                JSONObject data = null;
+                                try {
+                                    data = jo.getJSONObject(JsonConstant.DATA);
+                                    JSONObject store = data.getJSONObject(JsonConstant.STORE);
+                                    JSONObject maploc = store.getJSONObject(JsonConstant.MAP_LOCATION);
+
+                                    pharma.setName(store.getString(JsonConstant.NAME));
+                                    pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                                    pharma.setId(store.getString(JsonConstant.ID));
+                                    if(store.has(JsonConstant.LIKE)){
+                                        pharma.setLike(store.getInt(JsonConstant.LIKE));
+                                    }else{
+                                        pharma.setLike(0);
+                                    }
+                                    if(store.has(JsonConstant.STAR)){
+                                        pharma.setStar(store.getDouble(JsonConstant.STAR));
+                                    }else{
+                                        pharma.setStar(0.0);
+                                    }
+                                    if(store.has(JsonConstant.COMMENT)){
+                                        pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                    }else{
+                                        pharma.setComment("0");
+                                    }
+                                    JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
+
+                                    for (int i =0; i<images.length();i++){
+                                        if(!images.getString(i).equals("")){
+                                            ImagesArray.add(images.getString(i));
+                                        }
+
+                                    }
+                                    pharma.setImage(ImagesArray);
+                                    if(store.has(JsonConstant.PHONE)){
+                                        pharma.setPhone(store.getString(JsonConstant.PHONE));
+                                    }
+
+                                    pharma.setLat(maploc.getDouble(JsonConstant.LAT));
+                                    pharma.setLng(maploc.getDouble(JsonConstant.LONG));
+                                    if(store.has(JsonConstant.LINK_SHARE)){
+                                        pharma.setLinkShare(store.getString(JsonConstant.LINK_SHARE));
+                                    }
+
+                                    pharma.setLikeStt(store.getInt(JsonConstant.LIKE_STT));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                Detail.headerObj = pharma;
+                                tv_title.setText(pharma.getName());
+                                star = pharma.getStar();
+
+                                lat = pharma.getLat();
+                                lng = pharma.getLng();
+                                adr.setText(pharma.getAdr());
+                                phone.setText(pharma.getPhone());
+                                strphone = pharma.getPhone();
+                                tv_like.setText(pharma.getLike()+"");
+                                comment.setText(pharma.getComment());
+                                likeStt = pharma.getLikeStt();
+                                linkShare = pharma.getLinkShare();
+                                adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+                                mPager = (ViewPager) v.findViewById(R.id.slide_image);
+                                CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+                                mPager.setAdapter(adapter);
+                                indicator.setViewPager(mPager);
+                                adapter.registerDataSetObserver(indicator.getDataSetObserver());
+                                adapter.notifyDataSetChanged();
+                                int s = Integer.valueOf(star.intValue());
+                                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                if(s !=0){
+                                    for(int i = 0; i<s;i++){
+                                        View star = vi.inflate(R.layout.star, null);
+
+                                        ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                                    }
+                                }else{
+                                    View nullView = vi.inflate(R.layout.null_textview, null);
+                                    ln.addView(nullView, 0);
+                                }
+// insert into main view
+                                checkHearth(pharma.likeStt);
+                                if(gg!=null){
+                                    setMap();
+                                }
+
+
+                                super.onPostExecute(aVoid);
+                            }
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                        break;
+                    case "1":
+                        break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setMap() {

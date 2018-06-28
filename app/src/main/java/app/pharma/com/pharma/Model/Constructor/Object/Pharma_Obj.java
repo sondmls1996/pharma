@@ -4,24 +4,24 @@ import java.util.ArrayList;
 
 public class Pharma_Obj {
 
-    public String name;
-    public String adr;
+    public String name = "";
+    public String adr = "";
     public ArrayList<String> image;
-    public String phone;
-    public double lat;
-    public double lng;
-    public String id;
-    public String linkShare;
-    public int likeStt;
-    public Double star;
-    public String like;
-    public String comment;
+    public String phone = "";
+    public double lat = 0;
+    public double lng = 0;
+    public String id = "";
+    public String linkShare = "";
+    public int likeStt = 0;
+    public Double star = 0.0;
+    public int like = 0;
+    public String comment = "0";
 
-    public String getLike() {
+    public int getLike() {
         return like;
     }
 
-    public void setLike(String like) {
+    public void setLike(int like) {
         this.like = like;
     }
 

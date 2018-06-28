@@ -200,7 +200,7 @@ public class Pill_Fragment_Detail extends Fragment {
                         }
                     }
                 };
-                Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+                Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
             }else{
                 Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
             }
@@ -214,168 +214,194 @@ public class Pill_Fragment_Detail extends Fragment {
     }
 
     private void loadData(String id) {
-        utils.showLoading(getActivity(),10000,true);
-        if(!Utils.isNetworkEnable(getActivity())){
-            utils.showLoading(getActivity(),10000,false);
-            Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
-                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                @Override
-                public void onClose(Dialog dialog) {
-                  dialog.dismiss();
-                  getActivity().finish();
-                }
-            });
-         //   Utils.dialogNotif(getActivity().getResources().getString(R.string.no_internet));
+        utils.showLoading(Common.context,10000,true);
+        if(Detail.headerJson.length()>0){
+            initJson(Detail.headerJson);
         }else{
-            Map<String,String> map = new HashMap<>();
-            map.put("id", id);
-            if(Utils.isLogin()){
-                map.put("accessToken",user.getToken());
-            }
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @SuppressLint("StaticFieldLeak")
-                @Override
-                public void onResponse(String response) {
-
-                    ImagesArray.clear();
-                    Log.d("RESPONSE_DETAIL",response);
-                    new AsyncTask<Void,Void,JSONObject>(){
-
-                        @Override
-                        protected JSONObject doInBackground(Void... voids) {
-
-                            Detail.headerJson = response;
-                            JSONObject jo = null;
-                            try {
-                                jo = new JSONObject(response);
-                                String code = jo.getString(JsonConstant.CODE);
-                                switch (code){
-                                    case "0":
-                                        ImagesArray.clear();
-                                        JSONObject data = jo.getJSONObject(JsonConstant.DATA);
-                                        JSONObject product = data.getJSONObject(JsonConstant.PRODUCT);
-                                        JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
-                                        JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-
-                                        objPill = new Pill_obj();
-
-                                        objPill.setId(product.getString(JsonConstant.ID));
-                                        objPill.setName(product.getString(JsonConstant.NAME));
-                                        objPill.setLinkShare(product.getString(JsonConstant.LINK_SHARE));
-                                        if(joPrice.getString(JsonConstant.MONEY).equals("")){
-                                            objPill.setPrice(0);
-                                        }else{
-                                            objPill.setPrice(joPrice.getInt(JsonConstant.MONEY));
-                                        }
-                                        objPill.setUsage(product.getString(JsonConstant.USAGE));
-                                        objPill.setRecoment(product.getString(JsonConstant.RECOMENT));
-                                        objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));
-                                        objPill.setInteraction(product.getString(JsonConstant.INTERAC));
-                                        objPill.setStorage( product.getString(JsonConstant.STORAGE));
-                                        for (int j = 0; j<images.length();j++){
-                                            if(!images.getString(j).equals("")){
-                                                ImagesArray.add(images.getString(j));
-                                            }
-
-                                        }
-                                        objPill.setImages(ImagesArray);
-                                        objPill.setLike(product.getInt(JsonConstant.LIKE));
-                                        objPill.setComment(product.getInt(JsonConstant.COMMENT));
-                                        if(product.has(JsonConstant.STAR)){
-                                            objPill.setStar(product.getDouble(JsonConstant.STAR));
-                                        }else{
-                                            objPill.setStar(0.0);
-                                        }
-
-                                        objPill.setLikeStt(product.getInt(JsonConstant.LIKE_STT));
-                                        objPill.setBinding(product.getBoolean(JsonConstant.BINDING));
-
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                return null;
+            if(!Utils.isNetworkEnable(getActivity())){
+                utils.showLoading(Common.context,10000,false);
+                Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
+                        new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                            @Override
+                            public void onClose(Dialog dialog) {
+                                dialog.dismiss();
+                                getActivity().finish();
                             }
-
-                            return jo;
-                        }
-
-                        @Override
-                        protected void onPostExecute(JSONObject jo) {
-
-                            Detail.headerObj = objPill;
-                            Detail.imagesArray = ImagesArray;
-                            Detail.id = objPill.getId();
-                            tv_title.setText(objPill.getName());
-                            tv_like.setText(objPill.getLike()+"");
-                            tv_comment.setText(objPill.getComment()+"");
-
-                            if(objPill.getUsage()==null||objPill.getUsage().length()<0){
-                                objPill.setUsage("Không có dữ liệu");
-                            }
-                            if(objPill.getRecoment()==null||objPill.getRecoment().length()<0){
-                                objPill.setRecoment("Không có dữ liệu");
-                            }
-                            if(objPill.getInteractIn()==null||objPill.getInteractIn().length()<0){
-                                objPill.setInteractIn("Không có dữ liệu");
-                            }
-                            if(objPill.getInteraction()==null||objPill.getInteraction().length()<0){
-                                objPill.setInteraction("Không có dữ liệu");
-                            }
-                            if(objPill.getStorage()==null||objPill.getStorage().length()<0){
-                                objPill.setStorage("Không có dữ liệu");
-                            }
-
-                            tv_content.setText(Html.fromHtml(Common.context.getResources().getString(R.string.how_to_use_pill,
-                                    objPill.getUsage(),
-                                    objPill.getRecoment(),
-                                    objPill.getInteractIn(),
-                                    objPill.getInteraction(),
-                                    objPill.getStorage())
-                            ));
-                            product_id = objPill.getId();
-                            link_share = objPill.getLinkShare();
-
-                            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
-                            mPager = (ViewPager) v.findViewById(R.id.slide_image);
-                            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-                            mPager.setAdapter(adapter);
-                            indicator.setViewPager(mPager);
-                            adapter.registerDataSetObserver(indicator.getDataSetObserver());
-                            adapter.notifyDataSetChanged();
-
-                            checkHearth(objPill.getLikeStt());
-
-                            LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
-                            insertPoint.removeAllViews();
-                            int s = Integer.valueOf(objPill.getStar().intValue());
-                            LayoutInflater vi = (LayoutInflater) Common.context.getSystemService
-                                    (Context.LAYOUT_INFLATER_SERVICE);
-                            Log.d("STAR",s+"");
-                            if(s>0){
-                                for(int i = 0; i<s;i++){
-                                    View star = vi.inflate(R.layout.star, null);
-                                    insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-                                }
-                            }else{
-                                View null_text = vi.inflate(R.layout.null_textview, null);
-
-                                insertPoint.addView(null_text, 0);
-                            }
-
-                            utils.showLoading(getActivity(),10000,false);
-                            getOtherPrd(jo);
-                            super.onPostExecute(jo);
-                        }
-                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        });
+                //   Utils.dialogNotif(getActivity().getResources().getString(R.string.no_internet));
+            }else{
+                Map<String,String> map = new HashMap<>();
+                map.put("id", id);
+                if(Utils.isLogin()){
+                    map.put("accessToken",user.getToken());
                 }
-            };
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @SuppressLint("StaticFieldLeak")
+                    @Override
+                    public void onResponse(String response) {
 
-            Utils.PostServer(getActivity(), ServerPath.DETAIL_PILL,map,response);
+                        ImagesArray.clear();
+                        Log.d("RESPONSE_DETAIL",response);
+                        Detail.headerJson = response;
+                        initJson(response);
+                    }
+                };
+
+                Utils.PostServer(Common.context, ServerPath.DETAIL_PILL,map,response);
+            }
         }
+
+
+    }
+
+    private void initJson(String response) {
+        new AsyncTask<Void,Void,JSONObject>(){
+
+            @Override
+            protected JSONObject doInBackground(Void... voids) {
+
+
+                JSONObject jo = null;
+                try {
+                    jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            ImagesArray.clear();
+                            JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+                            JSONObject product = data.getJSONObject(JsonConstant.PRODUCT);
+                            JSONObject joPrice = product.getJSONObject(JsonConstant.PRICE);
+                            JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+
+                            objPill = new Pill_obj();
+                            if(product.has(JsonConstant.ID)){
+                                objPill.setId(product.getString(JsonConstant.ID));
+                            }
+                            if(product.has(JsonConstant.NAME)){
+                                objPill.setName(product.getString(JsonConstant.NAME));
+                            }
+
+                            objPill.setLinkShare(product.getString(JsonConstant.LINK_SHARE));
+                            if(joPrice.getString(JsonConstant.MONEY).equals("")){
+                                objPill.setPrice(0);
+                            }else{
+                                objPill.setPrice(joPrice.getInt(JsonConstant.MONEY));
+                            }
+                            objPill.setUsage(product.getString(JsonConstant.USAGE));
+                            objPill.setRecoment(product.getString(JsonConstant.RECOMENT));
+                            objPill.setInteractIn(product.getString(JsonConstant.INGREINFO));
+                            objPill.setInteraction(product.getString(JsonConstant.INTERAC));
+                            objPill.setStorage( product.getString(JsonConstant.STORAGE));
+                            for (int j = 0; j<images.length();j++){
+                                if(!images.getString(j).equals("")){
+                                    ImagesArray.add(images.getString(j));
+                                }
+
+                            }
+                            objPill.setImages(ImagesArray);
+                            if(product.has(JsonConstant.LIKE)){
+                                objPill.setLike(product.getInt(JsonConstant.LIKE));
+                            }else{
+                                objPill.setLike(0);
+                            }
+
+                            if(product.has(JsonConstant.COMMENT)){
+                                objPill.setComment(product.getInt(JsonConstant.COMMENT));
+                            }else{
+                                objPill.setComment(0);
+                            }
+                            if(product.has(JsonConstant.STAR)){
+                                objPill.setStar(product.getDouble(JsonConstant.STAR));
+                            }else{
+                                objPill.setStar((double) 0);
+                            }
+                            objPill.setLikeStt(product.getInt(JsonConstant.LIKE_STT));
+                            if(product.has(JsonConstant.BINDING)){
+                                objPill.setBinding(product.getBoolean(JsonConstant.BINDING));
+                            }
+
+
+                            break;
+
+                        default:
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+                return jo;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject jo) {
+
+                Detail.headerObj = objPill;
+                Detail.imagesArray = ImagesArray;
+                Detail.id = objPill.getId();
+                tv_title.setText(objPill.getName());
+                tv_like.setText(objPill.getLike()+"");
+                tv_comment.setText(objPill.getComment()+"");
+
+                if(objPill.getUsage()==null||objPill.getUsage().length()<0){
+                    objPill.setUsage("Không có dữ liệu");
+                }
+                if(objPill.getRecoment()==null||objPill.getRecoment().length()<0){
+                    objPill.setRecoment("Không có dữ liệu");
+                }
+                if(objPill.getInteractIn()==null||objPill.getInteractIn().length()<0){
+                    objPill.setInteractIn("Không có dữ liệu");
+                }
+                if(objPill.getInteraction()==null||objPill.getInteraction().length()<0){
+                    objPill.setInteraction("Không có dữ liệu");
+                }
+                if(objPill.getStorage()==null||objPill.getStorage().length()<0){
+                    objPill.setStorage("Không có dữ liệu");
+                }
+
+                tv_content.setText(Html.fromHtml(Common.context.getResources().getString(R.string.how_to_use_pill,
+                        objPill.getUsage(),
+                        objPill.getRecoment(),
+                        objPill.getInteractIn(),
+                        objPill.getInteraction(),
+                        objPill.getStorage())
+                ));
+                product_id = objPill.getId();
+                link_share = objPill.getLinkShare();
+
+                adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+                mPager = (ViewPager) v.findViewById(R.id.slide_image);
+                CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+                mPager.setAdapter(adapter);
+                indicator.setViewPager(mPager);
+                adapter.registerDataSetObserver(indicator.getDataSetObserver());
+                adapter.notifyDataSetChanged();
+
+                checkHearth(objPill.getLikeStt());
+
+                LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
+                insertPoint.removeAllViews();
+                int s = Integer.valueOf(objPill.getStar().intValue());
+                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService
+                        (Context.LAYOUT_INFLATER_SERVICE);
+                Log.d("STAR",s+"");
+                if(s>0){
+                    for(int i = 0; i<s;i++){
+                        View star = vi.inflate(R.layout.star, null);
+                        insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+                    }
+                }else{
+                    View null_text = vi.inflate(R.layout.null_textview, null);
+
+                    insertPoint.addView(null_text, 0);
+                }
+
+                utils.showLoading(Common.context,10000,false);
+                getOtherPrd(jo);
+                super.onPostExecute(jo);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -449,10 +475,11 @@ public class Pill_Fragment_Detail extends Fragment {
                             public void onClick(View v) {
                                 Utils.setAlphalAnimation(v);
                      //           scroll.fullScroll(ScrollView.FOCUS_UP);
+                                Detail.headerJson = "";
                                 loadAgaint(arrOther.get(finalI).getId());
+                                    }
+                                });
                             }
-                        });
-                    }
                     super.onPostExecute(aVoid);
                 }
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

@@ -35,7 +35,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value= "@string/google_maps_key" />
 
         <activity
             android:name=".activity.Detail.Detail"
@@ -100,10 +100,14 @@
         <activity
             android:name=".activity.Care.Care_Sick_Activity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Care.Care_Order" />
-        <activity android:name=".activity.Care.Care_Pharma" />
-        <activity android:name=".activity.Detail.Order_Detail" />
-        <activity android:name=".activity.Login.GotoWeb"></activity>
+        <activity android:name=".activity.Care.Care_Order"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Care.Care_Pharma"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Detail.Order_Detail"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Login.GotoWeb"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

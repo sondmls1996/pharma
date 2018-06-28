@@ -164,8 +164,6 @@ public class Care_Order extends AppCompatActivity {
                             }else{
                                 setIsEmpty(true);
                             }
-
-
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             sw.setRefreshing(false);

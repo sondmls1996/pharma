@@ -148,9 +148,12 @@ public class Sick_Detail_Fragment extends Fragment {
                             if(code.equals("0")){
                                 if(likestt==0){
                                     sickObj.setLike_stt(1);
-
+                                    sickObj.setLike(sickObj.getLike()+1);
+                                    tv_like.setText(sickObj.getLike());
                                 }else{
                                     sickObj.setLike_stt(0);
+                                    sickObj.setLike(sickObj.getLike()-1);
+                                    tv_like.setText(sickObj.getLike()+"");
                                 }
 
                                 checkHearth(sickObj.getLike_stt());
@@ -162,7 +165,7 @@ public class Sick_Detail_Fragment extends Fragment {
                         }
                     }
                 };
-                Utils.PostServer(getActivity(),ServerPath.LIKE_PILL,map,response);
+                Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
             }else{
                 Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
             }
@@ -178,143 +181,152 @@ public class Sick_Detail_Fragment extends Fragment {
 
     private void getData(String id) {
         ImagesArray.clear();
-
-        if(!Utils.isNetworkEnable(getActivity())){
-            Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
-                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                        @Override
-                        public void onClose(Dialog dialog) {
-                            dialog.dismiss();
-                            getActivity().finish();
-                        }
-                    });
+        if(Detail.headerJson.length()>0){
+            initJson(Detail.headerJson);
         }else{
-            Map<String,String> map = new HashMap<>();
-            map.put("id", id);
-            if(Utils.isLogin()){
-                map.put("accessToken",user.getToken());
-            }
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("RESPONSE_SICK_DETAIL",response);
-                    utils.showLoading(getActivity(),10000,true);
-                    try {
-
-                        JSONObject jo = new JSONObject(response);
-                        String code = jo.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                new AsyncTask<Void,Void,JSONObject>(){
-
-                                    @Override
-                                    protected JSONObject doInBackground(Void... voids) {
-
-                                        try {
-                                            JSONObject data = jo.getJSONObject(JsonConstant.DATA);
-
-                                            JSONObject Dise = data.getJSONObject(JsonConstant.DISEASE);
-                                            JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
-                                            sickObj = new Sick_Obj();
-                                            sickObj.setName(Dise.getString(JsonConstant.NAME));
-                                            if(Dise.has(JsonConstant.DESCRI)){
-                                                sickObj.setDescri(Dise.getString(JsonConstant.DESCRI));
-                                            }
-                                            if(Dise.has(JsonConstant.DEFINE)){
-                                                sickObj.setDefine(Dise.getString(JsonConstant.DEFINE));
-                                            }
-
-                                            sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
-                                            sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
-                                            if(Dise.has(JsonConstant.STAR)){
-                                                sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
-                                            }else{
-                                                sickObj.setStar(0.0);
-                                            }
-
-                                            sickObj.setLink_share(Dise.getString(JsonConstant.LINK_SHARE));
-                                            sickObj.setLike_stt(Dise.getInt(JsonConstant.LIKE_STT));
-                                            sickObj.setId(Dise.getString(JsonConstant.ID));
-
-                                            for (int j = 0; j<images.length();j++){
-                                                if(!images.getString(j).equals("")){
-                                                    ImagesArray.add(images.getString(j));
-                                                }
-
-                                            }
-                                            sickObj.setImages(ImagesArray);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-
-                                        return jo;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(JSONObject jo) {
-                                        ln_star = v.findViewById(R.id.ln_star_sick);
-                                        ln_star.removeAllViews();
-                                        Detail.headerObj = sickObj;
-                                        Detail.id = sickObj.getId();
-                                        tv_title.setText(sickObj.getName());
-                                        tv_like.setText(sickObj.getLike()+"");
-                                        comment.setText(sickObj.getCmt()+"");
-                                        link_share = sickObj.getLink_share();
-                                        checkHearth(sickObj.getLike_stt());
-
-                                        adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
-
-                                        mPager = (ViewPager) v.findViewById(R.id.slide_image);
-                                        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-                                        mPager.setAdapter(adapter);
-                                        indicator.setViewPager(mPager);
-                                        adapter.registerDataSetObserver(indicator.getDataSetObserver());
-                                        adapter.notifyDataSetChanged();
-
-                                        int s = Integer.valueOf(sickObj.getStar().intValue());
-                                        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-// insert into main view
-                                        if(s!=0){
-                                            for(int i = 0; i<s;i++){
-                                                View star = vi.inflate(R.layout.star, null);
-
-                                                ln_star.addView(star, 0,
-                                                        new ViewGroup.LayoutParams(40, 40));
-                                            }
-                                        }else{
-                                            View null_text = vi.inflate(R.layout.null_textview, null);
-
-                                            ln_star.addView(null_text, 0);
-                                        }
-                                        if(sickObj.getDescri()==null||sickObj.getDescri().length()<0){
-                                            sickObj.setDescri("Không có mô tả");
-                                        }
-                                        if(sickObj.getDefine()==null||sickObj.getDefine().length()<0){
-                                            sickObj.setDefine("Không có mô tả");
-                                        }
-                                        content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
-                                                sickObj.getDescri(),
-                                                sickObj.getDefine())));
-                                        utils.showLoading(getActivity(),10000,false);
-                                        getSickOther(jo);
-
-                                        super.onPostExecute(jo);
-                                    }
-                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-                                break;
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+            if(!Utils.isNetworkEnable(getActivity())){
+                Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
+                        new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                            @Override
+                            public void onClose(Dialog dialog) {
+                                dialog.dismiss();
+                                getActivity().finish();
+                            }
+                        });
+            }else{
+                Map<String,String> map = new HashMap<>();
+                map.put("id", id);
+                if(Utils.isLogin()){
+                    map.put("accessToken",user.getToken());
                 }
-            };
-            Utils.PostServer(getActivity(), ServerPath.DETAIL_SICK,map,response);
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("RESPONSE_SICK_DETAIL",response);
+                        utils.showLoading(Common.context,10000,true);
+                        Detail.headerJson = response;
+                        initJson(response);
+
+                    }
+                };
+                Utils.PostServer(Common.context, ServerPath.DETAIL_SICK,map,response);
+            }
         }
 
+
+    }
+
+    private void initJson(String response) {
+        try {
+
+            JSONObject jo = new JSONObject(response);
+            String code = jo.getString(JsonConstant.CODE);
+            switch (code){
+                case "0":
+                    new AsyncTask<Void,Void,JSONObject>(){
+
+                        @Override
+                        protected JSONObject doInBackground(Void... voids) {
+
+                            try {
+                                JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+
+                                JSONObject Dise = data.getJSONObject(JsonConstant.DISEASE);
+                                JSONArray images = Dise.getJSONArray(JsonConstant.IMAGE);
+                                sickObj = new Sick_Obj();
+                                sickObj.setName(Dise.getString(JsonConstant.NAME));
+                                if(Dise.has(JsonConstant.DESCRI)){
+                                    sickObj.setDescri(Dise.getString(JsonConstant.DESCRI));
+                                }
+                                if(Dise.has(JsonConstant.DEFINE)){
+                                    sickObj.setDefine(Dise.getString(JsonConstant.DEFINE));
+                                }
+
+                                sickObj.setLike(Dise.getInt(JsonConstant.LIKE));
+                                sickObj.setCmt(Dise.getInt(JsonConstant.COMMENT));
+                                if(Dise.has(JsonConstant.STAR)){
+                                    sickObj.setStar(Dise.getDouble(JsonConstant.STAR));
+                                }else{
+                                    sickObj.setStar(0.0);
+                                }
+
+                                sickObj.setLink_share(Dise.getString(JsonConstant.LINK_SHARE));
+                                sickObj.setLike_stt(Dise.getInt(JsonConstant.LIKE_STT));
+                                sickObj.setId(Dise.getString(JsonConstant.ID));
+
+                                for (int j = 0; j<images.length();j++){
+                                    if(!images.getString(j).equals("")){
+                                        ImagesArray.add(images.getString(j));
+                                    }
+
+                                }
+                                sickObj.setImages(ImagesArray);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            return jo;
+                        }
+
+                        @Override
+                        protected void onPostExecute(JSONObject jo) {
+                            ln_star = v.findViewById(R.id.ln_star_sick);
+                            ln_star.removeAllViews();
+                            Detail.headerObj = sickObj;
+                            Detail.id = sickObj.getId();
+                            tv_title.setText(sickObj.getName());
+                            tv_like.setText(sickObj.getLike()+"");
+                            comment.setText(sickObj.getCmt()+"");
+                            link_share = sickObj.getLink_share();
+                            checkHearth(sickObj.getLike_stt());
+
+                            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
+
+                            mPager = (ViewPager) v.findViewById(R.id.slide_image);
+                            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+                            mPager.setAdapter(adapter);
+                            indicator.setViewPager(mPager);
+                            adapter.registerDataSetObserver(indicator.getDataSetObserver());
+                            adapter.notifyDataSetChanged();
+
+                            int s = Integer.valueOf(sickObj.getStar().intValue());
+                            LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+// insert into main view
+                            if(s!=0){
+                                for(int i = 0; i<s;i++){
+                                    View star = vi.inflate(R.layout.star, null);
+
+                                    ln_star.addView(star, 0,
+                                            new ViewGroup.LayoutParams(40, 40));
+                                }
+                            }else{
+                                View null_text = vi.inflate(R.layout.null_textview, null);
+
+                                ln_star.addView(null_text, 0);
+                            }
+                            if(sickObj.getDescri()==null||sickObj.getDescri().length()<0){
+                                sickObj.setDescri("Không có mô tả");
+                            }
+                            if(sickObj.getDefine()==null||sickObj.getDefine().length()<0){
+                                sickObj.setDefine("Không có mô tả");
+                            }
+                            content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
+                                    sickObj.getDescri(),
+                                    sickObj.getDefine())));
+                            utils.showLoading(Common.context,10000,false);
+                            getSickOther(jo);
+
+                            super.onPostExecute(jo);
+                        }
+                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                    break;
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getSickOther(JSONObject jo) {
@@ -373,6 +385,7 @@ public class Sick_Detail_Fragment extends Fragment {
                             public void onClick(View v) {
                                 Utils.setAlphalAnimation(v);
                                 //           scroll.fullScroll(ScrollView.FOCUS_UP);
+                                Detail.headerJson = "";
                                 loadAgaint(arrSickLq.get(finalI).getId());
                             }
                         });
