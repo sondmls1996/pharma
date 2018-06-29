@@ -96,7 +96,7 @@ public class Sick_Fragment extends Fragment {
         db = new DatabaseHandle();
         ct = getContext();
         arr = new ArrayList<>();
-        setRecycle(v);
+
         footer = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.footer_view, null, false);
         swip = v.findViewById(R.id.swip);
@@ -140,9 +140,9 @@ public class Sick_Fragment extends Fragment {
 
                 for (int j =0;j<arrcata.size();j++){
                     if(arrcata.get(j).getName().equals(text)){
-
+                        Mainpage = 1;
                         idSick = arrcata.get(j).getId();
-                        loadPage(1);
+                        loadPage(Mainpage);
                         break;
                     }
                 }
@@ -153,6 +153,9 @@ public class Sick_Fragment extends Fragment {
 
             }
         });
+
+        spiner.setSelection(0);
+        setRecycle(v);
 
     }
 
@@ -228,6 +231,7 @@ public class Sick_Fragment extends Fragment {
         }else{
             if(page==1){
                 arr.clear();
+                adapter.notifyDataSetChanged();
             }
 
             Map<String, String> map = new HashMap<>();
@@ -246,6 +250,7 @@ public class Sick_Fragment extends Fragment {
         }else{
             if(page==1){
                 arr.clear();
+                adapter.notifyDataSetChanged();
             }
 
             Map<String, String> map = new HashMap<>();

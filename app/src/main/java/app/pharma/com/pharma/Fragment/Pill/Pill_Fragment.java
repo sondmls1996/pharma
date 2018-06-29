@@ -10,9 +10,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -201,7 +199,7 @@ public class Pill_Fragment extends Fragment {
         arrCata = new ArrayList<>();
         tvnull = v.findViewById(R.id.txt_null);
         arr = new ArrayList<>();
-        setRecycle(v);
+
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         spiner = (Spinner) v.findViewById(R.id.spin_pill);
@@ -255,9 +253,10 @@ public class Pill_Fragment extends Fragment {
                             isSearch = false;
                             key = "";
                             loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                            break;
                         }
 
-                        break;
+
                     }
                 }
             }
@@ -267,30 +266,10 @@ public class Pill_Fragment extends Fragment {
 
             }
         });
+        setRecycle(v);
 
-
-
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//              Utils.setAlphalAnimation(view);
-//                Intent it = new Intent(getActivity(), Detail.class);
-//                it.putExtra("key","pill");
-//                it.putExtra("id", arr.get(i).getId());
-//
-//                startActivity(it);
-//
-//            }
-//        });
     }
 
-
-//    private void selectItem() {
-//        Mainpage = 1;
-//        isFillter = false;
-//        isSearch = false;
-//        loadPage(Mainpage,isFillter,isSearch);
-//    }
 
     public void loadManager(int page,boolean isFillter, boolean isNomar, boolean isSearch,String key){
         if(isFillter){
