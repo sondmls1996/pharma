@@ -5,15 +5,15 @@ package app.pharma.com.pharma.Model.Constructor;
  */
 
 public class Like_Constructor {
-    String name;
-    int price;
-    String image;
-    String like;
-    String comment;
-    Double star;
-    String id;
-    String descri;
-    long time;
+    String name = "";
+    int price = 0;
+    String image = "";
+    String like = "";
+    String comment = "";
+    Double star = 0.0;
+    String id = "";
+    String descri= "";
+    long time = 0;
 
     public long getTime() {
         return time;

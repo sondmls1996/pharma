@@ -33,6 +33,7 @@ import java.util.Map;
 import app.pharma.com.pharma.Adapter.Slide_Image_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
+import app.pharma.com.pharma.Model.Constructor.Object.Pharma_Obj;
 import app.pharma.com.pharma.Model.Constructor.Object.Pill_obj;
 import app.pharma.com.pharma.Model.Constructor.Other_Product_Constuctor;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
@@ -157,13 +158,13 @@ public class Pill_Fragment_Detail extends Fragment {
             });
         }else{
             if(Utils.isLogin()){
-                int likestt = objPill.getLikeStt();
+                 Detail.likestt = objPill.getLikeStt();
 
                 Map<String, String> map = new HashMap<>();
                 map.put("type","product");
                 map.put("id",product_id);
                 map.put("accessToken",user.getToken());
-                if(likestt==0){
+                if(Detail.likestt==0){
                     map.put("likeStatus","1");
 
                 }else{
@@ -181,17 +182,20 @@ public class Pill_Fragment_Detail extends Fragment {
                             JSONObject jo = new JSONObject(response);
                             String code = jo.getString(JsonConstant.CODE);
                             if(code.equals("0")){
-                                if(likestt==0){
+                                if(Detail.likestt==0){
+                                    Detail.likestt = 1;
                                     objPill.setLikeStt(1);
                                     objPill.setLike(objPill.getLike()+1);
                                     tv_like.setText(objPill.getLike()+"");
                                 }else{
+                                    Detail.likestt = 0;
                                     objPill.setLikeStt(0);
                                     objPill.setLike(objPill.getLike()-1);
                                     tv_like.setText(objPill.getLike()+"");
                                 }
 
                                 checkHearth(objPill.getLikeStt());
+                                Detail.headerObj = objPill;
                             }else{
 
                             }
@@ -215,8 +219,9 @@ public class Pill_Fragment_Detail extends Fragment {
 
     private void loadData(String id) {
         utils.showLoading(Common.context,10000,true);
-        if(Detail.headerJson.length()>0){
-            initJson(Detail.headerJson);
+        if(Detail.headerObj!=null){
+            objPill = (Pill_obj) Detail.headerObj;
+            updateUi(objPill);
         }else{
             if(!Utils.isNetworkEnable(getActivity())){
                 utils.showLoading(Common.context,10000,false);
@@ -336,76 +341,82 @@ public class Pill_Fragment_Detail extends Fragment {
 
             @Override
             protected void onPostExecute(JSONObject jo) {
+                Detail.headerJson = jo.toString();
+                    updateUi(objPill);
 
-                Detail.headerObj = objPill;
-                Detail.imagesArray = ImagesArray;
-                Detail.id = objPill.getId();
-                tv_title.setText(objPill.getName());
-                tv_like.setText(objPill.getLike()+"");
-                tv_comment.setText(objPill.getComment()+"");
-
-                if(objPill.getUsage()==null||objPill.getUsage().length()<0){
-                    objPill.setUsage("Không có dữ liệu");
-                }
-                if(objPill.getRecoment()==null||objPill.getRecoment().length()<0){
-                    objPill.setRecoment("Không có dữ liệu");
-                }
-                if(objPill.getInteractIn()==null||objPill.getInteractIn().length()<0){
-                    objPill.setInteractIn("Không có dữ liệu");
-                }
-                if(objPill.getInteraction()==null||objPill.getInteraction().length()<0){
-                    objPill.setInteraction("Không có dữ liệu");
-                }
-                if(objPill.getStorage()==null||objPill.getStorage().length()<0){
-                    objPill.setStorage("Không có dữ liệu");
-                }
-
-                tv_content.setText(Html.fromHtml(Common.context.getResources().getString(R.string.how_to_use_pill,
-                        objPill.getUsage(),
-                        objPill.getRecoment(),
-                        objPill.getInteractIn(),
-                        objPill.getInteraction(),
-                        objPill.getStorage())
-                ));
-                product_id = objPill.getId();
-                link_share = objPill.getLinkShare();
-
-                adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
-                mPager = (ViewPager) v.findViewById(R.id.slide_image);
-                CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-                mPager.setAdapter(adapter);
-                indicator.setViewPager(mPager);
-                adapter.registerDataSetObserver(indicator.getDataSetObserver());
-                adapter.notifyDataSetChanged();
-
-                checkHearth(objPill.getLikeStt());
-
-                LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
-                insertPoint.removeAllViews();
-                int s = Integer.valueOf(objPill.getStar().intValue());
-                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService
-                        (Context.LAYOUT_INFLATER_SERVICE);
-                Log.d("STAR",s+"");
-                if(s>0){
-                    for(int i = 0; i<s;i++){
-                        View star = vi.inflate(R.layout.star, null);
-                        insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-                    }
-                }else{
-                    View null_text = vi.inflate(R.layout.null_textview, null);
-
-                    insertPoint.addView(null_text, 0);
-                }
-
-                utils.showLoading(Common.context,10000,false);
-                getOtherPrd(jo);
                 super.onPostExecute(jo);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
-    private void getOtherPrd(JSONObject jo) {
+    private void updateUi(Pill_obj objPill) {
+        Detail.headerObj = objPill;
+        Detail.imagesArray = objPill.getImages();
+        Detail.id = objPill.getId();
+        tv_title.setText(objPill.getName());
+        tv_like.setText(objPill.getLike()+"");
+        tv_comment.setText(objPill.getComment()+"");
+        Detail.likestt = objPill.getLikeStt();
+        if(objPill.getUsage()==null||objPill.getUsage().length()<0){
+            objPill.setUsage("Không có dữ liệu");
+        }
+        if(objPill.getRecoment()==null||objPill.getRecoment().length()<0){
+            objPill.setRecoment("Không có dữ liệu");
+        }
+        if(objPill.getInteractIn()==null||objPill.getInteractIn().length()<0){
+            objPill.setInteractIn("Không có dữ liệu");
+        }
+        if(objPill.getInteraction()==null||objPill.getInteraction().length()<0){
+            objPill.setInteraction("Không có dữ liệu");
+        }
+        if(objPill.getStorage()==null||objPill.getStorage().length()<0){
+            objPill.setStorage("Không có dữ liệu");
+        }
+
+        tv_content.setText(Html.fromHtml(Common.context.getResources().getString(R.string.how_to_use_pill,
+                objPill.getUsage(),
+                objPill.getRecoment(),
+                objPill.getInteractIn(),
+                objPill.getInteraction(),
+                objPill.getStorage())
+        ));
+        product_id = objPill.getId();
+        link_share = objPill.getLinkShare();
+
+        adapter = new Slide_Image_Adapter(Common.context,objPill.getImages());
+        mPager = (ViewPager) v.findViewById(R.id.slide_image);
+        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+        mPager.setAdapter(adapter);
+        indicator.setViewPager(mPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+        adapter.notifyDataSetChanged();
+
+        checkHearth(objPill.getLikeStt());
+
+        LinearLayout insertPoint = (LinearLayout) v.findViewById(R.id.ln_star_pill);
+        insertPoint.removeAllViews();
+        int s = Integer.valueOf(objPill.getStar().intValue());
+        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+        Log.d("STAR",s+"");
+        if(s>0){
+            for(int i = 0; i<s;i++){
+                View star = vi.inflate(R.layout.star, null);
+                insertPoint.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+            }
+        }else{
+            View null_text = vi.inflate(R.layout.null_textview, null);
+
+            insertPoint.addView(null_text, 0);
+        }
+
+        utils.showLoading(Common.context,10000,false);
+        getOtherPrd(Detail.headerJson);
+
+    }
+
+    private void getOtherPrd(String jo) {
         ln = (LinearLayout)v.findViewById(R.id.ln_lq_pill);
         ln.removeAllViews();
 
@@ -417,7 +428,8 @@ public class Pill_Fragment_Detail extends Fragment {
 
                     JSONArray  other = null;
                     try {
-                        other = jo.getJSONArray(JsonConstant.OTHER_PRD);
+                        JSONObject obj = new JSONObject(jo);
+                        other = obj.getJSONArray(JsonConstant.OTHER_PRD);
                         for (int i = 0; i<other.length();i++){
                             JSONObject index = other.getJSONObject(i);
                             JSONObject product = index.getJSONObject(JsonConstant.PRODUCT);
@@ -475,7 +487,7 @@ public class Pill_Fragment_Detail extends Fragment {
                             public void onClick(View v) {
                                 Utils.setAlphalAnimation(v);
                      //           scroll.fullScroll(ScrollView.FOCUS_UP);
-                                Detail.headerJson = "";
+                                Detail.headerObj = null;
                                 loadAgaint(arrOther.get(finalI).getId());
                                     }
                                 });

@@ -88,7 +88,7 @@ public class Care_PILL_Activity extends AppCompatActivity {
         arr = new ArrayList<>();
         setRecycle();
 
-        getDataLike(Mainpage);
+
     }
 
     public void setRecycle(){
@@ -152,9 +152,13 @@ public class Care_PILL_Activity extends AppCompatActivity {
                                         JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
                                         Like_Constructor like = new Like_Constructor();
                                         like.setName(product.getString(JsonConstant.NAME));
+
                                         like.setComment(product.getString(JsonConstant.COMMENT));
                                         like.setLike(product.getString(JsonConstant.LIKE));
-                                        like.setDescri(product.getString(JsonConstant.DESCRI));
+                                        if(product.has(JsonConstant.DESCRI)){
+                                            like.setDescri(product.getString(JsonConstant.DESCRI));
+                                        }
+
                                         like.setId(product.getString(JsonConstant.ID));
                                         like.setImage(images.getString(0));
                                         if(price.getString(JsonConstant.MONEY).equals("")){
@@ -209,6 +213,7 @@ public class Care_PILL_Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Common.context = this;
+
         super.onResume();
 
     }

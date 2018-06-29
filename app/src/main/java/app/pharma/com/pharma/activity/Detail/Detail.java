@@ -30,6 +30,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
     public static String id = "";
     public static Object headerObj;
     public static ArrayList<String> imagesArray;
+    public static int likestt = 0;
     Pill_Constructor pillConstructor;
     Sick_Construct sickConstructor;
     Pharma_Constructor pharmaConstructor;
@@ -48,6 +49,7 @@ public class Detail extends AppCompatActivity implements View.OnClickListener {
 
         }
         headerJson = "";
+        headerObj = null;
         imagesArray = new ArrayList<>();
 
         Common.context = this;

@@ -68,7 +68,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     TextView tv_title;
     TextView tv_like, comment;
     ImageView img_share;
-    int likeStt = 0;
+
     String linkShare = "";
     String strphone;
     User user;
@@ -224,13 +224,13 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
 
     private void onClickHeart() {
         if(Utils.isLogin()){
-            int likestt = pharma.getLikeStt();
+             Detail.likestt = pharma.getLikeStt();
 
             Map<String, String> map = new HashMap<>();
             map.put("type","store");
             map.put("id",pharma.getId());
             map.put("accessToken",user.getToken());
-            if(likestt==0){
+            if(Detail.likestt==0){
                 map.put("likeStatus","1");
             }else{
                 map.put("likeStatus","0");
@@ -244,14 +244,16 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                         JSONObject jo = new JSONObject(response);
                         String code = jo.getString(JsonConstant.CODE);
                         if(code.equals("0")){
-                            if(likestt==0){
+                            if(Detail.likestt==0){
+                                Detail.likestt = 1;
                                 pharma.setLikeStt(1);
-                                pharma.setLike(pharma.getLike()+1);
-                                tv_like.setText(pharma.getLike()+"");
+//                                pharma.setLike(pharma.getLike()+1);
+//                                tv_like.setText(pharma.getLike()+"");
                             }else{
+                                Detail.likestt = 0;
                                 pharma.setLikeStt(0);
-                                pharma.setLike(pharma.getLike()-1);
-                                tv_like.setText(pharma.getLike()+"");
+//                                pharma.setLike(pharma.getLike()-1);
+//                                tv_like.setText(pharma.getLike()+"");
                             }
 
                             checkHearth(pharma.getLikeStt());
@@ -271,8 +273,9 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     }
 
     private void getData() {
-        if(Detail.headerJson.length()>0){
-            initJson(Detail.headerJson);
+        if(Detail.headerObj!=null){
+            pharma = (Pharma_Obj)Detail.headerObj;
+            updateUi(pharma);
         }else{
             if(!Utils.isNetworkEnable(getActivity())){
                 // swip.setRefreshing(false);
@@ -347,6 +350,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
 
                                     for (int i =0; i<images.length();i++){
                                         if(!images.getString(i).equals("")){
+//                                            pharma.setImage();
                                             ImagesArray.add(images.getString(i));
                                         }
 
@@ -361,8 +365,9 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                     if(store.has(JsonConstant.LINK_SHARE)){
                                         pharma.setLinkShare(store.getString(JsonConstant.LINK_SHARE));
                                     }
+                                        pharma.setLikeStt(store.getInt(JsonConstant.LIKE_STT));
 
-                                    pharma.setLikeStt(store.getInt(JsonConstant.LIKE_STT));
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -372,43 +377,9 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
 
                             @Override
                             protected void onPostExecute(Void aVoid) {
-                                Detail.headerObj = pharma;
-                                tv_title.setText(pharma.getName());
-                                star = pharma.getStar();
 
-                                lat = pharma.getLat();
-                                lng = pharma.getLng();
-                                adr.setText(pharma.getAdr());
-                                phone.setText(pharma.getPhone());
-                                strphone = pharma.getPhone();
-                                tv_like.setText(pharma.getLike()+"");
-                                comment.setText(pharma.getComment());
-                                likeStt = pharma.getLikeStt();
-                                linkShare = pharma.getLinkShare();
-                                adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
-                                mPager = (ViewPager) v.findViewById(R.id.slide_image);
-                                CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-                                mPager.setAdapter(adapter);
-                                indicator.setViewPager(mPager);
-                                adapter.registerDataSetObserver(indicator.getDataSetObserver());
-                                adapter.notifyDataSetChanged();
-                                int s = Integer.valueOf(star.intValue());
-                                LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                if(s !=0){
-                                    for(int i = 0; i<s;i++){
-                                        View star = vi.inflate(R.layout.star, null);
+                                updateUi(pharma);
 
-                                        ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
-                                    }
-                                }else{
-                                    View nullView = vi.inflate(R.layout.null_textview, null);
-                                    ln.addView(nullView, 0);
-                                }
-// insert into main view
-                                checkHearth(pharma.likeStt);
-                                if(gg!=null){
-                                    setMap();
-                                }
 
 
                                 super.onPostExecute(aVoid);
@@ -422,6 +393,46 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updateUi(Pharma_Obj pharma) {
+        Detail.headerObj = pharma;
+        tv_title.setText(pharma.getName());
+        star = pharma.getStar();
+
+        lat = pharma.getLat();
+        lng = pharma.getLng();
+        adr.setText(pharma.getAdr());
+        phone.setText(pharma.getPhone());
+        strphone = pharma.getPhone();
+        tv_like.setText(pharma.getLike()+"");
+        comment.setText(pharma.getComment());
+        Detail.likestt = pharma.getLikeStt();
+        linkShare = pharma.getLinkShare();
+        adapter = new Slide_Image_Adapter(Common.context,pharma.getImage());
+        mPager = (ViewPager) v.findViewById(R.id.slide_image);
+        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+        mPager.setAdapter(adapter);
+        indicator.setViewPager(mPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+        adapter.notifyDataSetChanged();
+        int s = Integer.valueOf(star.intValue());
+        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(s !=0){
+            for(int i = 0; i<s;i++){
+                View star = vi.inflate(R.layout.star, null);
+
+                ln.addView(star, 0, new ViewGroup.LayoutParams(40, 40));
+            }
+        }else{
+            View nullView = vi.inflate(R.layout.null_textview, null);
+            ln.addView(nullView, 0);
+        }
+// insert into main view
+        checkHearth(pharma.likeStt);
+        if(gg!=null){
+            setMap();
         }
     }
 

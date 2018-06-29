@@ -106,13 +106,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:layout_weight="2">
+                        android:layout_weight="3">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:textColor="@color/red"
-                            android:textSize="16sp"
+
                             android:visibility="gone"
                             android:text="Cách 1km"/>
 

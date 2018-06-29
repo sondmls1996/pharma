@@ -34,6 +34,7 @@ import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
+import app.pharma.com.pharma.Model.Sick_Construct;
 import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.activity.Detail.Detail;
@@ -126,13 +127,13 @@ public class Sick_Detail_Fragment extends Fragment {
                     });
         }else{
             if(Utils.isLogin()){
-                int likestt = sickObj.getLike_stt();
+                Detail.likestt = sickObj.getLike_stt();
 
                 Map<String, String> map = new HashMap<>();
                 map.put("type","disease");
                 map.put("id",sickObj.getId());
                 map.put("accessToken",user.getToken());
-                if(likestt==0){
+                if(Detail.likestt==0){
                     map.put("likeStatus","1");
                 }else{
                     map.put("likeStatus","0");
@@ -146,17 +147,20 @@ public class Sick_Detail_Fragment extends Fragment {
                             JSONObject jo = new JSONObject(response);
                             String code = jo.getString(JsonConstant.CODE);
                             if(code.equals("0")){
-                                if(likestt==0){
+                                if(Detail.likestt==0){
+                                    Detail.likestt = 1;
                                     sickObj.setLike_stt(1);
                                     sickObj.setLike(sickObj.getLike()+1);
-                                    tv_like.setText(sickObj.getLike());
+                                 //   tv_like.setText(sickObj.getLike());
                                 }else{
+                                    Detail.likestt = 0;
                                     sickObj.setLike_stt(0);
                                     sickObj.setLike(sickObj.getLike()-1);
-                                    tv_like.setText(sickObj.getLike()+"");
+                               //+     tv_like.setText(sickObj.getLike()+"");
                                 }
 
                                 checkHearth(sickObj.getLike_stt());
+                                Detail.headerObj = sickObj;
                             }else{
 
                             }
@@ -181,8 +185,9 @@ public class Sick_Detail_Fragment extends Fragment {
 
     private void getData(String id) {
         ImagesArray.clear();
-        if(Detail.headerJson.length()>0){
-            initJson(Detail.headerJson);
+        if(Detail.headerObj !=null){
+            sickObj = (Sick_Obj)Detail.headerObj;
+            updateUi(sickObj);
         }else{
             if(!Utils.isNetworkEnable(getActivity())){
                 Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
@@ -271,51 +276,10 @@ public class Sick_Detail_Fragment extends Fragment {
 
                         @Override
                         protected void onPostExecute(JSONObject jo) {
-                            ln_star = v.findViewById(R.id.ln_star_sick);
-                            ln_star.removeAllViews();
-                            Detail.headerObj = sickObj;
-                            Detail.id = sickObj.getId();
-                            tv_title.setText(sickObj.getName());
-                            tv_like.setText(sickObj.getLike()+"");
-                            comment.setText(sickObj.getCmt()+"");
-                            link_share = sickObj.getLink_share();
-                            checkHearth(sickObj.getLike_stt());
+                            Detail.headerJson = jo.toString();
+                            updateUi(sickObj);
 
-                            adapter = new Slide_Image_Adapter(Common.context,ImagesArray);
 
-                            mPager = (ViewPager) v.findViewById(R.id.slide_image);
-                            CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
-                            mPager.setAdapter(adapter);
-                            indicator.setViewPager(mPager);
-                            adapter.registerDataSetObserver(indicator.getDataSetObserver());
-                            adapter.notifyDataSetChanged();
-
-                            int s = Integer.valueOf(sickObj.getStar().intValue());
-                            LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-// insert into main view
-                            if(s!=0){
-                                for(int i = 0; i<s;i++){
-                                    View star = vi.inflate(R.layout.star, null);
-
-                                    ln_star.addView(star, 0,
-                                            new ViewGroup.LayoutParams(40, 40));
-                                }
-                            }else{
-                                View null_text = vi.inflate(R.layout.null_textview, null);
-
-                                ln_star.addView(null_text, 0);
-                            }
-                            if(sickObj.getDescri()==null||sickObj.getDescri().length()<0){
-                                sickObj.setDescri("Không có mô tả");
-                            }
-                            if(sickObj.getDefine()==null||sickObj.getDefine().length()<0){
-                                sickObj.setDefine("Không có mô tả");
-                            }
-                            content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
-                                    sickObj.getDescri(),
-                                    sickObj.getDefine())));
-                            utils.showLoading(Common.context,10000,false);
-                            getSickOther(jo);
 
                             super.onPostExecute(jo);
                         }
@@ -329,7 +293,57 @@ public class Sick_Detail_Fragment extends Fragment {
         }
     }
 
-    private void getSickOther(JSONObject jo) {
+    private void updateUi(Sick_Obj sickObj) {
+        ln_star = v.findViewById(R.id.ln_star_sick);
+        ln_star.removeAllViews();
+
+        Detail.headerObj = sickObj;
+        Detail.id = sickObj.getId();
+        tv_title.setText(sickObj.getName());
+        tv_like.setText(sickObj.getLike()+"");
+        comment.setText(sickObj.getCmt()+"");
+        link_share = sickObj.getLink_share();
+        checkHearth(sickObj.getLike_stt());
+
+        adapter = new Slide_Image_Adapter(Common.context,sickObj.getImages());
+
+        mPager = (ViewPager) v.findViewById(R.id.slide_image);
+        CircleIndicator indicator = (CircleIndicator) v.findViewById(R.id.indicator);
+        mPager.setAdapter(adapter);
+        indicator.setViewPager(mPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+        adapter.notifyDataSetChanged();
+
+        int s = Integer.valueOf(sickObj.getStar().intValue());
+        LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+// insert into main view
+        if(s!=0){
+            for(int i = 0; i<s;i++){
+                View star = vi.inflate(R.layout.star, null);
+
+                ln_star.addView(star, 0,
+                        new ViewGroup.LayoutParams(40, 40));
+            }
+        }else{
+            View null_text = vi.inflate(R.layout.null_textview, null);
+
+            ln_star.addView(null_text, 0);
+        }
+        if(sickObj.getDescri()==null||sickObj.getDescri().length()<0){
+            sickObj.setDescri("Không có mô tả");
+        }
+        if(sickObj.getDefine()==null||sickObj.getDefine().length()<0){
+            sickObj.setDefine("Không có mô tả");
+        }
+        content.setText(Html.fromHtml(getResources().getString(R.string.how_to_use_sick,
+                sickObj.getDescri(),
+                sickObj.getDefine())));
+        utils.showLoading(Common.context,10000,false);
+        getSickOther(Detail.headerJson);
+
+    }
+
+    private void getSickOther(String jo) {
 
             arrSickLq.clear();
             ln.removeAllViews();
@@ -340,7 +354,8 @@ public class Sick_Detail_Fragment extends Fragment {
                 protected Void doInBackground(Void... voids) {
                     JSONArray other = null;
                     try {
-                        other = jo.getJSONArray(JsonConstant.OTHER_DISEA);
+                        JSONObject obj = new JSONObject(jo);
+                        other = obj.getJSONArray(JsonConstant.OTHER_DISEA);
                         for (int i = 0; i<other.length();i++){
                             JSONObject index = other.getJSONObject(i);
                             JSONObject product = index.getJSONObject(JsonConstant.DISEASE);
@@ -385,7 +400,7 @@ public class Sick_Detail_Fragment extends Fragment {
                             public void onClick(View v) {
                                 Utils.setAlphalAnimation(v);
                                 //           scroll.fullScroll(ScrollView.FOCUS_UP);
-                                Detail.headerJson = "";
+                                Detail.headerObj =null;
                                 loadAgaint(arrSickLq.get(finalI).getId());
                             }
                         });

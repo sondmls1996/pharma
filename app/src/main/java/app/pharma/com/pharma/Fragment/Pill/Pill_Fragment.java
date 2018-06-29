@@ -82,9 +82,10 @@ public class Pill_Fragment extends Fragment {
     Context ct;
     int step = 10;
     int stepMax = 2000000;
+    String idFillCat = "";
     int stepMin = 10000;
-    int minPrice = 10000;
-    int maxPrice = 2000000;
+    int minPrice = 0;
+    int maxPrice = 0;
     BroadcastReceiver broadcastSearch;
     View v;
     String idingredient = "";
@@ -186,7 +187,7 @@ public class Pill_Fragment extends Fragment {
             public void onRefresh() {
 //                minPrice=-1;
 //                maxPrice=-1;
-//                idingredient="";
+                idingredient="";
                 Mainpage = 1;
                 isFillter = false;
                 isSearch = false;
@@ -306,7 +307,7 @@ public class Pill_Fragment extends Fragment {
 
     private void getData(Map map){
 
-
+        Log.d("MAP_PILL",map.toString());
         final boolean[] isEmpty = {false};
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
@@ -453,8 +454,9 @@ public class Pill_Fragment extends Fragment {
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
             map.put("type",idPill);
-                map.put("minPrice",minPrice+"");
-                map.put("maxPrice",maxPrice+"");
+                map.put("priceFrom",minPrice+"");
+                map.put("priceTo",maxPrice+"");
+                map.put("idCat",idFillCat);
                 map.put("ingredient",idingredient);
             getData(map);
         }
@@ -505,10 +507,10 @@ public class Pill_Fragment extends Fragment {
 
         AppCompatSeekBar seek = dialog.findViewById(R.id.seek_bar_min);
         AppCompatSeekBar seekMax = dialog.findViewById(R.id.seek_bar_max);
-        seek.setMax(stepMax);
-        seek.setMin(stepMin);
-        seekMax.setMax(stepMax);
-        seekMax.setMin(stepMin);
+//        seek.setMax(stepMax);
+//
+//        seekMax.setMax(stepMax);
+
 
         if(minPrice>-1){
             seek.setProgress(minPrice);
@@ -539,9 +541,10 @@ public class Pill_Fragment extends Fragment {
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                minPrice = progress;
+                minPrice = progress*(stepMax/100);
                 tv_price.setText(getActivity().getResources().
-                        getString(R.string.price,Constant.format.format(minPrice)+"VND ",Constant.format.format(maxPrice)+"VND "));
+                        getString(R.string.price,Constant.format.format(minPrice)+"VND ",
+                                Constant.format.format(maxPrice)+"VND "));
             }
 
             @Override
@@ -558,7 +561,7 @@ public class Pill_Fragment extends Fragment {
         seekMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                maxPrice = progress;
+                maxPrice = progress*(stepMax/100);
                 tv_price.setText(getActivity().getResources().
                         getString(R.string.price,Constant.format.format(minPrice)+"VND ",
                                 Constant.format.format(maxPrice)+"VND "));
@@ -610,7 +613,8 @@ public class Pill_Fragment extends Fragment {
         sp_tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                strTPId[0] = arrTpAll.get(i).getId();
+               // strTPId[0] = arrTpAll.get(i).getId();
+                idingredient = arrTpAll.get(i).getId();
             }
 
             @Override
@@ -621,7 +625,8 @@ public class Pill_Fragment extends Fragment {
         spMedicine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                strMedicineId[0] = arrMedicineAll.get(i).getId();
+                idFillCat = arrMedicineAll.get(i).getId();
+
 
             }
 
