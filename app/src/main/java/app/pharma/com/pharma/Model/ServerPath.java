@@ -80,7 +80,7 @@ public class ServerPath {
 
     //meo
 
-    public static String LIST_MEO = "getTipNotice";
+    public static String LIST_MEO = "getTipInWebAPI";
     public static String DETAIL_MEO = "getNotice";
 
     //Orderlist

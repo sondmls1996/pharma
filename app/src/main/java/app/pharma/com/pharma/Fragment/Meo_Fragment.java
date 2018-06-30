@@ -147,7 +147,9 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
                                     try {
                                         JSONObject jo = new JSONObject(response);
-                                        JSONArray tipnote = jo.getJSONArray(JsonConstant.TIPNOTE);
+
+
+                                        JSONArray tipnote = jo.getJSONArray(JsonConstant.DATA);
                                         if(tipnote.length()>0){
                                             for (int i =0; i<tipnote.length();i++){
                                                 JSONObject idx =tipnote.getJSONObject(i);
@@ -156,7 +158,10 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                                 Meo_Constructor meo = new Meo_Constructor();
                                                 meo.setTitle(notice.getString(JsonConstant.TITLE));
                                                 meo.setImage(notice.getString(JsonConstant.IMAGE));
-                                                meo.setId(notice.getString(JsonConstant.ID));
+                                                if(notice.has(JsonConstant.ID)){
+                                                    meo.setId(notice.getString(JsonConstant.ID));
+                                                }
+
                                                 //   meo.setComment(notice.getString(JsonConstant.COMMENT));
                                                 meo.setDate(notice.getLong(JsonConstant.TIME));
                                                 meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
