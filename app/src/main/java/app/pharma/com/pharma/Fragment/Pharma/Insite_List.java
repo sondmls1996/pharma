@@ -71,6 +71,9 @@ public class Insite_List extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_insite__list, container, false);
+        if(Utils.isKeyboardShow(v,getActivity())){
+            Utils.hideKeyboard(getActivity());
+        }
         Constant.inFragment = "pharma";
         registerBroadcast();
         init();

@@ -6,6 +6,7 @@ public class JsonConstant {
     public static String LIST_CAT_DISE = "listCatDisease";
     public static String CATEGORY_LOW = "category";
     public static String ID = "id";
+    public static String URL = "url";
     public static String NAME = "name";
     public static String FULLNAME = "fullName";
     public static String QUALITY = "quality";

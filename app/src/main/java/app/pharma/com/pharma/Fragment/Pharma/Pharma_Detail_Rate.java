@@ -513,7 +513,8 @@ public class Pharma_Detail_Rate extends Fragment {
                                 case "0":
                                     util.showLoading(getActivity(),10000,false);
                                     dialog.dismiss();
-                                    Utils.dialogNotif("Đánh giá thành công");
+                                    Mainpage = 1;
+                                    getListRate(Mainpage,type,keyId);
 
                                     break;
                                 case "-1":

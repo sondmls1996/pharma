@@ -25,11 +25,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Patterns;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -130,6 +135,27 @@ public class Utils {
 
 
     }
+
+    public static boolean isKeyboardShow(View activityRootView,Context ct){
+        final boolean[] isShow = {false};
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+                if (heightDiff > dpToPx(ct, 200)) {
+                    isShow[0] = true;
+
+                }else{
+                    isShow[0] = false;
+                }
+            }
+        });
+        return isShow[0];
+    };
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
+    }
     public static Bitmap blur(Context context, Bitmap image) {
         int width = Math.round(image.getWidth());
         int height = Math.round(image.getHeight());
@@ -189,6 +215,40 @@ public class Utils {
 
     public static void loadTransimagePicasso(String link, ImageView v){
         Picasso.with(Common.context).load(link).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
+    }
+
+    public static void hideKeyboard(Activity ct){
+
+            View view = ct.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)ct.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+    }
+
+    public static boolean isPhoneAccep(String phone){
+        if(phone.length()<10){
+            return false;
+        }else{
+            String phoneSplit = phone.substring(0,2);
+
+            Log.d("SPLIT_STR",phoneSplit);
+
+            if(phoneSplit.equals("01")){
+                if(phone.length()!=11){
+                    return  false;
+                }else{
+                    return true;
+                }
+            }else if(phoneSplit.equals("09")){
+                if(phone.length()!=10){
+                    return  false;
+                }else{
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void shareLink(String link){

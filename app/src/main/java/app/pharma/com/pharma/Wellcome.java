@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,6 +42,7 @@ public class Wellcome extends AppCompatActivity {
     DatabaseHandle databaseHandle;
     RealmList<CataloModel> list;
     StringBuffer type;
+    ProgressBar wellcome;
     LocationManager locationManager;
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     Location loc;
@@ -53,6 +56,10 @@ public class Wellcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wellcome);
         Common.context = this;
+        wellcome = findViewById(R.id.progres_wellcome);
+        wellcome.getIndeterminateDrawable().setColorFilter(
+                getResources()
+                .getColor(R.color.gray), PorterDuff.Mode.SRC_IN);
         databaseHandle = new DatabaseHandle();
         databaseHandle.clearCataloData();
         if (Build.VERSION.SDK_INT >= 23) {

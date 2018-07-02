@@ -127,49 +127,52 @@ public class Sick_Detail_Fragment extends Fragment {
                     });
         }else{
             if(Utils.isLogin()){
-                Detail.likestt = sickObj.getLike_stt();
+                if(sickObj!=null){
+                    final int likestt = sickObj.getLike_stt();
 
-                Map<String, String> map = new HashMap<>();
-                map.put("type","disease");
-                map.put("id",sickObj.getId());
-                map.put("accessToken",user.getToken());
-                if(Detail.likestt==0){
-                    map.put("likeStatus","1");
-                }else{
-                    map.put("likeStatus","0");
+                    Map<String, String> map = new HashMap<>();
+                    map.put("type","disease");
+                    map.put("id",sickObj.getId());
+                    map.put("accessToken",user.getToken());
+                    if(likestt==0){
+                        map.put("likeStatus","1");
+                    }else{
+                        map.put("likeStatus","0");
+                    }
+
+                    Response.Listener<String> response  = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("LIKE_STT_PILL",response);
+                            try {
+                                JSONObject jo = new JSONObject(response);
+                                String code = jo.getString(JsonConstant.CODE);
+                                if(code.equals("0")){
+                                    if(likestt==0){
+                                        //     Detail.likestt = 1;
+                                        sickObj.setLike_stt(1);
+                                        //      sickObj.setLike(sickObj.getLike()+1);
+                                        //   tv_like.setText(sickObj.getLike());
+                                    }else{
+                                        //       Detail.likestt = 0;
+                                        sickObj.setLike_stt(0);
+                                        //    sickObj.setLike(sickObj.getLike()-1);
+                                        //+     tv_like.setText(sickObj.getLike()+"");
+                                    }
+
+                                    checkHearth(sickObj.getLike_stt());
+                                    //     Detail.headerObj = sickObj;
+                                }else{
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
                 }
 
-                Response.Listener<String> response  = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("LIKE_STT_PILL",response);
-                        try {
-                            JSONObject jo = new JSONObject(response);
-                            String code = jo.getString(JsonConstant.CODE);
-                            if(code.equals("0")){
-                                if(Detail.likestt==0){
-                                    Detail.likestt = 1;
-                                    sickObj.setLike_stt(1);
-                                    sickObj.setLike(sickObj.getLike()+1);
-                                 //   tv_like.setText(sickObj.getLike());
-                                }else{
-                                    Detail.likestt = 0;
-                                    sickObj.setLike_stt(0);
-                                    sickObj.setLike(sickObj.getLike()-1);
-                               //+     tv_like.setText(sickObj.getLike()+"");
-                                }
-
-                                checkHearth(sickObj.getLike_stt());
-                                Detail.headerObj = sickObj;
-                            }else{
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
             }else{
                 Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
             }
@@ -185,10 +188,10 @@ public class Sick_Detail_Fragment extends Fragment {
 
     private void getData(String id) {
         ImagesArray.clear();
-        if(Detail.headerObj !=null){
-            sickObj = (Sick_Obj)Detail.headerObj;
-            updateUi(sickObj);
-        }else{
+//        if(Detail.headerObj !=null){
+//            sickObj = (Sick_Obj)Detail.headerObj;
+//            updateUi(sickObj);
+//        }else{
             if(!Utils.isNetworkEnable(getActivity())){
                 Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
                         new Utils.ShowDialogNotif.OnCloseDialogNotif() {
@@ -216,7 +219,7 @@ public class Sick_Detail_Fragment extends Fragment {
                 };
                 Utils.PostServer(Common.context, ServerPath.DETAIL_SICK,map,response);
             }
-        }
+    //    }
 
 
     }

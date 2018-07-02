@@ -59,7 +59,7 @@ public class Dr_Fragment extends Fragment {
     int lastVisibleItem = 0;
     Spinner spiner;
     int Mainpage = 1;
-    BroadcastReceiver broadcastSearch;
+    BroadcastReceiver broadcastSearch, broadcastCloseSearch;
     TextView tv_null;
     SwipeRefreshLayout swip;
     String idDr = "";
@@ -286,11 +286,11 @@ public class Dr_Fragment extends Fragment {
                                             Mainpage = Mainpage -1;
                                         }
 
-//                                        if(arr.size()>0){
-//                                            isEmpty(false);
-//                                        }else{
-//                                            isEmpty(true);
-//                                        }
+                                        if(arr.size()>0){
+                                            isEmpty(false);
+                                        }else{
+                                            isEmpty(true);
+                                        }
                                         adapter.notifyDataSetChanged();
                                         super.onPostExecute(aVoid);
                                     }
@@ -325,11 +325,37 @@ public class Dr_Fragment extends Fragment {
         if(broadcastSearch==null){
             registerBroadcast();
         }
+        if(broadcastCloseSearch==null){
+            registerBroadcastCloseSearch();
+        }
         super.onResume();
 
     }
+
+    private void registerBroadcastCloseSearch() {
+        broadcastCloseSearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
+                    Mainpage = 1;
+                    isSearch = false;
+                    key = "";
+                    isNomar = true;
+                    loadManager(Mainpage,isNomar,isSearch,key);
+                //    loadPage(Mainpage);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.CLOSE_SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastCloseSearch,
+                it);
+    }
+
     private void unRegister(){
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastCloseSearch);
+        broadcastCloseSearch=null;
         broadcastSearch=null;
     }
     private void registerBroadcast() {

@@ -162,7 +162,7 @@ public class Register extends AppCompatActivity {
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.validate_email));
 
-            }else if(phone.length()<10){
+            }else if(!Utils.isPhoneAccep(phone)){
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.validate_phone));
             }else{

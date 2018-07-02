@@ -86,7 +86,9 @@ public class Pill_Fragment_Detail extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          v = inflater.inflate(R.layout.fragment_pill__fragment__detail, container, false);
-
+        if(Utils.isKeyboardShow(v,getActivity())){
+            Utils.hideKeyboard(getActivity());
+        }
         init();
 
         return v;
@@ -158,53 +160,56 @@ public class Pill_Fragment_Detail extends Fragment {
             });
         }else{
             if(Utils.isLogin()){
-                 Detail.likestt = objPill.getLikeStt();
+                if(objPill!=null){
+                    final int likestt = objPill.getLikeStt();
 
-                Map<String, String> map = new HashMap<>();
-                map.put("type","product");
-                map.put("id",product_id);
-                map.put("accessToken",user.getToken());
-                if(Detail.likestt==0){
-                    map.put("likeStatus","1");
+                    Map<String, String> map = new HashMap<>();
+                    map.put("type","product");
+                    map.put("id",product_id);
+                    map.put("accessToken",user.getToken());
+                    if(Detail.likestt==0){
+                        map.put("likeStatus","1");
 
-                }else{
-                    map.put("likeStatus","0");
+                    }else{
+                        map.put("likeStatus","0");
 
-                }
-                Log.d("MAP",map.toString());
-
-
-                Response.Listener<String> response  = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("LIKE_STT_PILL",response);
-                        try {
-                            JSONObject jo = new JSONObject(response);
-                            String code = jo.getString(JsonConstant.CODE);
-                            if(code.equals("0")){
-                                if(Detail.likestt==0){
-                                    Detail.likestt = 1;
-                                    objPill.setLikeStt(1);
-                                    objPill.setLike(objPill.getLike()+1);
-                                    tv_like.setText(objPill.getLike()+"");
-                                }else{
-                                    Detail.likestt = 0;
-                                    objPill.setLikeStt(0);
-                                    objPill.setLike(objPill.getLike()-1);
-                                    tv_like.setText(objPill.getLike()+"");
-                                }
-
-                                checkHearth(objPill.getLikeStt());
-                                Detail.headerObj = objPill;
-                            }else{
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
-                };
-                Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
+                    Log.d("MAP",map.toString());
+
+
+                    Response.Listener<String> response  = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("LIKE_STT_PILL",response);
+                            try {
+                                JSONObject jo = new JSONObject(response);
+                                String code = jo.getString(JsonConstant.CODE);
+                                if(code.equals("0")){
+                                    if(likestt==0){
+
+                                        objPill.setLikeStt(1);
+//                                    objPill.setLike(objPill.getLike()+1);
+//                                    tv_like.setText(objPill.getLike()+"");
+                                    }else{
+
+                                        objPill.setLikeStt(0);
+//                                    objPill.setLike(objPill.getLike()-1);
+//                                    tv_like.setText(objPill.getLike()+"");
+                                    }
+
+                                    checkHearth(objPill.getLikeStt());
+                                    //         Detail.headerObj = objPill;
+                                }else{
+                                    Utils.dialogNotif(getResources().getString(R.string.error));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
+                }
+
             }else{
                 Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
             }
@@ -219,10 +224,10 @@ public class Pill_Fragment_Detail extends Fragment {
 
     private void loadData(String id) {
         utils.showLoading(Common.context,10000,true);
-        if(Detail.headerObj!=null){
-            objPill = (Pill_obj) Detail.headerObj;
-            updateUi(objPill);
-        }else{
+//        if(Detail.headerObj!=null){
+//            objPill = (Pill_obj) Detail.headerObj;
+//            updateUi(objPill);
+//        }else{
             if(!Utils.isNetworkEnable(getActivity())){
                 utils.showLoading(Common.context,10000,false);
                 Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
@@ -254,7 +259,7 @@ public class Pill_Fragment_Detail extends Fragment {
 
                 Utils.PostServer(Common.context, ServerPath.DETAIL_PILL,map,response);
             }
-        }
+      //  }
 
 
     }

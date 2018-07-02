@@ -271,7 +271,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 title.setVisibility(View.VISIBLE);
                 rl_search.setVisibility(View.GONE);
                 rl_type_search.setVisibility(View.GONE);
-                edSearch.setText(null);
+
+                hideKeyboard();
+                Intent it = new Intent(Constant.CLOSE_SEARCH_ACTION);
+                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
                 break;
         }
         return true;

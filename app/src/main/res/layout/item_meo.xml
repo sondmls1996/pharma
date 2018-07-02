@@ -37,7 +37,7 @@
             android:maxLength="25"
             android:textSize="16sp"
             android:id="@+id/title_meo"
-            android:text="Cách trị hóc xương cá"
+
             android:textColor="@color/blue"
             android:textStyle="bold" />
 
@@ -48,13 +48,13 @@
             android:maxLength="60"
             android:textSize="12sp"
             android:id="@+id/descr_meo"
-            android:text="Để trị hóc xương cá, hãy lấy ít nước uống ..."
+
             android:textColor="@color/gray"
             android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="14dp"
-            android:text="18:20"
+
             android:id="@+id/time_meo"
             android:textColor="@color/gray"
             android:textSize="10sp" />
@@ -76,7 +76,7 @@
             android:gravity="end"
             android:id="@+id/date_meo"
             android:layout_marginTop="3dp"
-            android:text="22/03/2018"
+
             android:textColor="@color/gray"
             android:textSize="12sp" />
 

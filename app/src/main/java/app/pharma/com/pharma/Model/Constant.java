@@ -11,6 +11,7 @@ import java.util.Locale;
 
 public class Constant {
     public static String SEARCH_ACTION = "search";
+    public static String CLOSE_SEARCH_ACTION = "closesearch";
     public static String inFragment = "";
     public static NumberFormat format = NumberFormat.getNumberInstance(Locale.UK);
     public static  int ACTION_DOWN = 1;

@@ -208,7 +208,8 @@ public class Sick_Fragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(Constant.SEARCH_ACTION)){
                     String key = intent.getStringExtra("key");
-                    loadPageSearch(1,key);
+                    Mainpage = 1;
+                    loadPageSearch(Mainpage,key);
                 }
             }
         };

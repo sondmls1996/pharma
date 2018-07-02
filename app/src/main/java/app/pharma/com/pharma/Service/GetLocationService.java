@@ -64,8 +64,8 @@ public class GetLocationService extends Service implements LocationListener{
                 }
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
-                        0,
-                        1000, this);
+                        60000,
+                        0, this);
 
                 if (locationManager != null) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -109,8 +109,8 @@ public class GetLocationService extends Service implements LocationListener{
                 }
                 locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
-                        0,
-                        1000, this);
+                        60000,
+                        0, this);
 
                 if (locationManager != null) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)

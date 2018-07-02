@@ -5,14 +5,14 @@ package app.pharma.com.pharma.Model.Constructor;
  */
 
 public class Meo_Constructor {
-    String id;
-    String title;
-    String descrep;
-    long date;
-    String like;
-    String comment;
-    String image;
-    String link;
+    String id = "";
+    String title = "";
+    String descrep = "";
+    long date = 0;
+    String like = "";
+    String comment = "";
+    String image = "";
+    String link = "";
 
     public void setDate(long date) {
         this.date = date;

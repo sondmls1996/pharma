@@ -57,7 +57,7 @@ public class Care_Pharma extends AppCompatActivity {
         Common.context = this;
         db = new DatabaseHandle();
         init();
-        getPage(Mainpage);
+
     }
 
     private void init() {
@@ -215,6 +215,8 @@ public class Care_Pharma extends AppCompatActivity {
     @Override
     protected void onResume() {
         Common.context = this;
+        Mainpage = 1;
+        getPage(Mainpage);
         super.onResume();
     }
 }

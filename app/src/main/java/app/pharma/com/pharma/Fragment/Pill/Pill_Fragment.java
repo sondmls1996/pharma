@@ -84,7 +84,7 @@ public class Pill_Fragment extends Fragment {
     int stepMin = 10000;
     int minPrice = 0;
     int maxPrice = 0;
-    BroadcastReceiver broadcastSearch;
+    BroadcastReceiver broadcastSearch,broadcastCloseSearch;
     View v;
     String idingredient = "";
     View footer;
@@ -111,11 +111,12 @@ public class Pill_Fragment extends Fragment {
          v = inflater.inflate(R.layout.fragment_pill, container, false);
         Constant.inFragment = "pill";
         init();
-        registerBroadcast();
+        registerBroadcastSearch();
+       // registerBroadcastCloseSearch();
         return v;
     }
 
-    private void registerBroadcast() {
+    private void registerBroadcastSearch() {
         broadcastSearch = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -172,6 +173,7 @@ public class Pill_Fragment extends Fragment {
 
     private void unRegister(){
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastCloseSearch);
     }
 
     private void init() {
@@ -236,7 +238,7 @@ public class Pill_Fragment extends Fragment {
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
 
-        spiner.setSelection(0);
+
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -266,8 +268,9 @@ public class Pill_Fragment extends Fragment {
 
             }
         });
-        setRecycle(v);
 
+        setRecycle(v);
+        spiner.setSelection(0);
     }
 
 
@@ -621,11 +624,31 @@ public class Pill_Fragment extends Fragment {
     public void onResume() {
         if(broadcastSearch==null){
 
-            registerBroadcast();
+            registerBroadcastSearch();
         }
-
+//        if(broadcastCloseSearch==null){
+//
+//            registerBroadcastCloseSearch();
+//        }
 
         super.onResume();
+
+    }
+
+    private void registerBroadcastCloseSearch() {
+//        broadcastCloseSearch = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
+//                    Utils.hideKeyboard(getActivity());
+//                    //   loadPageSearch(Mainpage,idPill,key);
+//                }
+//            }
+//        };
+//        IntentFilter it = new IntentFilter();
+//        it.addAction(Constant.CLOSE_SEARCH_ACTION);
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastCloseSearch,
+//                it);
 
     }
 
@@ -633,6 +656,7 @@ public class Pill_Fragment extends Fragment {
     public void onStop() {
         unRegister();
         broadcastSearch=null;
+      //  broadcastCloseSearch = null;
         super.onStop();
     }
 

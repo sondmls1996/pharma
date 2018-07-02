@@ -163,9 +163,12 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                                 }
 
                                                 //   meo.setComment(notice.getString(JsonConstant.COMMENT));
-                                                meo.setDate(notice.getLong(JsonConstant.TIME));
+                                                if(notice.has(JsonConstant.TIME)){
+                                                    meo.setDate(notice.getLong(JsonConstant.TIME));
+                                                }
+
                                                 meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
-                                                meo.setLink(notice.getString(JsonConstant.LINKVIEW));
+                                                meo.setLink(notice.getString(JsonConstant.URL));
                                                 arr.add(meo);
                                             }
                                             isEmpty[0] = false;

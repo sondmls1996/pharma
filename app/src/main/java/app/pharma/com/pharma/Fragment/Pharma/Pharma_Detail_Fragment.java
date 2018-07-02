@@ -224,48 +224,52 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
 
     private void onClickHeart() {
         if(Utils.isLogin()){
-             Detail.likestt = pharma.getLikeStt();
+            if(pharma!=null){
+                final int likestt = pharma.getLikeStt();
 
-            Map<String, String> map = new HashMap<>();
-            map.put("type","store");
-            map.put("id",pharma.getId());
-            map.put("accessToken",user.getToken());
-            if(Detail.likestt==0){
-                map.put("likeStatus","1");
-            }else{
-                map.put("likeStatus","0");
-            }
+                Map<String, String> map = new HashMap<>();
+                map.put("type","store");
+                map.put("id",pharma.getId());
+                map.put("accessToken",user.getToken());
+                if(likestt==0){
+                    map.put("likeStatus","1");
+                }else{
+                    map.put("likeStatus","0");
+                }
 
-            Response.Listener<String> response  = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("LIKE_STT_PILL",response);
-                    try {
-                        JSONObject jo = new JSONObject(response);
-                        String code = jo.getString(JsonConstant.CODE);
-                        if(code.equals("0")){
-                            if(Detail.likestt==0){
-                                Detail.likestt = 1;
-                                pharma.setLikeStt(1);
+                Response.Listener<String> response  = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("LIKE_STT_PILL",response);
+                        try {
+                            JSONObject jo = new JSONObject(response);
+                            String code = jo.getString(JsonConstant.CODE);
+                            if(code.equals("0")){
+                                if(likestt==0){
+
+                                    pharma.setLikeStt(1);
 //                                pharma.setLike(pharma.getLike()+1);
 //                                tv_like.setText(pharma.getLike()+"");
-                            }else{
-                                Detail.likestt = 0;
-                                pharma.setLikeStt(0);
+                                }else{
+
+                                    pharma.setLikeStt(0);
 //                                pharma.setLike(pharma.getLike()-1);
 //                                tv_like.setText(pharma.getLike()+"");
+                                }
+
+                                checkHearth(pharma.getLikeStt());
+                            }else{
+
                             }
-
-                            checkHearth(pharma.getLikeStt());
-                        }else{
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            };
-            Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
+                };
+                Utils.PostServer(Common.context,ServerPath.LIKE_PILL,map,response);
+            }
+
+
         }else{
             Utils.dialogNotif(getActivity().getResources().getString(R.string.you_not_login));
         }
@@ -273,10 +277,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
     }
 
     private void getData() {
-        if(Detail.headerObj!=null){
-            pharma = (Pharma_Obj)Detail.headerObj;
-            updateUi(pharma);
-        }else{
+
             if(!Utils.isNetworkEnable(getActivity())){
                 // swip.setRefreshing(false);
                 Utils.ShowNotifString(getActivity().getResources().getString(R.string.no_internet),
@@ -296,13 +297,13 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                 Response.Listener<String> response = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Detail.headerJson = response;
+                     //   Detail.headerJson = response;
                         initJson(response);
                     }
                 };
                 Utils.PostServer(Common.context, ServerPath.DETAIL_PHARMA,map,response);
             }
-        }
+
 
 
 
@@ -380,8 +381,6 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
 
                                 updateUi(pharma);
 
-
-
                                 super.onPostExecute(aVoid);
                             }
                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -408,7 +407,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
         strphone = pharma.getPhone();
         tv_like.setText(pharma.getLike()+"");
         comment.setText(pharma.getComment());
-        Detail.likestt = pharma.getLikeStt();
+       // Detail.likestt = pharma.getLikeStt();
         linkShare = pharma.getLinkShare();
         adapter = new Slide_Image_Adapter(Common.context,pharma.getImage());
         mPager = (ViewPager) v.findViewById(R.id.slide_image);

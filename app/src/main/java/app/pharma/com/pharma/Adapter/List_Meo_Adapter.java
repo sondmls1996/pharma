@@ -62,7 +62,10 @@ public class List_Meo_Adapter 	extends
         Utils.loadImagePicasso(ServerPath.ROOT_URL+pill.getImage(),viewHolder.img);
         viewHolder.tv_title.setText(pill.getTitle());
         viewHolder.descr.setText(pill.getDescrep());
-        viewHolder.date.setText(Utils.convertTimestampToDate(pill.getDate()));
+        if(pill.getDate()>0){
+            viewHolder.date.setText(Utils.convertTimestampToDate(pill.getDate()));
+        }
+
         viewHolder.time_meo.setText(formatHours.format(pill.getDate()));
     }
 

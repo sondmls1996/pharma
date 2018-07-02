@@ -170,7 +170,7 @@
     <string name="register_success">Đăng ký thành công</string>
     <string name="has_acc">Tài khoản đã tồn tại</string>
     <string name="not_check">Bạn chưa đồng ý với điều khoản sử dụng</string>
-    <string name="validate_email">Email không đứng định dạng</string>
+    <string name="validate_email">Email không đúng định dạng</string>
     <string name="change_infor_success">Thay đổi thông tin thành công</string>
     <string name="change_infor_failse">Thay đổi thông tin thất bại</string>
     <string name="validate_phone">Số điện thoại không đúng</string>
@@ -184,6 +184,7 @@
     <string name="title_rate_pill">Đánh giá về thuốc</string>
     <string name="title_rate_app">Đánh giá của bạn về ứng dụng</string>
     <string name="loading">Đang xử lý...</string>
+    <string name="gps_off">Gps đang tắt, bật lên để tăng độ chính xác</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
