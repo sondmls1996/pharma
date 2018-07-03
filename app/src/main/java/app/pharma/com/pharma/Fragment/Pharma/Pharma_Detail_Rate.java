@@ -258,10 +258,14 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView tvName = rowView.findViewById(R.id.include_pharma_name);
         TextView tvAround = rowView.findViewById(R.id.include_pharma_around);
         ImageView img = rowView.findViewById(R.id.include_pharma_image);
+        TextView tvLike = rowView.findViewById(R.id.txt_like);
+        TextView tvCmt = rowView.findViewById(R.id.txt_comment);
         LinearLayout ln = rowView.findViewById(R.id.include_pharma_star);
         ln.removeAllViews();
         Pharma_Obj pharma = (Pharma_Obj) Detail.headerObj;
         idProduct = pharma.getId();
+        tvLike.setText(pharma.getLike()+"");
+        tvCmt.setText(pharma.getComment()+"");
         type = "store";
         tvName.setText(pharma.getName());
         allCmt = pharma.getComment();

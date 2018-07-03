@@ -1,12 +1,12 @@
 package app.pharma.com.pharma.Model.Constructor;
 
 public class Order_List_Constructor {
-    String id;
-    String name;
-    long date;
-    int price;
-    String image;
-    String status;
+    String id = "";
+    String name = "";
+    long date = 0;
+    int price = 0;
+    String image = "";
+    String status = "";
 
 
     public String getId() {

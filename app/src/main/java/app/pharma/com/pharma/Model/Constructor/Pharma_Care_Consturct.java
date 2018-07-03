@@ -1,13 +1,13 @@
 package app.pharma.com.pharma.Model.Constructor;
 
 public class Pharma_Care_Consturct {
-    String id;
-    String name;
-    String image;
-    String adr;
-    Double star;
-    double lat;
-    double lng;
+    String id = "";
+    String name = "";
+    String image = "";
+    String adr = "";
+    Double star = 0.0;
+    double lat = 0;
+    double lng = 0;
 
     public String getId() {
         return id;

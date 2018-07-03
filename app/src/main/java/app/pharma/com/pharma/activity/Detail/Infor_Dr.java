@@ -168,13 +168,7 @@ public class Infor_Dr extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + strPhone));
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
                             != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
+
                         return;
                     }
                     startActivity(intent);
@@ -220,12 +214,24 @@ public class Infor_Dr extends AppCompatActivity {
                                             JSONObject data = jo.getJSONObject(JsonConstant.DATA);
                                             Pharma = data.getJSONObject(JsonConstant.PHARMACIS);
                                             drObj.setAdr(Pharma.getString(JsonConstant.USER_ADR));
-                                            drObj.setName(Pharma.getString(JsonConstant.NAME));
-                                            drObj.setAge(Pharma.getString(JsonConstant.AGE));
-                                            drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
-                                            drObj.setHospital(Pharma.getString(JsonConstant.HOSPITAL));
-                                            drObj.setPhone(Pharma.getString(JsonConstant.PHONE));
                                             JSONArray ck = Pharma.getJSONArray(JsonConstant.SPECIALLIST);
+
+                                            if(Pharma.has(JsonConstant.NAME)){
+                                                drObj.setName(Pharma.getString(JsonConstant.NAME));
+                                            }
+                                            if(Pharma.has(JsonConstant.AGE)){
+                                                drObj.setAge(Pharma.getString(JsonConstant.AGE));
+                                            }
+                                            if(Pharma.has(JsonConstant.AVATAR)){
+                                                drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
+                                            }
+                                            if(Pharma.has(JsonConstant.HOSPITAL)){
+                                                drObj.setHospital(Pharma.getString(JsonConstant.HOSPITAL));
+                                            }
+                                            if(Pharma.has(JsonConstant.PHONE)){
+                                                drObj.setPhone(Pharma.getString(JsonConstant.PHONE));
+                                            }
+
                                             String StrCk = "";
                                             for (int i =0; i<ck.length();i++){
                                                 StrCk = StrCk+" "+ck.getString(i)+",";

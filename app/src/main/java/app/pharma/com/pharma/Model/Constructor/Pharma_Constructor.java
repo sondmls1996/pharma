@@ -5,15 +5,15 @@ package app.pharma.com.pharma.Model.Constructor;
  */
 
 public class Pharma_Constructor {
-    String id;
-    String avatar;
-    String name;
-    String adr;
-    double x;
-    double y;
-    String like;
-    String comment;
-    double rate;
+    String id = "";
+    String avatar = "";
+    String name = "";
+    String adr = "";
+    double x = 0;
+    double y = 0;
+    String like = "";
+    String comment = "";
+    double rate = 0;
 
     public Pharma_Constructor() {
     }

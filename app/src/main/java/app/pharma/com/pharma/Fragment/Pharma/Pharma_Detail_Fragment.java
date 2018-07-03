@@ -337,6 +337,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                     }else{
                                         pharma.setLike(0);
                                     }
+
                                     if(store.has(JsonConstant.STAR)){
                                         pharma.setStar(store.getDouble(JsonConstant.STAR));
                                     }else{

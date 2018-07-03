@@ -1,12 +1,12 @@
 package app.pharma.com.pharma.Model.Constructor;
 
 public class Other_Product_Constuctor {
-    String name;
-    int price;
-    String image;
-    double star;
-    String id;
-    String company;
+    String name = "";
+    int price = 0;
+    String image = "";
+    double star = 0;
+    String id = "";
+    String company = "";
 
     public Other_Product_Constuctor() {
     }

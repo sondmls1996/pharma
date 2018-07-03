@@ -5,16 +5,16 @@ package app.pharma.com.pharma.Model.Constructor;
  */
 
 public class Dr_Constructor {
-    String id;
-    String avatar;
-    String name;
-    String age;
-    String work_year;
-    String special;
-    String hospital;
-    double rate;
-    String like;
-    String comment;
+    String id = "";
+    String avatar = "";
+    String name = "";
+    String age = "";
+    String work_year = "";
+    String special = "";
+    String hospital = "";
+    double rate = 0;
+    String like = "";
+    String comment = "";
 
     public Dr_Constructor() {
     }

@@ -80,6 +80,8 @@ public class Pill_Fragment extends Fragment {
     Context ct;
     int step = 10;
     int stepMax = 2000000;
+    int progressMin = 0;
+    int progressMax = 0;
     String idFillCat = "";
     int stepMin = 10000;
     int minPrice = 0;
@@ -164,6 +166,7 @@ public class Pill_Fragment extends Fragment {
                         it.putExtra("id", arr.get(position).getId());
 
                         startActivity(it);
+
                         // TODO Handle item click
                     }
                 })
@@ -494,11 +497,11 @@ public class Pill_Fragment extends Fragment {
 //        seekMax.setMax(stepMax);
 
 
-        if(minPrice>-1){
-            seek.setProgress(minPrice);
+        if(progressMin>-1){
+            seek.setProgress(progressMin);
         }
-        if(maxPrice>-1){
-            seekMax.setProgress(maxPrice);
+        if(progressMax>-1){
+            seekMax.setProgress(progressMax);
         }
 
         Button apply = dialog.findViewById(R.id.btn_apply);
@@ -523,7 +526,8 @@ public class Pill_Fragment extends Fragment {
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                minPrice = progress*(stepMax/100);
+                progressMin = progress;
+                minPrice = progressMin*(stepMax/100);
                 tv_price.setText(getActivity().getResources().
                         getString(R.string.price,Constant.format.format(minPrice)+"VND ",
                                 Constant.format.format(maxPrice)+"VND "));
@@ -543,7 +547,8 @@ public class Pill_Fragment extends Fragment {
         seekMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                maxPrice = progress*(stepMax/100);
+                progressMax = progress;
+                maxPrice = progressMax*(stepMax/100);
                 tv_price.setText(getActivity().getResources().
                         getString(R.string.price,Constant.format.format(minPrice)+"VND ",
                                 Constant.format.format(maxPrice)+"VND "));
@@ -576,7 +581,6 @@ public class Pill_Fragment extends Fragment {
                 arrTP.add(list.get(i).getName());
                 arrTpAll.add(list.get(i));
             }
-
         }
 
         ArrayAdapter<String> dataAdapter =
@@ -584,8 +588,6 @@ public class Pill_Fragment extends Fragment {
                         (Common.context, R.layout.custom_text_spiner,R.id.txt_spin, arrMedicine);
         dataAdapter.setDropDownViewResource(R.layout.custom_text_spiner);
         spMedicine.setAdapter(dataAdapter);
-
-
 
         ArrayAdapter<String> dataAdapter2 =
                 new ArrayAdapter<String>

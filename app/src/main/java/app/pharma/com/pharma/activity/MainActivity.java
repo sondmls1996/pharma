@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_pill;
     ImageView img_sick;
     Spinner spiner;
-
+     String appPackageName = getPackageName();
     ImageView img_dr;
     ImageView img_pharma;
     ImageView header_background;
@@ -226,6 +226,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent it = new Intent(Constant.SEARCH_ACTION);
                     it.putExtra("key",s.toString());
                     LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
+                    try {
+                        Thread.currentThread();
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
 
                 }
             }
@@ -412,6 +419,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 img_meo.setImageDrawable(r.getDrawable(R.drawable.news_blue));
                 break;
             case R.id.img_avt:
+                Utils.setAlphalAnimation(view);
                 if(Utils.isLogin()){
                     Intent it = new Intent(Common.context, Infor_User.class);
                     startActivity(it);
@@ -480,9 +488,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.sub_sick:
-
-
-
                 if(Utils.isLogin()){
                     Intent it3 = new Intent(getApplicationContext(),Care_Sick_Activity.class);
                     it3.putExtra("key","sick");
@@ -512,7 +517,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(it4);
                 break;
             case R.id.rate:
-                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                // getPackageName() from Context or Activity object
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                 } catch (android.content.ActivityNotFoundException anfe) {
@@ -521,7 +526,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               //  showDialogRateApp();
                 break;
             case R.id.share:
-                Utils.shareLink("");
+                Utils.shareLink("https://play.google.com/store/apps/details?id=" + appPackageName);
                 break;
 
         }

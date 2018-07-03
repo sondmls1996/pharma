@@ -108,8 +108,6 @@ public class Sick_Detail_Fragment extends Fragment {
 //                checkHearth();
             }
         });
-//        for(int i=0;i<IMAGES.length;i++)
-//            ImagesArray.add(IMAGES[i]);
 
         getData(Detail.id);
 
@@ -149,15 +147,9 @@ public class Sick_Detail_Fragment extends Fragment {
                                 String code = jo.getString(JsonConstant.CODE);
                                 if(code.equals("0")){
                                     if(likestt==0){
-                                        //     Detail.likestt = 1;
                                         sickObj.setLike_stt(1);
-                                        //      sickObj.setLike(sickObj.getLike()+1);
-                                        //   tv_like.setText(sickObj.getLike());
                                     }else{
-                                        //       Detail.likestt = 0;
                                         sickObj.setLike_stt(0);
-                                        //    sickObj.setLike(sickObj.getLike()-1);
-                                        //+     tv_like.setText(sickObj.getLike()+"");
                                     }
 
                                     checkHearth(sickObj.getLike_stt());

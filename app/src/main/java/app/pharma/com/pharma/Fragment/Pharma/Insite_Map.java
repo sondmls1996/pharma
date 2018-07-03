@@ -150,39 +150,11 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        if(isStart){
-                            if(Common.lat!=0&&Common.lng!=0){
-                                lat = Common.lat;
-                                lng = Common.lng;
-                                gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("Vị trí của tôi"));
-                                gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10f));
-                            }else{
-                                lat = 17.0828177;
-                                lng = 106.38272;
-                             //   gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-                                gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10f));
-                            }
-                        }else{
-                            if(Common.lat!=0&&Common.lng!=0){
-                                lat = Common.lat;
-                                lng = Common.lng;
-                                gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("Vị trí của tôi"));
-                             //   gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),8f));
-                            }else{
-                                lat = 17.0828177;
-                                lng = 106.38272;
-                                gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
-                               // gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),8f));
-                            }
-                        }
+
 
                         super.onPostExecute(aVoid);
                     }
                 }.execute(i);
-
-
-
-
                 int finalI = i;
 
 
@@ -203,6 +175,31 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
 
                 }
             });
+        }
+        if(isStart){
+            if(Common.lat!=0&&Common.lng!=0){
+                lat = Common.lat;
+                lng = Common.lng;
+                gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("Vị trí của tôi"));
+                gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10f));
+            }else{
+                lat = 17.0828177;
+                lng = 106.38272;
+                //   gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
+                gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10f));
+            }
+        }else{
+            if(Common.lat!=0&&Common.lng!=0){
+                lat = Common.lat;
+                lng = Common.lng;
+                gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("Vị trí của tôi"));
+                //   gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),8f));
+            }else{
+                lat = 17.0828177;
+                lng = 106.38272;
+                gg.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
+                // gg.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),8f));
+            }
         }
     }
 
@@ -342,6 +339,7 @@ public class Insite_Map extends Fragment implements OnMapReadyCallback {
                     isStart = false;
                     String key = intent.getStringExtra("key");
                     loadPageSearch(1,key);
+
                 }
             }
         };
