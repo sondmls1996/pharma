@@ -66,6 +66,7 @@
                 android:drawablePadding="10dp"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"
+                android:gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:maxWidth="300dp"
                 android:minWidth="300dp"
@@ -90,7 +91,7 @@
             android:id="@+id/btn_confirmcode"
             android:elevation="10dp"
             android:padding="5dp"
-            android:background="@drawable/border_edt_pink"
+            android:background="@drawable/ripbutton_pink"
             android:layout_marginTop="20dp"
             android:gravity="center"/>
         <TextView

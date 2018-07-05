@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:textSize="12sp"
         android:textAlignment="center"
         android:text="Hãy nhập mã xác nhận chúng tôi đã gửi qua Email cho bạn"
         android:layout_marginBottom="10dp"
@@ -24,6 +24,7 @@
         android:elevation="8dp"
         android:layout_marginTop="20dp"
         android:ellipsize="start"
+        android:gravity="center_vertical"
         android:id="@+id/ed_typecode"
         android:textSize="13sp"
         android:padding="5dp"
@@ -35,7 +36,8 @@
         android:layout_marginTop="5dp"
         android:id="@+id/btn_update_pass"
         android:background="@drawable/border_blue"
-
+        android:gravity="center"
+        android:textSize="14sp"
         android:textColor="@color/white"
         android:text="@string/update_pass"/>
 

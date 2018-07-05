@@ -33,6 +33,7 @@ import app.pharma.com.pharma.R;
 public class Get_code extends AppCompatActivity implements View.OnClickListener {
     Button get_code;
     Utils utils;
+
     TextView bac_lg;
     EditText ed_user;
     String username = "";
@@ -49,6 +50,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
         Common.context = this;
         TextView tvTitle = (TextView)findViewById(R.id.title);
         RelativeLayout imgBack = findViewById(R.id.img_back);
+
         ed_user = findViewById(R.id.ed_email);
         bac_lg = findViewById(R.id.back_login);
         bac_lg.setOnClickListener(new View.OnClickListener() {

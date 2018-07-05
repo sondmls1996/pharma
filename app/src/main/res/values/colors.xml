@@ -10,9 +10,11 @@
     <color name="red">#D91864</color>
     <color name="dark_red">#BE1E2D</color>
     <color name="blue">#23a0d7</color>
+    <color name="dark_blue">#01579B</color>
     <color name="blue2">#27A9FE</color>
     <color name="gray">#808284</color>
     <color name="light_gray">#e1e1e1</color>
     <color name="orange">#FDB44B</color>
     <color name="green">#00A550</color>
+    <color name="dark_green">#558B2F</color>
 </resources>

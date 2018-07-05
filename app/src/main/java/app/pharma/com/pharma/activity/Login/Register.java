@@ -164,7 +164,7 @@ public class Register extends AppCompatActivity {
 
             }else if(!Utils.isPhoneAccep(phone)){
                 util.showLoading(this,10000,false);
-                Utils.dialogNotif(getResources().getString(R.string.validate_phone));
+                Utils.dialogNotif( getResources().getString(R.string.validate_phone));
             }else{
                 Map<String ,String> map = new HashMap<>();
                 map.put("userName",user);

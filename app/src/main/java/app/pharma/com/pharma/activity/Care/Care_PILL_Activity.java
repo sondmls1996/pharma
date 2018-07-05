@@ -62,7 +62,6 @@ public class Care_PILL_Activity extends AppCompatActivity {
             db = new DatabaseHandle();
             user = db.getAllUserInfor();
         }
-
         TextView tvTitle = (TextView)findViewById(R.id.title);
         RelativeLayout imgBack = findViewById(R.id.img_back);
         if(key.equals("pill")){
@@ -87,8 +86,6 @@ public class Care_PILL_Activity extends AppCompatActivity {
         });
         arr = new ArrayList<>();
         setRecycle();
-
-
     }
 
     public void setRecycle(){
@@ -213,7 +210,8 @@ public class Care_PILL_Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Common.context = this;
-
+        Mainpage = 1;
+        getDataLike(Mainpage);
         super.onResume();
 
     }

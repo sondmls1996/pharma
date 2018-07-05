@@ -48,8 +48,6 @@ public class Sick_Construct {
         this.name = name;
     }
 
-
-
     public String getCatalo() {
         return catalo;
     }

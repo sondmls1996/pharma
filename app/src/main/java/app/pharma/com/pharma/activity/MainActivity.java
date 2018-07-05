@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_pill;
     ImageView img_sick;
     Spinner spiner;
-     String appPackageName = getPackageName();
+     String appPackageName;
     ImageView img_dr;
     ImageView img_pharma;
     ImageView header_background;
@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         MultiDex.install(this);
         Common.context = this;
+        appPackageName = getApplicationContext().getPackageName();
         db = new DatabaseHandle();
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
