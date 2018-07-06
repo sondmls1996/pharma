@@ -154,7 +154,6 @@ public class Register extends AppCompatActivity {
             if(!pass.equals(repass)){
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.pass_notequal));
-
             }else if(!cb_acc.isChecked()){
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.not_check));
@@ -165,6 +164,9 @@ public class Register extends AppCompatActivity {
             }else if(!Utils.isPhoneAccep(phone)){
                 util.showLoading(this,10000,false);
                 Utils.dialogNotif( getResources().getString(R.string.validate_phone));
+            }else if(pass.length()<8){
+                util.showLoading(this,10000,false);
+                Utils.dialogNotif( getResources().getString(R.string.short_pass));
             }else{
                 Map<String ,String> map = new HashMap<>();
                 map.put("userName",user);

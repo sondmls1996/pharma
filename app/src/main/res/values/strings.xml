@@ -174,6 +174,7 @@
     <string name="change_infor_success">Thay đổi thông tin thành công</string>
     <string name="change_infor_failse">Thay đổi thông tin thất bại</string>
     <string name="validate_phone">Số điện thoại không đúng</string>
+    <string name="short_pass">Mật khẩu phải từ 8 ký tự trở lên</string>
     <string name="null_star">Chưa có đánh giá</string>
     <string name="user_pass_wrong">Tài khoản hoặc mật khẩu không chính xác</string>
     <string name="login_fail">Đăng nhập thất bại</string>
@@ -190,6 +191,7 @@
 
     //error
     <string name="pass_notequal">Mật khẩu không trùng nhau</string>
+    <string name="old_pass_notequal">Mật khẩu mới không được trùng mật khẩu cũ</string>
     <string name="empty">Hãy điền đủ các trường</string>
     <string name="found_email">Email đã tồn tại</string>
     <string name="cant_register">Đăng ký không thành công, vui lòng thử lại</string>

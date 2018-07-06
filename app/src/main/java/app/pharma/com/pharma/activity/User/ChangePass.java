@@ -99,6 +99,9 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                     }else if(!newPass.equals(reNewPass)){
                         utils.showLoading(getApplicationContext(),20000,false);
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.pass_notequal),Toast.LENGTH_SHORT).show();
+                    }else if(newPass.equals(oldPass)){
+                        utils.showLoading(getApplicationContext(),20000,false);
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.old_pass_notequal),Toast.LENGTH_SHORT).show();
                     }else{
                         Map<String,String> map = new HashMap<>();
                         map.put("accessToken",user.getToken());

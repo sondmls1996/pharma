@@ -231,22 +231,37 @@ public class Utils {
             return false;
         }else{
             String phoneSplit = phone.substring(0,2);
-
+            String phoneFirst = phone.substring(0,1);
             Log.d("SPLIT_STR",phoneSplit);
-
-            if(phoneSplit.equals("01")){
-                if(phone.length()!=11){
-                    return  false;
-                }else{
-                    return true;
+            if(phoneFirst.equals("0")||phoneSplit.equals("84")||phoneSplit.equals("+8")){
+                if(phoneSplit.equals("01")){
+                    if(phone.length()!=11){
+                        return  false;
+                    }else{
+                        return true;
+                    }
+                }else if(phoneSplit.equals("09")){
+                    if(phone.length()!=10){
+                        return  false;
+                    }else{
+                        return true;
+                    }
+                }else if(phoneSplit.equals("84")){
+                    if(phone.length()<10){
+                        return  false;
+                    }else{
+                        return true;
+                    }
+                }else if(phoneSplit.equals("+8")){
+                    if(phone.length()<10){
+                        return  false;
+                    }else{
+                        return true;
+                    }
                 }
-            }else if(phoneSplit.equals("09")){
-                if(phone.length()!=10){
-                    return  false;
-                }else{
-                    return true;
-                }
+                return true;
             }
+
         }
         return false;
     }
