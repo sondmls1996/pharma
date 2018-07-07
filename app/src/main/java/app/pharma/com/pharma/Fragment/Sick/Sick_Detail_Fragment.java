@@ -383,7 +383,7 @@ public class Sick_Detail_Fragment extends Fragment {
                         TextView tv_name_lq  = rowView.findViewById(R.id.tv_sick_lq);
                         TextView tv_descri = rowView.findViewById(R.id.tv_content_lq);
                         TextView cata_lq= rowView.findViewById(R.id.tv_cata_sick_lq);
-                        Picasso.with(getActivity()).load(ServerPath.ROOT_URL+arrSickLq.get(i).getImage()).into(img_pill_lq);
+                        Picasso.get().load(ServerPath.ROOT_URL+arrSickLq.get(i).getImage()).into(img_pill_lq);
                         tv_name_lq.setText(arrSickLq.get(i).getTitle());
                         tv_descri.setText(arrSickLq.get(i).getDecri());
                         cata_lq.setText(arrSickLq.get(i).getCatalo());

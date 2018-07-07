@@ -206,15 +206,15 @@ public class Utils {
     }
 
     public static void loadImagePicasso(String link, ImageView v){
-        Picasso.with(Common.context).load(link).placeholder(R.drawable.no_image_small).into(v);
+        Picasso.get().load(link).placeholder(R.drawable.no_image_small).into(v);
     }
 
     public static void loadImagePicasso(int res, ImageView v){
-        Picasso.with(Common.context).load(res).placeholder(R.drawable.no_image_small).into(v);
+        Picasso.get().load(res).placeholder(R.drawable.no_image_small).into(v);
     }
 
     public static void loadTransimagePicasso(String link, ImageView v){
-        Picasso.with(Common.context).load(link).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
+        Picasso.get().load(link).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
     }
 
     public static void hideKeyboard(Activity ct){
@@ -278,7 +278,7 @@ public class Utils {
     }
 
     public static void loadTransimagePicasso(int res, ImageView v){
-        Picasso.with(Common.context).load(res).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
+        Picasso.get().load(res).placeholder(R.drawable.no_image_small).transform(new TransImage()).into(v);
     }
 
 

@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.getkeepsafe.relinker:relinker-1.2.2">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/caches/transforms-1/files-1.1/relinker-1.2.2.aar/bd50036d8d04b1e1416502fa71994634/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/caches/transforms-1/files-1.1/relinker-1.2.2.aar/bd50036d8d04b1e1416502fa71994634/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/relinker-1.2.2.aar/6a94eb7c4ba733d465e90bead84acf0a/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/relinker-1.2.2.aar/6a94eb7c4ba733d465e90bead84acf0a/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/caches/modules-2/files-2.1/com.getkeepsafe.relinker/relinker/1.2.2/783c6bdebdf19671c4bad8a3526c70cd0aceeb9f/relinker-1.2.2-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.getkeepsafe.relinker/relinker/1.2.2/783c6bdebdf19671c4bad8a3526c70cd0aceeb9f/relinker-1.2.2-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

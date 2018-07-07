@@ -266,7 +266,7 @@ public class Order_Detail extends AppCompatActivity {
                                 detail.getPhone(),detail.getEmail())
                         ));
 
-                        Picasso.with(getApplicationContext()).load
+                        Picasso.get().load
                                 (ServerPath.ROOT_URL+detail.getImgPrd()).into(img_order);
                         setStatus(detail.getStatus());
 //                        JSONObject order = idx.getJSONObject(JsonConstant.ORDER);

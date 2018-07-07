@@ -312,7 +312,7 @@ public class Pharma_Detail_Rate extends Fragment {
             }
 
         }
-        Picasso.with(getActivity()).load(ServerPath.ROOT_URL+pharma.getImage().get(0)).into(img);
+        Picasso.get().load(ServerPath.ROOT_URL+pharma.getImage().get(0)).into(img);
         rl_top.addView(rowView);
 
     }

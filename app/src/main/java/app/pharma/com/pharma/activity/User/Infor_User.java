@@ -71,9 +71,9 @@ public class Infor_User extends AppCompatActivity implements View.OnClickListene
             }
 
 
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
-            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+            Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
+            Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avt2);
+            Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
 
         }else{
             Utils.dialogNotif(getResources().getString(R.string.you_not_login));

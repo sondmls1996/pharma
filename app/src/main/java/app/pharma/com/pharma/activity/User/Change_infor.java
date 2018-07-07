@@ -119,9 +119,9 @@ public class Change_infor extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new TransImage()).into(avt);
-        Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+        Picasso.get().load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new TransImage()).into(avt);
+        Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avt2);
+        Picasso.get().load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
     }
 
     private void update() {
@@ -130,77 +130,97 @@ public class Change_infor extends AppCompatActivity {
         String name = edfullname.getText().toString();
         String adr = edadr.getText().toString();
         String phone = edPhone.getText().toString();
-        if(!Utils.isPhoneAccep(phone)){
-            utils.showLoading(this,10000,false);
-            Utils.dialogNotif(getResources().getString(R.string.validate_phone));
-        }else if(name.equals("")){
-            utils.showLoading(this,10000,false);
-            Utils.dialogNotif(getResources().getString(R.string.notnull));
-        }else{
-            Map<String,String> map = new HashMap<>();
-            map.put("email",email);
-            map.put("fullName",name);
-            map.put("addressDetail",adr);
-            map.put("phone",phone);
-            map.put("dob",c.getTimeInMillis()+"");
-            map.put("accessToken",Mainuser.getToken());
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
+        if(!phone.equals("")&&!adr.equals("")&&!name.equals("")){
+            if(!Utils.isPhoneAccep(phone)){
+                utils.showLoading(this,10000,false);
+                Utils.dialogNotif(getResources().getString(R.string.validate_phone));
+            }else if(!email.equals("")&&Utils.isValidEmail(email)){
+                utils.showLoading(this,10000,false);
+                Utils.dialogNotif(getResources().getString(R.string.validate_phone));
+            }else{
+                Map<String,String> map = new HashMap<>();
+                map.put("email",email);
+                map.put("fullName",name);
+                map.put("addressDetail",adr);
+                map.put("phone",phone);
+                map.put("dob",c.getTimeInMillis()+"");
+                map.put("accessToken",Mainuser.getToken());
+                Response.Listener<String> response = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-                    try {
-                        JSONObject jo = new JSONObject(response);
-                        String code = jo.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                utils.showLoading(Change_infor.this,10000,false);
+                        try {
+                            JSONObject jo = new JSONObject(response);
+                            String code = jo.getString(JsonConstant.CODE);
+                            switch (code){
+                                case "0":
+                                    utils.showLoading(Change_infor.this,10000,false);
 
-                                User user = new User();
-                                user.setId(id);
-                                user.setEmail(email);
-                                user.setAdr(adr);
-                                user.setDate(c.getTimeInMillis());
-                                user.setPhone(phone);
-                                user.setName(name);
+                                    User user = new User();
+                                    user.setId(id);
+                                    user.setEmail(email);
+                                    user.setAdr(adr);
+                                    user.setDate(c.getTimeInMillis());
+                                    user.setPhone(phone);
+                                    user.setName(name);
 
-                                user.setToken(Mainuser.getToken());
-                                user.setAvt(Mainuser.getAvt());
-                                user.setUserName(Mainuser.getUserName());
-                                db.updateOrInstall(user);
-//                            Utils.ShowNotifString(getResources().getString(R.string.change_infor_success),
-//                                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-//                                        @Override
-//                                        public void onClose(Dialog dialog) {
-//                                            dialog.dismiss();
-//
-//                                        }
-//                                    });
-                                finish();                            break;
-                            case "-1":
-                                Utils.ShowNotifString(getResources().getString(R.string.session_out),
-                                        new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                                            @Override
-                                            public void onClose(Dialog dialog) {
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        });
-                                break;
-                            default:
-                                utils.showLoading(Change_infor.this,10000,false);
-                                Utils.dialogNotif(getResources().getString(R.string.change_infor_failse));
-                                break;
+                                    user.setToken(Mainuser.getToken());
+                                    user.setAvt(Mainuser.getAvt());
+                                    user.setUserName(Mainuser.getUserName());
+                                    db.updateOrInstall(user);
+                            Utils.ShowNotifString(getResources().getString(R.string.change_infor_success),
+                                    new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                        @Override
+                                        public void onClose(Dialog dialog) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
+                                                       break;
+                                case "-1":
+                                    Utils.ShowNotifString(getResources().getString(R.string.session_out),
+                                            new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                                @Override
+                                                public void onClose(Dialog dialog) {
+                                                    dialog.dismiss();
+                                                    finish();
+                                                }
+                                            });
+                                    break;
+                                default:
+                                    utils.showLoading(Change_infor.this,10000,false);
+                                    Utils.dialogNotif(getResources().getString(R.string.change_infor_failse));
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            utils.showLoading(Change_infor.this,10000,false);
+                            Utils.dialogNotif(getResources().getString(R.string.change_infor_failse));
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        utils.showLoading(Change_infor.this,10000,false);
-                        Utils.dialogNotif(getResources().getString(R.string.change_infor_failse));
-                        e.printStackTrace();
+                        Log.d("RESPONSE_CHANGE_INFOR",response);
                     }
-                    Log.d("RESPONSE_CHANGE_INFOR",response);
-                }
-            };
-            Utils.PostServer(this,ServerPath.CHANGE_INFO,map,response);
+                };
+                Utils.PostServer(this,ServerPath.CHANGE_INFO,map,response);
+            }
+
+
+
+        }else{
+            if(name.equals("")){
+                utils.showLoading(this,10000,false);
+                Utils.dialogNotif(getResources().getString(R.string.name_not_null));
+            }
+            if(phone.equals("")){
+                utils.showLoading(this,10000,false);
+                Utils.dialogNotif(getResources().getString(R.string.phone_not_null));
+            }
+            if(adr.equals("")){
+                utils.showLoading(this,10000,false);
+                Utils.dialogNotif(getResources().getString(R.string.adr_not_null));
+            }
+
         }
+
 
     }
 
@@ -233,9 +253,9 @@ public class Change_infor extends AppCompatActivity {
                 }
             });
             edPhone.setText(Mainuser.getPhone());
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new TransImage()).into(avt);
-            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+            Picasso.get().load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new TransImage()).into(avt);
+            Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avt2);
+            Picasso.get().load(ServerPath.ROOT_URL+Mainuser.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
         }
         super.onResume();
 

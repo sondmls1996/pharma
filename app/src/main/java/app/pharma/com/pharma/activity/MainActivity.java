@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ln_pharma.setOnClickListener(this);
         ln_meo.setOnClickListener(this);
         avatar.setOnClickListener(this);
-      //  Picasso.with(getApplicationContext()).load(R.drawable.img_avt).into(Utils.setCiclerImage(avatar));
+      //  Picasso.get().load(R.drawable.img_avt).into(Utils.setCiclerImage(avatar));
 
         nav.setNavigationItemSelectedListener(this);
         Menu menuNav = nav.getMenu();
@@ -571,15 +571,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             nav_name.setText(user.getName());
 
             logoutItem.setVisible(true);
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avatar);
-            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_background);
+            Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avatar);
+            Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avatar2);
+            Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_background);
         }else{
             nav_name.setText("Đăng nhập");
             logoutItem.setVisible(false);
-            Picasso.with(getApplicationContext()).load(R.drawable.laucher_white_1).transform(new TransImage()).into(avatar);
-            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avatar2);
-            Picasso.with(getApplicationContext()).load(R.color.white).transform(new BlurImagePicasso()).into(header_background);
+            Picasso.get().load(R.drawable.laucher_white_1).transform(new TransImage()).into(avatar);
+            Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avatar2);
+            Picasso.get().load(R.color.white).transform(new BlurImagePicasso()).into(header_background);
         }
         if (Build.VERSION.SDK_INT >= 23) {
             RequestPermission();

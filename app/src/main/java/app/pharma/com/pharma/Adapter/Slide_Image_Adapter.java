@@ -54,7 +54,7 @@ public class Slide_Image_Adapter extends PagerAdapter {
                 .findViewById(R.id.image_lide);
 
 
-        Picasso.with(Common.context)
+        Picasso.get()
                 .load(ServerPath.ROOT_URL+IMAGES.get(position))
                 .into(imageView);
 

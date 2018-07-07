@@ -46,6 +46,7 @@ import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Detail.Order;
 import me.relex.circleindicator.CircleIndicator;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -359,6 +360,7 @@ public class Pill_Fragment_Detail extends Fragment {
         Detail.headerObj = objPill;
         Detail.imagesArray = objPill.getImages();
         Detail.id = objPill.getId();
+
         tv_title.setText(objPill.getName());
         tv_like.setText(objPill.getLike()+"");
         tv_comment.setText(objPill.getComment()+"");
@@ -480,7 +482,7 @@ public class Pill_Fragment_Detail extends Fragment {
                         TextView price_lq = rowView.findViewById(R.id.price_pill_lq);
                         Double d = product.getStar();
                         int s = Integer.valueOf(d.intValue());
-                        Picasso.with(getActivity()).load(ServerPath.ROOT_URL+product.getImage()).into(img_pill_lq);
+                        Picasso.get().load(ServerPath.ROOT_URL+product.getImage()).into(img_pill_lq);
                         price_lq.setText(Constant.format.format(product.getPrice())+"VND");
                         tv_name_lq.setText(product.getName());
                         tv_company_lq.setText(product.getCompany());

@@ -73,10 +73,11 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
         btn_ok = findViewById(R.id.btn_accep);
         btn_ok.setOnClickListener(this);
         if(Utils.isLogin()){
+
             user = data.getAllUserInfor();
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
-            Picasso.with(getApplicationContext()).load(R.drawable.white).transform(new TransImage()).into(avt2);
-            Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
+            Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avt);
+            Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avt2);
+            Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_bg);
 
         }
 
@@ -127,6 +128,10 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                                         case "-1":
                                             utils.showLoading(getApplicationContext(),20000,false);
                                             Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                                            break;
+                                        case "2":
+                                            utils.showLoading(getApplicationContext(),20000,false);
+                                            Utils.dialogNotif(getResources().getString(R.string.pass_wrong));
                                             break;
                                             default:
                                                 utils.showLoading(getApplicationContext(),20000,false);

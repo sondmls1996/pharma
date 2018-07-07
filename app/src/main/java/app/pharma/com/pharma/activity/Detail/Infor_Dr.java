@@ -223,7 +223,13 @@ public class Infor_Dr extends AppCompatActivity {
                                                 drObj.setAge(Pharma.getString(JsonConstant.AGE));
                                             }
                                             if(Pharma.has(JsonConstant.AVATAR)){
-                                                drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
+                                                String typeFile = Pharma.getString((JsonConstant.AVATAR)).substring(0,3);
+                                                if(!typeFile.equals("jpg")||!typeFile.equals("png")||!typeFile.equals("JPG")||!typeFile.equals("PNG")){
+                                                    drObj.setAvatar("");
+                                                }else{
+                                                    drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
+                                                }
+
                                             }
                                             if(Pharma.has(JsonConstant.HOSPITAL)){
                                                 drObj.setHospital(Pharma.getString(JsonConstant.HOSPITAL));
@@ -260,7 +266,7 @@ public class Infor_Dr extends AppCompatActivity {
                                         Utils.loadTransimagePicasso(ServerPath.ROOT_URL+drObj.getAvatar(),avt);
                                         Utils.loadTransimagePicasso(R.drawable.white,avt2);
 
-                                        Picasso.with(getApplicationContext()).load(ServerPath.ROOT_URL+drObj.getAvatar())
+                                        Picasso.get().load(ServerPath.ROOT_URL+drObj.getAvatar())
                                                 .transform(new BlurImagePicasso()).into(header_bg);
                                         super.onPostExecute(aVoid);
                                     }

@@ -77,7 +77,7 @@ public class List_Sick_Adapter extends
 
 
         String firstImage = ServerPath.ROOT_URL+sick.getImage();
-        Picasso.with(Common.context).load(firstImage).into(viewHolder.img_sick);
+        Picasso.get().load(firstImage).into(viewHolder.img_sick);
 
 
     }

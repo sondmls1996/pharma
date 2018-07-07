@@ -110,7 +110,7 @@ public class Pill_Order_Adapter extends
             viewHolder.status.setText("Đã hủy");
             viewHolder.status.setTextColor(context.getResources().getColor(R.color.dark_red));
         }
-        Picasso.with(context).load(ServerPath.ROOT_URL+pill.getImage()).into(viewHolder.img);
+        Picasso.get().load(ServerPath.ROOT_URL+pill.getImage()).into(viewHolder.img);
 
     }
 
