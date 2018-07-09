@@ -15,25 +15,11 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Meo_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Meo_Fragment.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Insite_List.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Insite_List.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/JsonConstant.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/ServerPath.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/ServerPath.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Utils.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Model/Utils.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Detail/Infor_Dr.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Detail/Infor_Dr.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Login/Get_code.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/Login/Get_code.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/User/ChangePass.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/activity/User/ChangePass.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -105,11 +91,22 @@
       <file leaf-file-name="Meo_Fragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Meo_Fragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="268" column="63" lean-forward="true" selection-start-line="268" selection-start-column="63" selection-end-line="268" selection-end-column="63" />
+            <state relative-caret-position="208">
+              <caret line="286" column="98" lean-forward="false" selection-start-line="286" selection-start-column="98" selection-end-line="286" selection-end-column="98" />
               <folding>
-                <element signature="e#13538#13597#0" expanded="true" />
+                <element signature="e#8405#8464#0" expanded="true" />
+                <element signature="e#13543#13602#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Pill_Fragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="451" column="31" lean-forward="false" selection-start-line="451" selection-start-column="17" selection-end-line="451" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -160,19 +157,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sick_Fragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="302" column="0" lean-forward="false" selection-start-line="302" selection-start-column="0" selection-end-line="302" selection-end-column="0" />
-              <folding>
-                <element signature="e#3586#3594#0" expanded="true" />
-                <element signature="e#4185#4193#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -190,8 +174,9 @@
       <find>onClickh</find>
       <find>isPhoneAccep</find>
       <find>getTopNotice</find>
-      <find>tv_focus</find>
       <find>listTopView</find>
+      <find>tv_focus</find>
+      <find>loadPageSearch</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2409,7 +2394,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="3.1.0" />
     <property name="device.picker.selection" value="127.0.0.1:62001" />
-    <property name="SearchEverywhereHistoryKey" value="Meo&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Meo_Fragment&#10;Ser&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.ServerPath&#10;GetCode&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/Login/Get_code.java&#10;ChangeP&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/ChangePass.java&#10;Change&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/Change_infor.java&#10;ChangePass&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/ChangePass.java&#10;Re&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/Login/Register.java&#10;Pill_Deta&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Sick_Fra&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java&#10;Pill&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Care&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Care.Care_PILL_Activity&#10;Pill_&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Reg&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Login.Register&#10;Change_In&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/Change_infor.java&#10;Insite&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pharma.Insite_List&#10;Pha&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java&#10;Pill_Fra&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pill.Pill_Fragment&#10;dr_frag&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java&#10;Info&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/Detail/Infor_Dr.java&#10;Dr_&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.Constructor.Object.Infor_Dr_Obj&#10;Phar&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Fragment&#10;Sick_De&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java&#10;Pill_D&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Sick&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Sick.Sick_Fragment&#10;Dr&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Dr.Dr_Fragment&#10;Main&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.MainActivity&#10;Pas&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.User.ChangePass&#10;Change_Pas&#9;FILE&#9;file://D:/github/pharma/app/src/main/res/layout/activity_change_pass.xml&#10;InfoDr&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Detail.Infor_Dr&#10;Utils&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.Utils" />
+    <property name="SearchEverywhereHistoryKey" value="Pill_F&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java&#10;Meo&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Meo_Fragment&#10;Ser&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.ServerPath&#10;GetCode&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/Login/Get_code.java&#10;ChangeP&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/ChangePass.java&#10;Change&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/Change_infor.java&#10;ChangePass&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/ChangePass.java&#10;Re&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/Login/Register.java&#10;Pill_Deta&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Sick_Fra&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Fragment.java&#10;Pill&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Care&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Care.Care_PILL_Activity&#10;Pill_&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Reg&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Login.Register&#10;Change_In&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/User/Change_infor.java&#10;Insite&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pharma.Insite_List&#10;Pha&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Fragment.java&#10;Pill_Fra&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pill.Pill_Fragment&#10;dr_frag&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Dr/Dr_Fragment.java&#10;Info&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/activity/Detail/Infor_Dr.java&#10;Dr_&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.Constructor.Object.Infor_Dr_Obj&#10;Phar&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Pharma.Pharma_Detail_Fragment&#10;Sick_De&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Sick/Sick_Detail_Fragment.java&#10;Pill_D&#9;FILE&#9;file://D:/github/pharma/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment_Detail.java&#10;Sick&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Sick.Sick_Fragment&#10;Dr&#9;PSI&#9;JAVA://app.pharma.com.pharma.Fragment.Dr.Dr_Fragment&#10;Main&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.MainActivity&#10;Pas&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.User.ChangePass&#10;Change_Pas&#9;FILE&#9;file://D:/github/pharma/app/src/main/res/layout/activity_change_pass.xml&#10;InfoDr&#9;PSI&#9;JAVA://app.pharma.com.pharma.activity.Detail.Infor_Dr&#10;Utils&#9;PSI&#9;JAVA://app.pharma.com.pharma.Model.Utils" />
     <property name="DEBUGGABLE_DEVICE" value="samsung-nexus-127.0.0.1:62001" />
     <property name="DEBUGGABLE_PROCESS" value="app.pharma.com.pharma" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
@@ -2953,17 +2938,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="452" column="50" lean-forward="false" selection-start-line="452" selection-start-column="50" selection-end-line="452" selection-end-column="50" />
-          <folding>
-            <element signature="e#23400#23776#0" expanded="false" />
-            <element signature="e#23775#23776#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pharma/Pharma_Detail_Rate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -3039,8 +3013,8 @@
         <state relative-caret-position="249">
           <caret line="302" column="0" lean-forward="false" selection-start-line="302" selection-start-column="0" selection-end-line="302" selection-end-column="0" />
           <folding>
-            <element signature="e#3586#3594#0" expanded="true" />
-            <element signature="e#4185#4193#0" expanded="true" />
+            <element signature="e#3586#3594#0" expanded="false" />
+            <element signature="e#4185#4193#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3129,12 +3103,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Pill/Pill_Fragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="451" column="31" lean-forward="false" selection-start-line="451" selection-start-column="17" selection-end-line="451" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/pharma/com/pharma/Fragment/Meo_Fragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="268" column="63" lean-forward="true" selection-start-line="268" selection-start-column="63" selection-end-line="268" selection-end-column="63" />
+        <state relative-caret-position="208">
+          <caret line="286" column="98" lean-forward="false" selection-start-line="286" selection-start-column="98" selection-end-line="286" selection-end-column="98" />
           <folding>
-            <element signature="e#13538#13597#0" expanded="true" />
+            <element signature="e#8405#8464#0" expanded="true" />
+            <element signature="e#13543#13602#0" expanded="true" />
           </folding>
         </state>
       </provider>

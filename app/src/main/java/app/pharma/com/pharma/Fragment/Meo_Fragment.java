@@ -284,7 +284,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                                 }
 
                                                 meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
-                                                meo.setLink(notice.getString(JsonConstant.URL));
+                                                meo.setLink(notice.getString(JsonConstant.LINKVIEW));
                                                 arr.add(meo);
                                             }
                                             isEmpty[0] = false;
