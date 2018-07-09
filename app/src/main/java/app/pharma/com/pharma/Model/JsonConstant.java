@@ -31,6 +31,7 @@ public class JsonConstant {
     public static String INTRODUCT = "introductory";
     public static String TITLE = "title";
     public static String LINKVIEW = "linkView";
+    public static String LISTTOP = "listTopView";
 
 
     public static String EMAIL = "email";

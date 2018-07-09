@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.activity.User;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -119,7 +120,14 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                                     switch (code){
                                         case "0":
                                             utils.showLoading(getApplicationContext(),20000,false);
-                                            Utils.dialogNotif(getResources().getString(R.string.update_pass_succes));
+                                            Utils.ShowNotifString(getResources().getString(R.string.update_pass_succes), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                                @Override
+                                                public void onClose(Dialog dialog) {
+                                                    dialog.dismiss();
+                                                    finish();
+                                                }
+                                            });
+                                         //   Utils.dialogNotif(getResources().getString(R.string.update_pass_succes));
                                             break;
                                         case "1":
                                             utils.showLoading(getApplicationContext(),20000,false);
@@ -127,7 +135,7 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                                             break;
                                         case "-1":
                                             utils.showLoading(getApplicationContext(),20000,false);
-                                            Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                                            Utils.dialogNotif(getResources().getString(R.string.session_out));
                                             break;
                                         case "2":
                                             utils.showLoading(getApplicationContext(),20000,false);

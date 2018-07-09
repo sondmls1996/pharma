@@ -224,7 +224,7 @@ public class Infor_Dr extends AppCompatActivity {
                                             }
                                             if(Pharma.has(JsonConstant.AVATAR)){
                                                 String typeFile = Pharma.getString((JsonConstant.AVATAR)).substring(0,3);
-                                                if(!typeFile.equals("jpg")||!typeFile.equals("png")||!typeFile.equals("JPG")||!typeFile.equals("PNG")){
+                                                if(!typeFile.equals("jpg")||!typeFile.equals("png")||!typeFile.equals("JPG")||!typeFile.equals("PNG")||!typeFile.equals("jpeg")||!typeFile.equals("JPEG")){
                                                     drObj.setAvatar("");
                                                 }else{
                                                     drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));

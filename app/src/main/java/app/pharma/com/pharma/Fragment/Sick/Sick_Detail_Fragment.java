@@ -154,8 +154,10 @@ public class Sick_Detail_Fragment extends Fragment {
 
                                     checkHearth(sickObj.getLike_stt());
                                     //     Detail.headerObj = sickObj;
+                                }else if(code.equals("-1")){
+                                    Utils.dialogNotif(getResources().getString(R.string.session_out));
                                 }else{
-
+                                    Utils.dialogNotif(getResources().getString(R.string.error));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

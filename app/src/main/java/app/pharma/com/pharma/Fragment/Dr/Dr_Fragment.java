@@ -269,6 +269,7 @@ public class Dr_Fragment extends Fragment {
                                                 }
                                                 isEmptyList[0] = false;
                                             }else{
+
                                                 isEmptyList[0] = true;
                                             }
 
@@ -385,6 +386,7 @@ public class Dr_Fragment extends Fragment {
             isEmpty(false);
             if(i==1){
                 arr.clear();
+                adapter.notifyDataSetChanged();
             }
 
             Map<String, String> map = new HashMap<>();

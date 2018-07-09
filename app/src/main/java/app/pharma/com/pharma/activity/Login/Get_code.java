@@ -104,6 +104,11 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                        Toast.makeText(getApplicationContext(),
                                                "Tài khoản này chưa được đăng ký",Toast.LENGTH_SHORT).show();
                                        break;
+                                   case "3":
+                                       utils.showLoading(Get_code.this,10000,false);
+                                       Toast.makeText(getApplicationContext(),
+                                               "Tài khoản này chưa được đăng ký",Toast.LENGTH_SHORT).show();
+                                       break;
                                }
                            } catch (JSONException e) {
                                e.printStackTrace();
@@ -159,6 +164,7 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                 switch (code){
                                     case "0":
                                         utils.showLoading(Get_code.this,20000,false);
+                                        dialog.dismiss();
                                         Intent it = new Intent(getApplicationContext(),Login.class);
                                         startActivity(it);
                                         finish();

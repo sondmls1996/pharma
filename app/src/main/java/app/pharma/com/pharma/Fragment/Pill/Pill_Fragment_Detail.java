@@ -200,6 +200,8 @@ public class Pill_Fragment_Detail extends Fragment {
 
                                     checkHearth(objPill.getLikeStt());
                                     //         Detail.headerObj = objPill;
+                                }else if(code.equals("-1")){
+                                    Utils.dialogNotif(getResources().getString(R.string.session_out));
                                 }else{
                                     Utils.dialogNotif(getResources().getString(R.string.error));
                                 }

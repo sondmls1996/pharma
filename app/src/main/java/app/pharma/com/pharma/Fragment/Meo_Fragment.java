@@ -92,7 +92,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         setRecycle(v);
 
         tv_focus.performClick();
-        getData(Mainpage);
+
     }
     public void setRecycle(View v){
         lv = v.findViewById(R.id.lv_meo);
@@ -222,17 +222,118 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Mainpage = 1;
         switch (view.getId()){
             case R.id.tv_focus:
                 changeColor(tv_focus);
+
+                getDataTop(Mainpage);
                 break;
             case R.id.tv_hearth:
                 changeColor(tv_hearth);
                 break;
             case R.id.tv_meo:
                 changeColor(tv_meo);
+                getData(Mainpage);
                 break;
         }
+    }
+
+    private void  getDataTop(int page) {
+        Log.d("PAGE_MEO",page+"");
+        if(page==1){
+            arr.clear();
+        }
+        final boolean[] isEmpty = {false};
+        Map<String,String> map = new HashMap<>();
+        map.put("page",page+"");
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    swip.setRefreshing(false);
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            new AsyncTask<Void,Void,Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+
+                                    try {
+                                        JSONObject jo = new JSONObject(response);
+
+
+                                        JSONArray tipnote = jo.getJSONArray(JsonConstant.LISTTOP);
+                                        if(tipnote.length()>0){
+                                            for (int i =0; i<tipnote.length();i++){
+                                                JSONObject idx =tipnote.getJSONObject(i);
+                                                JSONObject notice = idx.getJSONObject(JsonConstant.NOTICE);
+
+                                                Meo_Constructor meo = new Meo_Constructor();
+                                                meo.setTitle(notice.getString(JsonConstant.TITLE));
+                                                meo.setImage(notice.getString(JsonConstant.IMAGE));
+                                                if(notice.has(JsonConstant.ID)){
+                                                    meo.setId(notice.getString(JsonConstant.ID));
+                                                }
+
+                                                //   meo.setComment(notice.getString(JsonConstant.COMMENT));
+                                                if(notice.has(JsonConstant.TIME)){
+                                                    meo.setDate(notice.getLong(JsonConstant.TIME));
+                                                }
+
+                                                meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
+                                                meo.setLink(notice.getString(JsonConstant.URL));
+                                                arr.add(meo);
+                                            }
+                                            isEmpty[0] = false;
+                                        }else{
+                                            isEmpty[0] = true;
+                                        }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        return null;
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    if(isEmpty[0]&&Mainpage>1){
+                                        Mainpage = Mainpage -1;
+                                    }
+
+                                    if(arr.size()>0){
+                                        tvNull.setVisibility(View.GONE);
+                                        lv.setVisibility(View.VISIBLE);
+                                    }else{
+                                        tvNull.setVisibility(View.VISIBLE);
+                                        lv.setVisibility(View.GONE);
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                    super.onPostExecute(aVoid);
+                                }
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+                            break;
+                    }
+                } catch (JSONException e) {
+                    swip.setRefreshing(false);
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                    tvNull.setVisibility(View.VISIBLE);
+                    lv.setVisibility(View.GONE);
+                    e.printStackTrace();
+                }
+                Log.d("RESPONSE_MEO",response);
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.TOP_NOTICE,map,response);
+
     }
 
     private void changeColor(TextView tv) {

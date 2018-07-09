@@ -339,6 +339,7 @@ public class Pill_Fragment extends Fragment {
                                                 }
                                                 isEmpty[0] = false;
                                             }else{
+
                                                 isEmpty[0] = true;
                                             }
 
@@ -628,29 +629,30 @@ public class Pill_Fragment extends Fragment {
 
             registerBroadcastSearch();
         }
-//        if(broadcastCloseSearch==null){
-//
-//            registerBroadcastCloseSearch();
-//        }
+        if(broadcastCloseSearch==null){
+
+            registerBroadcastCloseSearch();
+        }
 
         super.onResume();
 
     }
 
     private void registerBroadcastCloseSearch() {
-//        broadcastCloseSearch = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
-//                    Utils.hideKeyboard(getActivity());
-//                    //   loadPageSearch(Mainpage,idPill,key);
-//                }
-//            }
-//        };
-//        IntentFilter it = new IntentFilter();
-//        it.addAction(Constant.CLOSE_SEARCH_ACTION);
-//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastCloseSearch,
-//                it);
+        broadcastCloseSearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
+                    Utils.hideKeyboard(getActivity());
+                    key = "";
+                    loadPageSearch(Mainpage,idPill,key);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.CLOSE_SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastCloseSearch,
+                it);
 
     }
 
@@ -658,7 +660,7 @@ public class Pill_Fragment extends Fragment {
     public void onStop() {
         unRegister();
         broadcastSearch=null;
-      //  broadcastCloseSearch = null;
+        broadcastCloseSearch = null;
         super.onStop();
     }
 

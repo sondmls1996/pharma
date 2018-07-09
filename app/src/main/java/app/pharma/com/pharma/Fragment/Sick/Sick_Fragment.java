@@ -234,7 +234,7 @@ public class Sick_Fragment extends Fragment {
                 arr.clear();
                 adapter.notifyDataSetChanged();
             }
-
+            Log.d("ID_S",idSick);
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
             map.put("type",idSick);

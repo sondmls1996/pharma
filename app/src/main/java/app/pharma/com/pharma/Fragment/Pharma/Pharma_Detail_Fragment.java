@@ -250,11 +250,10 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                     pharma.setLikeStt(1);
 //                                pharma.setLike(pharma.getLike()+1);
 //                                tv_like.setText(pharma.getLike()+"");
+                                }else if(code.equals("-1")){
+                                    Utils.dialogNotif(getResources().getString(R.string.session_out));
                                 }else{
-
-                                    pharma.setLikeStt(0);
-//                                pharma.setLike(pharma.getLike()-1);
-//                                tv_like.setText(pharma.getLike()+"");
+                                    Utils.dialogNotif(getResources().getString(R.string.error));
                                 }
 
                                 checkHearth(pharma.getLikeStt());

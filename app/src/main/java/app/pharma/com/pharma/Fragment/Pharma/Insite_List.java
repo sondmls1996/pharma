@@ -157,7 +157,7 @@ public class Insite_List extends Fragment {
     private void loadPageSearch(int page, String key){
         if(page==1){
             arr.clear();
-            //adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         Map<String, String> map = new HashMap<>();
         map.put("latGPS", Common.lat+"");

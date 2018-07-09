@@ -233,7 +233,7 @@ public class Utils {
             String phoneSplit = phone.substring(0,2);
             String phoneFirst = phone.substring(0,1);
             Log.d("SPLIT_STR",phoneSplit);
-            if(phoneFirst.equals("0")||phoneSplit.equals("84")||phoneSplit.equals("+8")){
+            if(phoneFirst.equals("0")){
                 if(phoneSplit.equals("01")){
                     if(phone.length()!=11){
                         return  false;
@@ -246,12 +246,6 @@ public class Utils {
                     }else{
                         return true;
                     }
-                }else if(phoneSplit.equals("84")){
-                    if(phone.length()<10){
-                        return  false;
-                    }else{
-                        return true;
-                    }
                 }else if(phoneSplit.equals("+8")){
                     if(phone.length()<10){
                         return  false;
@@ -260,6 +254,14 @@ public class Utils {
                     }
                 }
                 return true;
+            }else{
+                 if(phoneSplit.equals("84")){
+                    if(phone.length()<10){
+                        return  false;
+                    }else{
+                        return true;
+                    }
+                }
             }
 
         }
