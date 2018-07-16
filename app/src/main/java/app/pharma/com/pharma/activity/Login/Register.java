@@ -62,7 +62,7 @@ public class Register extends AppCompatActivity {
     public void openDialogDate(int d, int m, int y){
 
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,R.style.DialogTheme,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override

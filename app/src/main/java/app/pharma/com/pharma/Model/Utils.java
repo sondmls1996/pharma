@@ -240,14 +240,9 @@ public class Utils {
                     }else{
                         return true;
                     }
-                }else if(phoneSplit.equals("09")){
+                }
+                if(phoneSplit.equals("09")){
                     if(phone.length()!=10){
-                        return  false;
-                    }else{
-                        return true;
-                    }
-                }else if(phoneSplit.equals("+8")){
-                    if(phone.length()<10){
                         return  false;
                     }else{
                         return true;

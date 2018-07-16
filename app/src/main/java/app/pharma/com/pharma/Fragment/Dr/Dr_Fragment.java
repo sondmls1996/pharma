@@ -168,9 +168,14 @@ public class Dr_Fragment extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage++;
 
-                loadManager(Mainpage,isNomar,isSearch,key);
+                if(arr.size()>=15){
+                    Mainpage++;
+                    loadManager(Mainpage,isNomar,isSearch,key);
+
+                }
+
+
             }
         };
         lv.addOnScrollListener(endlessScroll);

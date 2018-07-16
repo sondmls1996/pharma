@@ -134,9 +134,9 @@ public class Change_infor extends AppCompatActivity {
             if(!Utils.isPhoneAccep(phone)){
                 utils.showLoading(this,10000,false);
                 Utils.dialogNotif(getResources().getString(R.string.validate_phone));
-            }else if(!email.equals("")&&Utils.isValidEmail(email)){
+            }else if(!email.equals("")&&!Utils.isValidEmail(email)){
                 utils.showLoading(this,10000,false);
-                Utils.dialogNotif(getResources().getString(R.string.validate_phone));
+                Utils.dialogNotif(getResources().getString(R.string.validate_email));
             }else{
                 Map<String,String> map = new HashMap<>();
                 map.put("email",email);

@@ -90,9 +90,12 @@ public class Insite_List extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage++;
+                if(arr.size()>=15){
+                    Mainpage++;
 
-                loadManager(Mainpage,isNomar,isSearch,key,type);
+                    loadManager(Mainpage,isNomar,isSearch,key,type);
+                }
+
             }
         };
         lv.addOnScrollListener(endlessScroll);

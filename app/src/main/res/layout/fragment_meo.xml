@@ -5,6 +5,15 @@
     tools:context="app.pharma.com.pharma.Fragment.Pharma.Pharma_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/txt_null"
+        android:textColor="@color/black"
+        android:text="@string/empty_list"
+        android:textSize="16sp"
+        android:gravity="center"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,15 +66,7 @@
                 android:layout_height="match_parent"
 
                 android:id="@+id/lv_meo"></android.support.v7.widget.RecyclerView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:id="@+id/txt_null"
-                android:textColor="@color/black"
-                android:text="@string/empty_list"
-                android:textSize="16sp"
-                android:gravity="center"/>
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>

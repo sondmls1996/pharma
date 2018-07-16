@@ -9,9 +9,11 @@
         <item name="android:windowSoftInputMode">stateHidden</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
-        <item name="android:windowSoftInputMode">stateHidden</item>
-    </style>
 
+    </style>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/blue2</item>
+    </style>
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>

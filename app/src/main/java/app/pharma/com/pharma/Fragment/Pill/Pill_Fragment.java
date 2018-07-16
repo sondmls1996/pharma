@@ -65,7 +65,7 @@ import static io.realm.internal.SyncObjectServerFacade.getApplicationContext;
  */
 public class Pill_Fragment extends Fragment {
     RecyclerView lv;
-
+    int count =0;
     List_Pill_Adapter adapter;
     Spinner spiner;
     ArrayList<String> arrMedicine,arrTP;
@@ -118,11 +118,13 @@ public class Pill_Fragment extends Fragment {
         return v;
     }
 
-    private void registerBroadcastSearch() {
+    private  void registerBroadcastSearch() {
         broadcastSearch = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(Constant.SEARCH_ACTION)){
+                    arr.clear();
+                    adapter.notifyDataSetChanged();
                     key = intent.getStringExtra("key");
                     Mainpage = 1;
                     isNomar = false;
@@ -151,8 +153,11 @@ public class Pill_Fragment extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage++;
-               loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                if(arr.size()>=15){
+                    Mainpage++;
+                    loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                }
+
             }
         };
         lv.addOnScrollListener(endlessScroll);
@@ -290,9 +295,9 @@ public class Pill_Fragment extends Fragment {
         }
     }
 
-    private void getData(Map map){
-
-        Log.d("MAP_PILL",map.toString());
+    private  void getData(Map map){
+        count = count+1;
+        Log.d("countpill",count+"");
         final boolean[] isEmpty = {false};
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
@@ -366,7 +371,7 @@ public class Pill_Fragment extends Fragment {
                                         }
 
                                         adapter.notifyDataSetChanged();
-
+                                        Log.d("SIZEARR",arr.size()+"");
                                         super.onPostExecute(aVoid);
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -396,6 +401,7 @@ public class Pill_Fragment extends Fragment {
             }
         };
         Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
+
 
     }
 

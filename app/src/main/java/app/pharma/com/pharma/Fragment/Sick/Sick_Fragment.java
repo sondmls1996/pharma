@@ -170,9 +170,12 @@ public class Sick_Fragment extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage++;
-                Log.d("PAGE_RATE",Mainpage+"");
-                loadManager(Mainpage,isSearch,isNomar);
+                if(arr.size()>=15){
+                    Mainpage++;
+                    Log.d("PAGE_RATE",Mainpage+"");
+                    loadManager(Mainpage,isSearch,isNomar);
+                }
+
             }
         };
         lv.addOnScrollListener(endlessScroll);

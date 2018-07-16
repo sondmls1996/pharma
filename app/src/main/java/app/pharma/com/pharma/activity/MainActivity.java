@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -118,10 +119,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int minPrice = 0,maxPrice = 0;
     int page = 1;
     DatabaseHandle db;
+    long delay = 500; // 1 seconds after user stops typing
+    long last_text_edit = 0;
     LinearLayout ln_meo;
     ListView lv_search;
     FrameLayout fragContrent;
     CardView cv;
+    Handler handler;
     Menu menu;
     Resources r;
     View headerview;
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void initView() {
         title = (TextView)findViewById(R.id.title_main) ;
-
+        handler = new Handler();
         edSearch = (EditText)findViewById(R.id.ed_search);
         rl_search = (RelativeLayout)findViewById(R.id.rl_search);
         appbar = findViewById(R.id.app_bar);
@@ -222,30 +226,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s!=null && edSearch.getVisibility() == View.VISIBLE){
-
-                    Intent it = new Intent(Constant.SEARCH_ACTION);
-                    it.putExtra("key",s.toString());
-                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
-                    try {
-                        Thread.currentThread();
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                }
+                handler.removeCallbacks(input_finish_checker);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(s!=null && edSearch.getVisibility() == View.VISIBLE){
+                    last_text_edit = System.currentTimeMillis();
+                    handler.postDelayed(input_finish_checker, delay);
+
+
+                }
 
             }
         });
 
         ln_pill.performClick();
 
+    }
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                getSearch(edSearch.getText().toString());
+            }
+        }
+    };
+    private void getSearch(String s) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent it = new Intent(Constant.SEARCH_ACTION);
+                it.putExtra("key",s);
+                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
+            }
+        }, 200);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

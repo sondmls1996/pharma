@@ -223,11 +223,19 @@ public class Infor_Dr extends AppCompatActivity {
                                                 drObj.setAge(Pharma.getString(JsonConstant.AGE));
                                             }
                                             if(Pharma.has(JsonConstant.AVATAR)){
-                                                String typeFile = Pharma.getString((JsonConstant.AVATAR)).substring(0,3);
-                                                if(!typeFile.equals("jpg")||!typeFile.equals("png")||!typeFile.equals("JPG")||!typeFile.equals("PNG")||!typeFile.equals("jpeg")||!typeFile.equals("JPEG")){
-                                                    drObj.setAvatar("");
+                                                String avt = Pharma.getString((JsonConstant.AVATAR));
+                                                String typeFile = avt.substring(avt.length()-3,avt.length());
+
+                                                if(typeFile.equals("jpg")||typeFile.equals("png")||typeFile.equals("JPG")||typeFile.equals("PNG")){
+                                                    drObj.setAvatar(avt);
                                                 }else{
-                                                    drObj.setAvatar(Pharma.getString(JsonConstant.AVATAR));
+                                                    String typeFile2 = avt.substring(avt.length()-4,avt.length());
+                                                    if(typeFile2.equals("jpeg")||typeFile2.equals("JPEG")){
+                                                        drObj.setAvatar(avt);
+                                                    }else{
+                                                        drObj.setAvatar("");
+                                                    }
+
                                                 }
 
                                             }

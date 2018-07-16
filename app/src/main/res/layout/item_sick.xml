@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/decrip_sick"
-                android:text="Đây là căn bệnh phổ biến nhất hiện nay ..."
+
                 android:textColor="@color/gray"
                 android:textSize="12sp"
                 android:maxLength="40"

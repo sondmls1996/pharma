@@ -170,7 +170,7 @@ public class Care_Sick_Activity extends AppCompatActivity {
                                 if(arr.size()>0){
                                     setIsEmpty(false);
                                 }else{
-                                    setIsEmpty(false);
+                                    setIsEmpty(true);
                                 }
 
 
