@@ -161,6 +161,7 @@
     <string name="no_internet">Không có kết nối mạng, vui lòng kiểm tra lại.</string>
     <string name="error">Có lỗi, vui lòng thử lại</string>
     <string name="empty_list">Danh sách rỗng</string>
+
     <string name="null_comment">Không có bình luận</string>
     <string name="server_err">Lỗi lấy dữ liệu</string>
     <string name="need_image">Thuốc này cần có đơn của bác sỹ. Hãy đăng ảnh chụp đơn thuốc trước khi đặt hàng</string>

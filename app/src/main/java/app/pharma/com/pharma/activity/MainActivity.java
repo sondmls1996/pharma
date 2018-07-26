@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int minPrice = 0,maxPrice = 0;
     int page = 1;
     DatabaseHandle db;
-    long delay = 500; // 1 seconds after user stops typing
+    long delay = 600; // 1 seconds after user stops typing
     long last_text_edit = 0;
     LinearLayout ln_meo;
     ListView lv_search;
@@ -231,12 +231,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s!=null && edSearch.getVisibility() == View.VISIBLE){
+
                     last_text_edit = System.currentTimeMillis();
                     handler.postDelayed(input_finish_checker, delay);
 
-
-                }
 
             }
         });
@@ -295,7 +293,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 rl_type_search.setVisibility(View.GONE);
 
                 hideKeyboard();
+
+//                Intent it = new Intent(Constant.SEARCH_ACTION);
+//                it.putExtra("key","");
+//                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
                 Intent it = new Intent(Constant.CLOSE_SEARCH_ACTION);
+
                 LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(it);
                 break;
         }
@@ -498,8 +501,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.pharma_care:
-                Intent it2 = new Intent(getApplicationContext(), Care_Pharma.class);
-                startActivity(it2);
+                if(Utils.isLogin()){
+                    Intent it2 = new Intent(getApplicationContext(), Care_Pharma.class);
+                    startActivity(it2);
+                }else{
+                    Utils.dialogNotif(getResources().getString(R.string.you_not_login));
+                }
+
                 break;
 
             case R.id.sub_sick:

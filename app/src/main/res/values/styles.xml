@@ -11,6 +11,12 @@
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
 
     </style>
+
+    <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
     <style name="DialogTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/blue2</item>
     </style>

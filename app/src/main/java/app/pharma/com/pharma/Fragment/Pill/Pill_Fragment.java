@@ -77,6 +77,7 @@ public class Pill_Fragment extends Fragment {
     ArrayList<CataloModel> arrCata;
     Context context;
     SwipeRefreshLayout swip;
+    boolean isLoad = false;
     Context ct;
     int step = 10;
     int stepMax = 2000000;
@@ -196,11 +197,20 @@ public class Pill_Fragment extends Fragment {
 //                minPrice=-1;
 //                maxPrice=-1;
                 idingredient="";
+                isLoading = false;
                 Mainpage = 1;
-                isFillter = false;
-                isSearch = false;
-                isNomar = true;
-                key = "";
+                if(!key.equals("")){
+                    isFillter = false;
+                    isSearch = true;
+                    isNomar = false;
+                }else{
+                    isFillter = false;
+                    isSearch = false;
+                    isNomar = true;
+                }
+
+
+
                 loadManager(Mainpage,isFillter,isNomar,isSearch,key);
             }
         });
@@ -257,11 +267,19 @@ public class Pill_Fragment extends Fragment {
                     if(arrCata.get(j).getName().equals(text)){
                         if(!idPill.equals(arrCata.get(j).getId())){
                             idPill = arrCata.get(j).getId();
-                            isNomar = true;
+                            isLoading = false;
                             Mainpage = 1;
-                            isFillter = false;
-                            isSearch = false;
-                            key = "";
+                            if(!key.equals("")){
+                                isFillter = false;
+                                isSearch = true;
+                                isNomar = false;
+                            }else{
+                                isFillter = false;
+                                isSearch = false;
+                                isNomar = true;
+                            }
+
+
                             loadManager(Mainpage,isFillter,isNomar,isSearch,key);
                             break;
                         }
@@ -283,124 +301,131 @@ public class Pill_Fragment extends Fragment {
 
 
     public void loadManager(int page,boolean isFillter, boolean isNomar, boolean isSearch,String key){
-        if(isFillter){
+        if(!isLoading){
+            if(isFillter){
 
-            loadPageFliter(page);
+                loadPageFliter(page);
+            }
+            if (isNomar) {
+                loadPage(page);
+            }
+            if(isSearch){
+                loadPageSearch(page,idPill,key);
+            }
         }
-        if (isNomar) {
-            loadPage(page);
-        }
-        if(isSearch){
-            loadPageSearch(page,idPill,key);
-        }
+
     }
 
     private  void getData(Map map){
-        count = count+1;
-        Log.d("countpill",count+"");
-        final boolean[] isEmpty = {false};
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("RESPONSE_PILL",response);
-                swip.setRefreshing(false);
-                try {
-                    JSONObject root = new JSONObject(response);
-                    if(root.has(JsonConstant.CODE)){
-                        String code = root.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                 new AsyncTask<Void,Void,Void>(){
+        if(!isLoading){
+            isLoading = true;
+            final boolean[] isEmpty = {false};
+            Response.Listener<String> response = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("RESPONSE_PILL",response);
+                    swip.setRefreshing(false);
+                    try {
+                        JSONObject root = new JSONObject(response);
+                        if(root.has(JsonConstant.CODE)){
+                            String code = root.getString(JsonConstant.CODE);
+                            switch (code){
+                                case "0":
+                                    new AsyncTask<Void,Void,Void>(){
 
-                                    @Override
-                                    protected Void doInBackground(Void... voids) {
-                                        JSONArray ja = null;
-                                        try {
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            JSONArray ja = null;
+                                            try {
 
-                                            ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
-                                            if(ja.length()>0){
-                                                for (int i = 0; i<ja.length();i++){
-                                                    JSONObject jo = ja.getJSONObject(i);
-                                                    JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
-                                                    Pill_Constructor pill = new Pill_Constructor();
-                                                    pill.setName(product.getString(JsonConstant.NAME));
-                                                    pill.setHtuse(product.getString(JsonConstant.DESCRI));
-                                                    pill.setId(product.getString(JsonConstant.ID));
-                                                    JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                                    if(price.getString(JsonConstant.MONEY).equals("")){
-                                                        pill.setPrice(0);
-                                                    }else{
-                                                        pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                ja = root.getJSONArray(JsonConstant.LIST_PRODUCT);
+                                                if(ja.length()>0){
+                                                    for (int i = 0; i<ja.length();i++){
+                                                        JSONObject jo = ja.getJSONObject(i);
+                                                        JSONObject product = jo.getJSONObject(JsonConstant.PRODUCT);
+                                                        Pill_Constructor pill = new Pill_Constructor();
+                                                        pill.setName(product.getString(JsonConstant.NAME));
+                                                        pill.setHtuse(product.getString(JsonConstant.DESCRI));
+                                                        pill.setId(product.getString(JsonConstant.ID));
+                                                        JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                                        if(price.getString(JsonConstant.MONEY).equals("")){
+                                                            pill.setPrice(0);
+                                                        }else{
+                                                            pill.setPrice(price.getInt(JsonConstant.MONEY));
+                                                        }
+
+                                                        pill.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                        pill.setLike(product.getInt(JsonConstant.LIKE));
+                                                        pill.setStar(product.getDouble(JsonConstant.STAR));
+                                                        JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
+                                                        pill.setImage(Image.toString());
+                                                        pill.setOthername(product.getString(JsonConstant.COMPANY));
+                                                        arr.add(pill);
+
                                                     }
+                                                    isEmpty[0] = false;
+                                                }else{
 
-                                                    pill.setCmt(product.getInt(JsonConstant.COMMENT));
-                                                    pill.setLike(product.getInt(JsonConstant.LIKE));
-                                                    pill.setStar(product.getDouble(JsonConstant.STAR));
-                                                    JSONArray Image = product.getJSONArray(JsonConstant.IMAGE);
-                                                    pill.setImage(Image.toString());
-                                                    pill.setOthername(product.getString(JsonConstant.COMPANY));
-                                                    arr.add(pill);
-
+                                                    isEmpty[0] = true;
                                                 }
-                                                isEmpty[0] = false;
-                                            }else{
 
-                                                isEmpty[0] = true;
+                                            } catch (JSONException e) {
+                                                isLoading = false;
+                                                e.printStackTrace();
+                                                return null;
                                             }
 
-                                        } catch (JSONException e) {
 
-                                            e.printStackTrace();
                                             return null;
                                         }
 
+                                        @Override
+                                        protected void onPostExecute(Void aVoid) {
 
-                                        return null;
-                                    }
+                                            if(isEmpty[0]&&Mainpage>1){
+                                                Mainpage = Mainpage -1;
+                                            }
+                                            if(arr.size()>0){
+                                                tvnull.setVisibility(View.GONE);
+                                            }else{
+                                                tvnull.setVisibility(View.VISIBLE);
+                                            }
 
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-
-                                        if(isEmpty[0]&&Mainpage>1){
-                                            Mainpage = Mainpage -1;
+                                            adapter.notifyDataSetChanged();
+                                            isLoading = false;
+                                            super.onPostExecute(aVoid);
                                         }
-                                        if(arr.size()>0){
-                                            tvnull.setVisibility(View.GONE);
-                                        }else{
-                                            tvnull.setVisibility(View.VISIBLE);
-                                        }
-
-                                        adapter.notifyDataSetChanged();
-                                        Log.d("SIZEARR",arr.size()+"");
-                                        super.onPostExecute(aVoid);
-                                    }
-                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
-                                break;
-                            case "1":
+                                    break;
+                                case "1":
 
-                                Utils.dialogNotif(getResources().getString(R.string.error));
-                                break;
-                            default:
-                                break;
+                                    Utils.dialogNotif(getResources().getString(R.string.error));
+                                    isLoading = false;
+                                    break;
+                                default:
+                                    isLoading = false;
+                                    break;
+                            }
+
+
                         }
 
 
+                    } catch (JSONException e) {
+                        if(getActivity()!=null){
+                            Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                        }
+                        isLoading = false;
+                        e.printStackTrace();
                     }
 
-
-                } catch (JSONException e) {
-                    if(getActivity()!=null){
-                        Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
-                    }
-
-                    e.printStackTrace();
                 }
+            };
+            Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
 
-            }
-        };
-        Utils.PostServer(context, ServerPath.LIST_PILL,map,response);
+        }
 
 
     }
@@ -462,6 +487,7 @@ public class Pill_Fragment extends Fragment {
         }else{
             if(arr==null){
                 arr = new ArrayList<>();
+
             }
             if(page==1){
                 arr.clear();
@@ -651,7 +677,13 @@ public class Pill_Fragment extends Fragment {
                 if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
                     Utils.hideKeyboard(getActivity());
                     key = "";
-                    loadPageSearch(Mainpage,idPill,key);
+//                    Mainpage = 1;
+                    isSearch = false;
+                    isNomar = true;
+                    isFillter = false;
+                  //  isNomar = true;
+                  //  loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                   // loadPageSearch(Mainpage,idPill,key);
                 }
             }
         };

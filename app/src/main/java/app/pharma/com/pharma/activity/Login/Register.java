@@ -192,6 +192,15 @@ public class Register extends AppCompatActivity {
                             }else if(code.equals("1")){
                                 util.showLoading(Register.this,10000,false);
                                 Utils.toast(getResources().getString(R.string.has_acc));
+                            }else if(code.equals("-1")){
+                                util.showLoading(Register.this,10000,false);
+                                Utils.toast(getResources().getString(R.string.pass_notequal));
+                            }else if(code.equals("4")){
+                                util.showLoading(Register.this,10000,false);
+                                Utils.toast(getResources().getString(R.string.found_email));
+                            }else{
+                                util.showLoading(Register.this,10000,false);
+                                Utils.toast(getResources().getString(R.string.error));
                             }
                         }
                     } catch (JSONException e) {

@@ -59,6 +59,7 @@ public class Sick_Fragment extends Fragment {
     ArrayList<Sick_Construct> arr;
     ArrayList<CataloModel> arrcata;
     SwipeRefreshLayout swip;
+
     TextView tvNull;
     Context ct;
     boolean mIsLoading;
@@ -69,7 +70,9 @@ public class Sick_Fragment extends Fragment {
     String idSick;
     String key = "";
     int Mainpage = 1;
+    boolean isLoading = false;
     BroadcastReceiver broadcastSearch;
+    BroadcastReceiver broadcastClosesearch;
     int lastVisibleItem = 0;
     private int lastY = 0;
     View v;
@@ -104,7 +107,17 @@ public class Sick_Fragment extends Fragment {
             @Override
             public void onRefresh() {
                 Mainpage = 1;
-                loadPage(Mainpage);
+                isLoading = false;
+                if(!key.equals("")){
+                    isNomar = false;
+                    isSearch = true;
+                }else{
+                    isNomar = true;
+                    isSearch = false;
+                }
+
+
+                loadManager(Mainpage,isSearch,isNomar);
             }
         });
 
@@ -141,8 +154,18 @@ public class Sick_Fragment extends Fragment {
                 for (int j =0;j<arrcata.size();j++){
                     if(arrcata.get(j).getName().equals(text)){
                         Mainpage = 1;
+                        isLoading = false;
                         idSick = arrcata.get(j).getId();
-                        loadPage(Mainpage);
+                        if(!key.equals("")){
+                            isNomar = false;
+                            isSearch = true;
+                        }else{
+                            isNomar = true;
+                            isSearch = false;
+                        }
+
+
+                       loadManager(Mainpage,isSearch,isNomar);
                         break;
                     }
                 }
@@ -194,15 +217,17 @@ public class Sick_Fragment extends Fragment {
         );
     }
     public void loadManager(int page, boolean isSearch, boolean isNomar){
+        if(!isLoading){
+            if(isNomar){
 
-        if(isNomar){
+                loadPage(page);
+            }
 
-            loadPage(page);
+            if(isSearch){
+                loadPageSearch(page,key);
+            }
         }
 
-        if(isSearch){
-            loadPageSearch(page,key);
-        }
 
     }
     private void registerBroadcast() {
@@ -210,7 +235,7 @@ public class Sick_Fragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(Constant.SEARCH_ACTION)){
-                    String key = intent.getStringExtra("key");
+                     key = intent.getStringExtra("key");
                     Mainpage = 1;
                     loadPageSearch(Mainpage,key);
                 }
@@ -224,7 +249,9 @@ public class Sick_Fragment extends Fragment {
 
     private void unRegister(){
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastClosesearch);
         broadcastSearch=null;
+        broadcastClosesearch =null;
     }
 
     private void loadPage(int page) {
@@ -338,6 +365,7 @@ public class Sick_Fragment extends Fragment {
                                         }
 
                                         adapter.notifyDataSetChanged();
+                                        mIsLoading = false;
                                         super.onPostExecute(aVoid);
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -353,6 +381,7 @@ public class Sick_Fragment extends Fragment {
 
                 } catch (JSONException e) {
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                    mIsLoading = false;
                     e.printStackTrace();
                 }
 
@@ -368,11 +397,35 @@ public class Sick_Fragment extends Fragment {
         if(broadcastSearch==null){
             registerBroadcast();
         }
+        if(broadcastClosesearch==null){
+            registerBroadcast2();
+        }
 
 //        Intent it = new Intent(Constant.SCROLL_LV);
 //        it.putExtra("action",Constant.ACTION_UP);
 //        ct.sendBroadcast(it);
         super.onResume();
+
+    }
+
+    private void registerBroadcast2() {
+        broadcastClosesearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
+                    key = "";
+                    isNomar = true;
+                    isSearch = false;
+              //      Mainpage = 1;
+                //    loadManager(Mainpage,isSearch,isNomar);
+                    //loadPageSearch(Mainpage,key);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.CLOSE_SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastClosesearch,
+                it);
 
     }
 

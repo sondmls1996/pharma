@@ -63,6 +63,7 @@ public class Dr_Fragment extends Fragment {
     TextView tv_null;
     SwipeRefreshLayout swip;
     String idDr = "";
+    boolean isLoading = false;
     boolean isSearch,isNomar;
     DatabaseHandle db;
     private int lastY = 0;
@@ -89,9 +90,15 @@ public class Dr_Fragment extends Fragment {
             @Override
             public void onRefresh() {
                 Mainpage = 1;
-                isSearch = false;
-                isNomar = true;
-                key = "";
+                isLoading = false;
+                if(!key.equals("")){
+                    isNomar = false;
+                    isSearch = true;
+                }else{
+                    isNomar = true;
+                    isSearch = false;
+                }
+
                 loadManager(Mainpage,isNomar,isSearch,key);
 
             }
@@ -136,7 +143,16 @@ public class Dr_Fragment extends Fragment {
                         if(!idDr.equals(arrCata.get(j).getId())){
                             idDr = arrCata.get(j).getId();
                             Mainpage = 1;
-                            key="";
+                            isLoading = false;
+                            if(!key.equals("")){
+
+                                isSearch = true;
+                                isNomar = false;
+                            }else{
+
+                                isSearch = false;
+                                isNomar = true;
+                            }
                             isSearch = false;
                             isNomar = true;
                             loadManager(Mainpage,isNomar,isSearch,key);
@@ -194,12 +210,15 @@ public class Dr_Fragment extends Fragment {
     }
 
     public void loadManager(int page, boolean isNomar, boolean isSearch,String key){
-        if(isNomar){
-            loadPage(page);
+        if(!isLoading){
+            if(isNomar){
+                loadPage(page);
+            }
+            if(isSearch){
+                loadPageSearch(page,key);
+            }
         }
-        if(isSearch){
-            loadPageSearch(page,key);
-        }
+
     }
 
     public void isEmpty(boolean empty){
@@ -235,6 +254,7 @@ public class Dr_Fragment extends Fragment {
     }
 
     private void getData(Map<String, String> map) {
+        isLoading = true;
         final boolean[] isEmptyList = {false};
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
@@ -280,6 +300,7 @@ public class Dr_Fragment extends Fragment {
 
 
                                         } catch (JSONException e) {
+                                            isLoading = false;
                                             e.printStackTrace();
                                         }
 
@@ -298,6 +319,7 @@ public class Dr_Fragment extends Fragment {
                                             isEmpty(true);
                                         }
                                         adapter.notifyDataSetChanged();
+                                        isLoading = false;
                                         super.onPostExecute(aVoid);
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -305,6 +327,7 @@ public class Dr_Fragment extends Fragment {
                                 break;
                             case "1":
                                 Utils.dialogNotif(getActivity().getResources().getString(R.string.error));
+                                isLoading = false;
                                 break;
                         }
                     }
@@ -312,6 +335,7 @@ public class Dr_Fragment extends Fragment {
 
                 } catch (JSONException e) {
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                    isLoading = false;
                     e.printStackTrace();
                 }
 
@@ -347,7 +371,7 @@ public class Dr_Fragment extends Fragment {
                     isSearch = false;
                     key = "";
                     isNomar = true;
-                    loadManager(Mainpage,isNomar,isSearch,key);
+                 //   loadManager(Mainpage,isNomar,isSearch,key);
                 //    loadPage(Mainpage);
                 }
             }

@@ -354,6 +354,8 @@ public class Utils {
             dialog.show();
     }
 
+
+
     public void showLoading(Context context,int time,boolean show){
         if(dialogloading==null){
             dialogloading = new Dialog(context);

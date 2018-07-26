@@ -53,8 +53,10 @@ public class Insite_List extends Fragment {
     TextView not_near, showall;
     SwipeRefreshLayout swip;
     boolean isNomar = true,isSearch = false;
+    BroadcastReceiver broadcastCloseSearch;
     String key = "";
     private int lastY = 0;
+    boolean isLoading = false;
     String type = "";
     BroadcastReceiver broadcastSearch;
     TextView tvnull;
@@ -113,7 +115,29 @@ public class Insite_List extends Fragment {
                 })
         );
     }
+    private void registerBroadcastCloseSearch() {
+        broadcastCloseSearch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Constant.CLOSE_SEARCH_ACTION)){
+                    Utils.hideKeyboard(getActivity());
+                    key = "";
+//                    Mainpage = 1;
+                    isSearch = false;
+                    isNomar = true;
+                  //  isFillter = false;
+                    //  isNomar = true;
+                    //  loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                    // loadPageSearch(Mainpage,idPill,key);
+                }
+            }
+        };
+        IntentFilter it = new IntentFilter();
+        it.addAction(Constant.CLOSE_SEARCH_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastCloseSearch,
+                it);
 
+    }
 
 
     private void init() {
@@ -128,7 +152,13 @@ public class Insite_List extends Fragment {
             public void onClick(View v) {
                 ln_null.setVisibility(View.GONE);
                 type = "show_all";
-                getData(1,type);
+                key = "";
+
+                isNomar = true;
+                Mainpage = 1;
+                isSearch = false;
+                loadManager(Mainpage,isNomar,isSearch,key,type);
+               // getData(1,type);
             }
         });
         swip = v.findViewById(R.id.swip);
@@ -137,18 +167,25 @@ public class Insite_List extends Fragment {
             public void onRefresh() {
                 Mainpage = 1;
                 type = "";
-                isNomar = true;
-                isSearch = false;
-                getData(Mainpage,type);
+                isLoading = false;
+                if(!key.equals("")){
+                    isNomar = false;
+                    isSearch = true;
+                }else{
+                    isNomar = true;
+                    isSearch = false;
+                }
+                loadManager(Mainpage,isNomar,isSearch,key,type);
+
             }
         });
 
 
-        getData(Mainpage,type);
+        loadManager(Mainpage,isNomar,isSearch,key,type);
     }
 
     public void loadManager(int page, boolean isNomar, boolean isSearch,String key,String type){
-
+    if(!isLoading){
         if (isNomar) {
             getData(page,type);
         }
@@ -157,11 +194,14 @@ public class Insite_List extends Fragment {
         }
     }
 
+    }
+
     private void loadPageSearch(int page, String key){
         if(page==1){
             arr.clear();
             adapter.notifyDataSetChanged();
         }
+        isLoading = true;
         Map<String, String> map = new HashMap<>();
         map.put("latGPS", Common.lat+"");
         map.put("longGPS",Common.lng+"");
@@ -185,28 +225,16 @@ public class Insite_List extends Fragment {
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
             Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+            isLoading = false;
         }else{
             if(page==1){
                 arr.clear();
             }
+
             Log.d("LAT_LNG",Common.lat+"\n"+Common.lng);
             if(type.equals("show_all")){
-                Map<String, String> map = new HashMap<>();
-                map.put("latGPS", Common.lat+"");
-                map.put("longGPS",Common.lng+"");
-                map.put("page",page+"");
-                Response.Listener<String> response = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        swip.setRefreshing(false);
-                        tvnull.setVisibility(View.GONE);
-                        ln_null.setVisibility(View.GONE);
-                        initJson(response,type);
-                    }
-                };
-                Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
-            }else{
-                if(Common.lat!=0&&Common.lng!=0){
+                if(!isLoading){
+                    isLoading = true;
                     Map<String, String> map = new HashMap<>();
                     map.put("latGPS", Common.lat+"");
                     map.put("longGPS",Common.lng+"");
@@ -221,6 +249,28 @@ public class Insite_List extends Fragment {
                         }
                     };
                     Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+                }
+
+            }else{
+                    if(!isLoading){
+                        isLoading = true;
+                        if(Common.lat!=0&&Common.lng!=0){
+                            Map<String, String> map = new HashMap<>();
+                            map.put("latGPS", Common.lat+"");
+                            map.put("longGPS",Common.lng+"");
+                            map.put("page",page+"");
+                            Response.Listener<String> response = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    swip.setRefreshing(false);
+                                    tvnull.setVisibility(View.GONE);
+                                    ln_null.setVisibility(View.GONE);
+                                    initJson(response,type);
+                                }
+                            };
+                            Utils.PostServer(getActivity(), ServerPath.LIST_PHARMA,map,response);
+                    }
+
                 }else{
                     Mainpage =1;
                     getData(Mainpage,"show_all");
@@ -242,12 +292,15 @@ public class Insite_List extends Fragment {
                 switch (code){
                     case "0":
                         getResponseData(jo,type);
+                        isLoading = false;
                         break;
                     case "3":
                         getResponseData(jo,type);
+                        isLoading = false;
                         break;
                     default:
                         getResponseData(jo,type);
+                        isLoading = false;
                         break;
                 }
 
@@ -256,6 +309,7 @@ public class Insite_List extends Fragment {
 
 
         }catch (Exception e){
+            isLoading = false;
             e.printStackTrace();
         }
     }
@@ -332,6 +386,9 @@ public class Insite_List extends Fragment {
         if(broadcastSearch==null){
             registerBroadcast();
         }
+        if(broadcastCloseSearch==null){
+            registerBroadcastCloseSearch();
+        }
         super.onResume();
     }
 
@@ -343,7 +400,9 @@ public class Insite_List extends Fragment {
 
     private void unRegister(){
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastSearch);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastCloseSearch);
         broadcastSearch=null;
+        broadcastCloseSearch=null;
     }
     private void registerBroadcast() {
         broadcastSearch = new BroadcastReceiver() {
@@ -354,7 +413,8 @@ public class Insite_List extends Fragment {
                     isNomar = false;
                     isSearch = true;
                      key = intent.getStringExtra("key");
-                    loadPageSearch(Mainpage,key);
+                     loadManager(Mainpage,isNomar,isSearch,key,type);
+
                 }
             }
         };

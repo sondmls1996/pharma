@@ -264,7 +264,7 @@ public class Change_infor extends AppCompatActivity {
     public void openDialogDate(int d, int m, int y){
 
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,R.style.datepicker,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override

@@ -104,57 +104,61 @@ public class ChangePass extends AppCompatActivity implements View.OnClickListene
                     }else if(newPass.equals(oldPass)){
                         utils.showLoading(getApplicationContext(),20000,false);
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.old_pass_notequal),Toast.LENGTH_SHORT).show();
+                    }else if(newPass.length()<8) {
+                        utils.showLoading(this,10000,false);
+                        Utils.dialogNotif( getResources().getString(R.string.short_pass));
                     }else{
-                        Map<String,String> map = new HashMap<>();
-                        map.put("accessToken",user.getToken());
-                        map.put("oldPass",oldPass);
-                        map.put("newPass",newPass);
-                        map.put("reNewPass",reNewPass);
-                        Response.Listener<String> response = new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    Log.d("RESPONSE_CHANGE_PASS",response);
-                                    JSONObject jo = new JSONObject(response);
-                                    String code = jo.getString(JsonConstant.CODE);
-                                    switch (code){
-                                        case "0":
-                                            utils.showLoading(getApplicationContext(),20000,false);
-                                            Utils.ShowNotifString(getResources().getString(R.string.update_pass_succes), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
-                                                @Override
-                                                public void onClose(Dialog dialog) {
-                                                    dialog.dismiss();
-                                                    finish();
-                                                }
-                                            });
-                                         //   Utils.dialogNotif(getResources().getString(R.string.update_pass_succes));
-                                            break;
-                                        case "1":
-                                            utils.showLoading(getApplicationContext(),20000,false);
-                                            Utils.dialogNotif(getResources().getString(R.string.update_pass_failse));
-                                            break;
-                                        case "-1":
-                                            utils.showLoading(getApplicationContext(),20000,false);
-                                            Utils.dialogNotif(getResources().getString(R.string.session_out));
-                                            break;
-                                        case "2":
-                                            utils.showLoading(getApplicationContext(),20000,false);
-                                            Utils.dialogNotif(getResources().getString(R.string.pass_wrong));
-                                            break;
+                            Map<String,String> map = new HashMap<>();
+                            map.put("accessToken",user.getToken());
+                            map.put("oldPass",oldPass);
+                            map.put("newPass",newPass);
+                            map.put("reNewPass",reNewPass);
+                            Response.Listener<String> response = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        Log.d("RESPONSE_CHANGE_PASS",response);
+                                        JSONObject jo = new JSONObject(response);
+                                        String code = jo.getString(JsonConstant.CODE);
+                                        switch (code){
+                                            case "0":
+                                                utils.showLoading(getApplicationContext(),20000,false);
+                                                Utils.ShowNotifString(getResources().getString(R.string.update_pass_succes), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                                    @Override
+                                                    public void onClose(Dialog dialog) {
+                                                        dialog.dismiss();
+                                                        finish();
+                                                    }
+                                                });
+                                                //   Utils.dialogNotif(getResources().getString(R.string.update_pass_succes));
+                                                break;
+                                            case "1":
+                                                utils.showLoading(getApplicationContext(),20000,false);
+                                                Utils.dialogNotif(getResources().getString(R.string.update_pass_failse));
+                                                break;
+                                            case "-1":
+                                                utils.showLoading(getApplicationContext(),20000,false);
+                                                Utils.dialogNotif(getResources().getString(R.string.session_out));
+                                                break;
+                                            case "2":
+                                                utils.showLoading(getApplicationContext(),20000,false);
+                                                Utils.dialogNotif(getResources().getString(R.string.pass_wrong));
+                                                break;
                                             default:
                                                 utils.showLoading(getApplicationContext(),20000,false);
                                                 Utils.dialogNotif(getResources().getString(R.string.error));
                                                 break;
+                                        }
+                                    } catch (JSONException e) {
+                                        utils.showLoading(getApplicationContext(),20000,false);
+                                        Utils.dialogNotif(getResources().getString(R.string.error));
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    utils.showLoading(getApplicationContext(),20000,false);
-                                    Utils.dialogNotif(getResources().getString(R.string.error));
-                                    e.printStackTrace();
                                 }
-                            }
-                        };
-                        Utils.PostServer(ChangePass.this, ServerPath.CHANGE_PASS,map,response);
-                    }
+                            };
+                            Utils.PostServer(ChangePass.this, ServerPath.CHANGE_PASS,map,response);
+                        }
+
                 break;
         }
     }
