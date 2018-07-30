@@ -321,31 +321,58 @@ public class Insite_List extends Fragment {
             @Override
             protected Void doInBackground(Void... voids) {
                 try{
-
-                    JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
-                    if(array.length()>0){
-                        for (int i =0; i<array.length();i++){
-                            JSONObject obj = array.getJSONObject(i);
-                            JSONObject store = obj.getJSONObject(JsonConstant.STORE);
-                            JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
-                            Pharma_Constructor pharma = new Pharma_Constructor();
-                            pharma.setName(store.getString(JsonConstant.NAME));
-                            pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                    if(type.equals("show_all")){
+                        JSONArray array = jo.getJSONArray(JsonConstant.LIST_STORE);
+                        if(array.length()>0){
+                            for (int i =0; i<array.length();i++){
+                                JSONObject obj = array.getJSONObject(i);
+                                JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                                JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
+                                Pharma_Constructor pharma = new Pharma_Constructor();
+                                pharma.setName(store.getString(JsonConstant.NAME));
+                                pharma.setAdr(store.getString(JsonConstant.USER_ADR));
                                 pharma.setComment(store.getString(JsonConstant.COMMENT));
-                            pharma.setAvatar(images.getString(0));
-                            pharma.setId(store.getString(JsonConstant.ID));
-                                 pharma.setLike(store.getString(JsonConstant.LIKE));
+                                pharma.setAvatar(images.getString(0));
+                                pharma.setId(store.getString(JsonConstant.ID));
+                                pharma.setLike(store.getString(JsonConstant.LIKE));
                                 pharma.setRate(store.getDouble(JsonConstant.STAR));
-                            JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
-                            pharma.setX(location.getDouble(JsonConstant.LAT));
-                            pharma.setY(location.getDouble(JsonConstant.LONG));
-                            arr.add(pharma);
+                                JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                                pharma.setX(location.getDouble(JsonConstant.LAT));
+                                pharma.setY(location.getDouble(JsonConstant.LONG));
+                                arr.add(pharma);
+                            }
+                            isEmpty[0] = false;
+                        }else {
+                            isEmpty[0] = true;
+                            return null;
                         }
-                        isEmpty[0] = false;
-                    }else {
-                        isEmpty[0] = true;
-                        return null;
+                    }else{
+                        JSONArray array = jo.getJSONArray(JsonConstant.AROUD_STORE);
+                        if(array.length()>0){
+                            for (int i =0; i<array.length();i++){
+                                JSONObject obj = array.getJSONObject(i);
+                                JSONObject store = obj.getJSONObject(JsonConstant.STORE);
+                                JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
+                                Pharma_Constructor pharma = new Pharma_Constructor();
+                                pharma.setName(store.getString(JsonConstant.NAME));
+                                pharma.setAdr(store.getString(JsonConstant.USER_ADR));
+                                pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                pharma.setAvatar(images.getString(0));
+                                pharma.setId(store.getString(JsonConstant.ID));
+                                pharma.setLike(store.getString(JsonConstant.LIKE));
+                                pharma.setRate(store.getDouble(JsonConstant.STAR));
+                                JSONObject location = store.getJSONObject(JsonConstant.MAP_LOCATION);
+                                pharma.setX(location.getDouble(JsonConstant.LAT));
+                                pharma.setY(location.getDouble(JsonConstant.LONG));
+                                arr.add(pharma);
+                            }
+                            isEmpty[0] = false;
+                        }else {
+                            isEmpty[0] = true;
+                            return null;
+                        }
                     }
+
 
                 }catch (Exception e){
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));

@@ -72,6 +72,7 @@ public class List_Sick_Adapter extends
         viewHolder.name_sick.setText(sick.getName());
         viewHolder.descri_sick.setText(sick.getDescri());
         viewHolder.like.setText(sick.getLike()+"");
+        viewHolder.comment.setText(sick.getCmt()+"");
         viewHolder.date.setText(Utils.convertTimestampToDate(sick.getDate()));
         viewHolder.catalo_txt.setText(sick.getCatalo());
 

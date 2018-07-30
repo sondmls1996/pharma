@@ -148,10 +148,14 @@ public class Sick_Detail_Fragment extends Fragment {
                                 if(code.equals("0")){
                                     if(likestt==0){
                                         sickObj.setLike_stt(1);
+                                        sickObj.setLike(sickObj.getLike()+1);
+                                        tv_like.setText(sickObj.getLike()+"");
                                     }else{
                                         sickObj.setLike_stt(0);
+                                        sickObj.setLike(sickObj.getLike()-1);
+                                        tv_like.setText(sickObj.getLike()+"");
                                     }
-
+                                    Detail.headerObj = sickObj;
                                     checkHearth(sickObj.getLike_stt());
                                     //     Detail.headerObj = sickObj;
                                 }else if(code.equals("-1")){

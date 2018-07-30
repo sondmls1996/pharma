@@ -189,15 +189,16 @@ public class Pill_Fragment_Detail extends Fragment {
                                     if(likestt==0){
 
                                         objPill.setLikeStt(1);
-//                                    objPill.setLike(objPill.getLike()+1);
-//                                    tv_like.setText(objPill.getLike()+"");
+                                    objPill.setLike(objPill.getLike()+1);
+                                    tv_like.setText(objPill.getLike()+"");
                                     }else{
 
                                         objPill.setLikeStt(0);
-//                                    objPill.setLike(objPill.getLike()-1);
-//                                    tv_like.setText(objPill.getLike()+"");
-                                    }
+                                    objPill.setLike(objPill.getLike()-1);
+                                    tv_like.setText(objPill.getLike()+"");
 
+                                    }
+                                    Detail.headerObj = objPill;
                                     checkHearth(objPill.getLikeStt());
                                     //         Detail.headerObj = objPill;
                                 }else if(code.equals("-1")){

@@ -15,7 +15,7 @@ public class Pharma_Obj {
     public int likeStt = 0;
     public Double star = 0.0;
     public int like = 0;
-    public String comment = "0";
+    public int comment =0;
 
     public int getLike() {
         return like;
@@ -25,11 +25,11 @@ public class Pharma_Obj {
         this.like = like;
     }
 
-    public String getComment() {
+    public int getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(int comment) {
         this.comment = comment;
     }
 

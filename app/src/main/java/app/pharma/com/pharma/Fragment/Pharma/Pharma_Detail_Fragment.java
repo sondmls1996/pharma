@@ -248,18 +248,22 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                 if(likestt==0){
 
                                     pharma.setLikeStt(1);
-//                                pharma.setLike(pharma.getLike()+1);
-//                                tv_like.setText(pharma.getLike()+"");
-                                }else if(code.equals("-1")){
-                                    Utils.dialogNotif(getResources().getString(R.string.session_out));
+                                pharma.setLike(pharma.getLike()+1);
+                                tv_like.setText(pharma.getLike()+"");
                                 }else{
-                                    Utils.dialogNotif(getResources().getString(R.string.error));
+
+                                    pharma.setLikeStt(0);
+                                    pharma.setLike(pharma.getLike()-1);
+                                    tv_like.setText(pharma.getLike()+"");
                                 }
-
+                                Detail.headerObj = pharma;
                                 checkHearth(pharma.getLikeStt());
+                            }else if(code.equals("-1")){
+                                Utils.dialogNotif(getResources().getString(R.string.session_out));
                             }else{
-
+                                Utils.dialogNotif(getResources().getString(R.string.error));
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -343,9 +347,9 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
                                         pharma.setStar(0.0);
                                     }
                                     if(store.has(JsonConstant.COMMENT)){
-                                        pharma.setComment(store.getString(JsonConstant.COMMENT));
+                                        pharma.setComment(store.getInt(JsonConstant.COMMENT));
                                     }else{
-                                        pharma.setComment("0");
+                                        pharma.setComment(0);
                                     }
                                     JSONArray images = store.getJSONArray(JsonConstant.IMAGE);
 
@@ -406,7 +410,7 @@ public class Pharma_Detail_Fragment extends Fragment implements OnMapReadyCallba
         phone.setText(pharma.getPhone());
         strphone = pharma.getPhone();
         tv_like.setText(pharma.getLike()+"");
-        comment.setText(pharma.getComment());
+        comment.setText(pharma.getComment()+"");
        // Detail.likestt = pharma.getLikeStt();
         linkShare = pharma.getLinkShare();
         adapter = new Slide_Image_Adapter(Common.context,pharma.getImage());

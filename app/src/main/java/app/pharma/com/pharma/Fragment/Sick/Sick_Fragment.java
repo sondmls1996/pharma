@@ -333,7 +333,7 @@ public class Sick_Fragment extends Fragment {
                                                     sick.setImage(images.getString(0));
                                                     JSONObject catalo = product.getJSONObject(JsonConstant.CATEGORY_LOW);
                                                     sick.setCatalo(catalo.getString(JsonConstant.CATEGORY_LOW));
-                                                    //   sick.setCmt(product.getInt(JsonConstant.COMMENT));
+                                                    sick.setCmt(product.getInt(JsonConstant.COMMENT));
                                                     sick.setLike(product.getInt(JsonConstant.LIKE));
                                                     sick.setDate(product.getLong(JsonConstant.TIME));
                                                     arr.add(sick);

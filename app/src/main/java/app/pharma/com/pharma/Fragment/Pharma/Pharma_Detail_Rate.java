@@ -80,6 +80,7 @@ public class Pharma_Detail_Rate extends Fragment {
     String type = "";
     String keyId = "";
     String numComment = "0";
+    TextView tvLike, tvComment;
     TextView tv_comment,tv_de_comment;
     LayoutInflater inflater2;
     RelativeLayout rl_top;
@@ -180,8 +181,8 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView tvName = rowView.findViewById(R.id.include_sick_name);
         TextView tvCk = rowView.findViewById(R.id.include_sick_catalo);
         TextView tvDate = rowView.findViewById(R.id.include_sick_day);
-        TextView tvLike = rowView.findViewById(R.id.txt_like);
-        TextView tvCommment = rowView.findViewById(R.id.txt_comment);
+         tvLike = rowView.findViewById(R.id.txt_like);
+         tvComment = rowView.findViewById(R.id.txt_comment);
         ImageView img = rowView.findViewById(R.id.include_sick_img);
         LinearLayout ln = rowView.findViewById(R.id.include_sick_star);
         Sick_Obj sick = (Sick_Obj)Detail.headerObj;
@@ -193,7 +194,7 @@ public class Pharma_Detail_Rate extends Fragment {
             Utils.loadImagePicasso(ServerPath.ROOT_URL+sick.getImages().get(0),img);
         }
         tvLike.setText(sick.getLike()+"");
-        tvCommment.setText(sick.getCmt()+"");
+        tvComment.setText(sick.getCmt()+"");
 
         int s = Integer.valueOf(sick.getStar().intValue());
         LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -220,8 +221,8 @@ public class Pharma_Detail_Rate extends Fragment {
         LinearLayout ln = rowView.findViewById(R.id.inclide_pill_star);
         ln.removeAllViews();
         ImageView img = rowView.findViewById(R.id.include_pill_image);
-        TextView like = rowView.findViewById(R.id.txt_like);
-        TextView cmt = rowView.findViewById(R.id.txt_comment);
+         tvLike = rowView.findViewById(R.id.txt_like);
+         tvComment = rowView.findViewById(R.id.txt_comment);
 
         Pill_obj obj = (Pill_obj) Detail.headerObj;
         idProduct = obj.getId();
@@ -229,8 +230,8 @@ public class Pharma_Detail_Rate extends Fragment {
         tvName.setText(obj.getName());
         tvPrice.setText(Constant.format.format((obj.getPrice()))+"VND");
         Utils.loadImagePicasso(ServerPath.ROOT_URL+obj.getImages().get(0),img);
-        like.setText(obj.getLike()+"");
-        cmt.setText(obj.getComment()+"");
+        tvLike.setText(obj.getLike()+"");
+        tvComment.setText(obj.getComment()+"");
         allCmt = obj.getComment()+"";
         if(obj.getStar()!=null){
 
@@ -258,17 +259,17 @@ public class Pharma_Detail_Rate extends Fragment {
         TextView tvName = rowView.findViewById(R.id.include_pharma_name);
         TextView tvAround = rowView.findViewById(R.id.include_pharma_around);
         ImageView img = rowView.findViewById(R.id.include_pharma_image);
-        TextView tvLike = rowView.findViewById(R.id.txt_like);
-        TextView tvCmt = rowView.findViewById(R.id.txt_comment);
+         tvLike = rowView.findViewById(R.id.txt_like);
+         tvComment = rowView.findViewById(R.id.txt_comment);
         LinearLayout ln = rowView.findViewById(R.id.include_pharma_star);
         ln.removeAllViews();
         Pharma_Obj pharma = (Pharma_Obj) Detail.headerObj;
         idProduct = pharma.getId();
         tvLike.setText(pharma.getLike()+"");
-        tvCmt.setText(pharma.getComment()+"");
+        tvComment.setText(pharma.getComment()+"");
         type = "store";
         tvName.setText(pharma.getName());
-        allCmt = pharma.getComment();
+        allCmt = pharma.getComment()+"";
         int s = Integer.valueOf(pharma.getStar().intValue());
         LayoutInflater vi = (LayoutInflater) Common.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 // insert into main view
@@ -438,14 +439,11 @@ public class Pharma_Detail_Rate extends Fragment {
                             break;
                     }
 
-
-
-
                 } catch (JSONException e) {
 
                     e.printStackTrace();
                 }
-                Log.d("RESPONSE_RATE_LIST",response);
+
             }
         };
         Utils.PostServer(getActivity(), ServerPath.LIST_RATING,map,response);
@@ -478,7 +476,7 @@ public class Pharma_Detail_Rate extends Fragment {
         btnrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                util.showLoading(getActivity(),10000,true);
+                util.showLoading(getActivity(),20000,true);
             if(rating.getRating()==0){
                 util.showLoading(getActivity(),10000,false);
                 Toast.makeText(getActivity(),"Hãy đánh giá sao",Toast.LENGTH_SHORT).show();
@@ -515,16 +513,22 @@ public class Pharma_Detail_Rate extends Fragment {
                             String code = jo.getString(JsonConstant.CODE);
                             switch (code){
                                 case "0":
-                                    util.showLoading(getActivity(),10000,false);
+                                    util.showLoading(getActivity(),20000,false);
                                     dialog.dismiss();
                                     Mainpage = 1;
                                     getListRate(Mainpage,type,keyId);
+                                    tvComment.setText(Integer.parseInt(tvComment.getText().toString())+1+"");
 
                                     break;
                                 case "-1":
-                                    util.showLoading(getActivity(),10000,false);
+                                    util.showLoading(getActivity(),20000,false);
                                     Utils.dialogNotif("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại");
                                     break;
+                                    default:
+
+                                        util.showLoading(getActivity(),10000,false);
+                                        Utils.dialogNotif("Có lỗi, vui lòng thử lại");
+                                        break;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

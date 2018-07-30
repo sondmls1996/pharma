@@ -17,6 +17,7 @@ public class JsonConstant {
     public static String ADRESS = "address";
     public static String USER_ADR = "detailAddress";
     public static String ADRESS_DETAIL = "addressDetail";
+    public static String AROUD_STORE = "aroundStore";
     public static String TOTAL_MONEY = "totalMoney";
     public static String STATUS = "status";
     public static String PRODUCT_ORDER = "productOrder";
