@@ -107,13 +107,20 @@ public class Sick_Fragment extends Fragment {
             @Override
             public void onRefresh() {
                 Mainpage = 1;
-                isLoading = false;
+
                 if(!key.equals("")){
                     isNomar = false;
                     isSearch = true;
                 }else{
-                    isNomar = true;
-                    isSearch = false;
+                    if(isSearch){
+                        isNomar = false;
+                        isSearch = true;
+                    }else{
+                        isNomar = true;
+                        isSearch = false;
+                    }
+
+
                 }
 
 

@@ -81,6 +81,7 @@ public class Pill_Fragment extends Fragment {
     Context ct;
     int step = 10;
     int stepMax = 2000000;
+
     int progressMin = 0;
     int progressMax = 0;
     String idFillCat = "";
@@ -197,16 +198,24 @@ public class Pill_Fragment extends Fragment {
 //                minPrice=-1;
 //                maxPrice=-1;
                 idingredient="";
-                isLoading = false;
+
                 Mainpage = 1;
+
                 if(!key.equals("")){
                     isFillter = false;
                     isSearch = true;
                     isNomar = false;
                 }else{
-                    isFillter = false;
-                    isSearch = false;
-                    isNomar = true;
+                    if(isSearch){
+                        isFillter = false;
+                        isSearch = true;
+                        isNomar = false;
+                    }else{
+                        isFillter = false;
+                        isSearch = false;
+                        isNomar = true;
+                    }
+
                 }
 
 

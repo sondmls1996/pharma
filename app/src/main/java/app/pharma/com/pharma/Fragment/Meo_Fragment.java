@@ -46,11 +46,12 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
     List_Meo_Adapter adapter;
     ArrayList<Meo_Constructor> arr;
     SwipeRefreshLayout swip;
+    int currentPage = 0;
     int lastVisibleItem = 0;
     private int lastY = 0;
     int Mainpage = 1;
     TextView tvNull;
-
+    boolean isLoading = false;
     TextView tv_focus;
     TextView tv_hearth;
     TextView tv_meo;
@@ -80,7 +81,14 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
             @Override
             public void onRefresh() {
                 Mainpage = 1;
-             getData(Mainpage);
+                if(currentPage==0){
+                    getDataTop(Mainpage);
+                }else if(currentPage==1){
+
+                }else{
+                    getData(Mainpage);
+                }
+
             }
         });
         tvNull = v.findViewById(R.id.txt_null);
@@ -128,6 +136,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         if(page==1){
             arr.clear();
         }
+        isLoading = true;
         final boolean[] isEmpty = {false};
         Map<String,String> map = new HashMap<>();
         map.put("page",page+"");
@@ -179,6 +188,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
+                                        isLoading = false;
                                         return null;
                                     }
 
@@ -199,6 +209,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                         lv.setVisibility(View.GONE);
                                     }
                                     adapter.notifyDataSetChanged();
+                                    isLoading = false;
                                     super.onPostExecute(aVoid);
                                 }
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -211,6 +222,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                     tvNull.setVisibility(View.VISIBLE);
                     lv.setVisibility(View.GONE);
+                    isLoading = false;
                     e.printStackTrace();
                 }
                 Log.d("RESPONSE_MEO",response);
@@ -225,21 +237,33 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         Mainpage = 1;
         switch (view.getId()){
             case R.id.tv_focus:
-                changeColor(tv_focus);
+                if(!isLoading){
+                    changeColor(tv_focus);
+                    currentPage = 0;
+                    getDataTop(Mainpage);
+                }
 
-                getDataTop(Mainpage);
                 break;
             case R.id.tv_hearth:
-                changeColor(tv_hearth);
+                if(!isLoading){
+                    changeColor(tv_hearth);
+                    currentPage = 1;
+                }
+
                 break;
             case R.id.tv_meo:
-                changeColor(tv_meo);
-                getData(Mainpage);
+                if(!isLoading){
+                    changeColor(tv_meo);
+                    currentPage = 2;
+                    getData(Mainpage);
+                }
+
                 break;
         }
     }
 
     private void  getDataTop(int page) {
+        isLoading = true;
         Log.d("PAGE_MEO",page+"");
         if(page==1){
             arr.clear();
@@ -295,6 +319,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
+                                        isLoading = false;
                                         return null;
                                     }
 
@@ -315,6 +340,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                         lv.setVisibility(View.GONE);
                                     }
                                     adapter.notifyDataSetChanged();
+                                    isLoading = false;
                                     super.onPostExecute(aVoid);
                                 }
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -327,6 +353,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
                     tvNull.setVisibility(View.VISIBLE);
                     lv.setVisibility(View.GONE);
+                    isLoading = false;
                     e.printStackTrace();
                 }
                 Log.d("RESPONSE_MEO",response);

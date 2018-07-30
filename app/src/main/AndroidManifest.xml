@@ -54,13 +54,16 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".activity.Detail.Infor_Meo"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.Login.Lost_password"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.Login.Get_code"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.User.Infor_User"
             android:screenOrientation="portrait" />
@@ -70,7 +73,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.User.ChangePass"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.Care.Care_PILL_Activity"
             android:screenOrientation="portrait" />

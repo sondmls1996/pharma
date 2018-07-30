@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -38,7 +37,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -50,10 +48,6 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +65,6 @@ import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
-import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
@@ -81,10 +74,8 @@ import app.pharma.com.pharma.activity.Care.Care_Order;
 import app.pharma.com.pharma.activity.Care.Care_PILL_Activity;
 import app.pharma.com.pharma.activity.Care.Care_Pharma;
 import app.pharma.com.pharma.activity.Care.Care_Sick_Activity;
-import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Login.Login;
 import app.pharma.com.pharma.activity.User.Infor_User;
-import okhttp3.internal.Util;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     Class fragment;
@@ -119,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int minPrice = 0,maxPrice = 0;
     int page = 1;
     DatabaseHandle db;
-    long delay = 600; // 1 seconds after user stops typing
+    long delay = 300 ; // 1 seconds after user stops typing
     long last_text_edit = 0;
     LinearLayout ln_meo;
     ListView lv_search;

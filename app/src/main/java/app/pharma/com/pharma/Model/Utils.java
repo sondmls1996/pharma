@@ -64,6 +64,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class Utils {
     Dialog dialogloading;
+    public static String phoneParent = "^(01[2689]|02[0-9]|09|08)[0-9]{8}";
     public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -234,34 +235,42 @@ public class Utils {
             String phoneSplit = phone.substring(0,2);
             String phoneFirst = phone.substring(0,1);
             Log.d("SPLIT_STR",phoneSplit);
-            if(phoneFirst.equals("0")){
-                if(phoneSplit.equals("01")){
-                    if(phone.length()!=11){
-                        return  false;
-                    }else{
-                        return true;
-                    }
-                }
-                if(phoneSplit.equals("09")){
-                    if(phone.length()!=10){
-                        return  false;
-                    }else{
-                        return true;
-                    }
-                }
-                return true;
-            }else{
-                 if(phoneSplit.equals("84")){
-                    if(phone.length()<10){
-                        return  false;
-                    }else{
-                        return true;
-                    }
-                }
+            if(phone.length()>11){
+                return false;
+            }
+            if(!phone.matches(phoneParent)){
+                return false;
             }
 
+            return true;
+//            if(phoneFirst.equals("0")){
+//
+//                if(phoneSplit.equals("01")){
+//                    if(phone.length()!=11){
+//                        return  false;
+//                    }else{
+//                        return true;
+//                    }
+//                } if(phoneSplit.equals("09")){
+//                    if(phone.length()!=10){
+//                        return  false;
+//                    }else{
+//                        return true;
+//                    }
+//                }
+//                return true;
+//            }else{
+//                 if(phoneSplit.equals("84")){
+//                    if(phone.length()<10){
+//                        return  false;
+//                    }else{
+//                        return true;
+//                    }
+//                }
+//            }
+
         }
-        return false;
+       // return false;
     }
 
     public static void shareLink(String link){

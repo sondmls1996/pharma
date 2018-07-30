@@ -166,14 +166,22 @@ public class Insite_List extends Fragment {
             @Override
             public void onRefresh() {
                 Mainpage = 1;
-                type = "";
-                isLoading = false;
+
                 if(!key.equals("")){
                     isNomar = false;
                     isSearch = true;
+
                 }else{
-                    isNomar = true;
-                    isSearch = false;
+                    if(isSearch){
+                        isNomar = false;
+                        isSearch = true;
+                        type = "show_all";
+                    }else{
+                        isNomar = true;
+                        isSearch = false;
+                        type = "";
+                    }
+
                 }
                 loadManager(Mainpage,isNomar,isSearch,key,type);
 
