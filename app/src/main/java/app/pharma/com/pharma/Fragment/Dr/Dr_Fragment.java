@@ -215,12 +215,14 @@ public class Dr_Fragment extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if(!isLoading){
+                    if(arr.size()>=15){
+                        Mainpage++;
+                        loadManager(Mainpage,isNomar,isSearch,key);
 
-                if(arr.size()>=15){
-                    Mainpage++;
-                    loadManager(Mainpage,isNomar,isSearch,key);
-
+                    }
                 }
+
 
 
             }
@@ -269,6 +271,7 @@ public class Dr_Fragment extends Fragment {
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
             Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+            isLoading = false;
         }else{
             isEmpty(false);
             if(page==1){

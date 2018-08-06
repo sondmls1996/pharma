@@ -1,7 +1,5 @@
 package app.pharma.com.pharma.Model;
 
-import android.content.res.Resources;
-
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -18,7 +16,7 @@ public class Constant {
     public static String TERM = "term";
     public static int ACTION_UP = 2;
     public static String PILL_INTRO_TYPE = "introtype";
-    public static Resources resources = Common.context.getResources();
+//    public static Resources resources = Common.context.getResources();
 
     public static String LIST_CATALO_PILL = "product";
     public static String LIST_CATALO_PILL_INTRO = "ingredient";

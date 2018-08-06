@@ -305,8 +305,12 @@ public class Order extends AppCompatActivity {
                         switch (code){
                             case "0":
                                 utils.showLoading(Order.this,20000,false);
-                                Utils.dialogNotif(getResources().getString(R.string.order_success));
-                                finish();
+                                Utils.ShowNotifString(getResources().getString(R.string.order_success), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                    @Override
+                                    public void onClose(Dialog dialog) {
+                                        finish();
+                                    }
+                                });
 
                                 break;
                             case "1":

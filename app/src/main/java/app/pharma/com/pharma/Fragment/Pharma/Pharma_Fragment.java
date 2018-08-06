@@ -2,35 +2,22 @@ package app.pharma.com.pharma.Fragment.Pharma;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Response;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Pharma_Adapter;
-import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Constructor;
-import app.pharma.com.pharma.Model.JsonConstant;
-import app.pharma.com.pharma.Model.ServerPath;
-import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 
 /**
@@ -114,18 +101,18 @@ public class Pharma_Fragment extends Fragment implements View.OnClickListener {
     }
 
     private void changeColor(TextView tv) {
-        tv_map.setTextColor(Constant.resources.getColor(R.color.gray));
-        tv_map.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
-        tv_list.setTextColor(Constant.resources.getColor(R.color.gray));
-        tv_list.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
+        tv_map.setTextColor(getActivity().getResources().getColor(R.color.gray));
+        tv_map.setBackgroundColor(getActivity().getResources().getColor(R.color.light_gray));
+        tv_list.setTextColor(getActivity().getResources().getColor(R.color.gray));
+        tv_list.setBackgroundColor(getActivity().getResources().getColor(R.color.light_gray));
         if (tv==tv_map){
-            tv_map.setTextColor(Constant.resources.getColor(R.color.blue));
-            tv_map.setBackgroundColor(Constant.resources.getColor(R.color.white));
+            tv_map.setTextColor(getActivity().getResources().getColor(R.color.blue));
+            tv_map.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
          //   lv.setVisibility(View.GONE);
 
         }else{
-            tv_list.setTextColor(Constant.resources.getColor(R.color.blue));
-            tv_list.setBackgroundColor(Constant.resources.getColor(R.color.white));
+            tv_list.setTextColor(getActivity().getResources().getColor(R.color.blue));
+            tv_list.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
 
          //   lv.setVisibility(View.VISIBLE);
         }

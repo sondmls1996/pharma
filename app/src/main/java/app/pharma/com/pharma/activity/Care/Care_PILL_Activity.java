@@ -40,6 +40,7 @@ public class Care_PILL_Activity extends AppCompatActivity {
     DatabaseHandle db;
     TextView tvNull;
     User user;
+    boolean isLoading = false;
     int Mainpage = 1;
     SwipeRefreshLayout swip;
     String key = "";
@@ -99,7 +100,11 @@ public class Care_PILL_Activity extends AppCompatActivity {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-            //   getDataLike();
+                if(!isLoading){
+                    Mainpage ++;
+                    getDataLike(Mainpage);
+                }
+
             }
         };
         lv.addOnScrollListener(endlessScroll);
@@ -119,81 +124,96 @@ public class Care_PILL_Activity extends AppCompatActivity {
     }
 
     private void getDataLike(int page) {
+        if(!Utils.isNetworkEnable(this)){
+            swip.setRefreshing(false);
+            Utils.dialogNotif(getResources().getString(R.string.no_internet));
+            isLoading = false;
+        }else{
+            if(Utils.isLogin()){
+                if(!isLoading){
+                    if (page == 1) {
+                        arr.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                    isLoading = true;
+                    boolean isEmpty[] = {false};
+                    Map<String, String> map = new HashMap<>();
+                    map.put("accessToken", user.getToken());
+                    map.put("type", "product");
+                    map.put("page", page + "");
+                    Response.Listener<String> response = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("RESPONSE_CARE_PILL", response);
+                            swip.setRefreshing(false);
+                            try {
+                                JSONObject jo = new JSONObject(response);
+                                String code = jo.getString(JsonConstant.CODE);
+                                switch (code) {
+                                    case "0":
+                                        JSONArray list = jo.getJSONArray(JsonConstant.LIST_FAVOR_PRODUCT);
+                                        if (list.length() > 0) {
+                                            for (int i = 0; i < list.length(); i++) {
+                                                JSONObject idx = list.getJSONObject(i);
+                                                JSONObject product = idx.getJSONObject(JsonConstant.PRODUCT);
+                                                JSONObject price = product.getJSONObject(JsonConstant.PRICE);
+                                                JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
+                                                Like_Constructor like = new Like_Constructor();
+                                                like.setName(product.getString(JsonConstant.NAME));
 
-        if(Utils.isLogin()){
-            if(page==1){
-                arr.clear();
-                adapter.notifyDataSetChanged();
-            }
-            boolean isEmpty[] = {false};
-            Map<String,String> map = new HashMap<>();
-            map.put("accessToken",user.getToken());
-            map.put("type","product");
-            map.put("page",page+"");
-            Response.Listener<String> response = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("RESPONSE_CARE_PILL",response);
-                    swip.setRefreshing(false);
-                    try {
-                        JSONObject jo = new JSONObject(response);
-                        String code = jo.getString(JsonConstant.CODE);
-                        switch (code){
-                            case "0":
-                                JSONArray list = jo.getJSONArray(JsonConstant.LIST_FAVOR_PRODUCT);
-                                if(list.length()>0){
-                                    for(int i=0;i<list.length();i++){
-                                        JSONObject idx = list.getJSONObject(i);
-                                        JSONObject product = idx.getJSONObject(JsonConstant.PRODUCT);
-                                        JSONObject price = product.getJSONObject(JsonConstant.PRICE);
-                                        JSONArray images = product.getJSONArray(JsonConstant.IMAGE);
-                                        Like_Constructor like = new Like_Constructor();
-                                        like.setName(product.getString(JsonConstant.NAME));
+                                                like.setComment(product.getString(JsonConstant.COMMENT));
+                                                like.setLike(product.getString(JsonConstant.LIKE));
+                                                if (product.has(JsonConstant.DESCRI)) {
+                                                    like.setDescri(product.getString(JsonConstant.DESCRI));
+                                                }
 
-                                        like.setComment(product.getString(JsonConstant.COMMENT));
-                                        like.setLike(product.getString(JsonConstant.LIKE));
-                                        if(product.has(JsonConstant.DESCRI)){
-                                            like.setDescri(product.getString(JsonConstant.DESCRI));
+                                                like.setId(product.getString(JsonConstant.ID));
+                                                like.setImage(images.getString(0));
+                                                if (price.getString(JsonConstant.MONEY).equals("")) {
+                                                    like.setPrice(0);
+                                                } else {
+                                                    like.setPrice(price.getInt(JsonConstant.MONEY));
+                                                }
+
+                                                arr.add(like);
+                                            }
+                                            isEmpty[0] = false;
+                                            isLoading = false;
+                                        } else {
+                                            isEmpty[0] = true;
+                                            isLoading = false;
+                                        }
+                                        if (isEmpty[0] && Mainpage > 1) {
+                                            Mainpage = Mainpage - 1;
                                         }
 
-                                        like.setId(product.getString(JsonConstant.ID));
-                                        like.setImage(images.getString(0));
-                                        if(price.getString(JsonConstant.MONEY).equals("")){
-                                            like.setPrice(0);
-                                        }else{
-                                            like.setPrice(price.getInt(JsonConstant.MONEY));
+                                        if (arr.size() > 0) {
+                                            setIsEmpty(false);
+                                        } else {
+                                            setIsEmpty(true);
                                         }
+                                        isLoading = false;
 
-                                        arr.add(like);
-                                    }
-                                    isEmpty[0] = false;
-                                }else{
-                                    isEmpty[0] = true;
-                                }
-                                if(isEmpty[0]&&Mainpage>1){
-                                    Mainpage = Mainpage -1;
-                                }
+                                        adapter.notifyDataSetChanged();
+                                        break;
 
-                                if(arr.size()>0){
-                                    setIsEmpty(false);
-                                }else{
-                                    setIsEmpty(true);
                                 }
-
-                                adapter.notifyDataSetChanged();
-                                break;
+                            } catch (JSONException e) {
+                                isEmpty[0] = true;
+                                swip.setRefreshing(false);
+                                isLoading = false;
+                                e.printStackTrace();
+                            }
 
                         }
-                    } catch (JSONException e) {
-                        isEmpty[0] = true;
-                        swip.setRefreshing(false);
-                        e.printStackTrace();
-                    }
-
+                    };
+                    Utils.PostServer(this, ServerPath.LIST_FAVOR, map, response);
                 }
-            };
-            Utils.PostServer(this, ServerPath.LIST_FAVOR,map,response);
+
+            }
+
         }
+
 
     }
 

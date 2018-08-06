@@ -8,8 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import app.pharma.com.pharma.Adapter.Pharma_Care_Adapter;
 import app.pharma.com.pharma.Adapter.Pill_Order_Adapter;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constructor.Order_List_Constructor;
@@ -35,13 +32,13 @@ import app.pharma.com.pharma.Model.Utils;
 import app.pharma.com.pharma.R;
 import app.pharma.com.pharma.Support.EndlessScroll;
 import app.pharma.com.pharma.Support.RecyclerItemClickListener;
-import app.pharma.com.pharma.activity.Detail.Detail;
 import app.pharma.com.pharma.activity.Detail.Order_Detail;
 
 public class Care_Order extends AppCompatActivity {
         int Mainpage = 1;
         DatabaseHandle db;
         User user;
+        boolean isLoading = false;
         RecyclerView lv;
         TextView tvTitle;
         RelativeLayout imgBack;
@@ -97,8 +94,11 @@ public class Care_Order extends AppCompatActivity {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage++;
-                getPage(Mainpage);
+                if(!isLoading){
+                    Mainpage++;
+                    getPage(Mainpage);
+                }
+
             }
         };
         lv.addOnScrollListener(endlessScroll);
@@ -116,69 +116,76 @@ public class Care_Order extends AppCompatActivity {
         );
     }
     private void getPage(int i) {
-        if(Utils.isLogin()){
-            if(!Utils.isNetworkEnable(this)){
-                Utils.dialogNotif(getResources().getString(R.string.no_internet));
-            }else{
-                if(i==1){
-                    arr.clear();
-                    adapter.notifyDataSetChanged();
-                }
-                boolean isEmpty[] = {false};
-                user = db.getAllUserInfor();
-                Map<String,String> map = new HashMap<>();
-                map.put("page",i+"");
-                map.put("accessToken",user.getToken());
-                Response.Listener<String> response = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            sw.setRefreshing(false);
-                            JSONObject jo = new JSONObject(response);
-                            String code = jo.getString(JsonConstant.CODE);
-                            JSONArray data = jo.getJSONArray(JsonConstant.DATA);
-                            if(data.length()>0){
-                                for (int i =0; i<data.length();i++){
-                                    JSONObject idx = data.getJSONObject(i);
-                                    JSONObject order = idx.getJSONObject(JsonConstant.ORDER);
-                                    JSONObject product = order.getJSONObject(JsonConstant.PRODUCT_ORDER);
-                                    Order_List_Constructor list = new Order_List_Constructor();
-                                    list.setId(order.getString(JsonConstant.ID));
-                                    list.setName(product.getString(JsonConstant.NAME));
-                                    list.setPrice(order.getInt(JsonConstant.TOTAL_MONEY));
-                                    list.setImage(product.getString(JsonConstant.IMAGE));
-                                    list.setDate(order.getLong(JsonConstant.TIME));
-                                    list.setStatus(order.getString(JsonConstant.STATUS));
-                                    arr.add(list);
-                                }
-                                isEmpty[0]= false;
-                            }else{
-                                isEmpty[0]= true;
-                            }
-
-                            if(isEmpty[0]&&Mainpage>1){
-                                Mainpage = Mainpage-1;
-                            }
-                            if(arr.size()>0){
-                                setIsEmpty(false);
-                            }else{
-                                setIsEmpty(true);
-                            }
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            sw.setRefreshing(false);
-                            adapter.notifyDataSetChanged();
-                            e.printStackTrace();
-                        }
-
-                        Log.d("RESPONSE_LIST_ORDER",response);
+        if(!isLoading){
+            if(Utils.isLogin()){
+                if(!Utils.isNetworkEnable(this)){
+                    Utils.dialogNotif(getResources().getString(R.string.no_internet));
+                    isLoading = false;
+                }else{
+                    if(i==1){
+                        arr.clear();
+                        adapter.notifyDataSetChanged();
                     }
-                };
-                Utils.PostServer(this, ServerPath.LIST_ORDER,map,response);
+                    isLoading = true;
+                    boolean isEmpty[] = {false};
+                    user = db.getAllUserInfor();
+                    Map<String,String> map = new HashMap<>();
+                    map.put("page",i+"");
+                    map.put("accessToken",user.getToken());
+                    Response.Listener<String> response = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                sw.setRefreshing(false);
+                                JSONObject jo = new JSONObject(response);
+                                String code = jo.getString(JsonConstant.CODE);
+                                JSONArray data = jo.getJSONArray(JsonConstant.DATA);
+                                if(data.length()>0){
+                                    for (int i =0; i<data.length();i++){
+                                        JSONObject idx = data.getJSONObject(i);
+                                        JSONObject order = idx.getJSONObject(JsonConstant.ORDER);
+                                        JSONObject product = order.getJSONObject(JsonConstant.PRODUCT_ORDER);
+                                        Order_List_Constructor list = new Order_List_Constructor();
+                                        list.setId(order.getString(JsonConstant.ID));
+                                        list.setName(product.getString(JsonConstant.NAME));
+                                        list.setPrice(order.getInt(JsonConstant.TOTAL_MONEY));
+                                        list.setImage(product.getString(JsonConstant.IMAGE));
+                                        list.setDate(order.getLong(JsonConstant.TIME));
+                                        list.setStatus(order.getString(JsonConstant.STATUS));
+                                        arr.add(list);
+                                    }
+                                    isEmpty[0]= false;
+                                }else{
+                                    isEmpty[0]= true;
+                                }
+
+                                if(isEmpty[0]&&Mainpage>1){
+                                    Mainpage = Mainpage-1;
+                                }
+                                if(arr.size()>0){
+                                    setIsEmpty(false);
+                                }else{
+                                    setIsEmpty(true);
+                                }
+                                isLoading = false;
+                                adapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                sw.setRefreshing(false);
+                                adapter.notifyDataSetChanged();
+                                isLoading = false;
+                                e.printStackTrace();
+                            }
+
+                            Log.d("RESPONSE_LIST_ORDER",response);
+                        }
+                    };
+                    Utils.PostServer(this, ServerPath.LIST_ORDER,map,response);
+                }
+
+
             }
-
-
         }
+
 
 
     }

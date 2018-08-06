@@ -156,10 +156,13 @@ public class Pill_Fragment extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if(arr.size()>=15){
-                    Mainpage++;
-                    loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                if(!isLoading){
+                    if(arr.size()>=15){
+                        Mainpage++;
+                        loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                    }
                 }
+
 
             }
         };
@@ -567,6 +570,8 @@ public class Pill_Fragment extends Fragment {
         }
         if(progressMax>-1){
             seekMax.setProgress(progressMax);
+        }else{
+            seekMax.setProgress(100);
         }
 
         Button apply = dialog.findViewById(R.id.btn_apply);

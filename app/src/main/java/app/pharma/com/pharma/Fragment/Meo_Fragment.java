@@ -26,7 +26,6 @@ import java.util.Map;
 
 import app.pharma.com.pharma.Adapter.List_Meo_Adapter;
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Meo_Constructor;
 import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
@@ -113,8 +112,11 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage ++;
-                getData(Mainpage);
+                if(!isLoading){
+                    Mainpage ++;
+                    getData(Mainpage);
+                }
+
             }
         };
         lv.addOnScrollListener(endlessScroll);
@@ -364,25 +366,25 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
     }
 
     private void changeColor(TextView tv) {
-        tv_focus.setTextColor(Constant.resources.getColor(R.color.gray));
-        tv_hearth.setTextColor(Constant.resources.getColor(R.color.gray));
-        tv_meo.setTextColor(Constant.resources.getColor(R.color.gray));
+        tv_focus.setTextColor(getActivity().getResources().getColor(R.color.gray));
+        tv_hearth.setTextColor(getActivity().getResources().getColor(R.color.gray));
+        tv_meo.setTextColor(getActivity().getResources().getColor(R.color.gray));
 
-        tv_focus.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
-        tv_hearth.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
-        tv_meo.setBackgroundColor(Constant.resources.getColor(R.color.light_gray));
+        tv_focus.setBackgroundColor(getActivity().getResources().getColor(R.color.light_gray));
+        tv_hearth.setBackgroundColor(getActivity().getResources().getColor(R.color.light_gray));
+        tv_meo.setBackgroundColor(getActivity().getResources().getColor(R.color.light_gray));
 
         if (tv==tv_focus){
-            tv_focus.setTextColor(Constant.resources.getColor(R.color.blue));
-            tv_focus.setBackgroundColor(Constant.resources.getColor(R.color.white));
+            tv_focus.setTextColor(getActivity().getResources().getColor(R.color.blue));
+            tv_focus.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
          //   lv.setVisibility(View.GONE);
         }else if(tv==tv_hearth){
-            tv_hearth.setTextColor(Constant.resources.getColor(R.color.blue));
-            tv_hearth.setBackgroundColor(Constant.resources.getColor(R.color.white));
+            tv_hearth.setTextColor(getActivity().getResources().getColor(R.color.blue));
+            tv_hearth.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
         //    lv.setVisibility(View.VISIBLE);
         }else{
-            tv_meo.setTextColor(Constant.resources.getColor(R.color.blue));
-            tv_meo.setBackgroundColor(Constant.resources.getColor(R.color.white));
+            tv_meo.setTextColor(getActivity().getResources().getColor(R.color.blue));
+            tv_meo.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
         }
     }
 }

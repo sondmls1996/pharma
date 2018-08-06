@@ -226,11 +226,14 @@ public class Sick_Fragment extends Fragment {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if(arr.size()>=15){
-                    Mainpage++;
-                    Log.d("PAGE_RATE",Mainpage+"");
-                    loadManager(Mainpage,isSearch,isNomar);
+                if(!isLoading){
+                    if(arr.size()>=15){
+                        Mainpage++;
+                        Log.d("PAGE_RATE",Mainpage+"");
+                        loadManager(Mainpage,isSearch,isNomar);
+                    }
                 }
+
 
             }
         };
@@ -270,8 +273,9 @@ public class Sick_Fragment extends Fragment {
                 if(intent.getAction().equals(Constant.SEARCH_ACTION)){
                      key = intent.getStringExtra("key");
                     Mainpage = 1;
-                    loadPageSearch(Mainpage,key);
-                }
+                    isSearch = true;
+                    isNomar = false;
+                    loadManager(Mainpage,isSearch,isNomar);                }
             }
         };
         IntentFilter it = new IntentFilter();
@@ -292,11 +296,13 @@ public class Sick_Fragment extends Fragment {
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
             Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+            isLoading = false;
         }else{
             if(page==1){
                 arr.clear();
                 adapter.notifyDataSetChanged();
             }
+
             Log.d("ID_S",idSick);
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
@@ -311,6 +317,7 @@ public class Sick_Fragment extends Fragment {
         if(!Utils.isNetworkEnable(getActivity())){
             swip.setRefreshing(false);
             Utils.dialogNotif(getActivity().getResources().getString(R.string.network_err));
+            isLoading = false;
         }else{
             if(page==1){
                 arr.clear();
@@ -328,8 +335,8 @@ public class Sick_Fragment extends Fragment {
 
     private void getData(Map<String, String> map) {
 
-        mIsLoading = true;
         final boolean[] isEmpty = {false};
+        isLoading = true;
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -377,7 +384,7 @@ public class Sick_Fragment extends Fragment {
                                             }
 
                                         } catch (JSONException e) {
-                                            mIsLoading = false;
+                                            isLoading = false;
                                             e.printStackTrace();
                                             return null;
                                         }
@@ -398,7 +405,7 @@ public class Sick_Fragment extends Fragment {
                                         }
 
                                         adapter.notifyDataSetChanged();
-                                        mIsLoading = false;
+                                        isLoading = false;
                                         super.onPostExecute(aVoid);
                                     }
                                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -406,6 +413,7 @@ public class Sick_Fragment extends Fragment {
 
                                 break;
                             case "1":
+                                isLoading = false;
                                 break;
                         }
                     }
@@ -414,7 +422,7 @@ public class Sick_Fragment extends Fragment {
 
                 } catch (JSONException e) {
                     Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
-                    mIsLoading = false;
+                    isLoading = false;
                     e.printStackTrace();
                 }
 

@@ -8,8 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,11 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import app.pharma.com.pharma.Adapter.Like_Adapter;
 import app.pharma.com.pharma.Adapter.Pharma_Care_Adapter;
-import app.pharma.com.pharma.Adapter.Pill_Order_Adapter;
 import app.pharma.com.pharma.Model.Common;
-import app.pharma.com.pharma.Model.Constructor.Order_List_Constructor;
 import app.pharma.com.pharma.Model.Constructor.Pharma_Care_Consturct;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
@@ -44,6 +39,7 @@ public class Care_Pharma extends AppCompatActivity {
     DatabaseHandle db;
     User user;
     TextView tvNull;
+    boolean isLoading = false;
     RecyclerView lv;
     TextView tvTitle;
     RelativeLayout imgBack;
@@ -98,9 +94,12 @@ public class Care_Pharma extends AppCompatActivity {
         EndlessScroll endlessScroll = new EndlessScroll(layoutManager,getApplicationContext()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Mainpage++;
-                getPage(Mainpage);
-            }
+                if(!isLoading){
+                    Mainpage++;
+                    getPage(Mainpage);
+
+                }
+                }
         };
         lv.addOnScrollListener(endlessScroll);
         lv.addOnItemTouchListener(
@@ -108,10 +107,15 @@ public class Care_Pharma extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int i) {
                         Utils.setAlphalAnimation(view);
-                        Intent it = new Intent(getApplicationContext(),Detail.class);
-                        it.putExtra("key","pharma");
-                        it.putExtra("id",arr.get(i).getId());
-                        startActivity(it);
+                        try{
+                            Intent it = new Intent(getApplicationContext(),Detail.class);
+                            it.putExtra("key","pharma");
+                            it.putExtra("id",arr.get(i).getId());
+                            startActivity(it);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
                         // TODO Handle item click
                     }
                 })
@@ -119,82 +123,91 @@ public class Care_Pharma extends AppCompatActivity {
     }
 
     private void getPage(int i) {
-        if(Utils.isLogin()){
-            final boolean[] isEmpty = {false};
-            if(!Utils.isNetworkEnable(this)){
-                Utils.dialogNotif(getResources().getString(R.string.no_internet));
-            }else{
-                if(i==1){
-                    arr.clear();
-                }
-                user = db.getAllUserInfor();
-                Map<String,String> map = new HashMap<>();
-                map.put("type","store");
-                map.put("accessToken",user.getToken());
-                map.put("page",i+"");
-                Response.Listener<String> response = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("LIST_PHARMA_CARE",response);
-                        try {
-                            swip.setRefreshing(false);
-                            JSONObject jo = new JSONObject(response);
-                            String code = jo.getString(JsonConstant.CODE);
-
-                            switch (code){
-                                case "0":
-                                    JSONArray data = jo.getJSONArray(JsonConstant.LIST_FAVOR_STORE);
-                                    if(data.length()>0){
-                                        for (int i =0; i<data.length();i++){
-                                            JSONObject idx = data.getJSONObject(i);
-                                            JSONObject order = idx.getJSONObject(JsonConstant.STORE);
-                                            JSONArray images = order.getJSONArray(JsonConstant.IMAGE);
-                                            JSONObject location = order.getJSONObject(JsonConstant.MAP_LOCATION);
-                                            Pharma_Care_Consturct list = new Pharma_Care_Consturct();
-                                            list.setId(order.getString(JsonConstant.ID));
-                                            list.setName(order.getString(JsonConstant.NAME));
-                                            list.setAdr(order.getString(JsonConstant.USER_ADR));
-                                            list.setImage(images.getString(0));
-                                            if(order.has(JsonConstant.STAR)){
-                                                list.setStar(order.getDouble(JsonConstant.STAR));
-                                            }else{
-                                                list.setStar((double)0);
-                                            }
-
-                                            list.setLat(location.getDouble(JsonConstant.LAT));
-                                            list.setLng(location.getDouble(JsonConstant.LONG));
-                                            arr.add(list);
-                                        }
-                                        isEmpty[0] = false;
-                                    }else{
-                                        isEmpty[0] = true;
-
-                                    }
-                                    break;
-                                    default:
-                                        break;
-                            }
-
-                        } catch (JSONException e) {
-                            swip.setRefreshing(false);
-                            isEmpty[0] = true;
-                            e.printStackTrace();
-                        }
-                        if(isEmpty[0]&&Mainpage>1){
-                            Mainpage = Mainpage-1;
-                        }
-                        if(arr.size()>0){
-                            setIsEmpty(false);
-                        }else{
-                            setIsEmpty(true);
-                        }
-                        adapter.notifyDataSetChanged();
-
+        if(!isLoading){
+            if(Utils.isLogin()){
+                final boolean[] isEmpty = {false};
+                if(!Utils.isNetworkEnable(this)){
+                    Utils.dialogNotif(getResources().getString(R.string.no_internet));
+                    isLoading = false;
+                }else{
+                    isLoading = true;
+                    if(i==1){
+                        arr.clear();
                     }
-                };
-                Utils.PostServer(this, ServerPath.LIST_FAVOR,map,response);
-            }
+                    user = db.getAllUserInfor();
+                    Map<String,String> map = new HashMap<>();
+                    map.put("type","store");
+                    map.put("accessToken",user.getToken());
+                    map.put("page",i+"");
+                    Response.Listener<String> response = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("LIST_PHARMA_CARE",response);
+                            try {
+                                swip.setRefreshing(false);
+                                JSONObject jo = new JSONObject(response);
+                                String code = jo.getString(JsonConstant.CODE);
 
+                                switch (code){
+                                    case "0":
+                                        JSONArray data = jo.getJSONArray(JsonConstant.LIST_FAVOR_STORE);
+                                        if(data.length()>0){
+                                            for (int i =0; i<data.length();i++){
+                                                JSONObject idx = data.getJSONObject(i);
+                                                JSONObject order = idx.getJSONObject(JsonConstant.STORE);
+                                                JSONArray images = order.getJSONArray(JsonConstant.IMAGE);
+                                                JSONObject location = order.getJSONObject(JsonConstant.MAP_LOCATION);
+                                                Pharma_Care_Consturct list = new Pharma_Care_Consturct();
+                                                list.setId(order.getString(JsonConstant.ID));
+                                                list.setName(order.getString(JsonConstant.NAME));
+                                                list.setAdr(order.getString(JsonConstant.USER_ADR));
+                                                list.setImage(images.getString(0));
+                                                if(order.has(JsonConstant.STAR)){
+                                                    list.setStar(order.getDouble(JsonConstant.STAR));
+                                                }else{
+                                                    list.setStar((double)0);
+                                                }
+
+                                                list.setLat(location.getDouble(JsonConstant.LAT));
+                                                list.setLng(location.getDouble(JsonConstant.LONG));
+                                                arr.add(list);
+                                            }
+                                            isEmpty[0] = false;
+                                        }else{
+                                            isEmpty[0] = true;
+
+                                        }
+                                        isLoading = false;
+                                        break;
+                                    default:
+                                        isLoading = false;
+                                        break;
+                                }
+
+                            } catch (JSONException e) {
+                                swip.setRefreshing(false);
+                                isEmpty[0] = true;
+                                isLoading = false;
+                                e.printStackTrace();
+                            }
+                            if(isEmpty[0]&&Mainpage>1){
+                                Mainpage = Mainpage-1;
+                            }
+                            if(arr.size()>0){
+                                setIsEmpty(false);
+                            }else{
+                                setIsEmpty(true);
+                            }
+                            isLoading = false;
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    };
+                    Utils.PostServer(this, ServerPath.LIST_FAVOR,map,response);
+                }
+
+
+            }
 
         }
 
