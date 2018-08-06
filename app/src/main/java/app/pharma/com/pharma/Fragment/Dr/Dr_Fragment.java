@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -141,6 +142,23 @@ public class Dr_Fragment extends Fragment {
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
         spiner.setSelection(0);
+        spiner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        if(isLoading){
+                            return true;
+                        }else{
+                            return false;
+
+                        }
+
+                }
+
+                return false;
+            }
+        });
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -150,18 +168,24 @@ public class Dr_Fragment extends Fragment {
                         if(!idDr.equals(arrCata.get(j).getId())){
                             idDr = arrCata.get(j).getId();
                             Mainpage = 1;
-                            isLoading = false;
+
                             if(!key.equals("")){
 
                                 isSearch = true;
                                 isNomar = false;
                             }else{
+                                if(isSearch){
 
-                                isSearch = false;
-                                isNomar = true;
+                                    isSearch = true;
+                                    isNomar = false;
+                                }else{
+
+                                    isSearch = false;
+                                    isNomar = true;
+                                }
+
                             }
-                            isSearch = false;
-                            isNomar = true;
+
                             loadManager(Mainpage,isNomar,isSearch,key);
                         }
 
@@ -427,7 +451,7 @@ public class Dr_Fragment extends Fragment {
 
             Map<String, String> map = new HashMap<>();
             map.put("page",i+"");
-        //    map.put("type",idDr);
+            map.put("type",idDr);
             map.put("key",key);
             getData(map);
 

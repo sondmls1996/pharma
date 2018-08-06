@@ -120,6 +120,7 @@ public class Wellcome extends AppCompatActivity {
         if(TextUtils.isEmpty(Utils.getTerm())){
             getTerm();
         }
+        getMinmax(ServerPath.MIN_MAX);
         if (!databaseHandle.isCataloEmpty()) {
             if (databaseHandle.isCataloSickEmpty()) {
                 getCataloPill(ServerPath.CATALO_SICK);
@@ -147,6 +148,38 @@ public class Wellcome extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void getMinmax(String minMax) {
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.d("RESPONSE_MINMAX",response);
+
+                    JSONObject jo = new JSONObject(response);
+                    if(jo.has(JsonConstant.DATA)){
+                        JSONObject data = jo.getJSONObject(JsonConstant.DATA);
+                        if(data.has(JsonConstant.MIN)){
+                            int min = data.getInt(JsonConstant.MIN);
+                            Utils.setMin(min);
+                        }
+                        if(data.has(JsonConstant.MAX)){
+                            int max = data.getInt(JsonConstant.MAX);
+                            Utils.setMax(max);
+                        }
+
+
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Utils.GetServer(this,minMax,response);
     }
 
     private void getTerm() {

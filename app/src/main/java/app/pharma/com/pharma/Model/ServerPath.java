@@ -89,6 +89,8 @@ public class ServerPath {
     public static String CANCEL_ORDER = "cancelOrderInMobile";
     public  static String DETAIL_ORDER = "getInfoOrderAccountsAPI";
 
+    public static String MIN_MAX = "takeMinMaxAPI";
+
 //
 //    public static String REGISTER = "checkRegister";
 //

@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -80,7 +81,7 @@ public class Pill_Fragment extends Fragment {
     boolean isLoad = false;
     Context ct;
     int step = 10;
-    int stepMax = 2000000;
+    int stepMax = Utils.getMax();
 
     int progressMin = 0;
     int progressMax = 0;
@@ -264,7 +265,23 @@ public class Pill_Fragment extends Fragment {
 
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
+        spiner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        if(isLoading){
+                            return true;
+                        }else{
+                            return false;
 
+                        }
+
+                }
+
+                return false;
+            }
+        });
 
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -276,16 +293,22 @@ public class Pill_Fragment extends Fragment {
                     if(arrCata.get(j).getName().equals(text)){
                         if(!idPill.equals(arrCata.get(j).getId())){
                             idPill = arrCata.get(j).getId();
-                            isLoading = false;
+
                             Mainpage = 1;
                             if(!key.equals("")){
                                 isFillter = false;
                                 isSearch = true;
                                 isNomar = false;
                             }else{
-                                isFillter = false;
-                                isSearch = false;
-                                isNomar = true;
+                                if(isSearch){
+                                    isFillter = false;
+                                    isSearch = true;
+                                    isNomar = false;
+                                }else{
+                                    isFillter = false;
+                                    isSearch = false;
+                                    isNomar = true;
+                                }
                             }
 
 

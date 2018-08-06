@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -153,6 +154,23 @@ public class Sick_Fragment extends Fragment {
 
         // attaching data adapter to spinner
         spiner.setAdapter(dataAdapter);
+        spiner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        if(isLoading){
+                            return true;
+                        }else{
+                            return false;
+
+                        }
+
+                }
+
+                return false;
+            }
+        });
         spiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -161,14 +179,22 @@ public class Sick_Fragment extends Fragment {
                 for (int j =0;j<arrcata.size();j++){
                     if(arrcata.get(j).getName().equals(text)){
                         Mainpage = 1;
-                        isLoading = false;
+
                         idSick = arrcata.get(j).getId();
                         if(!key.equals("")){
                             isNomar = false;
                             isSearch = true;
                         }else{
-                            isNomar = true;
-                            isSearch = false;
+
+                            if(isSearch){
+
+                                isSearch = true;
+                                isNomar = false;
+                            }else{
+
+                                isSearch = false;
+                                isNomar = true;
+                            }
                         }
 
 

@@ -19,6 +19,8 @@ public class JsonConstant {
     public static String ADRESS_DETAIL = "addressDetail";
     public static String AROUD_STORE = "aroundStore";
     public static String TOTAL_MONEY = "totalMoney";
+    public  static String MIN = "min";
+    public  static String MAX = "max";
     public static String STATUS = "status";
     public static String PRODUCT_ORDER = "productOrder";
     public static String ID_ACC = "idAccount";

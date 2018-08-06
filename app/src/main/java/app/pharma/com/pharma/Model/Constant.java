@@ -24,7 +24,8 @@ public class Constant {
     public static String LIST_CATALO_PILL_INTRO = "ingredient";
     public static String LIST_CATALO_SICK = "disease";
     public static String LIST_CATALO_DR = "specialist";
-
+    public static String MIN_VALUE = "min";
+    public static String MAX_VALUE = "max";
     public static String USER_SHARE = "user_share";
     public static String USER_NAME = "user_name";
 

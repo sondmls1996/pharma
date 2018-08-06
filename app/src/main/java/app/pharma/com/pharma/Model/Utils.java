@@ -426,6 +426,8 @@ public class Utils {
         editor.putBoolean("isLogin",isLogin);
         editor.commit();
     }
+
+
     public static String getUserName(){
 
         SharedPreferences preferences =
@@ -449,6 +451,35 @@ public class Utils {
         editor.putString("linkterm",userName);
         editor.commit();
     }
+    public static void setMin(int min){
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.MIN_VALUE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putInt("min",min);
+        editor.commit();
+    }
+    public static void setMax(int max){
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.MAX_VALUE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putInt("max",max);
+        editor.commit();
+    }
+    public static int getMin(){
+
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.MIN_VALUE, Context.MODE_PRIVATE);
+
+        return preferences.getInt("min",0);
+    }
+    public static int getMax(){
+
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.MAX_VALUE, Context.MODE_PRIVATE);
+
+        return preferences.getInt("max",0);
+    }
+
 
     public static void setAlphalAnimation(View v){
 

@@ -177,6 +177,7 @@ public class Insite_List extends Fragment {
                         isSearch = true;
                         type = "show_all";
                     }else{
+
                         isNomar = true;
                         isSearch = false;
                         type = "";
