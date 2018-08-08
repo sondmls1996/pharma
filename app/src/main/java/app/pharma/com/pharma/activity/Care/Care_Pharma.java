@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.activity.Care;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -133,6 +134,7 @@ public class Care_Pharma extends AppCompatActivity {
                     isLoading = true;
                     if(i==1){
                         arr.clear();
+                        adapter.notifyDataSetChanged();
                     }
                     user = db.getAllUserInfor();
                     Map<String,String> map = new HashMap<>();
@@ -207,6 +209,13 @@ public class Care_Pharma extends AppCompatActivity {
                 }
 
 
+            }else{
+                Utils.ShowNotifString(getResources().getString(R.string.session_out), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                    @Override
+                    public void onClose(Dialog dialog) {
+                        finish();
+                    }
+                });
             }
 
         }

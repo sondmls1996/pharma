@@ -26,8 +26,10 @@ public class Constant {
     public static String MAX_VALUE = "max";
     public static String USER_SHARE = "user_share";
     public static String USER_NAME = "user_name";
+    public static String USER_PASS = "user_pass";
 
     public static final int PERMISSION_LOCATION = 1;
     public static final int PHONE = 2;
+    public static final int SMS = 3;
 
 }

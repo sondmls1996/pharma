@@ -89,7 +89,7 @@ public class Utils {
     public static String convertTimestampToDate(long timestamp){
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.setTimeInMillis(timestamp * 1000L);
-        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        String date = DateFormat.format("dd/MM/yyyy", cal).toString();
         return date;
     }
     private static final float BLUR_RADIUS = 25f;
@@ -426,6 +426,23 @@ public class Utils {
         editor.putBoolean("isLogin",isLogin);
         editor.commit();
     }
+
+    public static void setPass(String pass){
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.USER_PASS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putString("pass",pass);
+        editor.commit();
+    }
+
+    public static String getPass(){
+
+        SharedPreferences preferences =
+                Common.context.getSharedPreferences(Constant.USER_PASS, Context.MODE_PRIVATE);
+
+        return preferences.getString("pass","");
+    }
+
 
 
     public static String getUserName(){

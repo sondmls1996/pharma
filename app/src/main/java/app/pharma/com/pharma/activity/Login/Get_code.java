@@ -176,6 +176,11 @@ public class Get_code extends AppCompatActivity implements View.OnClickListener 
                                         Toast.makeText(getApplicationContext(),
                                                 "Mã xác nhận không đúng",Toast.LENGTH_SHORT).show();
                                         break;
+                                    default:
+                                        utils.showLoading(Get_code.this,20000,false);
+                                        Toast.makeText(getApplicationContext(),
+                                                "Mã xác nhận không đúng",Toast.LENGTH_SHORT).show();
+                                        break;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

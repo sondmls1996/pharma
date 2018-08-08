@@ -49,6 +49,9 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +68,7 @@ import app.pharma.com.pharma.Model.Constant;
 import app.pharma.com.pharma.Model.Constructor.Pill_Constructor;
 import app.pharma.com.pharma.Model.Database.DatabaseHandle;
 import app.pharma.com.pharma.Model.Database.User;
+import app.pharma.com.pharma.Model.JsonConstant;
 import app.pharma.com.pharma.Model.ServerPath;
 import app.pharma.com.pharma.Model.TransImage;
 import app.pharma.com.pharma.Model.Utils;
@@ -579,14 +583,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Common.context = this;
         if(Utils.isLogin()){
+
+
             db = new DatabaseHandle();
              user = db.getAllUserInfor();
+
             nav_name.setText(user.getName());
 
             logoutItem.setVisible(true);
             Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new TransImage()).into(avatar);
             Picasso.get().load(R.drawable.white).transform(new TransImage()).into(avatar2);
             Picasso.get().load(ServerPath.ROOT_URL+user.getAvt()).transform(new BlurImagePicasso()).into(header_background);
+            checkLogin();
         }else{
             nav_name.setText("Đăng nhập");
             logoutItem.setVisible(false);
@@ -603,6 +611,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         hideKeyboard();
+    }
+
+    private void checkLogin() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("accessToken",user.getToken());
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "-1":
+                            Utils.ShowNotifString(getResources().getString(R.string.session_out), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                                @Override
+                                public void onClose(Dialog dialog) {
+                                    db.clearUserData();
+                                    Utils.setLogin(false);
+                                    Intent it = new Intent(getApplicationContext(),Login.class);
+                                    startActivity(it);
+                                }
+                            });
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Utils.PostServer(this,ServerPath.USER_INFO,map,response);
     }
 
     public void RequestPermission(){

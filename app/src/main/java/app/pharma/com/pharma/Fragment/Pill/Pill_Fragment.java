@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 
@@ -81,14 +82,14 @@ public class Pill_Fragment extends Fragment {
     boolean isLoad = false;
     Context ct;
     int step = 10;
-    int stepMax = Utils.getMax();
+    int stepMax = 0;
 
-    int progressMin = 0;
-    int progressMax = 0;
+    int progressMin = -1;
+    int progressMax = -1;
     String idFillCat = "";
     int stepMin = 10000;
     int minPrice = 0;
-    int maxPrice = 0;
+    int maxPrice = -1;
     BroadcastReceiver broadcastSearch,broadcastCloseSearch;
     View v;
     String idingredient = "";
@@ -509,7 +510,7 @@ public class Pill_Fragment extends Fragment {
                 map.put("priceFrom",minPrice+"");
                 map.put("priceTo",maxPrice+"");
                 map.put("idCat",idFillCat);
-                map.put("ingredient",idingredient);
+            //    map.put("ingredient",idingredient);
             getData(map);
         }
 
@@ -545,6 +546,7 @@ public class Pill_Fragment extends Fragment {
         arrMedicine = new ArrayList<>();
         arrMedicineAll = new ArrayList<>();
         arrTP = new ArrayList<>();
+        stepMax = Utils.getMax();
         arrTpAll = new ArrayList<>();
         Dialog dialog = new Dialog(Common.context);
         Window view=((Dialog)dialog).getWindow();
@@ -567,6 +569,8 @@ public class Pill_Fragment extends Fragment {
 
         if(progressMin>-1){
             seek.setProgress(progressMin);
+        }else{
+            seek.setProgress(0);
         }
         if(progressMax>-1){
             seekMax.setProgress(progressMax);
@@ -580,19 +584,22 @@ public class Pill_Fragment extends Fragment {
             public void onClick(View view) {
                 Utils.setAlphalAnimation(view);
 //                if(maxPrice>0){
+                if(maxPrice<minPrice){
+                    Toast.makeText(getApplicationContext(),"Giá cao nhất phải lớn hơn hoặc bằng giá thấp nhất",Toast.LENGTH_SHORT).show();
+                }else{
                     isFillter = true;
                     isNomar = false;
                     key = "";
                     isSearch = false;
                     dialog.dismiss();
-                  loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                    loadManager(Mainpage,isFillter,isNomar,isSearch,key);
+                }
+
              //   }
 
             }
         });
-        tv_price.setText(getActivity().getResources().
-                getString(R.string.price,Constant.format.format(minPrice)+"VND ",
-                        Constant.format.format(maxPrice)+"VND "));
+
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -634,6 +641,18 @@ public class Pill_Fragment extends Fragment {
 
             }
         });
+        if(maxPrice>-1){
+            tv_price.setText(getActivity().getResources().
+                    getString(R.string.price,Constant.format.format(minPrice)+"VND ",
+                            Constant.format.format(maxPrice)+"VND "));
+        }else{
+            tv_price.setText(getActivity().getResources().
+                    getString(R.string.price,Constant.format.format(minPrice)+"VND ",
+                            Constant.format.format(stepMax)+"VND "));
+            maxPrice = stepMax;
+
+        }
+
 
         if(!db.isCataloPillEmpty()){
             Catalo cata = db.getListCataloById(Constant.LIST_CATALO_PILL);
@@ -680,7 +699,6 @@ public class Pill_Fragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 idFillCat = arrMedicineAll.get(i).getId();
-
 
             }
 

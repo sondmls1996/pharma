@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.activity.Care;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -183,6 +184,13 @@ public class Care_Order extends AppCompatActivity {
                 }
 
 
+            }else{
+                Utils.ShowNotifString(getResources().getString(R.string.session_out), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                    @Override
+                    public void onClose(Dialog dialog) {
+                        finish();
+                    }
+                });
             }
         }
 

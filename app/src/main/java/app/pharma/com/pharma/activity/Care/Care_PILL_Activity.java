@@ -1,5 +1,6 @@
 package app.pharma.com.pharma.activity.Care;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -210,6 +211,13 @@ public class Care_PILL_Activity extends AppCompatActivity {
                     Utils.PostServer(this, ServerPath.LIST_FAVOR, map, response);
                 }
 
+            }else{
+                Utils.ShowNotifString(getResources().getString(R.string.session_out), new Utils.ShowDialogNotif.OnCloseDialogNotif() {
+                    @Override
+                    public void onClose(Dialog dialog) {
+                        finish();
+                    }
+                });
             }
 
         }

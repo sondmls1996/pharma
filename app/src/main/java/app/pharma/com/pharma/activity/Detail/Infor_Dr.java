@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,7 +49,7 @@ public class Infor_Dr extends AppCompatActivity {
             dr_office,
             dr_ck;
     String strPhone;
-
+    SmsManager smsManager;
     Infor_Dr_Obj drObj;
     ImageView header_bg;
 
@@ -61,6 +62,7 @@ public class Infor_Dr extends AppCompatActivity {
         if (it.getExtras() != null) {
             id = it.getStringExtra("id");
         }
+        smsManager = SmsManager.getDefault();
         ln_call = findViewById(R.id.ln_call);
         ln_mess = findViewById(R.id.ln_mess);
         ln_call.setOnClickListener(new View.OnClickListener() {
@@ -94,14 +96,22 @@ public class Infor_Dr extends AppCompatActivity {
         ln_mess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                strPhone = strPhone.replace(" ","");
-                Utils.setAlphalAnimation(v);
+                if(strPhone!=null){
+                    strPhone = strPhone.replace(" ","");
+                    Utils.setAlphalAnimation(v);
 
-                if(!strPhone.equals("")&&strPhone!=null){
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + strPhone));
 
-                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        RequestPermissionSms();
+                    } else {
+                        if(!strPhone.equals("")&&strPhone!=null){
+                            doSendSMS();
+                        }
+                    }
+
+
                 }
+
 
             }
         });
@@ -127,6 +137,41 @@ public class Infor_Dr extends AppCompatActivity {
         ln_list = findViewById(R.id.ln_dr_inf);
         loadData();
 
+    }
+
+    private void RequestPermissionSms() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        Constant.SMS);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            if(!strPhone.equals("")&&strPhone!=null){
+                doSendSMS();
+            }
+        }
+
+    }
+
+
+    public void doSendSMS(){
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", strPhone, null)));
     }
 
     public void RequestPermission() {
@@ -177,6 +222,33 @@ public class Infor_Dr extends AppCompatActivity {
                 }
                 return;
             }
+
+            case Constant.SMS:
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doSendSMS();
+//                    Toast.makeText(getApplicationContext(), "SMS sent.",
+//                            Toast.LENGTH_LONG).show();
+                } else {
+                    Utils.dialogNotif("Ứng dụng sẽ không thể gửi tin nhắn nếu không cấp quyền");
+                    return;
+                }
+
+
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + strPhone));
+//                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+//                            != PackageManager.PERMISSION_GRANTED) {
+//
+//                        return;
+//                    }
+//                    startActivity(intent);
+//                } else {
+//                    Utils.dialogNotif("Ứng dụng sẽ không thể gửi tin nhắn nếu không cấp quyền");
+//                }
+                break;
 
         }
     }

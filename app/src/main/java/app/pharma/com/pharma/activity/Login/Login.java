@@ -85,6 +85,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         tv_reg.setOnClickListener(this);
         if(!Utils.getUserName().equals("")){
             eduser.setText(Utils.getUserName());
+            if(!Utils.getPass().equals("")){
+                edpass.setText(Utils.getPass());
+            }
+
             check.setChecked(true);
         }
     }
@@ -97,8 +101,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         if(user.length()>0&&pass.length()>0){
             if(check.isChecked()){
                 Utils.setUserName(user);
+                Utils.setPass(pass);
             }else{
                 Utils.setUserName("");
+                Utils.setPass("");
             }
             Map<String,String> map= new HashMap<>();
             map.put("userName",user);
