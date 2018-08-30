@@ -31,6 +31,7 @@ public class JsonConstant {
     public static String numberCmt = "numberComment";
     public static String TIPNOTE = "listTipNotice";
     public static String NOTICE = "Notice";
+    public static String TIP = "Tip";
     public static String INTRODUCT = "introductory";
     public static String TITLE = "title";
     public static String LINKVIEW = "linkView";

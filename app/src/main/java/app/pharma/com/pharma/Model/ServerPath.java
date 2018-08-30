@@ -83,6 +83,7 @@ public class ServerPath {
     public static String LIST_MEO = "getTipInWebAPI";
     public static String DETAIL_MEO = "getNotice";
     public static String TOP_NOTICE = "getTopNotice";
+    public static String HEATH_NOTICE = "listNoticeHighlights";
 
     //Orderlist
     public static String LIST_ORDER = "getListOrderAccountsAPI";

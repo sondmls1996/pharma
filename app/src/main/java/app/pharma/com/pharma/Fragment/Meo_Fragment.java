@@ -83,7 +83,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                 if(currentPage==0){
                     getDataTop(Mainpage);
                 }else if(currentPage==1){
-
+                    getDataHeath(Mainpage);
                 }else{
                     getData(Mainpage);
                 }
@@ -113,8 +113,18 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if(!isLoading){
-                    Mainpage ++;
-                    getData(Mainpage);
+                    if(arr.size()>=15){
+                        Mainpage ++;
+                        if(currentPage==0){
+                            getDataTop(Mainpage);
+                        }else if(currentPage==1){
+                            getDataHeath(Mainpage);
+                        }else{
+                            getData(Mainpage);
+                        }
+                    }
+
+
                 }
 
             }
@@ -164,10 +174,10 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                         if(tipnote.length()>0){
                                             for (int i =0; i<tipnote.length();i++){
                                                 JSONObject idx =tipnote.getJSONObject(i);
-                                                JSONObject notice = idx.getJSONObject(JsonConstant.NOTICE);
+                                                JSONObject notice = idx.getJSONObject(JsonConstant.TIP);
 
                                                 Meo_Constructor meo = new Meo_Constructor();
-                                                meo.setTitle(notice.getString(JsonConstant.TITLE));
+                                                meo.setTitle(notice.getString(JsonConstant.NAME));
                                                 meo.setImage(notice.getString(JsonConstant.IMAGE));
                                                 if(notice.has(JsonConstant.ID)){
                                                     meo.setId(notice.getString(JsonConstant.ID));
@@ -177,8 +187,10 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                                 if(notice.has(JsonConstant.TIME)){
                                                     meo.setDate(notice.getLong(JsonConstant.TIME));
                                                 }
+                                                if(notice.has(JsonConstant.INTRODUCT)){
+                                                    meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
+                                                }
 
-                                                meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
                                                 meo.setLink(notice.getString(JsonConstant.URL));
                                                 arr.add(meo);
                                             }
@@ -210,8 +222,9 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                         tvNull.setVisibility(View.VISIBLE);
                                         lv.setVisibility(View.GONE);
                                     }
-                                    adapter.notifyDataSetChanged();
                                     isLoading = false;
+                                    adapter.notifyDataSetChanged();
+
                                     super.onPostExecute(aVoid);
                                 }
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -250,6 +263,7 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                 if(!isLoading){
                     changeColor(tv_hearth);
                     currentPage = 1;
+                    getDataHeath(Mainpage);
                 }
 
                 break;
@@ -262,6 +276,107 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
 
                 break;
         }
+    }
+
+    private void getDataHeath(int page) {
+        Log.d("PAGE_MEO",page+"");
+        if(page==1){
+            arr.clear();
+        }
+        isLoading = true;
+        final boolean[] isEmpty = {false};
+        Map<String,String> map = new HashMap<>();
+        map.put("page",page+"");
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    swip.setRefreshing(false);
+                    JSONObject jo = new JSONObject(response);
+                    String code = jo.getString(JsonConstant.CODE);
+                    switch (code){
+                        case "0":
+                            new AsyncTask<Void,Void,Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+
+                                    try {
+                                        JSONObject jo = new JSONObject(response);
+
+
+                                        JSONArray tipnote = jo.getJSONArray(JsonConstant.DATA);
+                                        if(tipnote.length()>0){
+                                            for (int i =0; i<tipnote.length();i++){
+                                                JSONObject idx =tipnote.getJSONObject(i);
+                                                JSONObject notice = idx.getJSONObject(JsonConstant.NOTICE);
+
+                                                Meo_Constructor meo = new Meo_Constructor();
+                                                meo.setTitle(notice.getString(JsonConstant.TITLE));
+                                                meo.setImage(notice.getString(JsonConstant.IMAGE));
+                                                if(notice.has(JsonConstant.ID)){
+                                                    meo.setId(notice.getString(JsonConstant.ID));
+                                                }
+
+                                                //   meo.setComment(notice.getString(JsonConstant.COMMENT));
+                                                if(notice.has(JsonConstant.TIME)){
+                                                    meo.setDate(notice.getLong(JsonConstant.TIME));
+                                                }
+
+                                                meo.setDescrep(notice.getString(JsonConstant.INTRODUCT));
+                                                meo.setLink(notice.getString(JsonConstant.LINKVIEW));
+                                                arr.add(meo);
+                                            }
+                                            isEmpty[0] = false;
+                                        }else{
+                                            isEmpty[0] = true;
+                                        }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        isLoading = false;
+                                        return null;
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    if(isEmpty[0]&&Mainpage>1){
+                                        Mainpage = Mainpage -1;
+                                    }
+
+                                    if(arr.size()>0){
+                                        tvNull.setVisibility(View.GONE);
+                                        lv.setVisibility(View.VISIBLE);
+                                    }else{
+                                        tvNull.setVisibility(View.VISIBLE);
+                                        lv.setVisibility(View.GONE);
+                                    }
+                                    isLoading = false;
+                                    adapter.notifyDataSetChanged();
+
+                                    super.onPostExecute(aVoid);
+                                }
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+                            break;
+                    }
+                } catch (JSONException e) {
+                    swip.setRefreshing(false);
+                    Utils.dialogNotif(getActivity().getResources().getString(R.string.server_err));
+                    tvNull.setVisibility(View.VISIBLE);
+                    lv.setVisibility(View.GONE);
+                    isLoading = false;
+                    e.printStackTrace();
+                }
+                Log.d("RESPONSE_MEO",response);
+            }
+        };
+        Utils.PostServer(getActivity(), ServerPath.HEATH_NOTICE,map,response);
     }
 
     private void  getDataTop(int page) {
@@ -341,8 +456,9 @@ public class Meo_Fragment extends Fragment implements View.OnClickListener {
                                         tvNull.setVisibility(View.VISIBLE);
                                         lv.setVisibility(View.GONE);
                                     }
-                                    adapter.notifyDataSetChanged();
                                     isLoading = false;
+                                    adapter.notifyDataSetChanged();
+
                                     super.onPostExecute(aVoid);
                                 }
                             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

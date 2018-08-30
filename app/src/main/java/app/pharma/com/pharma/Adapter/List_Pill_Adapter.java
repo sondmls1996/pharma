@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ViewUtils;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +69,7 @@ public void onBindViewHolder(RecyclerViewHolder viewHolder, int position) {
         Pill_Constructor pill = listData.get(position);
 
     viewHolder.tv_title.setText(pill.getName());
-    viewHolder.decr_pill.setText(pill.getHtuse());
+    viewHolder.decr_pill.setText(Html.fromHtml(context.getResources().getString(R.string.decripe,pill.getHtuse())));
     viewHolder.price.setText(Constant.format.format((pill.getPrice()))+"VND"
     );
     viewHolder.tv_like.setText(pill.getLike()+"");

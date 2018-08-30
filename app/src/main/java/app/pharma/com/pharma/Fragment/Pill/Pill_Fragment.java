@@ -506,11 +506,11 @@ public class Pill_Fragment extends Fragment {
         Log.d("PAGE_PILL",page+"");
             Map<String, String> map = new HashMap<>();
             map.put("page",page+"");
-            map.put("type",idPill);
+            map.put("type",idFillCat);
                 map.put("priceFrom",minPrice+"");
                 map.put("priceTo",maxPrice+"");
                 map.put("idCat",idFillCat);
-            //    map.put("ingredient",idingredient);
+                map.put("ingredient",idingredient);
             getData(map);
         }
 

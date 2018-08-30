@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +71,8 @@ public class List_Sick_Adapter extends
         Sick_Construct sick = listData.get(position);
 
         viewHolder.name_sick.setText(sick.getName());
-        viewHolder.descri_sick.setText(sick.getDescri());
+        viewHolder.descri_sick.setText(Html.fromHtml(context.getResources().getString(R.string.decripe,sick.getDescri()
+                )));
         viewHolder.like.setText(sick.getLike()+"");
         viewHolder.comment.setText(sick.getCmt()+"");
         viewHolder.date.setText(Utils.convertTimestampToDate(sick.getDate()));

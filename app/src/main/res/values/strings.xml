@@ -25,6 +25,13 @@
 
         ]]>
 </Data></string>
+    <string name="decripe"><Data>
+<![CDATA[
+			%1$s
+
+
+        ]]>
+</Data></string>
 
     <string name="order_infor_prd"><Data>
 <![CDATA[

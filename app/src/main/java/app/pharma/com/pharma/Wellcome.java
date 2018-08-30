@@ -25,6 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import app.pharma.com.pharma.Model.CataloModel;
 import app.pharma.com.pharma.Model.Common;
 import app.pharma.com.pharma.Model.Constant;
@@ -248,6 +251,15 @@ public class Wellcome extends AppCompatActivity {
                     }
                     Catalo cataloMain = new Catalo();
                     cataloMain.setType(type.toString());
+                    Collections.sort(list, new Comparator<CataloModel>() {
+                        @Override
+                        public int compare(CataloModel item, CataloModel t1) {
+                            String s1 = item.getName();
+                            String s2 = t1.getName();
+                            return s1.compareToIgnoreCase(s2);
+                        }
+
+                    });
                     cataloMain.setListCatalo(list);
                     databaseHandle.updateOrInstall(cataloMain);
 
